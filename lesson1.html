@@ -890,6 +890,7 @@
             <button class="btn btn-sm btn-outline" id="dl1-py-btn" onclick="dl1Toggle('py')">Pinyin</button>
             <button class="btn btn-sm btn-outline" id="dl1-en-btn" onclick="dl1Toggle('en')">English</button>
             <div style="flex:1;"></div>
+            <button class="btn btn-sm btn-outline" onclick="dl1Prev()">← Prev</button>
             <button class="btn btn-sm" onclick="dl1Next()">Next →</button>
         </div>
     </div>
@@ -935,6 +936,7 @@
             <button class="btn btn-sm btn-outline" id="dl2-py-btn" onclick="dl2Toggle('py')">Pinyin</button>
             <button class="btn btn-sm btn-outline" id="dl2-en-btn" onclick="dl2Toggle('en')">English</button>
             <div style="flex:1;"></div>
+            <button class="btn btn-sm btn-outline" onclick="dl2Prev()">← Prev</button>
             <button class="btn btn-sm" onclick="dl2Next()">Next →</button>
         </div>
     </div>
@@ -1156,6 +1158,7 @@
         btn.classList.toggle('btn-outline');
     }
     function dl1Next() { dl1Idx = (dl1Idx + 1) % dl1lines.length; dl1Render(); }
+    function dl1Prev() { dl1Idx = (dl1Idx - 1 + dl1lines.length) % dl1lines.length; dl1Render(); }
 
     // ---- Dialogue 2: line by line ----
     const dl2lines = [
@@ -1185,6 +1188,7 @@
         btn.classList.toggle('btn-outline');
     }
     function dl2Next() { dl2Idx = (dl2Idx + 1) % dl2lines.length; dl2Render(); }
+    function dl2Prev() { dl2Idx = (dl2Idx - 1 + dl2lines.length) % dl2lines.length; dl2Render(); }
 
     // ---- Flash cards ----
     const cards = [
