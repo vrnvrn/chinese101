@@ -393,35 +393,38 @@
             border-color: transparent;
         }
 
-        .review-hidden { display: none !important; }
+        /* Review container */
+        #review-container { display: none; }
+        body.review-mode .slide,
+        body.review-mode .slide-footer { display: none !important; }
+        body.review-mode #review-container { display: block; }
 
-        .review-prompt {
-            display: none;
-            margin-top: 2rem;
+        .review-slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 0.5rem;
-            color: #aaa;
+            padding: 5rem 2rem 3rem;
+        }
+
+        .rv-question { cursor: pointer; }
+        .rv-question .rs-answer { display: none; }
+        .rv-question.rs-revealed .rs-answer { display: block; }
+
+        .rs-prompt {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 2rem;
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.04em;
-            cursor: pointer;
-            user-select: none;
+            color: #aaa;
         }
-        .slide-dark .review-prompt,
-        .slide-accent .review-prompt { color: rgba(255,255,255,0.4); }
-        .review-prompt-icon {
-            width: 28px; height: 28px; border-radius: 50%;
-            background: rgba(0,0,0,0.08);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1rem;
-        }
-        .slide-dark .review-prompt-icon,
-        .slide-accent .review-prompt-icon { background: rgba(255,255,255,0.1); }
-
-        body.review-mode .slide:not(#s1) { cursor: pointer; }
-        body.review-mode .slide:not(#s1) .review-prompt { display: flex; }
-        body.review-mode .slide.revealed { cursor: default; }
-        body.review-mode .slide.revealed .review-prompt { display: none !important; }
+        .review-slide.slide-dark .rs-prompt,
+        .review-slide.slide-accent .rs-prompt { color: rgba(255,255,255,0.35); }
+        .rs-prompt-icon { font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -1180,18 +1183,22 @@
 
     // ---- Arrow key slide navigation ----
     const slides = Array.from(document.querySelectorAll('.slide'));
+    const reviewSlides = Array.from(document.querySelectorAll('.review-slide'));
     let currentSlide = 0;
-    let navigating = false;
+
+    function activeSlideList() { return reviewMode ? reviewSlides : slides; }
 
     function goToSlide(i) {
-        i = Math.max(0, Math.min(slides.length - 1, i));
+        const ss = activeSlideList();
+        i = Math.max(0, Math.min(ss.length - 1, i));
         currentSlide = i;
-        slides[i].scrollIntoView({ behavior: 'smooth' });
+        ss[i].scrollIntoView({ behavior: 'smooth' });
     }
 
     function nearestSlide() {
+        const ss = activeSlideList();
         let best = 0, bestDist = Infinity;
-        slides.forEach((s, i) => {
+        ss.forEach((s, i) => {
             const dist = Math.abs(s.getBoundingClientRect().top);
             if (dist < bestDist) { bestDist = dist; best = i; }
         });
@@ -1405,46 +1412,209 @@
         document.getElementById('review-toggle').classList.toggle('active', reviewMode);
 
         if (reviewMode) {
-            slides.forEach((slide) => {
-                if (slide.id === 's1') return; // skip title slide
-                const content = slide.querySelector('.slide-content');
-                if (!content) return;
-
-                // Hide everything that isn't the label or heading
-                Array.from(content.children).forEach(child => {
-                    if (!child.matches('.slide-label, h1, h2')) {
-                        child.classList.add('review-hidden');
-                    }
-                });
-
-                // Add reveal prompt
-                const prompt = document.createElement('div');
-                prompt.className = 'review-prompt';
-                prompt.innerHTML = '<span class="review-prompt-icon">👁</span><span>Click to reveal</span>';
-                content.appendChild(prompt);
-
-                slide.addEventListener('click', revealSlide);
+            // Reset question sections
+            document.querySelectorAll('.rv-question').forEach(el => {
+                el.classList.remove('rs-revealed');
+                el.querySelector('.rs-prompt span:last-child').textContent = 'Click to reveal';
             });
+            // Reset flashcards and dialogue
+            rfcIdx = 0; rfcShow();
+            rdl1Idx = 0; rdl1Render();
+            // Jump to first review section
+            reviewSlides[0].scrollIntoView({ behavior: 'smooth' });
         } else {
-            slides.forEach((slide) => {
-                slide.classList.remove('revealed');
-                slide.removeEventListener('click', revealSlide);
-            });
-            document.querySelectorAll('.review-hidden').forEach(el => el.classList.remove('review-hidden'));
-            document.querySelectorAll('.review-prompt').forEach(el => el.remove());
+            // Return to top of main lesson
+            slides[0].scrollIntoView({ behavior: 'smooth' });
         }
     }
 
-    function revealSlide(e) {
-        // Don't trigger if user clicked a button/link inside the slide
-        if (e.target.closest('button, a, input, select')) return;
-        const slide = e.currentTarget;
-        if (slide.classList.contains('revealed')) return;
-        slide.classList.add('revealed');
-        slide.querySelectorAll('.review-hidden').forEach(el => el.classList.remove('review-hidden'));
-        slide.removeEventListener('click', revealSlide);
+    function rsToggle(el) {
+        if (event.target.closest('button, a, input, select')) return;
+        const revealed = el.classList.toggle('rs-revealed');
+        el.querySelector('.rs-prompt span:last-child').textContent = revealed ? 'Click to hide' : 'Click to reveal';
     }
+
+    // ---- Review Flashcards (reuses cards[]) ----
+    let rfcIdx = 0;
+    function rfcShow() {
+        document.getElementById('rfc-wrap').classList.remove('flipped');
+        setTimeout(() => {
+            const c = cards[rfcIdx];
+            document.getElementById('rfc-zh').textContent = c.zh;
+            document.getElementById('rfc-py').textContent = c.py;
+            document.getElementById('rfc-en').textContent = c.en;
+            document.getElementById('rfc-counter').textContent = (rfcIdx + 1) + ' / ' + cards.length;
+        }, 240);
+    }
+    function rfcNext() { rfcIdx = (rfcIdx + 1) % cards.length; rfcShow(); }
+    function rfcPrev() { rfcIdx = (rfcIdx - 1 + cards.length) % cards.length; rfcShow(); }
+
+    // ---- Review Dialogue 1 (reuses dl1lines[]) ----
+    let rdl1Idx = 0;
+    function rdl1Render() {
+        const l = dl1lines[rdl1Idx];
+        const spEl = document.getElementById('rdl1-speaker');
+        spEl.textContent = l.sp;
+        spEl.className = 'd-speaker' + (l.sp === 'B' ? ' sp-b' : '');
+        document.getElementById('rdl1-zh').textContent = l.zh;
+        document.getElementById('rdl1-py').textContent = l.py;
+        document.getElementById('rdl1-en').textContent = l.en;
+        document.getElementById('rdl1-py').classList.remove('show');
+        document.getElementById('rdl1-en').classList.remove('show');
+        document.getElementById('rdl1-py-btn').classList.add('btn-outline');
+        document.getElementById('rdl1-en-btn').classList.add('btn-outline');
+        document.getElementById('rdl1-counter').textContent = 'Line ' + (rdl1Idx + 1) + ' / ' + dl1lines.length;
+    }
+    function rdl1Toggle(which) {
+        document.getElementById('rdl1-' + which).classList.toggle('show');
+        document.getElementById('rdl1-' + which + '-btn').classList.toggle('btn-outline');
+    }
+    function rdl1Next() { rdl1Idx = (rdl1Idx + 1) % dl1lines.length; rdl1Render(); }
+    function rdl1Prev() { rdl1Idx = (rdl1Idx - 1 + dl1lines.length) % dl1lines.length; rdl1Render(); }
 </script>
+
+<!-- ========== REVIEW CONTAINER ========== -->
+<div id="review-container">
+
+<!-- Review 1: Pinyin -->
+<section class="review-slide slide-white rv-question" id="rs1" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 1 of 5</div>
+        <h2 class="slide-heading">What is the part that uses Roman letters called?</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="hbox" style="margin-top:1.5rem;">
+                <p><strong>Pinyin · 拼音</strong> — the romanization system for Mandarin. It shows you how to pronounce any character using the Latin alphabet plus tone marks.</p>
+            </div>
+            <div class="py-breakdown" style="margin-top:1.25rem;">
+                <div class="py-word t3">hǎo</div>
+                <div class="py-parts">
+                    <div class="py-part"><div class="py-part-label">Initial</div><div class="py-part-val">h</div></div>
+                    <div class="py-part"><div class="py-part-label">Final</div><div class="py-part-val">ao</div></div>
+                    <div class="py-part"><div class="py-part-label">Tone</div><div class="py-part-val t3">3rd ˇ</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Review 2: Tones -->
+<section class="review-slide slide-gray rv-question" id="rs2" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 2 of 5</div>
+        <h2 class="slide-heading">What are the 4 tones?</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="tone-family" style="margin-top:1.25rem;">
+                <div class="tone-cell">
+                    <div class="tone-cell-char cjk">妈</div>
+                    <div class="tone-cell-py t1">mā</div>
+                    <div class="tone-cell-en">1st · High &amp; Level · mother</div>
+                </div>
+                <div class="tone-cell">
+                    <div class="tone-cell-char cjk">麻</div>
+                    <div class="tone-cell-py t2">má</div>
+                    <div class="tone-cell-en">2nd · Rising · sesame</div>
+                </div>
+                <div class="tone-cell">
+                    <div class="tone-cell-char cjk">马</div>
+                    <div class="tone-cell-py t3">mǎ</div>
+                    <div class="tone-cell-en">3rd · Dipping · horse</div>
+                </div>
+                <div class="tone-cell">
+                    <div class="tone-cell-char cjk">骂</div>
+                    <div class="tone-cell-py t4">mà</div>
+                    <div class="tone-cell-en">4th · Falling · to scold</div>
+                </div>
+                <div class="tone-cell" style="background:#1a1a1a;">
+                    <div class="tone-cell-char cjk" style="color:white;">吗</div>
+                    <div class="tone-cell-py" style="color:rgba(255,255,255,0.65);">ma</div>
+                    <div class="tone-cell-en" style="color:rgba(255,255,255,0.45);">Neutral · question particle</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Review 3: Questions -->
+<section class="review-slide slide-white rv-question" id="rs3" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 3 of 5</div>
+        <h2 class="slide-heading">How do you make a yes/no question in Chinese?</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="hbox" style="margin-top:1.5rem;">
+                <p>Add <strong>吗 (ma)</strong> to the end of any statement. No word order change needed.</p>
+            </div>
+            <div class="pattern-block" style="margin-top:1.25rem;">
+                <div class="pattern-formula">Statement</div>
+                <div class="pattern-zh cjk">你是美国人。</div>
+                <div class="pattern-py">Nǐ shì Měiguó rén.</div>
+                <div class="pattern-en">You are American.</div>
+            </div>
+            <div class="pattern-block" style="background:#1a1a1a;">
+                <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">Question: add 吗</div>
+                <div class="pattern-zh cjk" style="color:white;">你是美国人吗？</div>
+                <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Nǐ shì Měiguó rén ma?</div>
+                <div class="pattern-en" style="color:rgba(255,255,255,0.75);">Are you American?</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Review 4: Dialogue 1 Flashcards -->
+<section class="review-slide slide-gray" id="rs4">
+    <div class="slide-content">
+        <div class="slide-label">Review · 4 of 5</div>
+        <h2 class="slide-heading">Dialogue 1 · Flashcards</h2>
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="rfc-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="rfc-zh">你好</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="rfc-py">Nǐ hǎo</div>
+                        <div class="fc-en" id="rfc-en">Hello</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="rfcPrev()">← Prev</button>
+                <span class="fc-counter" id="rfc-counter">1 / 12</span>
+                <button class="btn btn-sm" onclick="rfcNext()">Next →</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Review 5: Dialogue 1 Line by Line -->
+<section class="review-slide slide-white" id="rs5">
+    <div class="slide-content">
+        <div class="slide-label">Review · 5 of 5</div>
+        <h2 class="slide-heading">Dialogue 1 · Line by Line</h2>
+        <div class="dl-display">
+            <div class="dl-speaker-row">
+                <span class="d-speaker" id="rdl1-speaker">A</span>
+                <span class="dl-counter-label" id="rdl1-counter">Line 1 / 9</span>
+            </div>
+            <div class="dl-zh-big" id="rdl1-zh">你好！</div>
+            <div class="dl-py-line" id="rdl1-py">Nǐ hǎo!</div>
+            <div class="dl-en-line" id="rdl1-en">Hello!</div>
+        </div>
+        <div class="dl-controls">
+            <button class="btn btn-sm btn-outline" id="rdl1-py-btn" onclick="rdl1Toggle('py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="rdl1-en-btn" onclick="rdl1Toggle('en')">English</button>
+            <div style="flex:1;"></div>
+            <button class="btn btn-sm btn-outline" onclick="rdl1Prev()">← Prev</button>
+            <button class="btn btn-sm" onclick="rdl1Next()">Next →</button>
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- ========== END REVIEW CONTAINER ========== -->
 
 <a href="/" style="position:fixed;top:1rem;left:1.2rem;color:rgba(255,255,255,0.5);font-size:0.8rem;font-weight:600;letter-spacing:0.05em;text-decoration:none;background:rgba(0,0,0,0.45);padding:0.35rem 0.75rem;border-radius:6px;transition:color 0.2s,background 0.2s;z-index:100;" onmouseover="this.style.color='white';this.style.background='rgba(0,0,0,0.75)'" onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.background='rgba(0,0,0,0.45)'">← Back</a>
 
