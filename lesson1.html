@@ -1411,15 +1411,19 @@
         document.body.classList.toggle('review-mode', reviewMode);
         document.getElementById('review-toggle').classList.toggle('active', reviewMode);
 
+        currentSlide = 0;
         if (reviewMode) {
             // Reset question sections
             document.querySelectorAll('.rv-question').forEach(el => {
                 el.classList.remove('rs-revealed');
                 el.querySelector('.rs-prompt span:last-child').textContent = 'Click to reveal';
             });
-            // Reset flashcards and dialogue
+            // Reset flashcards and full dialogue toggles
             rfcIdx = 0; rfcShow();
-            rdl1Idx = 0; rdl1Render();
+            const fc = document.getElementById('rdl1-full-container');
+            if (fc) { fc.classList.remove('show-py','show-en'); }
+            document.getElementById('rdl1-full-py-btn').classList.add('btn-outline');
+            document.getElementById('rdl1-full-en-btn').classList.add('btn-outline');
             // Jump to first review section
             reviewSlides[0].scrollIntoView({ behavior: 'smooth' });
         } else {
@@ -1449,28 +1453,13 @@
     function rfcNext() { rfcIdx = (rfcIdx + 1) % cards.length; rfcShow(); }
     function rfcPrev() { rfcIdx = (rfcIdx - 1 + cards.length) % cards.length; rfcShow(); }
 
-    // ---- Review Dialogue 1 (reuses dl1lines[]) ----
-    let rdl1Idx = 0;
-    function rdl1Render() {
-        const l = dl1lines[rdl1Idx];
-        const spEl = document.getElementById('rdl1-speaker');
-        spEl.textContent = l.sp;
-        spEl.className = 'd-speaker' + (l.sp === 'B' ? ' sp-b' : '');
-        document.getElementById('rdl1-zh').textContent = l.zh;
-        document.getElementById('rdl1-py').textContent = l.py;
-        document.getElementById('rdl1-en').textContent = l.en;
-        document.getElementById('rdl1-py').classList.remove('show');
-        document.getElementById('rdl1-en').classList.remove('show');
-        document.getElementById('rdl1-py-btn').classList.add('btn-outline');
-        document.getElementById('rdl1-en-btn').classList.add('btn-outline');
-        document.getElementById('rdl1-counter').textContent = 'Line ' + (rdl1Idx + 1) + ' / ' + dl1lines.length;
+    // ---- Review Dialogue 1 full toggle ----
+    function rdl1FullToggle(which) {
+        const container = document.getElementById('rdl1-full-container');
+        const btn = document.getElementById('rdl1-full-' + which + '-btn');
+        container.classList.toggle('show-' + which);
+        btn.classList.toggle('btn-outline');
     }
-    function rdl1Toggle(which) {
-        document.getElementById('rdl1-' + which).classList.toggle('show');
-        document.getElementById('rdl1-' + which + '-btn').classList.toggle('btn-outline');
-    }
-    function rdl1Next() { rdl1Idx = (rdl1Idx + 1) % dl1lines.length; rdl1Render(); }
-    function rdl1Prev() { rdl1Idx = (rdl1Idx - 1 + dl1lines.length) % dl1lines.length; rdl1Render(); }
 </script>
 
 <!-- ========== REVIEW CONTAINER ========== -->
@@ -1589,26 +1578,25 @@
     </div>
 </section>
 
-<!-- Review 5: Dialogue 1 Line by Line -->
+<!-- Review 5: Dialogue 1 Full -->
 <section class="review-slide slide-white" id="rs5">
     <div class="slide-content">
         <div class="slide-label">Review · 5 of 5</div>
-        <h2 class="slide-heading">Dialogue 1 · Line by Line</h2>
-        <div class="dl-display">
-            <div class="dl-speaker-row">
-                <span class="d-speaker" id="rdl1-speaker">A</span>
-                <span class="dl-counter-label" id="rdl1-counter">Line 1 / 9</span>
-            </div>
-            <div class="dl-zh-big" id="rdl1-zh">你好！</div>
-            <div class="dl-py-line" id="rdl1-py">Nǐ hǎo!</div>
-            <div class="dl-en-line" id="rdl1-en">Hello!</div>
+        <h2 class="slide-heading">Dialogue 1 · Full</h2>
+        <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+            <button class="btn btn-sm btn-outline" id="rdl1-full-py-btn" onclick="rdl1FullToggle('py')">Add Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="rdl1-full-en-btn" onclick="rdl1FullToggle('en')">Add English</button>
         </div>
-        <div class="dl-controls">
-            <button class="btn btn-sm btn-outline" id="rdl1-py-btn" onclick="rdl1Toggle('py')">Pinyin</button>
-            <button class="btn btn-sm btn-outline" id="rdl1-en-btn" onclick="rdl1Toggle('en')">English</button>
-            <div style="flex:1;"></div>
-            <button class="btn btn-sm btn-outline" onclick="rdl1Prev()">← Prev</button>
-            <button class="btn btn-sm" onclick="rdl1Next()">Next →</button>
+        <div id="rdl1-full-container" class="dialogue-lines">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你好！</div><div class="d-py">Nǐ hǎo!</div><div class="d-en">Hello!</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">你好！</div><div class="d-py">Nǐ hǎo!</div><div class="d-en">Hello!</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你好吗？</div><div class="d-py">Nǐ hǎo ma?</div><div class="d-en">How are you?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我很好。你呢？</div><div class="d-py">Wǒ hěn hǎo. Nǐ ne?</div><div class="d-en">I'm very well. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我也很好。你叫什么名字？</div><div class="d-py">Wǒ yě hěn hǎo. Nǐ jiào shénme míngzi?</div><div class="d-en">I'm also well. What is your name?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我叫 Maya。你呢？</div><div class="d-py">Wǒ jiào Maya. Nǐ ne?</div><div class="d-en">My name is Maya. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我叫 Leo。很高兴认识你。</div><div class="d-py">Wǒ jiào Leo. Hěn gāoxìng rènshi nǐ.</div><div class="d-en">My name is Leo. Nice to meet you.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">很高兴认识你。再见！</div><div class="d-py">Hěn gāoxìng rènshi nǐ. Zàijiàn!</div><div class="d-en">Nice to meet you. Goodbye!</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">再见！</div><div class="d-py">Zàijiàn!</div><div class="d-en">Goodbye!</div></div></div>
         </div>
     </div>
 </section>
