@@ -366,11 +366,68 @@
             .tone-family { grid-template-columns: repeat(3, 1fr); }
             .py-parts { grid-template-columns: 1fr; }
         }
+
+        /* ---- Review Mode ---- */
+        #review-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 9999;
+            background: rgba(30,30,30,0.85);
+            color: rgba(255,255,255,0.75);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            transition: background 0.2s, color 0.2s;
+        }
+        #review-toggle:hover { background: rgba(50,50,50,0.95); color: white; }
+        #review-toggle.active {
+            background: #c0392b;
+            color: white;
+            border-color: transparent;
+        }
+
+        .review-hidden { display: none !important; }
+
+        .review-prompt {
+            display: none;
+            margin-top: 2rem;
+            align-items: center;
+            gap: 0.5rem;
+            color: #aaa;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            user-select: none;
+        }
+        .slide-dark .review-prompt,
+        .slide-accent .review-prompt { color: rgba(255,255,255,0.4); }
+        .review-prompt-icon {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(0,0,0,0.08);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+        }
+        .slide-dark .review-prompt-icon,
+        .slide-accent .review-prompt-icon { background: rgba(255,255,255,0.1); }
+
+        body.review-mode .slide:not(#s1) { cursor: pointer; }
+        body.review-mode .slide:not(#s1) .review-prompt { display: flex; }
+        body.review-mode .slide.revealed { cursor: default; }
+        body.review-mode .slide.revealed .review-prompt { display: none !important; }
     </style>
 </head>
 <body>
 
 <div id="progress-bar"></div>
+<button id="review-toggle" onclick="toggleReviewMode()" title="Hide content and practice active recall">Review Mode</button>
 
 
 <!-- ========== SLIDE 1: TITLE ========== -->
@@ -1103,7 +1160,7 @@
             <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Core Dialogue</span>
         </div>
         <div class="hbox" style="margin-top:2rem;">
-            <p><strong>Lesson 2:</strong> Numbers 1–10 · Age · Languages · 不 negation · Substitution drills</p>
+            <p><strong><a href="/lesson2" style="color:inherit;">Lesson 2:</a></strong> Numbers 0–10 · 的 possessive · 喜欢 "to like" · Hobbies · Occupations</p>
         </div>
     </div>
 </section>
@@ -1338,6 +1395,55 @@
     }
     function v2Next() { v2Idx = (v2Idx + 1) % v2cards.length; v2Show(); }
     function v2Prev() { v2Idx = (v2Idx - 1 + v2cards.length) % v2cards.length; v2Show(); }
+
+    // ---- Review Mode ----
+    let reviewMode = false;
+
+    function toggleReviewMode() {
+        reviewMode = !reviewMode;
+        document.body.classList.toggle('review-mode', reviewMode);
+        document.getElementById('review-toggle').classList.toggle('active', reviewMode);
+
+        if (reviewMode) {
+            slides.forEach((slide) => {
+                if (slide.id === 's1') return; // skip title slide
+                const content = slide.querySelector('.slide-content');
+                if (!content) return;
+
+                // Hide everything that isn't the label or heading
+                Array.from(content.children).forEach(child => {
+                    if (!child.matches('.slide-label, h1, h2')) {
+                        child.classList.add('review-hidden');
+                    }
+                });
+
+                // Add reveal prompt
+                const prompt = document.createElement('div');
+                prompt.className = 'review-prompt';
+                prompt.innerHTML = '<span class="review-prompt-icon">👁</span><span>Click to reveal</span>';
+                content.appendChild(prompt);
+
+                slide.addEventListener('click', revealSlide);
+            });
+        } else {
+            slides.forEach((slide) => {
+                slide.classList.remove('revealed');
+                slide.removeEventListener('click', revealSlide);
+            });
+            document.querySelectorAll('.review-hidden').forEach(el => el.classList.remove('review-hidden'));
+            document.querySelectorAll('.review-prompt').forEach(el => el.remove());
+        }
+    }
+
+    function revealSlide(e) {
+        // Don't trigger if user clicked a button/link inside the slide
+        if (e.target.closest('button, a, input, select')) return;
+        const slide = e.currentTarget;
+        if (slide.classList.contains('revealed')) return;
+        slide.classList.add('revealed');
+        slide.querySelectorAll('.review-hidden').forEach(el => el.classList.remove('review-hidden'));
+        slide.removeEventListener('click', revealSlide);
+    }
 </script>
 
 <a href="/" style="position:fixed;top:1rem;left:1.2rem;color:rgba(255,255,255,0.5);font-size:0.8rem;font-weight:600;letter-spacing:0.05em;text-decoration:none;background:rgba(0,0,0,0.45);padding:0.35rem 0.75rem;border-radius:6px;transition:color 0.2s,background 0.2s;z-index:100;" onmouseover="this.style.color='white';this.style.background='rgba(0,0,0,0.75)'" onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.background='rgba(0,0,0,0.45)'">← Back</a>
