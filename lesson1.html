@@ -1183,7 +1183,10 @@
 
     // ---- Arrow key slide navigation ----
     const slides = Array.from(document.querySelectorAll('.slide'));
-    const reviewSlides = Array.from(document.querySelectorAll('.review-slide'));
+    let reviewSlides = [];
+    window.addEventListener('DOMContentLoaded', () => {
+        reviewSlides = Array.from(document.querySelectorAll('.review-slide'));
+    });
     let currentSlide = 0;
 
     function activeSlideList() { return reviewMode ? reviewSlides : slides; }
@@ -1472,10 +1475,12 @@
         <h2 class="slide-heading">What is the system that uses Roman letters and tone marks to write Mandarin pronunciation?</h2>
         <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
         <div class="rs-answer">
-            <div class="hbox" style="margin-top:1.5rem;">
-                <p><strong>Pinyin · 拼音</strong> — the romanization system for Mandarin. It shows you how to pronounce any character using the Latin alphabet plus tone marks.</p>
+            <div style="text-align:center; margin-top:1.75rem;">
+                <div style="font-size:3.5rem; font-weight:800; letter-spacing:0.03em; color:#1a1a1a; line-height:1.1;">Pīnyīn</div>
+                <div style="font-size:2rem; color:#555; margin-top:0.3rem; font-weight:600;">拼音</div>
+                <div style="font-size:0.9rem; color:#888; margin-top:0.75rem; max-width:34rem; margin-left:auto; margin-right:auto;">The romanization system for Mandarin — Latin letters plus tone marks that show how to pronounce any character.</div>
             </div>
-            <div class="py-breakdown" style="margin-top:1.25rem;">
+            <div class="py-breakdown" style="margin-top:1.5rem; opacity:0.75; transform:scale(0.88); transform-origin:top center;">
                 <div class="py-word t3">hǎo</div>
                 <div class="py-parts">
                     <div class="py-part"><div class="py-part-label">Initial</div><div class="py-part-val">h</div></div>
