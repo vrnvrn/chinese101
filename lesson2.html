@@ -337,11 +337,26 @@
             .card-grid-2, .card-grid-3 { grid-template-columns: 1fr; }
             .num-grid { grid-template-columns: repeat(4, 1fr); }
         }
+
+        /* Review Mode */
+        #review-toggle { position: fixed; top: 1rem; right: 1rem; z-index: 9999; background: rgba(30,30,30,0.85); color: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.15); padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; backdrop-filter: blur(6px); transition: background 0.2s, color 0.2s; }
+        #review-toggle:hover { background: rgba(50,50,50,0.95); color: white; }
+        #review-toggle.active { background: #c0392b; color: white; border-color: transparent; }
+        #review-container { display: none; }
+        body.review-mode .slide, body.review-mode .slide-footer { display: none !important; }
+        body.review-mode #review-container { display: block; }
+        .review-slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 2rem 3rem; }
+        .rv-question { cursor: pointer; }
+        .rv-question .rs-answer { display: none; }
+        .rv-question.rs-revealed .rs-answer { display: block; }
+        .rs-prompt { display: flex; align-items: center; gap: 0.6rem; margin-top: 2rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; color: #aaa; }
+        .rs-prompt-icon { font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
 <div id="progress-bar"></div>
+<button id="review-toggle" onclick="toggleReviewMode()" title="Practice active recall">Review Mode</button>
 <a href="/" style="position:fixed;top:1rem;left:1.2rem;color:rgba(255,255,255,0.5);font-size:0.8rem;font-weight:600;letter-spacing:0.05em;text-decoration:none;background:rgba(0,0,0,0.45);padding:0.35rem 0.75rem;border-radius:6px;transition:color 0.2s,background 0.2s;z-index:100;" onmouseover="this.style.color='white';this.style.background='rgba(0,0,0,0.75)'" onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.background='rgba(0,0,0,0.45)'">← Back</a>
 
 
@@ -1280,19 +1295,20 @@
 
     // ---- Arrow key slide navigation ----
     const slides = Array.from(document.querySelectorAll('.slide'));
+    const reviewSlides = Array.from(document.querySelectorAll('.review-slide'));
+    let reviewMode = false;
 
     function nearestSlide() {
+        const list = reviewMode ? reviewSlides : slides;
         let best = 0, bestDist = Infinity;
-        slides.forEach((s, i) => {
-            const dist = Math.abs(s.getBoundingClientRect().top);
-            if (dist < bestDist) { bestDist = dist; best = i; }
-        });
+        list.forEach((s, i) => { const d = Math.abs(s.getBoundingClientRect().top); if (d < bestDist) { bestDist = d; best = i; } });
         return best;
     }
 
     function goToSlide(i) {
-        i = Math.max(0, Math.min(slides.length - 1, i));
-        slides[i].scrollIntoView({ behavior: 'smooth' });
+        const list = reviewMode ? reviewSlides : slides;
+        i = Math.max(0, Math.min(list.length - 1, i));
+        list[i].scrollIntoView({ behavior: 'smooth' });
     }
 
     document.addEventListener('keydown', e => {
@@ -1550,7 +1566,163 @@
     }
     function fcNext() { fcIdx = (fcIdx + 1) % cards.length; fcShow(); }
     function fcPrev() { fcIdx = (fcIdx - 1 + cards.length) % cards.length; fcShow(); }
+
+    // ---- Review Mode ----
+    function toggleReviewMode() {
+        reviewMode = !reviewMode;
+        document.body.classList.toggle('review-mode', reviewMode);
+        document.getElementById('review-toggle').classList.toggle('active', reviewMode);
+        if (reviewMode) {
+            document.querySelectorAll('.rv-question').forEach(el => { el.classList.remove('rs-revealed'); el.querySelector('.rs-prompt span:last-child').textContent = 'Click to reveal'; });
+            rfcIdx = 0; rfcShow();
+            reviewSlides[0].scrollIntoView({ behavior: 'smooth' });
+        } else { slides[0].scrollIntoView({ behavior: 'smooth' }); }
+    }
+    function rsToggle(el) {
+        if (event.target.closest('button, a, input, select')) return;
+        const r = el.classList.toggle('rs-revealed');
+        el.querySelector('.rs-prompt span:last-child').textContent = r ? 'Click to hide' : 'Click to reveal';
+    }
+    let rfcIdx = 0;
+    function rfcShow() {
+        document.getElementById('rfc-wrap').classList.remove('flipped');
+        setTimeout(() => {
+            const c = cards[rfcIdx];
+            document.getElementById('rfc-zh').textContent = c.zh;
+            document.getElementById('rfc-py').textContent = c.py;
+            document.getElementById('rfc-en').textContent = c.en;
+            document.getElementById('rfc-counter').textContent = (rfcIdx+1)+' / '+cards.length;
+        }, 240);
+    }
+    function rfcNext() { rfcIdx=(rfcIdx+1)%cards.length; rfcShow(); }
+    function rfcPrev() { rfcIdx=(rfcIdx-1+cards.length)%cards.length; rfcShow(); }
 </script>
+
+
+<!-- ========== REVIEW CONTAINER ========== -->
+<div id="review-container">
+
+<section class="review-slide slide-white rv-question" id="rs1" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 1 of 5</div>
+        <h2 class="slide-heading">How do you build any number from 11 to 99 in Chinese? Give three examples.</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="pattern-block" style="margin-top:1.5rem;">
+                <div class="pattern-formula">Formula: tens digit + 十 + ones digit</div>
+                <div class="pattern-zh cjk">二十一 · 三十五 · 九十九</div>
+                <div class="pattern-py">èrshíyī · sānshíwǔ · jiǔshíjiǔ</div>
+                <div class="pattern-en">21 · 35 · 99</div>
+            </div>
+            <div class="pattern-block" style="background:#1a1a1a;">
+                <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">Special case — 10–19</div>
+                <div class="pattern-zh cjk" style="color:white;">十一 · 十五 · 十九</div>
+                <div class="pattern-py" style="color:rgba(255,255,255,0.55);">shíyī · shíwǔ · shíjiǔ</div>
+                <div class="pattern-en" style="color:rgba(255,255,255,0.75);">11 · 15 · 19 — no 一 before 十 in spoken Chinese</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="review-slide slide-gray rv-question" id="rs2" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 2 of 5</div>
+        <h2 class="slide-heading">What does 的 do? Give two examples using 我 and 你.</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="pattern-block" style="margin-top:1.5rem;">
+                <div class="pattern-formula">Owner + 的 + thing owned</div>
+                <div class="pattern-zh cjk">我的爱好</div>
+                <div class="pattern-py">wǒ de àihào</div>
+                <div class="pattern-en">my hobby</div>
+            </div>
+            <div class="pattern-block">
+                <div class="pattern-formula">Question using 的</div>
+                <div class="pattern-zh cjk">你的爱好是什么？</div>
+                <div class="pattern-py">Nǐ de àihào shì shénme?</div>
+                <div class="pattern-en">What are your hobbies?</div>
+            </div>
+            <div class="hbox" style="margin-top:1rem;">
+                <p>的 is neutral-tone. Place it between owner and possession. It can often be dropped in informal speech: 我妈 = my mom.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="review-slide slide-white rv-question" id="rs3" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 3 of 5</div>
+        <h2 class="slide-heading">How do you say "I like ___", "I don't like ___", and "What do you like?"</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="pattern-block" style="margin-top:1.5rem;">
+                <div class="pattern-formula">I like ___</div>
+                <div class="pattern-zh cjk">我喜欢跑步。</div>
+                <div class="pattern-py">Wǒ xǐhuān pǎobù.</div>
+                <div class="pattern-en">I like running.</div>
+            </div>
+            <div class="pattern-block">
+                <div class="pattern-formula">I don't like ___</div>
+                <div class="pattern-zh cjk">我不喜欢唱歌。</div>
+                <div class="pattern-py">Wǒ bù xǐhuān chànggē.</div>
+                <div class="pattern-en">I don't like singing.</div>
+            </div>
+            <div class="pattern-block" style="background:#1a1a1a;">
+                <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">Question</div>
+                <div class="pattern-zh cjk" style="color:white;">你喜欢什么？</div>
+                <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Nǐ xǐhuān shénme?</div>
+                <div class="pattern-en" style="color:rgba(255,255,255,0.75);">What do you like?</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="review-slide slide-gray rv-question" id="rs4" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 4 of 5</div>
+        <h2 class="slide-heading">How do you ask someone's job and answer with your own? Give two job examples.</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="pattern-block" style="margin-top:1.5rem;">
+                <div class="pattern-formula">Most natural question</div>
+                <div class="pattern-zh cjk">你做什么工作？</div>
+                <div class="pattern-py">Nǐ zuò shénme gōngzuò?</div>
+                <div class="pattern-en">What work do you do?</div>
+            </div>
+            <div class="pattern-block">
+                <div class="pattern-formula">Answer: I am a ___</div>
+                <div class="pattern-zh cjk">我是程序员。/ 我是学生。</div>
+                <div class="pattern-py">Wǒ shì chéngyùyuán. / Wǒ shì xuéshēng.</div>
+                <div class="pattern-en">I'm a programmer. / I'm a student.</div>
+            </div>
+            <div class="hbox" style="margin-top:1rem;">
+                <p>More jobs: 医生 (yīshēng) doctor · 老师 (lǎoshī) teacher · 企业家 (qǐyèjiā) entrepreneur · 内容创作者 content creator</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="review-slide slide-white" id="rs5">
+    <div class="slide-content">
+        <div class="slide-label">Review · 5 of 5</div>
+        <h2 class="slide-heading">Final vocabulary drill — all 16 Lesson 2 words.</h2>
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="rfc-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front"><div class="fc-zh cjk" id="rfc-zh">爱好</div><div class="fc-hint">tap to reveal</div></div>
+                    <div class="fc-back"><div class="fc-py" id="rfc-py">àihào</div><div class="fc-en" id="rfc-en">hobby / interest</div></div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="rfcPrev()">← Prev</button>
+                <span class="fc-counter" id="rfc-counter">1 / 16</span>
+                <button class="btn btn-sm" onclick="rfcNext()">Next →</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div><!-- end review-container -->
 
 </body>
 </html>
