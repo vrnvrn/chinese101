@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Chinese: Lesson 4</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5; color: #2d3748; line-height: 1.6;
+        }
+        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #fff; z-index: 1000; transition: width 0.1s; width: 0%; }
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 2rem 3rem; }
+        .slide-content { max-width: 820px; width: 100%; }
+        .slide-dark { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: white; }
+        .slide-white { background: white; }
+        .slide-gray  { background: #f5f5f5; }
+        .slide-accent { background: linear-gradient(135deg, #1a1a1a 0%, #404040 100%); color: white; }
+        .slide-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.75rem; }
+        .slide-dark .slide-label, .slide-accent .slide-label { color: rgba(255,255,255,0.45); }
+        h1.slide-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; color: white; margin-bottom: 1rem; }
+        h2.slide-heading { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+        .slide-dark h2.slide-heading, .slide-accent h2.slide-heading { color: white; }
+        .slide-white h2.slide-heading, .slide-gray h2.slide-heading { color: #1a1a1a; }
+        .slide-body { font-size: 1.05rem; line-height: 1.7; color: #444; max-width: 640px; }
+        .slide-dark .slide-body, .slide-accent .slide-body { color: rgba(255,255,255,0.8); }
+        .hbox { background: #f8f8f8; border-left: 4px solid #1a1a1a; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.25rem 0; max-width: 680px; }
+        .slide-dark .hbox, .slide-accent .hbox { background: rgba(255,255,255,0.1); border-left-color: rgba(255,255,255,0.6); }
+        .hbox p { font-size: 0.95rem; color: #333; }
+        .slide-dark .hbox p, .slide-accent .hbox p { color: rgba(255,255,255,0.85); }
+        .card-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem; }
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .card-title { font-weight: 700; font-size: 1rem; color: #1a1a1a; margin-bottom: 0.35rem; }
+        .card-desc  { font-size: 0.85rem; color: #555; line-height: 1.5; }
+        .card-dark  { background: #1a1a1a; }
+        .card-dark .card-title { color: white; }
+        .card-dark .card-desc  { color: rgba(255,255,255,0.75); }
+        .btn { background: #1a1a1a; color: white; border: none; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.75; }
+        .btn-outline { background: transparent; color: #1a1a1a; border: 2px solid #1a1a1a; }
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+        .part-number { font-size: 6rem; font-weight: 800; color: rgba(255,255,255,0.07); line-height: 1; margin-bottom: -1.5rem; }
+        .part-label-big { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: white; line-height: 1.2; }
+        .part-sub { font-size: 1rem; color: rgba(255,255,255,0.5); margin-top: 0.75rem; }
+        .slide-footer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 998; text-align: center; padding: 0.6rem 1.5rem; font-size: 0.78rem; background: rgba(26,26,26,0.85); backdrop-filter: blur(6px); color: rgba(255,255,255,0.35); }
+        .cjk { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Noto Sans CJK SC', serif; }
+        .t1 { color: #c0392b; } .t2 { color: #27ae60; } .t3 { color: #2980b9; } .t4 { color: #8e44ad; } .tn { color: #888; }
+        .vocab-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.95rem; }
+        .vocab-table th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #1a1a1a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+        .vocab-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .td-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.35rem; font-weight: 400; }
+        .td-py { color: #666; font-style: italic; }
+        .td-en { color: #333; }
+        .pattern-block { background: #f8f8f8; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 0.75rem; }
+        .pattern-formula { font-size: 0.75rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+        .pattern-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.5rem; margin-bottom: 0.15rem; }
+        .pattern-py { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 0.15rem; }
+        .pattern-en { font-size: 0.9rem; color: #555; }
+        .d-line { display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.55rem 0; border-bottom: 1px solid #eee; }
+        .d-line:last-child { border-bottom: none; }
+        .d-speaker { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #1a1a1a; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.25rem; }
+        .d-speaker.sp-b { background: #555; }
+        .d-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.2rem; line-height: 1.4; }
+        .d-py { font-size: 0.85rem; color: #888; font-style: italic; display: none; margin-top: 0.1rem; }
+        .d-en { font-size: 0.85rem; color: #bbb; display: none; }
+        .d-py.show { display: block; } .d-en.show { display: block; }
+        .dl-display { background: #f8f8f8; border-radius: 16px; padding: 2rem; margin: 1.5rem 0 1rem; min-height: 170px; display: flex; flex-direction: column; justify-content: center; }
+        .dl-speaker-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .dl-counter-label { font-size: 0.75rem; color: #aaa; font-weight: 600; letter-spacing: 0.05em; }
+        .dl-zh-big { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.8rem; line-height: 1.35; color: #1a1a1a; margin-bottom: 0.4rem; }
+        .dl-py-line { font-size: 1rem; color: #888; font-style: italic; margin-bottom: 0.3rem; visibility: hidden; }
+        .dl-en-line { font-size: 1rem; color: #aaa; visibility: hidden; }
+        .dl-py-line.show, .dl-en-line.show { visibility: visible; }
+        .dl-controls { display: flex; gap: 0.6rem; align-items: center; }
+        .goals-list { list-style: none; margin-top: 1.25rem; }
+        .goals-list li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid #eee; font-size: 1rem; color: #333; }
+        .goals-list li:last-child { border-bottom: none; }
+        .goal-num { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #1a1a1a; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+        .flashcard-wrap { perspective: 800px; height: 210px; cursor: pointer; margin-bottom: 1rem; }
+        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.45s; }
+        .flashcard-wrap.flipped .flashcard { transform: rotateY(180deg); }
+        .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
+        .fc-front { background: #1a1a1a; color: white; }
+        .fc-back  { background: #eef4fb; color: #1a1a1a; transform: rotateY(180deg); }
+        .fc-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 3.2rem; line-height: 1.1; }
+        .fc-hint { font-size: 0.72rem; opacity: 0.35; margin-top: 0.75rem; }
+        .fc-py   { font-size: 1.35rem; font-style: italic; color: #555; margin-bottom: 0.2rem; }
+        .fc-en   { font-size: 1.1rem; font-weight: 600; color: #1a1a1a; }
+        .fc-controls { display: flex; gap: 0.75rem; align-items: center; justify-content: center; }
+        .fc-counter { font-size: 0.85rem; color: #888; min-width: 4rem; text-align: center; }
+
+        /* Location diagram */
+        .loc-diagram {
+            background: #f8f8f8; border-radius: 16px;
+            padding: 2rem; margin-top: 1.25rem;
+            display: grid; grid-template-columns: repeat(3,1fr);
+            grid-template-rows: repeat(3,1fr); gap: 0.5rem;
+            text-align: center; min-height: 260px;
+        }
+        .loc-cell {
+            background: white; border-radius: 10px;
+            padding: 0.75rem 0.5rem; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+        .loc-cell.center { background: #1a1a1a; }
+        .loc-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; color: #1a1a1a; }
+        .loc-cell.center .loc-zh { color: white; }
+        .loc-py { font-size: 0.7rem; color: #888; margin-top: 0.2rem; }
+        .loc-cell.center .loc-py { color: rgba(255,255,255,0.5); }
+        .loc-en { font-size: 0.68rem; color: #aaa; }
+        .loc-cell.center .loc-en { color: rgba(255,255,255,0.4); }
+
+        @media (max-width: 640px) {
+            .card-grid-2, .card-grid-3 { grid-template-columns: 1fr; }
+        }
+
+        /* Review Mode */
+        #review-toggle { position: fixed; top: 1rem; right: 1rem; z-index: 9999; background: rgba(30,30,30,0.85); color: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.15); padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; backdrop-filter: blur(6px); transition: background 0.2s, color 0.2s; }
+        #review-toggle:hover { background: rgba(50,50,50,0.95); color: white; }
+        #review-toggle.active { background: #c0392b; color: white; border-color: transparent; }
+        #review-container { display: none; }
+        body.review-mode .slide, body.review-mode .slide-footer { display: none !important; }
+        body.review-mode #review-container { display: block; }
+        .review-slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 2rem 3rem; }
+        .rv-question { cursor: pointer; }
+        .rv-question .rs-answer { display: none; }
+        .rv-question.rs-revealed .rs-answer { display: block; }
+        .rs-prompt { display: flex; align-items: center; gap: 0.6rem; margin-top: 2rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; color: #aaa; }
+        .rs-prompt-icon { font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button id="review-toggle" onclick="toggleReviewMode()" title="Practice active recall">Review Mode</button>
+
+
+<!-- ========== SLIDE 1: TITLE ========== -->
+<section class="slide slide-dark" id="s1">
+    <div class="slide-content">
+        <div class="slide-label">Network School · Beginner Chinese</div>
+        <h1 class="slide-title">Lesson 4:<br>Location &amp; Daily Life</h1>
+        <p class="slide-body">在 · Places · Movement Verbs · Location Words · Daily Activities · HSK 1</p>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 2: LESSON GOALS ========== -->
+<section class="slide slide-white" id="s2">
+    <div class="slide-content">
+        <div class="slide-label">Lesson Goals</div>
+        <h2 class="slide-heading">By the end of this lesson…</h2>
+        <ul class="goals-list">
+            <li><span class="goal-num">1</span>Use 在 (zài) to say where something or someone is</li>
+            <li><span class="goal-num">2</span>Name places: home, school, restaurant, hospital, store</li>
+            <li><span class="goal-num">3</span>Ask "where?" using 哪儿 (nǎr) and 哪里 (nǎlǐ)</li>
+            <li><span class="goal-num">4</span>Use 去 (go), 来 (come), and 回 (return) correctly</li>
+            <li><span class="goal-num">5</span>Describe location with 里, 上, 下, 前面, 后面</li>
+            <li><span class="goal-num">6</span>Say where you live with 住在</li>
+            <li><span class="goal-num">7</span>Talk about daily activities: eat, drink, sleep, study, work</li>
+            <li><span class="goal-num">8</span>Hold a conversation about where you are and what you're doing</li>
+        </ul>
+    </div>
+</section>
+
+
+<!-- ========== PART 01: PLACES ========== -->
+<section class="slide slide-accent" id="p1">
+    <div class="slide-content">
+        <div class="part-number">01</div>
+        <div class="part-label-big">Places 地方</div>
+        <div class="part-sub">Where things happen</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 3: PLACES VOCAB ========== -->
+<section class="slide slide-white" id="s3">
+    <div class="slide-content">
+        <div class="slide-label">地方 Vocabulary</div>
+        <h2 class="slide-heading">The places you go.</h2>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="v1-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="v1-zh">家</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="v1-py">jiā</div>
+                        <div class="fc-en" id="v1-en">home / family</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="v1Prev()">← Prev</button>
+                <span class="fc-counter" id="v1-counter">1 / 8</span>
+                <button class="btn btn-sm" onclick="v1Next()">Next →</button>
+            </div>
+        </div>
+
+        <table class="vocab-table" style="margin-top:2rem;">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">家</td><td class="td-py">jiā</td><td class="td-en">home / family</td></tr>
+                <tr><td class="td-zh cjk">学校</td><td class="td-py">xuéxiào</td><td class="td-en">school</td></tr>
+                <tr><td class="td-zh cjk">饭店</td><td class="td-py">fàndiàn</td><td class="td-en">restaurant / hotel</td></tr>
+                <tr><td class="td-zh cjk">商店</td><td class="td-py">shāngdiàn</td><td class="td-en">shop / store</td></tr>
+                <tr><td class="td-zh cjk">医院</td><td class="td-py">yīyuàn</td><td class="td-en">hospital</td></tr>
+                <tr><td class="td-zh cjk">北京</td><td class="td-py">Běijīng</td><td class="td-en">Beijing</td></tr>
+                <tr><td class="td-zh cjk">火车站</td><td class="td-py">huǒchēzhàn</td><td class="td-en">railway / train station</td></tr>
+                <tr><td class="td-zh cjk">图书馆</td><td class="td-py">túshūguǎn</td><td class="td-en">library</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- ========== PART 02: 在 GRAMMAR ========== -->
+<section class="slide slide-accent" id="p2">
+    <div class="slide-content">
+        <div class="part-number">02</div>
+        <div class="part-label-big">在 — Location</div>
+        <div class="part-sub">The most important preposition in Chinese</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 4: 在 GRAMMAR ========== -->
+<section class="slide slide-gray" id="s4">
+    <div class="slide-content">
+        <div class="slide-label">Grammar — 在</div>
+        <h2 class="slide-heading">在 does three things.</h2>
+        <p class="slide-body" style="margin-bottom:1.5rem;">在 (zài) is a preposition meaning "at / in / on." It can appear before a place (as a verb) or before a verb to show ongoing action.</p>
+
+        <div class="card-grid card-grid-3" style="margin-bottom:1.5rem;">
+            <div class="card" style="text-align:center;">
+                <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:0.5rem;">As a verb</div>
+                <div class="cjk" style="font-size:1.8rem;">我在家。</div>
+                <div style="font-size:0.82rem;color:#666;margin-top:0.35rem;">I am at home.</div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:0.5rem;">As a preposition</div>
+                <div class="cjk" style="font-size:1.8rem;color:white;">我在学校学习。</div>
+                <div style="font-size:0.82rem;color:rgba(255,255,255,0.6);margin-top:0.35rem;">I study at school.</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:0.5rem;">With 住</div>
+                <div class="cjk" style="font-size:1.8rem;">我住在北京。</div>
+                <div style="font-size:0.82rem;color:#666;margin-top:0.35rem;">I live in Beijing.</div>
+            </div>
+        </div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">Where are you?</div>
+            <div class="pattern-zh cjk">你在哪儿？/ 你在哪里？</div>
+            <div class="pattern-py">Nǐ zài nǎr? / Nǐ zài nǎlǐ?</div>
+            <div class="pattern-en">Where are you? (nǎr = casual spoken, nǎlǐ = more formal)</div>
+        </div>
+        <div class="pattern-block" style="background:#1a1a1a;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">Where do you live?</div>
+            <div class="pattern-zh cjk" style="color:white;">你住在哪里？</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Nǐ zhù zài nǎlǐ?</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.75);">Where do you live?</div>
+        </div>
+
+        <div class="hbox">
+            <p><strong>哪儿 (nǎr)</strong> and <strong>哪里 (nǎlǐ)</strong> both mean "where." 哪儿 is common in northern China (Beijing), 哪里 is used everywhere. Either is correct.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 03: MOVEMENT VERBS ========== -->
+<section class="slide slide-accent" id="p3">
+    <div class="slide-content">
+        <div class="part-number">03</div>
+        <div class="part-label-big">Movement Verbs 动词</div>
+        <div class="part-sub">去、来、回 — going places</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 5: 去/来/回 ========== -->
+<section class="slide slide-white" id="s5">
+    <div class="slide-content">
+        <div class="slide-label">Movement Verbs</div>
+        <h2 class="slide-heading">去 · 来 · 回 — go, come, return.</h2>
+
+        <div class="card-grid card-grid-3" style="margin-top:1.5rem; margin-bottom:1.5rem;">
+            <div class="card card-dark" style="text-align:center;">
+                <div class="cjk" style="font-size:3rem;color:white;line-height:1.2;">去</div>
+                <div class="card-title" style="margin-top:0.5rem;">qù</div>
+                <div class="card-desc">to go (away from speaker)</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:3rem;line-height:1.2;color:#1a1a1a;">来</div>
+                <div class="card-title" style="margin-top:0.5rem;">lái</div>
+                <div class="card-desc">to come (toward speaker)</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:3rem;line-height:1.2;color:#1a1a1a;">回</div>
+                <div class="card-title" style="margin-top:0.5rem;">huí</div>
+                <div class="card-desc">to return / go back</div>
+            </div>
+        </div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">I'm going to school</div>
+            <div class="pattern-zh cjk">我去学校。</div>
+            <div class="pattern-py">Wǒ qù xuéxiào.</div>
+            <div class="pattern-en">I'm going to school.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Please come in</div>
+            <div class="pattern-zh cjk">请进来！</div>
+            <div class="pattern-py">Qǐng jìn lái!</div>
+            <div class="pattern-en">Please come in!</div>
+        </div>
+        <div class="pattern-block" style="background:#1a1a1a;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">I'm going home</div>
+            <div class="pattern-zh cjk" style="color:white;">我回家了。</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Wǒ huí jiā le.</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.75);">I'm going home / I went home.</div>
+        </div>
+
+        <div class="hbox">
+            <p><strong>去 vs 来:</strong> Think from the speaker's perspective. "I go to the store" (away from me) = 我去商店。 If someone is asking you to come to them: 你来这里 = "come here."</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 04: LOCATION WORDS ========== -->
+<section class="slide slide-accent" id="p4">
+    <div class="slide-content">
+        <div class="part-number">04</div>
+        <div class="part-label-big">Location Words 方位词</div>
+        <div class="part-sub">Inside, on top, in front — describing where things are</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 6: LOCATION WORDS ========== -->
+<section class="slide slide-gray" id="s6">
+    <div class="slide-content">
+        <div class="slide-label">方位词 Location Words</div>
+        <h2 class="slide-heading">Inside. Above. In front.</h2>
+
+        <div class="loc-diagram">
+            <div class="loc-cell" style="grid-column:1/2; grid-row:1/2;">
+            </div>
+            <div class="loc-cell" style="grid-column:2/3; grid-row:1/2;">
+                <div class="loc-zh cjk">上面</div>
+                <div class="loc-py">shàngmiàn</div>
+                <div class="loc-en">above / on top</div>
+            </div>
+            <div class="loc-cell" style="grid-column:3/4; grid-row:1/2;">
+            </div>
+            <div class="loc-cell" style="grid-column:1/2; grid-row:2/3;">
+                <div class="loc-zh cjk">前面</div>
+                <div class="loc-py">qiánmiàn</div>
+                <div class="loc-en">in front</div>
+            </div>
+            <div class="loc-cell center" style="grid-column:2/3; grid-row:2/3;">
+                <div class="loc-zh cjk" style="font-size:1.6rem;">里面</div>
+                <div class="loc-py">lǐmiàn</div>
+                <div class="loc-en">inside</div>
+            </div>
+            <div class="loc-cell" style="grid-column:3/4; grid-row:2/3;">
+                <div class="loc-zh cjk">后面</div>
+                <div class="loc-py">hòumiàn</div>
+                <div class="loc-en">behind</div>
+            </div>
+            <div class="loc-cell" style="grid-column:1/2; grid-row:3/4;">
+            </div>
+            <div class="loc-cell" style="grid-column:2/3; grid-row:3/4;">
+                <div class="loc-zh cjk">下面</div>
+                <div class="loc-py">xiàmiàn</div>
+                <div class="loc-en">below / under</div>
+            </div>
+            <div class="loc-cell" style="grid-column:3/4; grid-row:3/4;">
+            </div>
+        </div>
+
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">The book is on the table</div>
+            <div class="pattern-zh cjk">书在桌子上面。</div>
+            <div class="pattern-py">Shū zài zhuōzi shàngmiàn.</div>
+            <div class="pattern-en">The book is on top of the table.</div>
+        </div>
+        <div class="pattern-block" style="background:#1a1a1a;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">The cat is under the chair</div>
+            <div class="pattern-zh cjk" style="color:white;">猫在椅子下面。</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Māo zài yǐzi xiàmiàn.</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.75);">The cat is under the chair.</div>
+        </div>
+
+        <div class="hbox">
+            <p>Pattern: <strong>object + 在 + place + location word</strong>. You can also use shortened forms: 上 (shàng), 下 (xià), 里 (lǐ), 前 (qián), 后 (hòu).</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 05: DAILY LIFE VERBS ========== -->
+<section class="slide slide-accent" id="p5">
+    <div class="slide-content">
+        <div class="part-number">05</div>
+        <div class="part-label-big">Daily Life 日常生活</div>
+        <div class="part-sub">What you do every day</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 7: DAILY VERBS + FLASHCARDS ========== -->
+<section class="slide slide-white" id="s7">
+    <div class="slide-content">
+        <div class="slide-label">Daily Life Verbs</div>
+        <h2 class="slide-heading">The actions of every day.</h2>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="v2-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="v2-zh">吃</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="v2-py">chī</div>
+                        <div class="fc-en" id="v2-en">to eat</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="v2Prev()">← Prev</button>
+                <span class="fc-counter" id="v2-counter">1 / 10</span>
+                <button class="btn btn-sm" onclick="v2Next()">Next →</button>
+            </div>
+        </div>
+
+        <table class="vocab-table" style="margin-top:2rem;">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">吃</td><td class="td-py">chī</td><td class="td-en">to eat</td></tr>
+                <tr><td class="td-zh cjk">喝</td><td class="td-py">hē</td><td class="td-en">to drink</td></tr>
+                <tr><td class="td-zh cjk">睡觉</td><td class="td-py">shuìjiào</td><td class="td-en">to sleep</td></tr>
+                <tr><td class="td-zh cjk">学习</td><td class="td-py">xuéxí</td><td class="td-en">to study / to learn</td></tr>
+                <tr><td class="td-zh cjk">工作</td><td class="td-py">gōngzuò</td><td class="td-en">to work / work (noun)</td></tr>
+                <tr><td class="td-zh cjk">看</td><td class="td-py">kàn</td><td class="td-en">to look / to watch / to read</td></tr>
+                <tr><td class="td-zh cjk">听</td><td class="td-py">tīng</td><td class="td-en">to listen</td></tr>
+                <tr><td class="td-zh cjk">做</td><td class="td-py">zuò</td><td class="td-en">to do / to make</td></tr>
+                <tr><td class="td-zh cjk">开车</td><td class="td-py">kāi chē</td><td class="td-en">to drive (a car)</td></tr>
+                <tr><td class="td-zh cjk">住</td><td class="td-py">zhù</td><td class="td-en">to live (reside)</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 8: DAILY PATTERNS ========== -->
+<section class="slide slide-gray" id="s8">
+    <div class="slide-content">
+        <div class="slide-label">Patterns</div>
+        <h2 class="slide-heading">What are you doing right now?</h2>
+        <p class="slide-body" style="margin-bottom:1.5rem;">Place a time word (今天, 现在) or location (在学校) before a verb to anchor it in time and place. Chinese relies on context, not verb tenses.</p>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">I'm studying right now</div>
+            <div class="pattern-zh cjk">我现在在学习。</div>
+            <div class="pattern-py">Wǒ xiànzài zài xuéxí.</div>
+            <div class="pattern-en">I am studying right now. (在 before verb = ongoing action)</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">I eat at the restaurant</div>
+            <div class="pattern-zh cjk">我在饭店吃饭。</div>
+            <div class="pattern-py">Wǒ zài fàndiàn chī fàn.</div>
+            <div class="pattern-en">I eat (a meal) at the restaurant.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">What are you doing?</div>
+            <div class="pattern-zh cjk">你在做什么？</div>
+            <div class="pattern-py">Nǐ zài zuò shénme?</div>
+            <div class="pattern-en">What are you doing?</div>
+        </div>
+        <div class="pattern-block" style="background:#1a1a1a;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">I live in Beijing / I'm going home</div>
+            <div class="pattern-zh cjk" style="color:white;">我住在北京。我去图书馆学习。</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Wǒ zhù zài Běijīng. Wǒ qù túshūguǎn xuéxí.</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.75);">I live in Beijing. I'm going to the library to study.</div>
+        </div>
+
+        <div class="hbox">
+            <p><strong>在 + verb</strong> indicates an action happening right now (like English "-ing"). 我在吃饭 = "I am eating." Very common in conversation.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 06: CONVERSATIONS ========== -->
+<section class="slide slide-accent" id="p6">
+    <div class="slide-content">
+        <div class="part-number">06</div>
+        <div class="part-label-big">Conversations 对话</div>
+        <div class="part-sub">Where are you? Let's meet up.</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 9: DIALOGUE 1 — LINE BY LINE ========== -->
+<section class="slide slide-white" id="s9">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 1 · Practice</div>
+        <h2 class="slide-heading">Where are you? What are you doing?</h2>
+
+        <div class="dl-display">
+            <div class="dl-speaker-row">
+                <span class="d-speaker" id="dl1-speaker">A</span>
+                <span class="dl-counter-label" id="dl1-counter">Line 1 / 7</span>
+            </div>
+            <div class="dl-zh-big" id="dl1-zh">你现在在哪儿？</div>
+            <div class="dl-py-line" id="dl1-py">Nǐ xiànzài zài nǎr?</div>
+            <div class="dl-en-line" id="dl1-en">Where are you right now?</div>
+        </div>
+        <div class="dl-controls">
+            <button class="btn btn-sm btn-outline" id="dl1-py-btn" onclick="dl1Toggle('py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="dl1-en-btn" onclick="dl1Toggle('en')">English</button>
+            <div style="flex:1;"></div>
+            <button class="btn btn-sm btn-outline" onclick="dl1Prev()">← Prev</button>
+            <button class="btn btn-sm" onclick="dl1Next()">Next →</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 10: DIALOGUE 1 — FULL ========== -->
+<section class="slide slide-gray" id="s10">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 1 · Full</div>
+        <h2 class="slide-heading">Where are you? What are you doing?</h2>
+        <div class="dialogue-lines" style="margin-top:1.25rem;">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你现在在哪儿？</div><div class="d-py show">Nǐ xiànzài zài nǎr?</div><div class="d-en show">Where are you right now?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我在学校。我在学习。你呢？</div><div class="d-py show">Wǒ zài xuéxiào. Wǒ zài xuéxí. Nǐ ne?</div><div class="d-en show">I'm at school. I'm studying. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我在家。我在看书。</div><div class="d-py show">Wǒ zài jiā. Wǒ zài kàn shū.</div><div class="d-en show">I'm at home. I'm reading a book.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">你住在哪里？</div><div class="d-py show">Nǐ zhù zài nǎlǐ?</div><div class="d-en show">Where do you live?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我住在北京。学校在我家前面。</div><div class="d-py show">Wǒ zhù zài Běijīng. Xuéxiào zài wǒ jiā qiánmiàn.</div><div class="d-en show">I live in Beijing. The school is in front of my home.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">太方便了！你今天去学校吗？</div><div class="d-py show">Tài fāngbiàn le! Nǐ jīntiān qù xuéxiào ma?</div><div class="d-en show">How convenient! Are you going to school today?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">不去。今天我在家工作。明天去。</div><div class="d-py show">Bù qù. Jīntiān wǒ zài jiā gōngzuò. Míngtiān qù.</div><div class="d-en show">No. Today I'm working from home. I'll go tomorrow.</div></div></div>
+        </div>
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p><strong>方便 (fāngbiàn)</strong> = convenient · <strong>在家工作</strong> = work from home · <strong>在 + verb</strong> = ongoing action right now</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 11: DIALOGUE 2 — LINE BY LINE ========== -->
+<section class="slide slide-white" id="s11">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 2 · Practice</div>
+        <h2 class="slide-heading">Let's meet up.</h2>
+
+        <div class="dl-display">
+            <div class="dl-speaker-row">
+                <span class="d-speaker" id="dl2-speaker">A</span>
+                <span class="dl-counter-label" id="dl2-counter">Line 1 / 6</span>
+            </div>
+            <div class="dl-zh-big" id="dl2-zh">你去饭店吗？</div>
+            <div class="dl-py-line" id="dl2-py">Nǐ qù fàndiàn ma?</div>
+            <div class="dl-en-line" id="dl2-en">Are you going to the restaurant?</div>
+        </div>
+        <div class="dl-controls">
+            <button class="btn btn-sm btn-outline" id="dl2-py-btn" onclick="dl2Toggle('py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="dl2-en-btn" onclick="dl2Toggle('en')">English</button>
+            <div style="flex:1;"></div>
+            <button class="btn btn-sm btn-outline" onclick="dl2Prev()">← Prev</button>
+            <button class="btn btn-sm" onclick="dl2Next()">Next →</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 12: DIALOGUE 2 — FULL ========== -->
+<section class="slide slide-gray" id="s12">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 2 · Full</div>
+        <h2 class="slide-heading">Let's meet up.</h2>
+        <div class="dialogue-lines" style="margin-top:1.25rem;">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你去饭店吗？</div><div class="d-py show">Nǐ qù fàndiàn ma?</div><div class="d-en show">Are you going to the restaurant?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">去！饭店在哪儿？</div><div class="d-py show">Qù! Fàndiàn zài nǎr?</div><div class="d-en show">Yes! Where is the restaurant?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">饭店在医院后面，商店前面。</div><div class="d-py show">Fàndiàn zài yīyuàn hòumiàn, shāngdiàn qiánmiàn.</div><div class="d-en show">The restaurant is behind the hospital, in front of the store.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">好的！你现在在哪里？</div><div class="d-py show">Hǎo de! Nǐ xiànzài zài nǎlǐ?</div><div class="d-en show">Got it! Where are you right now?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我在火车站。我现在去饭店。</div><div class="d-py show">Wǒ zài huǒchēzhàn. Wǒ xiànzài qù fàndiàn.</div><div class="d-en show">I'm at the train station. I'm heading to the restaurant now.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">太好了！我也去！我们一起去！</div><div class="d-py show">Tài hǎo le! Wǒ yě qù! Wǒmen yīqǐ qù!</div><div class="d-en show">Great! I'll go too! Let's go together!</div></div></div>
+        </div>
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p><strong>好的 (hǎo de)</strong> = "got it / sure" · <strong>一起 (yīqǐ)</strong> = together · Use location words to give directions: 医院后面 = "behind the hospital."</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 07: PRACTICE ========== -->
+<section class="slide slide-accent" id="p7">
+    <div class="slide-content">
+        <div class="part-number">07</div>
+        <div class="part-label-big">Practice</div>
+        <div class="part-sub">Sentence bank and vocabulary flash cards</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 13: SENTENCE BANK ========== -->
+<section class="slide slide-white" id="s13">
+    <div class="slide-content">
+        <div class="slide-label">Sentence Bank</div>
+        <h2 class="slide-heading">All you need for Lesson 4.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>Chinese</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">你在哪儿？</td><td class="td-py">Nǐ zài nǎr?</td><td class="td-en">Where are you?</td></tr>
+                <tr><td class="td-zh cjk">我在___。</td><td class="td-py">Wǒ zài ___.</td><td class="td-en">I am at ___.</td></tr>
+                <tr><td class="td-zh cjk">你住在哪里？</td><td class="td-py">Nǐ zhù zài nǎlǐ?</td><td class="td-en">Where do you live?</td></tr>
+                <tr><td class="td-zh cjk">我住在___。</td><td class="td-py">Wǒ zhù zài ___.</td><td class="td-en">I live in ___.</td></tr>
+                <tr><td class="td-zh cjk">你在做什么？</td><td class="td-py">Nǐ zài zuò shénme?</td><td class="td-en">What are you doing?</td></tr>
+                <tr><td class="td-zh cjk">我在学习。</td><td class="td-py">Wǒ zài xuéxí.</td><td class="td-en">I'm studying.</td></tr>
+                <tr><td class="td-zh cjk">我去___。</td><td class="td-py">Wǒ qù ___.</td><td class="td-en">I'm going to ___.</td></tr>
+                <tr><td class="td-zh cjk">我回家了。</td><td class="td-py">Wǒ huí jiā le.</td><td class="td-en">I'm going home.</td></tr>
+                <tr><td class="td-zh cjk">___在___上面/下面/里面。</td><td class="td-py">___ zài ___ shàng/xià/lǐ.</td><td class="td-en">___ is on/under/inside ___.</td></tr>
+                <tr><td class="td-zh cjk">我们一起去吧！</td><td class="td-py">Wǒmen yīqǐ qù ba!</td><td class="td-en">Let's go together!</td></tr>
+                <tr><td class="td-zh cjk">饭店在哪儿？</td><td class="td-py">Fàndiàn zài nǎr?</td><td class="td-en">Where is the restaurant?</td></tr>
+                <tr><td class="td-zh cjk">学校在医院前面。</td><td class="td-py">Xuéxiào zài yīyuàn qiánmiàn.</td><td class="td-en">The school is in front of the hospital.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 14: FLASH CARDS ========== -->
+<section class="slide slide-gray" id="s14">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary Flash Cards</div>
+        <h2 class="slide-heading">Test yourself.</h2>
+        <p class="slide-body">Try to recall the meaning before you flip.</p>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="fc-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="fc-zh">在</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="fc-py">zài</div>
+                        <div class="fc-en" id="fc-en">at / in / to be located</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="fcPrev()">← Prev</button>
+                <span class="fc-counter" id="fc-counter">1 / 20</span>
+                <button class="btn btn-sm" onclick="fcNext()">Next →</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 15: CLOSING ========== -->
+<section class="slide slide-dark" id="s15">
+    <div class="slide-content">
+        <div class="slide-label">End of Lesson 4</div>
+        <h1 class="slide-title cjk" style="font-size: clamp(2rem, 5vw, 3.5rem);">我在学校学习。</h1>
+        <p class="slide-body" style="margin-top:0.4rem; font-style:italic; font-size:0.95rem; color:rgba(255,255,255,0.5);">Wǒ zài xuéxiào xuéxí. &nbsp;·&nbsp; I'm studying at school.</p>
+        <p class="slide-body" style="margin-top:1.25rem;">You can now say where you are, where you live, where you're going, and what you're doing right now. You've unlocked location — one of the most common conversation topics.</p>
+        <div style="margin-top:2rem; display:flex; flex-wrap:wrap; gap:0.5rem;">
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">在 Grammar</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">去 · 来 · 回</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Places Vocab</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Location Words</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Daily Verbs</span>
+        </div>
+        <div class="hbox" style="margin-top:2rem;">
+            <p><strong>Lesson 5:</strong> 想 "to want" · Food vocabulary · 多少钱 "how much?" · Shopping · Adjectives 大/小/漂亮</p>
+        </div>
+    </div>
+</section>
+
+
+<footer class="slide-footer">
+    Network School · Beginner Chinese · Lesson 4 · <a href="https://github.com/vrnvrn/chinese101" target="_blank" rel="noopener" style="color:inherit;display:inline-flex;align-items:center;vertical-align:middle;" aria-label="GitHub"><svg height="14" width="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+</footer>
+
+
+<script>
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        document.getElementById('progress-bar').style.width = (pct || 0) + '%';
+    });
+
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const reviewSlides = Array.from(document.querySelectorAll('.review-slide'));
+    let reviewMode = false;
+
+    function nearestSlide() {
+        const list = reviewMode ? reviewSlides : slides;
+        let best = 0, bestDist = Infinity;
+        list.forEach((s, i) => { const d = Math.abs(s.getBoundingClientRect().top); if (d < bestDist) { bestDist = d; best = i; } });
+        return best;
+    }
+    function goToSlide(i) {
+        const list = reviewMode ? reviewSlides : slides;
+        i = Math.max(0, Math.min(list.length - 1, i));
+        list[i].scrollIntoView({ behavior: 'smooth' });
+    }
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goToSlide(nearestSlide() + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goToSlide(nearestSlide() - 1); }
+    });
+
+    // Vocab deck: Places
+    const v1cards = [
+        { zh: '家',    py: 'jiā',        en: 'home / family' },
+        { zh: '学校',  py: 'xuéxiào',    en: 'school' },
+        { zh: '饭店',  py: 'fàndiàn',    en: 'restaurant / hotel' },
+        { zh: '商店',  py: 'shāngdiàn',  en: 'shop / store' },
+        { zh: '医院',  py: 'yīyuàn',     en: 'hospital' },
+        { zh: '北京',  py: 'Běijīng',    en: 'Beijing' },
+        { zh: '火车站',py: 'huǒchēzhàn', en: 'train station' },
+        { zh: '图书馆',py: 'túshūguǎn',  en: 'library' },
+    ];
+    let v1Idx = 0;
+    function v1Show() {
+        document.getElementById('v1-wrap').classList.remove('flipped');
+        setTimeout(() => {
+            const c = v1cards[v1Idx];
+            document.getElementById('v1-zh').textContent = c.zh;
+            document.getElementById('v1-py').textContent = c.py;
+            document.getElementById('v1-en').textContent = c.en;
+            document.getElementById('v1-counter').textContent = (v1Idx + 1) + ' / ' + v1cards.length;
+        }, 240);
+    }
+    function v1Next() { v1Idx = (v1Idx + 1) % v1cards.length; v1Show(); }
+    function v1Prev() { v1Idx = (v1Idx - 1 + v1cards.length) % v1cards.length; v1Show(); }
+
+    // Vocab deck: Daily verbs
+    const v2cards = [
+        { zh: '吃',   py: 'chī',       en: 'to eat' },
+        { zh: '喝',   py: 'hē',        en: 'to drink' },
+        { zh: '睡觉', py: 'shuìjiào',  en: 'to sleep' },
+        { zh: '学习', py: 'xuéxí',     en: 'to study / to learn' },
+        { zh: '工作', py: 'gōngzuò',   en: 'to work / work' },
+        { zh: '看',   py: 'kàn',       en: 'to look / watch / read' },
+        { zh: '听',   py: 'tīng',      en: 'to listen' },
+        { zh: '做',   py: 'zuò',       en: 'to do / to make' },
+        { zh: '开车', py: 'kāi chē',   en: 'to drive' },
+        { zh: '住',   py: 'zhù',       en: 'to live (reside)' },
+    ];
+    let v2Idx = 0;
+    function v2Show() {
+        document.getElementById('v2-wrap').classList.remove('flipped');
+        setTimeout(() => {
+            const c = v2cards[v2Idx];
+            document.getElementById('v2-zh').textContent = c.zh;
+            document.getElementById('v2-py').textContent = c.py;
+            document.getElementById('v2-en').textContent = c.en;
+            document.getElementById('v2-counter').textContent = (v2Idx + 1) + ' / ' + v2cards.length;
+        }, 240);
+    }
+    function v2Next() { v2Idx = (v2Idx + 1) % v2cards.length; v2Show(); }
+    function v2Prev() { v2Idx = (v2Idx - 1 + v2cards.length) % v2cards.length; v2Show(); }
+
+    // Dialogue 1
+    const dl1lines = [
+        { sp:'A', zh:'你现在在哪儿？',                         py:'Nǐ xiànzài zài nǎr?',                                          en:'Where are you right now?' },
+        { sp:'B', zh:'我在学校。我在学习。你呢？',               py:'Wǒ zài xuéxiào. Wǒ zài xuéxí. Nǐ ne?',                        en:"I'm at school. I'm studying. And you?" },
+        { sp:'A', zh:'我在家。我在看书。',                       py:'Wǒ zài jiā. Wǒ zài kàn shū.',                                  en:"I'm at home. I'm reading a book." },
+        { sp:'B', zh:'你住在哪里？',                             py:'Nǐ zhù zài nǎlǐ?',                                             en:'Where do you live?' },
+        { sp:'A', zh:'我住在北京。学校在我家前面。',             py:'Wǒ zhù zài Běijīng. Xuéxiào zài wǒ jiā qiánmiàn.',            en:'I live in Beijing. The school is in front of my home.' },
+        { sp:'B', zh:'太方便了！你今天去学校吗？',               py:'Tài fāngbiàn le! Nǐ jīntiān qù xuéxiào ma?',                  en:'How convenient! Are you going to school today?' },
+        { sp:'A', zh:'不去。今天我在家工作。明天去。',           py:'Bù qù. Jīntiān wǒ zài jiā gōngzuò. Míngtiān qù.',            en:"No. Today I'm working from home. I'll go tomorrow." },
+    ];
+    let dl1Idx = 0;
+    function dl1Render() {
+        const l = dl1lines[dl1Idx];
+        const sp = document.getElementById('dl1-speaker');
+        sp.textContent = l.sp; sp.className = 'd-speaker' + (l.sp==='B'?' sp-b':'');
+        document.getElementById('dl1-zh').textContent = l.zh;
+        document.getElementById('dl1-py').textContent = l.py;
+        document.getElementById('dl1-en').textContent = l.en;
+        document.getElementById('dl1-py').classList.remove('show');
+        document.getElementById('dl1-en').classList.remove('show');
+        document.getElementById('dl1-py-btn').classList.add('btn-outline');
+        document.getElementById('dl1-en-btn').classList.add('btn-outline');
+        document.getElementById('dl1-counter').textContent = 'Line '+(dl1Idx+1)+' / '+dl1lines.length;
+    }
+    function dl1Toggle(w) { document.getElementById('dl1-'+w).classList.toggle('show'); document.getElementById('dl1-'+w+'-btn').classList.toggle('btn-outline'); }
+    function dl1Next() { dl1Idx=(dl1Idx+1)%dl1lines.length; dl1Render(); }
+    function dl1Prev() { dl1Idx=(dl1Idx-1+dl1lines.length)%dl1lines.length; dl1Render(); }
+
+    // Dialogue 2
+    const dl2lines = [
+        { sp:'A', zh:'你去饭店吗？',                             py:'Nǐ qù fàndiàn ma?',                                          en:'Are you going to the restaurant?' },
+        { sp:'B', zh:'去！饭店在哪儿？',                         py:'Qù! Fàndiàn zài nǎr?',                                       en:'Yes! Where is the restaurant?' },
+        { sp:'A', zh:'饭店在医院后面，商店前面。',               py:'Fàndiàn zài yīyuàn hòumiàn, shāngdiàn qiánmiàn.',           en:'The restaurant is behind the hospital, in front of the store.' },
+        { sp:'B', zh:'好的！你现在在哪里？',                     py:'Hǎo de! Nǐ xiànzài zài nǎlǐ?',                              en:'Got it! Where are you right now?' },
+        { sp:'A', zh:'我在火车站。我现在去饭店。',               py:'Wǒ zài huǒchēzhàn. Wǒ xiànzài qù fàndiàn.',                en:"I'm at the train station. I'm heading to the restaurant now." },
+        { sp:'B', zh:'太好了！我也去！我们一起去！',             py:'Tài hǎo le! Wǒ yě qù! Wǒmen yīqǐ qù!',                    en:"Great! I'll go too! Let's go together!" },
+    ];
+    let dl2Idx = 0;
+    function dl2Render() {
+        const l = dl2lines[dl2Idx];
+        const sp = document.getElementById('dl2-speaker');
+        sp.textContent = l.sp; sp.className = 'd-speaker' + (l.sp==='B'?' sp-b':'');
+        document.getElementById('dl2-zh').textContent = l.zh;
+        document.getElementById('dl2-py').textContent = l.py;
+        document.getElementById('dl2-en').textContent = l.en;
+        document.getElementById('dl2-py').classList.remove('show');
+        document.getElementById('dl2-en').classList.remove('show');
+        document.getElementById('dl2-py-btn').classList.add('btn-outline');
+        document.getElementById('dl2-en-btn').classList.add('btn-outline');
+        document.getElementById('dl2-counter').textContent = 'Line '+(dl2Idx+1)+' / '+dl2lines.length;
+    }
+    function dl2Toggle(w) { document.getElementById('dl2-'+w).classList.toggle('show'); document.getElementById('dl2-'+w+'-btn').classList.toggle('btn-outline'); }
+    function dl2Next() { dl2Idx=(dl2Idx+1)%dl2lines.length; dl2Render(); }
+    function dl2Prev() { dl2Idx=(dl2Idx-1+dl2lines.length)%dl2lines.length; dl2Render(); }
+
+    // Final flash cards
+    const cards = [
+        { zh:'在',    py:'zài',         en:'at / in / to be located' },
+        { zh:'去',    py:'qù',          en:'to go (away from speaker)' },
+        { zh:'来',    py:'lái',         en:'to come (toward speaker)' },
+        { zh:'回',    py:'huí',         en:'to return / go back' },
+        { zh:'住',    py:'zhù',         en:'to live (reside)' },
+        { zh:'哪儿',  py:'nǎr',         en:'where?' },
+        { zh:'家',    py:'jiā',         en:'home / family' },
+        { zh:'学校',  py:'xuéxiào',     en:'school' },
+        { zh:'饭店',  py:'fàndiàn',     en:'restaurant / hotel' },
+        { zh:'医院',  py:'yīyuàn',      en:'hospital' },
+        { zh:'上面',  py:'shàngmiàn',   en:'above / on top' },
+        { zh:'下面',  py:'xiàmiàn',     en:'below / under' },
+        { zh:'里面',  py:'lǐmiàn',      en:'inside' },
+        { zh:'前面',  py:'qiánmiàn',    en:'in front' },
+        { zh:'后面',  py:'hòumiàn',     en:'behind' },
+        { zh:'吃',    py:'chī',         en:'to eat' },
+        { zh:'喝',    py:'hē',          en:'to drink' },
+        { zh:'睡觉',  py:'shuìjiào',    en:'to sleep' },
+        { zh:'学习',  py:'xuéxí',       en:'to study' },
+        { zh:'一起',  py:'yīqǐ',        en:'together' },
+    ];
+    let fcIdx = 0;
+    function fcShow() {
+        document.getElementById('fc-wrap').classList.remove('flipped');
+        setTimeout(() => {
+            const c = cards[fcIdx];
+            document.getElementById('fc-zh').textContent = c.zh;
+            document.getElementById('fc-py').textContent = c.py;
+            document.getElementById('fc-en').textContent = c.en;
+            document.getElementById('fc-counter').textContent = (fcIdx+1)+' / '+cards.length;
+        }, 240);
+    }
+    function fcNext() { fcIdx=(fcIdx+1)%cards.length; fcShow(); }
+    function fcPrev() { fcIdx=(fcIdx-1+cards.length)%cards.length; fcShow(); }
+
+    // Review Mode
+    function toggleReviewMode() {
+        reviewMode = !reviewMode;
+        document.body.classList.toggle('review-mode', reviewMode);
+        document.getElementById('review-toggle').classList.toggle('active', reviewMode);
+        if (reviewMode) {
+            document.querySelectorAll('.rv-question').forEach(el => { el.classList.remove('rs-revealed'); el.querySelector('.rs-prompt span:last-child').textContent = 'Click to reveal'; });
+            rfcIdx = 0; rfcShow();
+            const fc = document.getElementById('rdl1-full-container');
+            if (fc) { fc.classList.remove('show-py','show-en'); }
+            document.getElementById('rdl1-full-py-btn').classList.add('btn-outline');
+            document.getElementById('rdl1-full-en-btn').classList.add('btn-outline');
+            reviewSlides[0].scrollIntoView({ behavior: 'smooth' });
+        } else { slides[0].scrollIntoView({ behavior: 'smooth' }); }
+    }
+    function rsToggle(el) {
+        if (event.target.closest('button, a, input, select')) return;
+        const r = el.classList.toggle('rs-revealed');
+        el.querySelector('.rs-prompt span:last-child').textContent = r ? 'Click to hide' : 'Click to reveal';
+    }
+    let rfcIdx = 0;
+    function rfcShow() {
+        document.getElementById('rfc-wrap').classList.remove('flipped');
+        setTimeout(() => {
+            const c = cards[rfcIdx];
+            document.getElementById('rfc-zh').textContent = c.zh;
+            document.getElementById('rfc-py').textContent = c.py;
+            document.getElementById('rfc-en').textContent = c.en;
+            document.getElementById('rfc-counter').textContent = (rfcIdx+1)+' / '+cards.length;
+        }, 240);
+    }
+    function rfcNext() { rfcIdx=(rfcIdx+1)%cards.length; rfcShow(); }
+    function rfcPrev() { rfcIdx=(rfcIdx-1+cards.length)%cards.length; rfcShow(); }
+    function rdl1FullToggle(which) {
+        document.getElementById('rdl1-full-container').classList.toggle('show-'+which);
+        document.getElementById('rdl1-full-'+which+'-btn').classList.toggle('btn-outline');
+    }
+</script>
+
+
+<!-- ========== REVIEW CONTAINER ========== -->
+<div id="review-container">
+
+<section class="review-slide slide-white rv-question" id="rs1" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 1 of 5</div>
+        <h2 class="slide-heading">How do you say "I am at school studying right now" in Chinese?</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div style="text-align:center; margin-top:1.75rem;">
+                <div class="cjk" style="font-size:2.8rem; font-weight:400; color:#1a1a1a; line-height:1.2;">我现在在学校学习。</div>
+                <div style="font-size:1.2rem; color:#888; margin-top:0.5rem; font-style:italic;">Wǒ xiànzài zài xuéxiào xuéxí.</div>
+            </div>
+            <div class="hbox" style="margin-top:1.5rem;">
+                <p>Structure: <strong>Subject + time + 在 + place + verb</strong>. The 在 before a place = location. The 在 before a verb = ongoing action (like -ing).</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="review-slide slide-gray rv-question" id="rs2" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 2 of 5</div>
+        <h2 class="slide-heading">What's the difference between 去 and 来?</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
+                <div class="card card-dark" style="text-align:center;">
+                    <div class="cjk" style="font-size:3rem;color:white;line-height:1.2;">去</div>
+                    <div class="card-title" style="margin-top:0.5rem;">qù — to go</div>
+                    <div class="card-desc">Movement away from the speaker. 我去学校 = I'm going to school (away from here).</div>
+                </div>
+                <div class="card" style="text-align:center;">
+                    <div class="cjk" style="font-size:3rem;line-height:1.2;">来</div>
+                    <div class="card-title" style="margin-top:0.5rem;">lái — to come</div>
+                    <div class="card-desc">Movement toward the speaker. 你来这里 = come here (toward me).</div>
+                </div>
+            </div>
+            <div class="pattern-block" style="margin-top:1rem;">
+                <div class="pattern-formula">Return home</div>
+                <div class="pattern-zh cjk">回 (huí) — to return / go back. 我回家了。</div>
+                <div class="pattern-en">I'm going home.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="review-slide slide-white rv-question" id="rs3" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 3 of 5</div>
+        <h2 class="slide-heading">How do you describe where something is using location words?</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="pattern-block" style="margin-top:1.5rem;">
+                <div class="pattern-formula">Object + 在 + place + location word</div>
+                <div class="pattern-zh cjk">书在桌子上面。</div>
+                <div class="pattern-py">Shū zài zhuōzi shàngmiàn.</div>
+                <div class="pattern-en">The book is on top of the table.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-top:1rem;">
+                <div style="background:#f8f8f8;border-radius:8px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">上面</div><div style="font-size:0.75rem;color:#888;">above / on</div></div>
+                <div style="background:#1a1a1a;border-radius:8px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;color:white;">里面</div><div style="font-size:0.75rem;color:rgba(255,255,255,0.5);">inside</div></div>
+                <div style="background:#f8f8f8;border-radius:8px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">下面</div><div style="font-size:0.75rem;color:#888;">below / under</div></div>
+                <div style="background:#f8f8f8;border-radius:8px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">前面</div><div style="font-size:0.75rem;color:#888;">in front</div></div>
+                <div style="background:#f8f8f8;border-radius:8px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">后面</div><div style="font-size:0.75rem;color:#888;">behind</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="review-slide slide-gray" id="rs4">
+    <div class="slide-content">
+        <div class="slide-label">Review · 4 of 5</div>
+        <h2 class="slide-heading">Vocabulary Flash Cards</h2>
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="rfc-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front"><div class="fc-zh cjk" id="rfc-zh">在</div><div class="fc-hint">tap to reveal</div></div>
+                    <div class="fc-back"><div class="fc-py" id="rfc-py">zài</div><div class="fc-en" id="rfc-en">at / in / to be located</div></div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="rfcPrev()">← Prev</button>
+                <span class="fc-counter" id="rfc-counter">1 / 20</span>
+                <button class="btn btn-sm" onclick="rfcNext()">Next →</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="review-slide slide-white" id="rs5">
+    <div class="slide-content">
+        <div class="slide-label">Review · 5 of 5</div>
+        <h2 class="slide-heading">Dialogue 1 · Full</h2>
+        <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+            <button class="btn btn-sm btn-outline" id="rdl1-full-py-btn" onclick="rdl1FullToggle('py')">Add Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="rdl1-full-en-btn" onclick="rdl1FullToggle('en')">Add English</button>
+        </div>
+        <div id="rdl1-full-container" class="dialogue-lines">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你现在在哪儿？</div><div class="d-py">Nǐ xiànzài zài nǎr?</div><div class="d-en">Where are you right now?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我在学校。我在学习。你呢？</div><div class="d-py">Wǒ zài xuéxiào. Wǒ zài xuéxí. Nǐ ne?</div><div class="d-en">I'm at school. I'm studying. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我在家。我在看书。</div><div class="d-py">Wǒ zài jiā. Wǒ zài kàn shū.</div><div class="d-en">I'm at home. I'm reading a book.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">你住在哪里？</div><div class="d-py">Nǐ zhù zài nǎlǐ?</div><div class="d-en">Where do you live?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我住在北京。学校在我家前面。</div><div class="d-py">Wǒ zhù zài Běijīng. Xuéxiào zài wǒ jiā qiánmiàn.</div><div class="d-en">I live in Beijing. The school is in front of my home.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">太方便了！你今天去学校吗？</div><div class="d-py">Tài fāngbiàn le! Nǐ jīntiān qù xuéxiào ma?</div><div class="d-en">How convenient! Are you going to school today?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">不去。今天我在家工作。明天去。</div><div class="d-py">Bù qù. Jīntiān wǒ zài jiā gōngzuò. Míngtiān qù.</div><div class="d-en">No. Today I'm working from home. I'll go tomorrow.</div></div></div>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<a href="/" style="position:fixed;top:1rem;left:1.2rem;color:rgba(255,255,255,0.5);font-size:0.8rem;font-weight:600;letter-spacing:0.05em;text-decoration:none;background:rgba(0,0,0,0.45);padding:0.35rem 0.75rem;border-radius:6px;transition:color 0.2s,background 0.2s;z-index:100;" onmouseover="this.style.color='white';this.style.background='rgba(0,0,0,0.75)'" onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.background='rgba(0,0,0,0.45)'">← Back</a>
+
+</body>
+</html>

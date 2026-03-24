@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Chinese: Lesson 3</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: #fff;
+            z-index: 1000;
+            transition: width 0.1s;
+            width: 0%;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5rem 2rem 3rem;
+        }
+
+        .slide-content { max-width: 820px; width: 100%; }
+
+        .slide-dark {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+        }
+        .slide-white { background: white; }
+        .slide-gray  { background: #f5f5f5; }
+        .slide-accent {
+            background: linear-gradient(135deg, #1a1a1a 0%, #404040 100%);
+            color: white;
+        }
+
+        .slide-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 0.75rem;
+        }
+        .slide-dark .slide-label,
+        .slide-accent .slide-label { color: rgba(255,255,255,0.45); }
+
+        h1.slide-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        h2.slide-heading {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .slide-dark h2.slide-heading,
+        .slide-accent h2.slide-heading { color: white; }
+        .slide-white h2.slide-heading,
+        .slide-gray h2.slide-heading  { color: #1a1a1a; }
+
+        .slide-body {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #444;
+            max-width: 640px;
+        }
+        .slide-dark .slide-body,
+        .slide-accent .slide-body { color: rgba(255,255,255,0.8); }
+
+        .hbox {
+            background: #f8f8f8;
+            border-left: 4px solid #1a1a1a;
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.25rem 0;
+            max-width: 680px;
+        }
+        .slide-dark .hbox,
+        .slide-accent .hbox {
+            background: rgba(255,255,255,0.1);
+            border-left-color: rgba(255,255,255,0.6);
+        }
+        .hbox p { font-size: 0.95rem; color: #333; }
+        .slide-dark .hbox p,
+        .slide-accent .hbox p { color: rgba(255,255,255,0.85); }
+
+        .card-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+        .card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem; }
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .card-title { font-weight: 700; font-size: 1rem; color: #1a1a1a; margin-bottom: 0.35rem; }
+        .card-desc  { font-size: 0.85rem; color: #555; line-height: 1.5; }
+        .card-dark  { background: #1a1a1a; }
+        .card-dark .card-title { color: white; }
+        .card-dark .card-desc  { color: rgba(255,255,255,0.75); }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.07em; text-transform: uppercase;
+            background: #1a1a1a; color: white;
+            padding: 0.2rem 0.55rem; border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            background: #1a1a1a; color: white; border: none;
+            padding: 0.65rem 1.4rem; border-radius: 8px;
+            font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.75; }
+        .btn-outline {
+            background: transparent; color: #1a1a1a;
+            border: 2px solid #1a1a1a;
+        }
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+
+        .part-number {
+            font-size: 6rem; font-weight: 800;
+            color: rgba(255,255,255,0.07);
+            line-height: 1; margin-bottom: -1.5rem;
+        }
+        .part-label-big {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700; color: white; line-height: 1.2;
+        }
+        .part-sub { font-size: 1rem; color: rgba(255,255,255,0.5); margin-top: 0.75rem; }
+
+        .slide-footer {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            z-index: 998; text-align: center;
+            padding: 0.6rem 1.5rem; font-size: 0.78rem;
+            background: rgba(26,26,26,0.85);
+            backdrop-filter: blur(6px);
+            color: rgba(255,255,255,0.35);
+        }
+
+        /* =====================
+           Chinese-specific
+        ===================== */
+
+        .cjk {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+                         'WenQuanYi Micro Hei', 'Noto Sans CJK SC', serif;
+        }
+
+        /* Tone colors */
+        .t1 { color: #c0392b; }
+        .t2 { color: #27ae60; }
+        .t3 { color: #2980b9; }
+        .t4 { color: #8e44ad; }
+        .tn { color: #888; }
+
+        /* Vocabulary table */
+        .vocab-table {
+            width: 100%; border-collapse: collapse;
+            margin-top: 1.25rem; font-size: 0.95rem;
+        }
+        .vocab-table th {
+            text-align: left; padding: 0.5rem 0.75rem;
+            border-bottom: 2px solid #1a1a1a;
+            font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.08em; color: #888;
+        }
+        .vocab-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .td-zh {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif;
+            font-size: 1.35rem; font-weight: 400;
+        }
+        .td-py { color: #666; font-style: italic; }
+        .td-en { color: #333; }
+
+        /* Pattern blocks */
+        .pattern-block {
+            background: #f8f8f8; border-radius: 12px;
+            padding: 1.1rem 1.4rem; margin-bottom: 0.75rem;
+        }
+        .pattern-formula {
+            font-size: 0.75rem; font-weight: 700; color: #aaa;
+            text-transform: uppercase; letter-spacing: 0.07em;
+            margin-bottom: 0.4rem;
+        }
+        .pattern-zh {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif;
+            font-size: 1.5rem; margin-bottom: 0.15rem;
+        }
+        .pattern-py  { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 0.15rem; }
+        .pattern-en  { font-size: 0.9rem; color: #555; }
+
+        /* Dialogue */
+        .dialogue-controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .d-line {
+            display: flex; gap: 0.9rem; align-items: flex-start;
+            padding: 0.55rem 0; border-bottom: 1px solid #eee;
+        }
+        .d-line:last-child { border-bottom: none; }
+        .d-speaker {
+            width: 1.8rem; height: 1.8rem; border-radius: 50%;
+            background: #1a1a1a; color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+        .d-speaker.sp-b { background: #555; }
+        .d-zh {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif;
+            font-size: 1.2rem; line-height: 1.4;
+        }
+        .d-py { font-size: 0.85rem; color: #888; font-style: italic; display: none; margin-top: 0.1rem; }
+        .d-en { font-size: 0.85rem; color: #bbb; display: none; }
+        .show-py .d-py { display: block; }
+        .show-en .d-en { display: block; }
+        .d-py.show { display: block; }
+        .d-en.show { display: block; }
+
+        /* Line-by-line dialogue */
+        .dl-display {
+            background: #f8f8f8; border-radius: 16px;
+            padding: 2rem; margin: 1.5rem 0 1rem;
+            min-height: 170px; display: flex;
+            flex-direction: column; justify-content: center;
+        }
+        .dl-speaker-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .dl-counter-label { font-size: 0.75rem; color: #aaa; font-weight: 600; letter-spacing: 0.05em; }
+        .dl-zh-big {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif;
+            font-size: 1.8rem; line-height: 1.35; color: #1a1a1a; margin-bottom: 0.4rem;
+        }
+        .dl-py-line { font-size: 1rem; color: #888; font-style: italic; margin-bottom: 0.3rem; visibility: hidden; }
+        .dl-en-line { font-size: 1rem; color: #aaa; visibility: hidden; }
+        .dl-py-line.show, .dl-en-line.show { visibility: visible; }
+        .dl-controls { display: flex; gap: 0.6rem; align-items: center; }
+
+        /* Goals list */
+        .goals-list { list-style: none; margin-top: 1.25rem; }
+        .goals-list li {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            padding: 0.55rem 0; border-bottom: 1px solid #eee;
+            font-size: 1rem; color: #333;
+        }
+        .goals-list li:last-child { border-bottom: none; }
+        .goal-num {
+            width: 1.5rem; height: 1.5rem; border-radius: 50%;
+            background: #1a1a1a; color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        /* Flash cards */
+        .flashcard-wrap {
+            perspective: 800px; height: 210px;
+            cursor: pointer; margin-bottom: 1rem;
+        }
+        .flashcard {
+            width: 100%; height: 100%; position: relative;
+            transform-style: preserve-3d; transition: transform 0.45s;
+        }
+        .flashcard-wrap.flipped .flashcard { transform: rotateY(180deg); }
+        .fc-front, .fc-back {
+            position: absolute; width: 100%; height: 100%;
+            backface-visibility: hidden; border-radius: 16px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 1.5rem; text-align: center;
+        }
+        .fc-front { background: #1a1a1a; color: white; }
+        .fc-back  { background: #eef4fb; color: #1a1a1a; transform: rotateY(180deg); }
+        .fc-zh {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif;
+            font-size: 3.2rem; line-height: 1.1;
+        }
+        .fc-hint { font-size: 0.72rem; opacity: 0.35; margin-top: 0.75rem; }
+        .fc-py   { font-size: 1.35rem; font-style: italic; color: #555; margin-bottom: 0.2rem; }
+        .fc-en   { font-size: 1.1rem; font-weight: 600; color: #1a1a1a; }
+        .fc-controls {
+            display: flex; gap: 0.75rem;
+            align-items: center; justify-content: center;
+        }
+        .fc-counter { font-size: 0.85rem; color: #888; min-width: 4rem; text-align: center; }
+
+        /* Days-of-week grid */
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+        }
+        .day-cell {
+            background: #f8f8f8; border-radius: 10px;
+            padding: 0.75rem 0.25rem; text-align: center;
+            cursor: pointer; transition: background 0.15s;
+        }
+        .day-cell.active { background: #1a1a1a; }
+        .day-cell-num {
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em; color: #aaa; margin-bottom: 0.35rem;
+        }
+        .day-cell.active .day-cell-num { color: rgba(255,255,255,0.5); }
+        .day-cell-zh {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif;
+            font-size: 1.1rem; color: #1a1a1a; line-height: 1.2;
+        }
+        .day-cell.active .day-cell-zh { color: white; }
+        .day-cell-py { font-size: 0.7rem; color: #888; margin-top: 0.2rem; }
+        .day-cell.active .day-cell-py { color: rgba(255,255,255,0.5); }
+
+        .day-display {
+            background: #f8f8f8; border-radius: 16px;
+            padding: 2rem; text-align: center; margin-bottom: 1rem;
+        }
+        .day-display-zh {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif;
+            font-size: 3rem; font-weight: 400; color: #1a1a1a; line-height: 1.1; margin-bottom: 0.3rem;
+        }
+        .day-display-py { font-size: 1.3rem; font-style: italic; color: #888; margin-bottom: 0.3rem; }
+        .day-display-en { font-size: 1rem; color: #555; }
+
+        /* Measure word cards */
+        .mw-card {
+            background: white; border: 2px solid #e8e8e8;
+            border-radius: 14px; padding: 1.25rem 1.5rem;
+            margin-bottom: 0.75rem; display: flex;
+            align-items: center; gap: 1.5rem;
+        }
+        .mw-char {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif;
+            font-size: 3rem; font-weight: 400; color: #1a1a1a;
+            line-height: 1; flex-shrink: 0; width: 3.5rem; text-align: center;
+        }
+        .mw-info { flex: 1; }
+        .mw-pinyin { font-size: 1.1rem; font-style: italic; color: #666; margin-bottom: 0.2rem; }
+        .mw-desc { font-size: 0.9rem; color: #555; margin-bottom: 0.35rem; }
+        .mw-examples { font-size: 0.82rem; color: #888; }
+        .mw-examples .cjk { font-size: 0.95rem; color: #333; }
+
+        @media (max-width: 640px) {
+            .card-grid-2, .card-grid-3 { grid-template-columns: 1fr; }
+            .days-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* ---- Review Mode ---- */
+        #review-toggle {
+            position: fixed;
+            top: 1rem; right: 1rem;
+            z-index: 9999;
+            background: rgba(30,30,30,0.85);
+            color: rgba(255,255,255,0.75);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            transition: background 0.2s, color 0.2s;
+        }
+        #review-toggle:hover { background: rgba(50,50,50,0.95); color: white; }
+        #review-toggle.active { background: #c0392b; color: white; border-color: transparent; }
+
+        #review-container { display: none; }
+        body.review-mode .slide,
+        body.review-mode .slide-footer { display: none !important; }
+        body.review-mode #review-container { display: block; }
+
+        .review-slide {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 5rem 2rem 3rem;
+        }
+
+        .rv-question { cursor: pointer; }
+        .rv-question .rs-answer { display: none; }
+        .rv-question.rs-revealed .rs-answer { display: block; }
+
+        .rs-prompt {
+            display: flex; align-items: center; gap: 0.6rem;
+            margin-top: 2rem; font-size: 0.85rem;
+            font-weight: 600; letter-spacing: 0.04em; color: #aaa;
+        }
+        .review-slide.slide-dark .rs-prompt,
+        .review-slide.slide-accent .rs-prompt { color: rgba(255,255,255,0.35); }
+        .rs-prompt-icon { font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button id="review-toggle" onclick="toggleReviewMode()" title="Practice active recall">Review Mode</button>
+
+
+<!-- ========== SLIDE 1: TITLE ========== -->
+<section class="slide slide-dark" id="s1">
+    <div class="slide-content">
+        <div class="slide-label">Network School · Beginner Chinese</div>
+        <h1 class="slide-title">Lesson 3:<br>Family, Time &amp; Days</h1>
+        <p class="slide-body">有 · Measure Words · Family · Days of the Week · Dates · HSK 1</p>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 2: LESSON GOALS ========== -->
+<section class="slide slide-white" id="s2">
+    <div class="slide-content">
+        <div class="slide-label">Lesson Goals</div>
+        <h2 class="slide-heading">By the end of this lesson…</h2>
+        <ul class="goals-list">
+            <li><span class="goal-num">1</span>Use 有 (yǒu) to say you have something or someone</li>
+            <li><span class="goal-num">2</span>Count people and objects using measure words (个, 本, 张)</li>
+            <li><span class="goal-num">3</span>Name your immediate family members</li>
+            <li><span class="goal-num">4</span>Use social phrases: 谢谢, 不客气, 对不起, 没关系, 请</li>
+            <li><span class="goal-num">5</span>Name all seven days of the week</li>
+            <li><span class="goal-num">6</span>State today's date: year, month, and day</li>
+            <li><span class="goal-num">7</span>Say morning, noon, afternoon, and "right now"</li>
+            <li><span class="goal-num">8</span>Make and respond to simple plans</li>
+        </ul>
+    </div>
+</section>
+
+
+<!-- ========== PART 01: FAMILY ========== -->
+<section class="slide slide-accent" id="p1">
+    <div class="slide-content">
+        <div class="part-number">01</div>
+        <div class="part-label-big">Family 家人</div>
+        <div class="part-sub">The people closest to you</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 3: FAMILY VOCAB ========== -->
+<section class="slide slide-white" id="s3">
+    <div class="slide-content">
+        <div class="slide-label">家人 Vocabulary</div>
+        <h2 class="slide-heading">Your people.</h2>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="v1-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="v1-zh">爸爸</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="v1-py">bàba</div>
+                        <div class="fc-en" id="v1-en">father / dad</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="v1Prev()">← Prev</button>
+                <span class="fc-counter" id="v1-counter">1 / 10</span>
+                <button class="btn btn-sm" onclick="v1Next()">Next →</button>
+            </div>
+        </div>
+
+        <table class="vocab-table" style="margin-top:2rem;">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">爸爸</td><td class="td-py">bàba</td><td class="td-en">father / dad</td></tr>
+                <tr><td class="td-zh cjk">妈妈</td><td class="td-py">māma</td><td class="td-en">mother / mom</td></tr>
+                <tr><td class="td-zh cjk">哥哥</td><td class="td-py">gēge</td><td class="td-en">older brother</td></tr>
+                <tr><td class="td-zh cjk">姐姐</td><td class="td-py">jiějie</td><td class="td-en">older sister</td></tr>
+                <tr><td class="td-zh cjk">弟弟</td><td class="td-py">dìdi</td><td class="td-en">younger brother</td></tr>
+                <tr><td class="td-zh cjk">妹妹</td><td class="td-py">mèimei</td><td class="td-en">younger sister</td></tr>
+                <tr><td class="td-zh cjk">儿子</td><td class="td-py">érzi</td><td class="td-en">son</td></tr>
+                <tr><td class="td-zh cjk">女儿</td><td class="td-py">nǚ'ér</td><td class="td-en">daughter</td></tr>
+                <tr><td class="td-zh cjk">朋友</td><td class="td-py">péngyou</td><td class="td-en">friend</td></tr>
+                <tr><td class="td-zh cjk">同学</td><td class="td-py">tóngxué</td><td class="td-en">classmate</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 4: 有 (YǑU) ========== -->
+<section class="slide slide-gray" id="s4">
+    <div class="slide-content">
+        <div class="slide-label">Grammar</div>
+        <h2 class="slide-heading">有 — to have.</h2>
+        <p class="slide-body" style="margin-bottom:1.5rem;">有 (yǒu) expresses possession and existence. Its negative is 没有 (méiyǒu) — never 不有.</p>
+
+        <div class="card-grid card-grid-2" style="margin-bottom:1.5rem;">
+            <div class="card card-dark" style="text-align:center;">
+                <div class="cjk" style="font-size:3rem; color:white; line-height:1.2;">有</div>
+                <div class="card-title" style="margin-top:0.5rem;">yǒu</div>
+                <div class="card-desc">to have · there is</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:3rem; line-height:1.2; color:#1a1a1a;">没有</div>
+                <div class="card-title" style="margin-top:0.5rem;">méiyǒu</div>
+                <div class="card-desc">to not have · there is not</div>
+            </div>
+        </div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">I have ___</div>
+            <div class="pattern-zh cjk">我有一个妹妹。</div>
+            <div class="pattern-py">Wǒ yǒu yī gè mèimei.</div>
+            <div class="pattern-en">I have one younger sister.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Do you have ___?</div>
+            <div class="pattern-zh cjk">你有哥哥吗？</div>
+            <div class="pattern-py">Nǐ yǒu gēge ma?</div>
+            <div class="pattern-en">Do you have an older brother?</div>
+        </div>
+        <div class="pattern-block" style="background:#1a1a1a;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">I don't have ___</div>
+            <div class="pattern-zh cjk" style="color:white;">我没有哥哥。</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Wǒ méiyǒu gēge.</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.75);">I don't have an older brother.</div>
+        </div>
+
+        <div class="hbox">
+            <p><strong>Remember:</strong> The negative of 有 is always <strong>没有</strong> — never 不有. This is one of the few cases where 不 doesn't work.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 02: MEASURE WORDS ========== -->
+<section class="slide slide-accent" id="p2">
+    <div class="slide-content">
+        <div class="part-number">02</div>
+        <div class="part-label-big">Measure Words 量词</div>
+        <div class="part-sub">The hidden layer between numbers and nouns</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 5: MEASURE WORDS ========== -->
+<section class="slide slide-white" id="s5">
+    <div class="slide-content">
+        <div class="slide-label">量词 Measure Words</div>
+        <h2 class="slide-heading">Numbers need a bridge.</h2>
+        <p class="slide-body" style="margin-bottom:1.5rem;">In Chinese, you cannot put a number directly before a noun. You need a measure word: <strong>number + measure word + noun</strong>. English has these too: "a <em>sheet</em> of paper", "a <em>head</em> of cattle."</p>
+
+        <div class="mw-card">
+            <div class="mw-char cjk">个</div>
+            <div class="mw-info">
+                <div class="mw-pinyin">gè (neutral tone)</div>
+                <div class="mw-desc">General-purpose measure word. Use for people and most objects when in doubt.</div>
+                <div class="mw-examples"><span class="cjk">三个人</span> sān gè rén — three people &nbsp;·&nbsp; <span class="cjk">一个朋友</span> yī gè péngyou — one friend</div>
+            </div>
+        </div>
+        <div class="mw-card">
+            <div class="mw-char cjk">本</div>
+            <div class="mw-info">
+                <div class="mw-pinyin">běn (3rd tone)</div>
+                <div class="mw-desc">For books, notebooks, and bound volumes.</div>
+                <div class="mw-examples"><span class="cjk">两本书</span> liǎng běn shū — two books &nbsp;·&nbsp; <span class="cjk">一本杂志</span> yī běn zázhì — one magazine</div>
+            </div>
+        </div>
+        <div class="mw-card">
+            <div class="mw-char cjk">张</div>
+            <div class="mw-info">
+                <div class="mw-pinyin">zhāng (1st tone)</div>
+                <div class="mw-desc">For flat, sheet-like objects: paper, photos, tickets, tables.</div>
+                <div class="mw-examples"><span class="cjk">一张纸</span> yī zhāng zhǐ — one sheet of paper &nbsp;·&nbsp; <span class="cjk">两张票</span> liǎng zhāng piào — two tickets</div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:0.5rem;">
+            <p><strong>Tip:</strong> When counting two things, use <strong>两 (liǎng)</strong> instead of 二 (èr). So it's 两个人, not 二个人.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 6: MEASURE WORD PATTERNS ========== -->
+<section class="slide slide-gray" id="s6">
+    <div class="slide-content">
+        <div class="slide-label">Patterns</div>
+        <h2 class="slide-heading">Number + 个 + noun. Say them all.</h2>
+
+        <div class="pattern-block" style="margin-top:1.25rem;">
+            <div class="pattern-formula">How many siblings do you have?</div>
+            <div class="pattern-zh cjk">你有几个兄弟姐妹？</div>
+            <div class="pattern-py">Nǐ yǒu jǐ gè xiōngdì jiěmèi?</div>
+            <div class="pattern-en">How many siblings do you have?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">I have two younger sisters</div>
+            <div class="pattern-zh cjk">我有两个妹妹。</div>
+            <div class="pattern-py">Wǒ yǒu liǎng gè mèimei.</div>
+            <div class="pattern-en">I have two younger sisters.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">I have three books</div>
+            <div class="pattern-zh cjk">我有三本书。</div>
+            <div class="pattern-py">Wǒ yǒu sān běn shū.</div>
+            <div class="pattern-en">I have three books.</div>
+        </div>
+        <div class="pattern-block" style="background:#1a1a1a;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">I'm an only child</div>
+            <div class="pattern-zh cjk" style="color:white;">我是独生子 / 独生女。</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Wǒ shì dúshēngzǐ / dúshēngnǚ.</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.75);">I am an only child. (son / daughter)</div>
+        </div>
+
+        <div class="hbox" style="margin-top:0.5rem;">
+            <p><strong>几 (jǐ)</strong> = "how many?" for small numbers (under 10). For larger numbers, use 多少 (duōshao).</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 03: SOCIAL PHRASES ========== -->
+<section class="slide slide-accent" id="p3">
+    <div class="slide-content">
+        <div class="part-number">03</div>
+        <div class="part-label-big">Social Phrases 礼貌用语</div>
+        <div class="part-sub">Please, thank you, sorry — the glue of every conversation</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 7: SOCIAL PHRASES ========== -->
+<section class="slide slide-white" id="s7">
+    <div class="slide-content">
+        <div class="slide-label">礼貌用语 Polite Expressions</div>
+        <h2 class="slide-heading">Six phrases. Use them constantly.</h2>
+
+        <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
+            <div class="card card-dark" style="text-align:center;">
+                <div class="cjk" style="font-size:2.2rem;color:white;line-height:1.2;">谢谢</div>
+                <div class="card-title" style="margin-top:0.5rem;">xièxie</div>
+                <div class="card-desc">Thank you</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2.2rem;line-height:1.2;">不客气</div>
+                <div class="card-title" style="margin-top:0.5rem;">bú kèqi</div>
+                <div class="card-desc">You're welcome / don't mention it</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2.2rem;line-height:1.2;">对不起</div>
+                <div class="card-title" style="margin-top:0.5rem;">duìbuqǐ</div>
+                <div class="card-desc">Sorry / I apologize</div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div class="cjk" style="font-size:2.2rem;color:white;line-height:1.2;">没关系</div>
+                <div class="card-title" style="margin-top:0.5rem;">méi guānxi</div>
+                <div class="card-desc">It's okay / no problem</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2.2rem;line-height:1.2;">请</div>
+                <div class="card-title" style="margin-top:0.5rem;">qǐng</div>
+                <div class="card-desc">Please / May I ask…</div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div class="cjk" style="font-size:2.2rem;color:white;line-height:1.2;">再见</div>
+                <div class="card-title" style="margin-top:0.5rem;">zàijiàn</div>
+                <div class="card-desc">Goodbye (lit. "see again")</div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1rem;">
+            <p>Pair them up: <strong>谢谢 → 不客气</strong> · <strong>对不起 → 没关系</strong>. These always go together, just like English's "thank you / you're welcome."</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 04: TIME & DAYS ========== -->
+<section class="slide slide-accent" id="p4">
+    <div class="slide-content">
+        <div class="part-number">04</div>
+        <div class="part-label-big">Time &amp; Days 时间</div>
+        <div class="part-sub">When is it? What day? What time?</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 8: DAYS OF THE WEEK ========== -->
+<section class="slide slide-white" id="s8">
+    <div class="slide-content">
+        <div class="slide-label">Days of the Week 星期</div>
+        <h2 class="slide-heading">Seven days. One word each.</h2>
+        <p class="slide-body" style="margin-bottom:1rem;">星期 (xīngqī) means "week." Just add the number 1–6 for Monday–Saturday. Sunday is the exception: 星期天 or 星期日.</p>
+
+        <div class="day-display" id="day-display">
+            <div class="day-display-zh cjk" id="day-zh">星期一</div>
+            <div class="day-display-py" id="day-py">xīngqī yī</div>
+            <div class="day-display-en" id="day-en">Monday</div>
+        </div>
+
+        <div class="days-grid">
+            <div class="day-cell active" id="dc0" onclick="setDay(0)">
+                <div class="day-cell-num">Mon</div>
+                <div class="day-cell-zh cjk">一</div>
+                <div class="day-cell-py">yī</div>
+            </div>
+            <div class="day-cell" id="dc1" onclick="setDay(1)">
+                <div class="day-cell-num">Tue</div>
+                <div class="day-cell-zh cjk">二</div>
+                <div class="day-cell-py">èr</div>
+            </div>
+            <div class="day-cell" id="dc2" onclick="setDay(2)">
+                <div class="day-cell-num">Wed</div>
+                <div class="day-cell-zh cjk">三</div>
+                <div class="day-cell-py">sān</div>
+            </div>
+            <div class="day-cell" id="dc3" onclick="setDay(3)">
+                <div class="day-cell-num">Thu</div>
+                <div class="day-cell-zh cjk">四</div>
+                <div class="day-cell-py">sì</div>
+            </div>
+            <div class="day-cell" id="dc4" onclick="setDay(4)">
+                <div class="day-cell-num">Fri</div>
+                <div class="day-cell-zh cjk">五</div>
+                <div class="day-cell-py">wǔ</div>
+            </div>
+            <div class="day-cell" id="dc5" onclick="setDay(5)">
+                <div class="day-cell-num">Sat</div>
+                <div class="day-cell-zh cjk">六</div>
+                <div class="day-cell-py">liù</div>
+            </div>
+            <div class="day-cell" id="dc6" onclick="setDay(6)">
+                <div class="day-cell-num">Sun</div>
+                <div class="day-cell-zh cjk">天</div>
+                <div class="day-cell-py">tiān</div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1rem;">
+            <p>Pattern: <strong>星期 + number</strong>. Sunday breaks the pattern — use <strong>星期天</strong> or <strong>星期日</strong>. Both are correct; 星期天 is more common in speech.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 9: TIME WORDS ========== -->
+<section class="slide slide-gray" id="s9">
+    <div class="slide-content">
+        <div class="slide-label">Time Words 时间词</div>
+        <h2 class="slide-heading">Yesterday. Today. Tomorrow.</h2>
+
+        <div class="card-grid card-grid-3" style="margin-top:1.5rem;">
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2.5rem;line-height:1.2;color:#1a1a1a;">昨天</div>
+                <div class="card-title" style="margin-top:0.5rem;">zuótiān</div>
+                <div class="card-desc">yesterday</div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div class="cjk" style="font-size:2.5rem;color:white;line-height:1.2;">今天</div>
+                <div class="card-title" style="margin-top:0.5rem;">jīntiān</div>
+                <div class="card-desc">today</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2.5rem;line-height:1.2;color:#1a1a1a;">明天</div>
+                <div class="card-title" style="margin-top:0.5rem;">míngtiān</div>
+                <div class="card-desc">tomorrow</div>
+            </div>
+        </div>
+
+        <div class="card-grid card-grid-3" style="margin-top:1rem;">
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2rem;line-height:1.2;color:#1a1a1a;">上午</div>
+                <div class="card-title" style="margin-top:0.5rem;">shàngwǔ</div>
+                <div class="card-desc">morning / AM</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2rem;line-height:1.2;color:#1a1a1a;">中午</div>
+                <div class="card-title" style="margin-top:0.5rem;">zhōngwǔ</div>
+                <div class="card-desc">noon / midday</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2rem;line-height:1.2;color:#1a1a1a;">下午</div>
+                <div class="card-title" style="margin-top:0.5rem;">xiàwǔ</div>
+                <div class="card-desc">afternoon / PM</div>
+            </div>
+        </div>
+
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">Right now</div>
+            <div class="pattern-zh cjk">现在</div>
+            <div class="pattern-py">xiànzài</div>
+            <div class="pattern-en">now / right now — use this to anchor any sentence in the present</div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 10: DATES ========== -->
+<section class="slide slide-white" id="s10">
+    <div class="slide-content">
+        <div class="slide-label">Dates 日期</div>
+        <h2 class="slide-heading">Year → Month → Day.</h2>
+        <p class="slide-body" style="margin-bottom:1.5rem;">Chinese dates go from big to small: year first, then month, then day — the opposite of American format and the same as ISO format.</p>
+
+        <div class="card-grid card-grid-3" style="margin-bottom:1.5rem;">
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2.5rem;line-height:1.2;">年</div>
+                <div class="card-title" style="margin-top:0.5rem;">nián</div>
+                <div class="card-desc">year</div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div class="cjk" style="font-size:2.5rem;color:white;line-height:1.2;">月</div>
+                <div class="card-title" style="margin-top:0.5rem;">yuè</div>
+                <div class="card-desc">month</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:2.5rem;line-height:1.2;">号/日</div>
+                <div class="card-title" style="margin-top:0.5rem;">hào / rì</div>
+                <div class="card-desc">day (of month)</div>
+            </div>
+        </div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">Today's date</div>
+            <div class="pattern-zh cjk">今天是二○二六年三月十九号。</div>
+            <div class="pattern-py">Jīntiān shì èr líng èr liù nián sān yuè shíjiǔ hào.</div>
+            <div class="pattern-en">Today is March 19th, 2026.</div>
+        </div>
+        <div class="pattern-block" style="background:#1a1a1a;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">What's today's date?</div>
+            <div class="pattern-zh cjk" style="color:white;">今天几月几号？</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Jīntiān jǐ yuè jǐ hào?</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.75);">What month and day is today?</div>
+        </div>
+
+        <div class="hbox">
+            <p>Months are just numbers: 一月 = January, 二月 = February … 十二月 = December. No need to memorize twelve separate names.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 10b: TIME VOCAB FLASHCARDS ========== -->
+<section class="slide slide-gray" id="s10b">
+    <div class="slide-content">
+        <div class="slide-label">Time Vocabulary</div>
+        <h2 class="slide-heading">Drill the time words.</h2>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="v2-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="v2-zh">今天</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="v2-py">jīntiān</div>
+                        <div class="fc-en" id="v2-en">today</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="v2Prev()">← Prev</button>
+                <span class="fc-counter" id="v2-counter">1 / 11</span>
+                <button class="btn btn-sm" onclick="v2Next()">Next →</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 11: TIME PATTERNS ========== -->
+<section class="slide slide-white" id="s11">
+    <div class="slide-content">
+        <div class="slide-label">Key Patterns</div>
+        <h2 class="slide-heading">Asking about time and plans.</h2>
+
+        <div class="pattern-block" style="margin-top:1.25rem;">
+            <div class="pattern-formula">What day is today?</div>
+            <div class="pattern-zh cjk">今天是星期几？</div>
+            <div class="pattern-py">Jīntiān shì xīngqī jǐ?</div>
+            <div class="pattern-en">What day of the week is today?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Are you free tomorrow?</div>
+            <div class="pattern-zh cjk">你明天有时间吗？</div>
+            <div class="pattern-py">Nǐ míngtiān yǒu shíjiān ma?</div>
+            <div class="pattern-en">Do you have time tomorrow?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">What time? (morning / afternoon)</div>
+            <div class="pattern-zh cjk">上午九点 / 下午三点</div>
+            <div class="pattern-py">shàngwǔ jiǔ diǎn / xiàwǔ sān diǎn</div>
+            <div class="pattern-en">9 AM / 3 PM (use 点 diǎn for "o'clock")</div>
+        </div>
+        <div class="pattern-block" style="background:#1a1a1a;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">Let's meet / see you then</div>
+            <div class="pattern-zh cjk" style="color:white;">明天见！/ 星期五见！</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Míngtiān jiàn! / Xīngqīwǔ jiàn!</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.75);">See you tomorrow! / See you Friday!</div>
+        </div>
+
+        <div class="hbox">
+            <p><strong>时间 (shíjiān)</strong> = time · <strong>点 (diǎn)</strong> = o'clock · <strong>见 (jiàn)</strong> = to see / meet. Combine them: 下午两点见 = "See you at 2 PM."</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 05: CONVERSATIONS ========== -->
+<section class="slide slide-accent" id="p5">
+    <div class="slide-content">
+        <div class="part-number">05</div>
+        <div class="part-label-big">Conversations 对话</div>
+        <div class="part-sub">Family introduction and making plans</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 12: DIALOGUE 1 — LINE BY LINE (FAMILY) ========== -->
+<section class="slide slide-white" id="s12">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 1 · Practice</div>
+        <h2 class="slide-heading">Tell me about your family.</h2>
+
+        <div class="dl-display">
+            <div class="dl-speaker-row">
+                <span class="d-speaker" id="dl1-speaker">A</span>
+                <span class="dl-counter-label" id="dl1-counter">Line 1 / 7</span>
+            </div>
+            <div class="dl-zh-big" id="dl1-zh">你有兄弟姐妹吗？</div>
+            <div class="dl-py-line" id="dl1-py">Nǐ yǒu xiōngdì jiěmèi ma?</div>
+            <div class="dl-en-line" id="dl1-en">Do you have any siblings?</div>
+        </div>
+        <div class="dl-controls">
+            <button class="btn btn-sm btn-outline" id="dl1-py-btn" onclick="dl1Toggle('py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="dl1-en-btn" onclick="dl1Toggle('en')">English</button>
+            <div style="flex:1;"></div>
+            <button class="btn btn-sm btn-outline" onclick="dl1Prev()">← Prev</button>
+            <button class="btn btn-sm" onclick="dl1Next()">Next →</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 13: DIALOGUE 1 — FULL (FAMILY) ========== -->
+<section class="slide slide-gray" id="s13">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 1 · Full</div>
+        <h2 class="slide-heading">Tell me about your family.</h2>
+        <div class="dialogue-lines" style="margin-top:1.25rem;">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你有兄弟姐妹吗？</div><div class="d-py show">Nǐ yǒu xiōngdì jiěmèi ma?</div><div class="d-en show">Do you have any siblings?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">有！我有一个哥哥和一个妹妹。你呢？</div><div class="d-py show">Yǒu! Wǒ yǒu yī gè gēge hé yī gè mèimei. Nǐ ne?</div><div class="d-en show">Yes! I have one older brother and one younger sister. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我没有兄弟姐妹。我是独生女。</div><div class="d-py show">Wǒ méiyǒu xiōngdì jiěmèi. Wǒ shì dúshēngnǚ.</div><div class="d-en show">I don't have any siblings. I'm an only child.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">你爸爸妈妈做什么工作？</div><div class="d-py show">Nǐ bàba māma zuò shénme gōngzuò?</div><div class="d-en show">What do your parents do for work?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我爸爸是医生，我妈妈是老师。</div><div class="d-py show">Wǒ bàba shì yīshēng, wǒ māma shì lǎoshī.</div><div class="d-en show">My dad is a doctor, my mom is a teacher.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">太好了！你有几个好朋友？</div><div class="d-py show">Tài hǎo le! Nǐ yǒu jǐ gè hǎo péngyou?</div><div class="d-en show">Awesome! How many close friends do you have?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我有很多朋友！我们都是同学。</div><div class="d-py show">Wǒ yǒu hěn duō péngyou! Wǒmen dōu shì tóngxué.</div><div class="d-en show">I have many friends! We are all classmates.</div></div></div>
+        </div>
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p><strong>兄弟姐妹</strong> (xiōngdì jiěmèi) = siblings (lit. "brothers and sisters") · <strong>独生女/子</strong> (dúshēngnǚ/zǐ) = only child · <strong>都</strong> (dōu) = all / both</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 14: DIALOGUE 2 — LINE BY LINE (PLANS) ========== -->
+<section class="slide slide-white" id="s14">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 2 · Practice</div>
+        <h2 class="slide-heading">Making plans.</h2>
+
+        <div class="dl-display">
+            <div class="dl-speaker-row">
+                <span class="d-speaker" id="dl2-speaker">A</span>
+                <span class="dl-counter-label" id="dl2-counter">Line 1 / 6</span>
+            </div>
+            <div class="dl-zh-big" id="dl2-zh">你今天有时间吗？</div>
+            <div class="dl-py-line" id="dl2-py">Nǐ jīntiān yǒu shíjiān ma?</div>
+            <div class="dl-en-line" id="dl2-en">Do you have time today?</div>
+        </div>
+        <div class="dl-controls">
+            <button class="btn btn-sm btn-outline" id="dl2-py-btn" onclick="dl2Toggle('py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="dl2-en-btn" onclick="dl2Toggle('en')">English</button>
+            <div style="flex:1;"></div>
+            <button class="btn btn-sm btn-outline" onclick="dl2Prev()">← Prev</button>
+            <button class="btn btn-sm" onclick="dl2Next()">Next →</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 15: DIALOGUE 2 — FULL (PLANS) ========== -->
+<section class="slide slide-gray" id="s15">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 2 · Full</div>
+        <h2 class="slide-heading">Making plans.</h2>
+        <div class="dialogue-lines" style="margin-top:1.25rem;">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你今天有时间吗？</div><div class="d-py show">Nǐ jīntiān yǒu shíjiān ma?</div><div class="d-en show">Do you have time today?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">今天没有。明天可以吗？</div><div class="d-py show">Jīntiān méiyǒu. Míngtiān kěyǐ ma?</div><div class="d-en show">Not today. Is tomorrow okay?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">明天可以！明天是星期几？</div><div class="d-py show">Míngtiān kěyǐ! Míngtiān shì xīngqī jǐ?</div><div class="d-en show">Tomorrow works! What day is tomorrow?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">明天是星期三。上午十点怎么样？</div><div class="d-py show">Míngtiān shì xīngqīsān. Shàngwǔ shí diǎn zěnme yàng?</div><div class="d-en show">Tomorrow is Wednesday. How about 10 AM?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">好！谢谢你！</div><div class="d-py show">Hǎo! Xièxie nǐ!</div><div class="d-en show">Great! Thank you!</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">不客气！星期三见！</div><div class="d-py show">Bú kèqi! Xīngqīsān jiàn!</div><div class="d-en show">You're welcome! See you Wednesday!</div></div></div>
+        </div>
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p><strong>可以 (kěyǐ)</strong> = can / okay / may · <strong>怎么样 (zěnme yàng)</strong> = how about? / what do you think? · <strong>见 (jiàn)</strong> = see / meet</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 06: PRACTICE ========== -->
+<section class="slide slide-accent" id="p6">
+    <div class="slide-content">
+        <div class="part-number">06</div>
+        <div class="part-label-big">Practice</div>
+        <div class="part-sub">Sentence bank and vocabulary flash cards</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 16: SENTENCE BANK ========== -->
+<section class="slide slide-white" id="s16">
+    <div class="slide-content">
+        <div class="slide-label">Sentence Bank</div>
+        <h2 class="slide-heading">All you need for Lesson 3.</h2>
+        <table class="vocab-table">
+            <thead>
+                <tr><th>Chinese</th><th>Pinyin</th><th>English</th></tr>
+            </thead>
+            <tbody>
+                <tr><td class="td-zh cjk">你有___吗？</td><td class="td-py">Nǐ yǒu ___ ma?</td><td class="td-en">Do you have ___?</td></tr>
+                <tr><td class="td-zh cjk">我有___。</td><td class="td-py">Wǒ yǒu ___.</td><td class="td-en">I have ___.</td></tr>
+                <tr><td class="td-zh cjk">我没有___。</td><td class="td-py">Wǒ méiyǒu ___.</td><td class="td-en">I don't have ___.</td></tr>
+                <tr><td class="td-zh cjk">你有几个___？</td><td class="td-py">Nǐ yǒu jǐ gè ___?</td><td class="td-en">How many ___ do you have?</td></tr>
+                <tr><td class="td-zh cjk">我有两个妹妹。</td><td class="td-py">Wǒ yǒu liǎng gè mèimei.</td><td class="td-en">I have two younger sisters.</td></tr>
+                <tr><td class="td-zh cjk">今天是星期几？</td><td class="td-py">Jīntiān shì xīngqī jǐ?</td><td class="td-en">What day of the week is today?</td></tr>
+                <tr><td class="td-zh cjk">今天是星期___。</td><td class="td-py">Jīntiān shì xīngqī ___.</td><td class="td-en">Today is ___day.</td></tr>
+                <tr><td class="td-zh cjk">今天几月几号？</td><td class="td-py">Jīntiān jǐ yuè jǐ hào?</td><td class="td-en">What's today's date?</td></tr>
+                <tr><td class="td-zh cjk">你明天有时间吗？</td><td class="td-py">Nǐ míngtiān yǒu shíjiān ma?</td><td class="td-en">Do you have time tomorrow?</td></tr>
+                <tr><td class="td-zh cjk">上午十点见！</td><td class="td-py">Shàngwǔ shí diǎn jiàn!</td><td class="td-en">See you at 10 AM!</td></tr>
+                <tr><td class="td-zh cjk">谢谢！</td><td class="td-py">Xièxie!</td><td class="td-en">Thank you!</td></tr>
+                <tr><td class="td-zh cjk">不客气！</td><td class="td-py">Bú kèqi!</td><td class="td-en">You're welcome!</td></tr>
+                <tr><td class="td-zh cjk">对不起！</td><td class="td-py">Duìbuqǐ!</td><td class="td-en">Sorry!</td></tr>
+                <tr><td class="td-zh cjk">没关系！</td><td class="td-py">Méi guānxi!</td><td class="td-en">It's okay! / No problem!</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 17: FLASH CARDS ========== -->
+<section class="slide slide-gray" id="s17">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary Flash Cards</div>
+        <h2 class="slide-heading">Test yourself.</h2>
+        <p class="slide-body">Try to recall the meaning before you flip.</p>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="fc-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="fc-zh">有</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="fc-py">yǒu</div>
+                        <div class="fc-en" id="fc-en">to have / there is</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="fcPrev()">← Prev</button>
+                <span class="fc-counter" id="fc-counter">1 / 20</span>
+                <button class="btn btn-sm" onclick="fcNext()">Next →</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 18: CLOSING ========== -->
+<section class="slide slide-dark" id="s18">
+    <div class="slide-content">
+        <div class="slide-label">End of Lesson 3</div>
+        <h1 class="slide-title cjk" style="font-size: clamp(2rem, 5vw, 3.5rem);">我有很多好朋友。</h1>
+        <p class="slide-body" style="margin-top:0.4rem; font-style:italic; font-size:0.95rem; color:rgba(255,255,255,0.5);">Wǒ yǒu hěn duō hǎo péngyou. &nbsp;·&nbsp; I have many good friends.</p>
+        <p class="slide-body" style="margin-top:1.25rem;">You can now talk about your family, count people and things with measure words, name every day of the week, and make plans. Three more conversation topics unlocked.</p>
+        <div style="margin-top:2rem; display:flex; flex-wrap:wrap; gap:0.5rem;">
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">有 / 没有</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">个 · 本 · 张</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Family Vocab</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Days of Week</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Dates &amp; Time</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Polite Phrases</span>
+        </div>
+        <div class="hbox" style="margin-top:2rem;">
+            <p><strong>Lesson 4:</strong> 在 "at/in" · Places around town · Movement verbs 去/来/回 · Location words · Daily activities</p>
+        </div>
+    </div>
+</section>
+
+
+<footer class="slide-footer">
+    Network School · Beginner Chinese · Lesson 3 · <a href="https://github.com/vrnvrn/chinese101" target="_blank" rel="noopener" style="color:inherit;display:inline-flex;align-items:center;vertical-align:middle;" aria-label="GitHub"><svg height="14" width="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+</footer>
+
+
+<script>
+    // Progress bar
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        document.getElementById('progress-bar').style.width = (pct || 0) + '%';
+    });
+
+    // ---- Arrow key slide navigation ----
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const reviewSlides = Array.from(document.querySelectorAll('.review-slide'));
+
+    function nearestSlide() {
+        let best = 0, bestDist = Infinity;
+        const list = reviewMode ? reviewSlides : slides;
+        list.forEach((s, i) => {
+            const dist = Math.abs(s.getBoundingClientRect().top);
+            if (dist < bestDist) { bestDist = dist; best = i; }
+        });
+        return best;
+    }
+
+    function goToSlide(i) {
+        const list = reviewMode ? reviewSlides : slides;
+        i = Math.max(0, Math.min(list.length - 1, i));
+        list[i].scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault(); goToSlide(nearestSlide() + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault(); goToSlide(nearestSlide() - 1);
+        }
+    });
+
+    // ---- Days of week navigator ----
+    const days = [
+        { zh: '星期一', py: 'xīngqī yī',  en: 'Monday' },
+        { zh: '星期二', py: 'xīngqī èr',  en: 'Tuesday' },
+        { zh: '星期三', py: 'xīngqī sān', en: 'Wednesday' },
+        { zh: '星期四', py: 'xīngqī sì',  en: 'Thursday' },
+        { zh: '星期五', py: 'xīngqī wǔ',  en: 'Friday' },
+        { zh: '星期六', py: 'xīngqī liù', en: 'Saturday' },
+        { zh: '星期天', py: 'xīngqī tiān',en: 'Sunday' },
+    ];
+    function setDay(i) {
+        const d = days[i];
+        document.getElementById('day-zh').textContent = d.zh;
+        document.getElementById('day-py').textContent = d.py;
+        document.getElementById('day-en').textContent = d.en;
+        for (let j = 0; j < 7; j++) {
+            document.getElementById('dc' + j).classList.toggle('active', j === i);
+        }
+    }
+
+    // ---- Vocab deck: Family (slide 3) ----
+    const v1cards = [
+        { zh: '爸爸', py: 'bàba',    en: 'father / dad' },
+        { zh: '妈妈', py: 'māma',    en: 'mother / mom' },
+        { zh: '哥哥', py: 'gēge',    en: 'older brother' },
+        { zh: '姐姐', py: 'jiějie',  en: 'older sister' },
+        { zh: '弟弟', py: 'dìdi',    en: 'younger brother' },
+        { zh: '妹妹', py: 'mèimei',  en: 'younger sister' },
+        { zh: '儿子', py: 'érzi',    en: 'son' },
+        { zh: '女儿', py: 'nǚ\'ér', en: 'daughter' },
+        { zh: '朋友', py: 'péngyou', en: 'friend' },
+        { zh: '同学', py: 'tóngxué', en: 'classmate' },
+    ];
+    let v1Idx = 0;
+    function v1Show() {
+        const wrap = document.getElementById('v1-wrap');
+        wrap.classList.remove('flipped');
+        setTimeout(() => {
+            const c = v1cards[v1Idx];
+            document.getElementById('v1-zh').textContent = c.zh;
+            document.getElementById('v1-py').textContent = c.py;
+            document.getElementById('v1-en').textContent = c.en;
+            document.getElementById('v1-counter').textContent = (v1Idx + 1) + ' / ' + v1cards.length;
+        }, 240);
+    }
+    function v1Next() { v1Idx = (v1Idx + 1) % v1cards.length; v1Show(); }
+    function v1Prev() { v1Idx = (v1Idx - 1 + v1cards.length) % v1cards.length; v1Show(); }
+
+    // ---- Vocab deck: Time words (slide 10b) ----
+    const v2cards = [
+        { zh: '今天',  py: 'jīntiān',   en: 'today' },
+        { zh: '明天',  py: 'míngtiān',  en: 'tomorrow' },
+        { zh: '昨天',  py: 'zuótiān',   en: 'yesterday' },
+        { zh: '现在',  py: 'xiànzài',   en: 'now / right now' },
+        { zh: '上午',  py: 'shàngwǔ',   en: 'morning / AM' },
+        { zh: '中午',  py: 'zhōngwǔ',   en: 'noon / midday' },
+        { zh: '下午',  py: 'xiàwǔ',     en: 'afternoon / PM' },
+        { zh: '年',    py: 'nián',      en: 'year' },
+        { zh: '月',    py: 'yuè',       en: 'month' },
+        { zh: '号',    py: 'hào',       en: 'day (of month)' },
+        { zh: '星期',  py: 'xīngqī',   en: 'week / weekday' },
+    ];
+    let v2Idx = 0;
+    function v2Show() {
+        const wrap = document.getElementById('v2-wrap');
+        wrap.classList.remove('flipped');
+        setTimeout(() => {
+            const c = v2cards[v2Idx];
+            document.getElementById('v2-zh').textContent = c.zh;
+            document.getElementById('v2-py').textContent = c.py;
+            document.getElementById('v2-en').textContent = c.en;
+            document.getElementById('v2-counter').textContent = (v2Idx + 1) + ' / ' + v2cards.length;
+        }, 240);
+    }
+    function v2Next() { v2Idx = (v2Idx + 1) % v2cards.length; v2Show(); }
+    function v2Prev() { v2Idx = (v2Idx - 1 + v2cards.length) % v2cards.length; v2Show(); }
+
+    // ---- Dialogue 1: Family — line by line ----
+    const dl1lines = [
+        { sp: 'A', zh: '你有兄弟姐妹吗？',                         py: 'Nǐ yǒu xiōngdì jiěmèi ma?',                                    en: 'Do you have any siblings?' },
+        { sp: 'B', zh: '有！我有一个哥哥和一个妹妹。你呢？',         py: 'Yǒu! Wǒ yǒu yī gè gēge hé yī gè mèimei. Nǐ ne?',             en: 'Yes! I have one older brother and one younger sister. And you?' },
+        { sp: 'A', zh: '我没有兄弟姐妹。我是独生女。',               py: 'Wǒ méiyǒu xiōngdì jiěmèi. Wǒ shì dúshēngnǚ.',                 en: "I don't have any siblings. I'm an only child." },
+        { sp: 'B', zh: '你爸爸妈妈做什么工作？',                     py: 'Nǐ bàba māma zuò shénme gōngzuò?',                             en: 'What do your parents do for work?' },
+        { sp: 'A', zh: '我爸爸是医生，我妈妈是老师。',               py: 'Wǒ bàba shì yīshēng, wǒ māma shì lǎoshī.',                     en: 'My dad is a doctor, my mom is a teacher.' },
+        { sp: 'B', zh: '太好了！你有几个好朋友？',                   py: 'Tài hǎo le! Nǐ yǒu jǐ gè hǎo péngyou?',                       en: 'Awesome! How many close friends do you have?' },
+        { sp: 'A', zh: '我有很多朋友！我们都是同学。',               py: 'Wǒ yǒu hěn duō péngyou! Wǒmen dōu shì tóngxué.',               en: 'I have many friends! We are all classmates.' },
+    ];
+    let dl1Idx = 0;
+    function dl1Render() {
+        const l = dl1lines[dl1Idx];
+        const spEl = document.getElementById('dl1-speaker');
+        spEl.textContent = l.sp;
+        spEl.className = 'd-speaker' + (l.sp === 'B' ? ' sp-b' : '');
+        document.getElementById('dl1-zh').textContent = l.zh;
+        document.getElementById('dl1-py').textContent = l.py;
+        document.getElementById('dl1-en').textContent = l.en;
+        document.getElementById('dl1-py').classList.remove('show');
+        document.getElementById('dl1-en').classList.remove('show');
+        document.getElementById('dl1-py-btn').classList.add('btn-outline');
+        document.getElementById('dl1-en-btn').classList.add('btn-outline');
+        document.getElementById('dl1-counter').textContent = 'Line ' + (dl1Idx + 1) + ' / ' + dl1lines.length;
+    }
+    function dl1Toggle(which) {
+        document.getElementById('dl1-' + which).classList.toggle('show');
+        document.getElementById('dl1-' + which + '-btn').classList.toggle('btn-outline');
+    }
+    function dl1Next() { dl1Idx = (dl1Idx + 1) % dl1lines.length; dl1Render(); }
+    function dl1Prev() { dl1Idx = (dl1Idx - 1 + dl1lines.length) % dl1lines.length; dl1Render(); }
+
+    // ---- Dialogue 2: Plans — line by line ----
+    const dl2lines = [
+        { sp: 'A', zh: '你今天有时间吗？',                           py: 'Nǐ jīntiān yǒu shíjiān ma?',                                   en: 'Do you have time today?' },
+        { sp: 'B', zh: '今天没有。明天可以吗？',                     py: 'Jīntiān méiyǒu. Míngtiān kěyǐ ma?',                            en: "Not today. Is tomorrow okay?" },
+        { sp: 'A', zh: '明天可以！明天是星期几？',                   py: 'Míngtiān kěyǐ! Míngtiān shì xīngqī jǐ?',                       en: 'Tomorrow works! What day is tomorrow?' },
+        { sp: 'B', zh: '明天是星期三。上午十点怎么样？',             py: 'Míngtiān shì xīngqīsān. Shàngwǔ shí diǎn zěnme yàng?',         en: 'Tomorrow is Wednesday. How about 10 AM?' },
+        { sp: 'A', zh: '好！谢谢你！',                               py: 'Hǎo! Xièxie nǐ!',                                              en: 'Great! Thank you!' },
+        { sp: 'B', zh: '不客气！星期三见！',                         py: 'Bú kèqi! Xīngqīsān jiàn!',                                     en: "You're welcome! See you Wednesday!" },
+    ];
+    let dl2Idx = 0;
+    function dl2Render() {
+        const l = dl2lines[dl2Idx];
+        const spEl = document.getElementById('dl2-speaker');
+        spEl.textContent = l.sp;
+        spEl.className = 'd-speaker' + (l.sp === 'B' ? ' sp-b' : '');
+        document.getElementById('dl2-zh').textContent = l.zh;
+        document.getElementById('dl2-py').textContent = l.py;
+        document.getElementById('dl2-en').textContent = l.en;
+        document.getElementById('dl2-py').classList.remove('show');
+        document.getElementById('dl2-en').classList.remove('show');
+        document.getElementById('dl2-py-btn').classList.add('btn-outline');
+        document.getElementById('dl2-en-btn').classList.add('btn-outline');
+        document.getElementById('dl2-counter').textContent = 'Line ' + (dl2Idx + 1) + ' / ' + dl2lines.length;
+    }
+    function dl2Toggle(which) {
+        document.getElementById('dl2-' + which).classList.toggle('show');
+        document.getElementById('dl2-' + which + '-btn').classList.toggle('btn-outline');
+    }
+    function dl2Next() { dl2Idx = (dl2Idx + 1) % dl2lines.length; dl2Render(); }
+    function dl2Prev() { dl2Idx = (dl2Idx - 1 + dl2lines.length) % dl2lines.length; dl2Render(); }
+
+    // ---- Final flash cards ----
+    const cards = [
+        { zh: '有',     py: 'yǒu',        en: 'to have / there is' },
+        { zh: '没有',   py: 'méiyǒu',     en: 'to not have / there is not' },
+        { zh: '个',     py: 'gè',         en: 'measure word (general)' },
+        { zh: '本',     py: 'běn',        en: 'measure word (books)' },
+        { zh: '两',     py: 'liǎng',      en: 'two (used with measure words)' },
+        { zh: '几',     py: 'jǐ',         en: 'how many? (small numbers)' },
+        { zh: '爸爸',   py: 'bàba',       en: 'father / dad' },
+        { zh: '妈妈',   py: 'māma',       en: 'mother / mom' },
+        { zh: '朋友',   py: 'péngyou',    en: 'friend' },
+        { zh: '今天',   py: 'jīntiān',    en: 'today' },
+        { zh: '明天',   py: 'míngtiān',   en: 'tomorrow' },
+        { zh: '昨天',   py: 'zuótiān',    en: 'yesterday' },
+        { zh: '星期',   py: 'xīngqī',    en: 'week / weekday prefix' },
+        { zh: '星期天', py: 'xīngqī tiān', en: 'Sunday' },
+        { zh: '上午',   py: 'shàngwǔ',    en: 'morning / AM' },
+        { zh: '下午',   py: 'xiàwǔ',      en: 'afternoon / PM' },
+        { zh: '现在',   py: 'xiànzài',    en: 'now / right now' },
+        { zh: '谢谢',   py: 'xièxie',     en: 'thank you' },
+        { zh: '对不起', py: 'duìbuqǐ',    en: 'sorry' },
+        { zh: '没关系', py: 'méi guānxi', en: "it's okay / no problem" },
+    ];
+    let fcIdx = 0;
+    function fcShow() {
+        const wrap = document.getElementById('fc-wrap');
+        wrap.classList.remove('flipped');
+        setTimeout(() => {
+            const c = cards[fcIdx];
+            document.getElementById('fc-zh').textContent = c.zh;
+            document.getElementById('fc-py').textContent = c.py;
+            document.getElementById('fc-en').textContent = c.en;
+            document.getElementById('fc-counter').textContent = (fcIdx + 1) + ' / ' + cards.length;
+        }, 240);
+    }
+    function fcNext() { fcIdx = (fcIdx + 1) % cards.length; fcShow(); }
+    function fcPrev() { fcIdx = (fcIdx - 1 + cards.length) % cards.length; fcShow(); }
+
+    // ---- Review Mode ----
+    let reviewMode = false;
+
+    function toggleReviewMode() {
+        reviewMode = !reviewMode;
+        document.body.classList.toggle('review-mode', reviewMode);
+        document.getElementById('review-toggle').classList.toggle('active', reviewMode);
+        if (reviewMode) {
+            document.querySelectorAll('.rv-question').forEach(el => {
+                el.classList.remove('rs-revealed');
+                el.querySelector('.rs-prompt span:last-child').textContent = 'Click to reveal';
+            });
+            rfcIdx = 0; rfcShow();
+            const fc = document.getElementById('rdl1-full-container');
+            if (fc) { fc.classList.remove('show-py','show-en'); }
+            document.getElementById('rdl1-full-py-btn').classList.add('btn-outline');
+            document.getElementById('rdl1-full-en-btn').classList.add('btn-outline');
+            reviewSlides[0].scrollIntoView({ behavior: 'smooth' });
+        } else {
+            slides[0].scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    function rsToggle(el) {
+        if (event.target.closest('button, a, input, select')) return;
+        const revealed = el.classList.toggle('rs-revealed');
+        el.querySelector('.rs-prompt span:last-child').textContent = revealed ? 'Click to hide' : 'Click to reveal';
+    }
+
+    // Review flashcards (reuses cards[])
+    let rfcIdx = 0;
+    function rfcShow() {
+        document.getElementById('rfc-wrap').classList.remove('flipped');
+        setTimeout(() => {
+            const c = cards[rfcIdx];
+            document.getElementById('rfc-zh').textContent = c.zh;
+            document.getElementById('rfc-py').textContent = c.py;
+            document.getElementById('rfc-en').textContent = c.en;
+            document.getElementById('rfc-counter').textContent = (rfcIdx + 1) + ' / ' + cards.length;
+        }, 240);
+    }
+    function rfcNext() { rfcIdx = (rfcIdx + 1) % cards.length; rfcShow(); }
+    function rfcPrev() { rfcIdx = (rfcIdx - 1 + cards.length) % cards.length; rfcShow(); }
+
+    function rdl1FullToggle(which) {
+        const container = document.getElementById('rdl1-full-container');
+        const btn = document.getElementById('rdl1-full-' + which + '-btn');
+        container.classList.toggle('show-' + which);
+        btn.classList.toggle('btn-outline');
+    }
+</script>
+
+
+<!-- ========== REVIEW CONTAINER ========== -->
+<div id="review-container">
+
+<!-- Review 1: 有 -->
+<section class="review-slide slide-white rv-question" id="rs1" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 1 of 5</div>
+        <h2 class="slide-heading">What does 有 mean, and how do you make it negative?</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
+                <div class="card card-dark" style="text-align:center;">
+                    <div class="cjk" style="font-size:3rem;color:white;line-height:1.2;">有</div>
+                    <div class="card-title" style="margin-top:0.5rem;">yǒu</div>
+                    <div class="card-desc">to have / there is</div>
+                </div>
+                <div class="card" style="text-align:center;">
+                    <div class="cjk" style="font-size:3rem;line-height:1.2;">没有</div>
+                    <div class="card-title" style="margin-top:0.5rem;">méiyǒu</div>
+                    <div class="card-desc">to not have — never 不有!</div>
+                </div>
+            </div>
+            <div class="pattern-block" style="margin-top:1.25rem;">
+                <div class="pattern-formula">Example</div>
+                <div class="pattern-zh cjk">我有两个妹妹。我没有哥哥。</div>
+                <div class="pattern-py">Wǒ yǒu liǎng gè mèimei. Wǒ méiyǒu gēge.</div>
+                <div class="pattern-en">I have two younger sisters. I don't have an older brother.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Review 2: Days of Week -->
+<section class="review-slide slide-gray rv-question" id="rs2" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 2 of 5</div>
+        <h2 class="slide-heading">What are the seven days of the week in Chinese?</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:0.6rem; margin-top:1.25rem;">
+                <div style="background:#f8f8f8;border-radius:10px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">星期一</div><div style="font-size:0.72rem;color:#888;margin-top:0.25rem;">Monday</div></div>
+                <div style="background:#f8f8f8;border-radius:10px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">星期二</div><div style="font-size:0.72rem;color:#888;margin-top:0.25rem;">Tuesday</div></div>
+                <div style="background:#f8f8f8;border-radius:10px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">星期三</div><div style="font-size:0.72rem;color:#888;margin-top:0.25rem;">Wednesday</div></div>
+                <div style="background:#f8f8f8;border-radius:10px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">星期四</div><div style="font-size:0.72rem;color:#888;margin-top:0.25rem;">Thursday</div></div>
+                <div style="background:#f8f8f8;border-radius:10px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">星期五</div><div style="font-size:0.72rem;color:#888;margin-top:0.25rem;">Friday</div></div>
+                <div style="background:#f8f8f8;border-radius:10px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;">星期六</div><div style="font-size:0.72rem;color:#888;margin-top:0.25rem;">Saturday</div></div>
+                <div style="background:#1a1a1a;border-radius:10px;padding:0.75rem;text-align:center;"><div class="cjk" style="font-size:1.1rem;color:white;">星期天</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:0.25rem;">Sunday</div></div>
+            </div>
+            <div class="hbox" style="margin-top:1rem;">
+                <p>Pattern: <strong>星期 + number (1–6)</strong>. Sunday: <strong>星期天</strong> or <strong>星期日</strong>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Review 3: Dates & Time -->
+<section class="review-slide slide-white rv-question" id="rs3" onclick="rsToggle(this)">
+    <div class="slide-content">
+        <div class="slide-label">Review · 3 of 5</div>
+        <h2 class="slide-heading">How do you ask "what's today's date?" and "do you have time tomorrow?"</h2>
+        <div class="rs-prompt"><span class="rs-prompt-icon">👁</span><span>Click to reveal</span></div>
+        <div class="rs-answer">
+            <div class="pattern-block" style="margin-top:1.5rem;">
+                <div class="pattern-formula">What's the date?</div>
+                <div class="pattern-zh cjk">今天几月几号？</div>
+                <div class="pattern-py">Jīntiān jǐ yuè jǐ hào?</div>
+                <div class="pattern-en">What month and day is today?</div>
+            </div>
+            <div class="pattern-block" style="background:#1a1a1a;">
+                <div class="pattern-formula" style="color:rgba(255,255,255,0.4);">Do you have time?</div>
+                <div class="pattern-zh cjk" style="color:white;">你明天有时间吗？</div>
+                <div class="pattern-py" style="color:rgba(255,255,255,0.55);">Nǐ míngtiān yǒu shíjiān ma?</div>
+                <div class="pattern-en" style="color:rgba(255,255,255,0.75);">Do you have time tomorrow?</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Review 4: Flashcards -->
+<section class="review-slide slide-gray" id="rs4">
+    <div class="slide-content">
+        <div class="slide-label">Review · 4 of 5</div>
+        <h2 class="slide-heading">Vocabulary Flash Cards</h2>
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="rfc-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="rfc-zh">有</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="rfc-py">yǒu</div>
+                        <div class="fc-en" id="rfc-en">to have / there is</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="rfcPrev()">← Prev</button>
+                <span class="fc-counter" id="rfc-counter">1 / 20</span>
+                <button class="btn btn-sm" onclick="rfcNext()">Next →</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Review 5: Dialogue 1 Full -->
+<section class="review-slide slide-white" id="rs5">
+    <div class="slide-content">
+        <div class="slide-label">Review · 5 of 5</div>
+        <h2 class="slide-heading">Dialogue 1 · Full</h2>
+        <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+            <button class="btn btn-sm btn-outline" id="rdl1-full-py-btn" onclick="rdl1FullToggle('py')">Add Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="rdl1-full-en-btn" onclick="rdl1FullToggle('en')">Add English</button>
+        </div>
+        <div id="rdl1-full-container" class="dialogue-lines">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你有兄弟姐妹吗？</div><div class="d-py">Nǐ yǒu xiōngdì jiěmèi ma?</div><div class="d-en">Do you have any siblings?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">有！我有一个哥哥和一个妹妹。你呢？</div><div class="d-py">Yǒu! Wǒ yǒu yī gè gēge hé yī gè mèimei. Nǐ ne?</div><div class="d-en">Yes! I have one older brother and one younger sister. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我没有兄弟姐妹。我是独生女。</div><div class="d-py">Wǒ méiyǒu xiōngdì jiěmèi. Wǒ shì dúshēngnǚ.</div><div class="d-en">I don't have any siblings. I'm an only child.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">你爸爸妈妈做什么工作？</div><div class="d-py">Nǐ bàba māma zuò shénme gōngzuò?</div><div class="d-en">What do your parents do for work?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我爸爸是医生，我妈妈是老师。</div><div class="d-py">Wǒ bàba shì yīshēng, wǒ māma shì lǎoshī.</div><div class="d-en">My dad is a doctor, my mom is a teacher.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">太好了！你有几个好朋友？</div><div class="d-py">Tài hǎo le! Nǐ yǒu jǐ gè hǎo péngyou?</div><div class="d-en">Awesome! How many close friends do you have?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我有很多朋友！我们都是同学。</div><div class="d-py">Wǒ yǒu hěn duō péngyou! Wǒmen dōu shì tóngxué.</div><div class="d-en">I have many friends! We are all classmates.</div></div></div>
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- ========== END REVIEW CONTAINER ========== -->
+
+<a href="/" style="position:fixed;top:1rem;left:1.2rem;color:rgba(255,255,255,0.5);font-size:0.8rem;font-weight:600;letter-spacing:0.05em;text-decoration:none;background:rgba(0,0,0,0.45);padding:0.35rem 0.75rem;border-radius:6px;transition:color 0.2s,background 0.2s;z-index:100;" onmouseover="this.style.color='white';this.style.background='rgba(0,0,0,0.75)'" onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.background='rgba(0,0,0,0.45)'">← Back</a>
+
+</body>
+</html>
