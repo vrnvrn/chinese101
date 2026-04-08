@@ -5,6 +5,7 @@
     { "source": "/lesson3", "destination": "/lesson3.html" },
     { "source": "/lesson4", "destination": "/lesson4.html" },
     { "source": "/lesson5", "destination": "/lesson5.html" },
-    { "source": "/lesson6", "destination": "/lesson6.html" }
+    { "source": "/lesson6", "destination": "/lesson6.html" },
+    { "source": "/dialogues", "destination": "/dialogues.html" }
   ]
 }
