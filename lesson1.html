@@ -438,7 +438,7 @@
     <div class="slide-content">
         <div class="slide-label">Network School · Beginner Chinese</div>
         <h1 class="slide-title">Lesson 1:<br>Introductions</h1>
-        <p class="slide-body">Pinyin · Tones · Radicals · Basic Grammar · HSK 1</p>
+        <p class="slide-body">Basic Grammar · Names · Nationality · HSK 1</p>
     </div>
 </section>
 
@@ -449,14 +449,12 @@
         <div class="slide-label">Lesson Goals</div>
         <h2 class="slide-heading">By the end of this lesson…</h2>
         <ul class="goals-list">
-            <li><span class="goal-num">1</span>Understand what Mandarin Chinese is doing structurally</li>
-            <li><span class="goal-num">2</span>Read and pronounce basic pinyin</li>
-            <li><span class="goal-num">3</span>Recognize the 4 tones and the neutral tone</li>
-            <li><span class="goal-num">4</span>Understand what radicals are and why they matter</li>
-            <li><span class="goal-num">5</span>Use basic Chinese word order</li>
-            <li><span class="goal-num">6</span>Greet someone and ask how they are</li>
-            <li><span class="goal-num">7</span>Ask and give your name and nationality</li>
-            <li><span class="goal-num">8</span>Hold a short coherent conversation</li>
+            <li><span class="goal-num">1</span>Use basic Chinese word order: Subject + Verb + Object</li>
+            <li><span class="goal-num">2</span>Build yes/no questions with 吗</li>
+            <li><span class="goal-num">3</span>Use 是 to identify yourself and others</li>
+            <li><span class="goal-num">4</span>Ask and give your name using 叫</li>
+            <li><span class="goal-num">5</span>Ask and state nationality using 是…人</li>
+            <li><span class="goal-num">6</span>Hold a short coherent conversation in Chinese</li>
         </ul>
     </div>
 </section>
@@ -520,185 +518,10 @@
 </section>
 
 
-<!-- ========== SLIDE 3: WHAT IS MANDARIN? ========== -->
-<section class="slide slide-gray" id="s3">
-    <div class="slide-content">
-        <div class="slide-label">The System</div>
-        <h2 class="slide-heading">Mandarin uses three layers.</h2>
-        <div class="card-grid card-grid-3">
-            <div class="card" style="text-align:center;">
-                <div class="card-icon cjk">字</div>
-                <div class="card-title">Characters</div>
-                <div class="card-desc">The writing system. Each character is a syllable with meaning.</div>
-            </div>
-            <div class="card card-dark" style="text-align:center;">
-                <div class="card-icon" style="font-style:italic;">Pīn</div>
-                <div class="card-title">Pinyin</div>
-                <div class="card-desc">Romanized pronunciation. Shows you how to say words.</div>
-            </div>
-            <div class="card" style="text-align:center;">
-                <div class="card-icon">↗↘</div>
-                <div class="card-title">Tones</div>
-                <div class="card-desc">Pitch patterns that change meaning. Not optional.</div>
-            </div>
-        </div>
-        <div class="hbox" style="margin-top:1.5rem;">
-            <p><strong class="t1">mā</strong> 妈 = mother &nbsp;·&nbsp; <strong class="t3">mǎ</strong> 马 = horse. Same syllable shape, different tone, completely different word.</p>
-        </div>
-    </div>
-</section>
-
-
-<!-- ========== PART 01: PINYIN & TONES ========== -->
+<!-- ========== PART 01: GRAMMAR ========== -->
 <section class="slide slide-accent" id="p1">
     <div class="slide-content">
         <div class="part-number">01</div>
-        <div class="part-label-big">Pinyin &amp; Tones</div>
-        <div class="part-sub">Learning to read and say Chinese sounds correctly</div>
-    </div>
-</section>
-
-
-<!-- ========== SLIDE 4: WHAT IS PINYIN? ========== -->
-<section class="slide slide-white" id="s4">
-    <div class="slide-content">
-        <div class="slide-label">Pinyin 拼音</div>
-        <h2 class="slide-heading">Your pronunciation map.</h2>
-        <p class="slide-body">Pinyin is the standard system for writing Mandarin pronunciation using the Latin alphabet. It helps you say words before you can fully read characters. Every syllable has three parts.</p>
-
-        <div class="py-breakdown">
-            <div class="py-word t3">hǎo</div>
-            <div class="py-parts">
-                <div class="py-part">
-                    <div class="py-part-label">Initial</div>
-                    <div class="py-part-val">h</div>
-                </div>
-                <div class="py-part">
-                    <div class="py-part-label">Final</div>
-                    <div class="py-part-val">ao</div>
-                </div>
-                <div class="py-part">
-                    <div class="py-part-label">Tone</div>
-                    <div class="py-part-val t3">3rd ˇ</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="hbox">
-            <p>Pinyin is not English spelling in disguise. <strong>x, q, zh, c, z</strong> are all different from their English cousins.</p>
-        </div>
-    </div>
-</section>
-
-
-<!-- ========== SLIDE 5: THE 4 TONES ========== -->
-<section class="slide slide-gray" id="s5">
-    <div class="slide-content">
-        <div class="slide-label">The Tones</div>
-        <h2 class="slide-heading">4 tones + 1 neutral.</h2>
-        <p class="slide-body">Each syllable carries a tone. Change the tone, change the word.</p>
-
-        <div class="tone-navigator">
-            <div class="tone-display" id="tone-display">
-                <div class="tone-char t1 cjk" id="tone-char">妈</div>
-                <div class="tone-pinyin t1" id="tone-pinyin">mā</div>
-                <div class="tone-name" id="tone-name">1st tone · High &amp; Level</div>
-                <div class="tone-meaning" id="tone-meaning">= mother &nbsp;·&nbsp; steady, high, flat</div>
-            </div>
-            <div class="tone-controls">
-                <button class="btn tone-btn" id="tb0" onclick="setTone(0)">1st &nbsp;ā</button>
-                <button class="btn btn-outline tone-btn" id="tb1" onclick="setTone(1)">2nd &nbsp;á</button>
-                <button class="btn btn-outline tone-btn" id="tb2" onclick="setTone(2)">3rd &nbsp;ǎ</button>
-                <button class="btn btn-outline tone-btn" id="tb3" onclick="setTone(3)">4th &nbsp;à</button>
-                <button class="btn btn-outline tone-btn" id="tb4" onclick="setTone(4)">neutral</button>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<!-- ========== SLIDE 6: THE MA FAMILY ========== -->
-<section class="slide slide-white" id="s6">
-    <div class="slide-content">
-        <div class="slide-label">The Ma Family</div>
-        <h2 class="slide-heading">One syllable, five words.</h2>
-        <p class="slide-body">The full tone family for <strong>ma</strong> shows exactly how tones work: and introduces 吗, the most useful beginner grammar particle.</p>
-
-        <div class="tone-family">
-            <div class="tone-cell">
-                <div class="tone-cell-char cjk">妈</div>
-                <div class="tone-cell-py t1">mā</div>
-                <div class="tone-cell-en">mother</div>
-            </div>
-            <div class="tone-cell">
-                <div class="tone-cell-char cjk">麻</div>
-                <div class="tone-cell-py t2">má</div>
-                <div class="tone-cell-en">sesame</div>
-            </div>
-            <div class="tone-cell">
-                <div class="tone-cell-char cjk">马</div>
-                <div class="tone-cell-py t3">mǎ</div>
-                <div class="tone-cell-en">horse</div>
-            </div>
-            <div class="tone-cell">
-                <div class="tone-cell-char cjk">骂</div>
-                <div class="tone-cell-py t4">mà</div>
-                <div class="tone-cell-en">to scold</div>
-            </div>
-            <div class="tone-cell" style="background:#1a1a1a;">
-                <div class="tone-cell-char cjk" style="color:white;">吗</div>
-                <div class="tone-cell-py" style="color:rgba(255,255,255,0.65);">ma</div>
-                <div class="tone-cell-en" style="color:rgba(255,255,255,0.45);">question particle</div>
-            </div>
-        </div>
-
-        <div class="hbox" style="margin-top:1.5rem;">
-            <p><strong>吗</strong> has no tone mark: it is a <strong>neutral-tone particle</strong>. It builds yes/no questions by sitting at the end of a statement. More on that in Part 02.</p>
-        </div>
-    </div>
-</section>
-
-
-<!-- ========== SLIDE 7: TRICKY SOUNDS ========== -->
-<section class="slide slide-gray" id="s7">
-    <div class="slide-content">
-        <div class="slide-label">Pinyin Sounds</div>
-        <h2 class="slide-heading">Watch out for these.</h2>
-        <p class="slide-body">English instincts will occasionally try to sabotage the mission.</p>
-        <div class="card-grid card-grid-3" style="margin-top:1.25rem;">
-            <div class="card">
-                <div class="card-title">zh / ch / sh</div>
-                <div class="card-desc">Retroflex: tongue curled slightly back.<br><em>zhōng, shì, chī</em></div>
-            </div>
-            <div class="card card-dark">
-                <div class="card-title">x / q / j</div>
-                <div class="card-desc">Fronted, lighter than English sh/ch/j.<br><em>xī, qǐng, jiào</em></div>
-            </div>
-            <div class="card">
-                <div class="card-title">c / z</div>
-                <div class="card-desc">c = "ts" &nbsp;·&nbsp; z = "dz"<br><em>cài, zài</em></div>
-            </div>
-            <div class="card card-dark">
-                <div class="card-title">ü</div>
-                <div class="card-desc">Say "ee" with rounded lips.<br><em>nǚ</em></div>
-            </div>
-            <div class="card">
-                <div class="card-title">r</div>
-                <div class="card-desc">Between English "r" and "zh".<br><em>rén, rènshi</em></div>
-            </div>
-            <div class="card card-dark">
-                <div class="card-title">Day 1 mindset</div>
-                <div class="card-desc">Perfect pronunciation not required. Just notice that pinyin ≠ English.</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<!-- ========== PART 02: GRAMMAR ========== -->
-<section class="slide slide-accent" id="p2">
-    <div class="slide-content">
-        <div class="part-number">02</div>
         <div class="part-label-big">Grammar</div>
         <div class="part-sub">How Chinese builds sentences: and why it is simpler than you expect</div>
     </div>
@@ -794,10 +617,10 @@
 </section>
 
 
-<!-- ========== PART 03: VOCABULARY ========== -->
-<section class="slide slide-accent" id="p3">
+<!-- ========== PART 02: VOCABULARY ========== -->
+<section class="slide slide-accent" id="p2">
     <div class="slide-content">
-        <div class="part-number">03</div>
+        <div class="part-number">02</div>
         <div class="part-label-big">Vocabulary</div>
         <div class="part-sub">HSK 1 core words for greetings, introductions, and nationality</div>
     </div>
@@ -906,83 +729,10 @@
 </section>
 
 
-<!-- ========== PART 04: RADICALS ========== -->
-<section class="slide slide-accent" id="p4">
+<!-- ========== PART 03: CONVERSATIONS ========== -->
+<section class="slide slide-accent" id="p3">
     <div class="slide-content">
-        <div class="part-number">04</div>
-        <div class="part-label-big">Radicals &amp; Characters</div>
-        <div class="part-sub">How Chinese characters are built: and why it matters</div>
-    </div>
-</section>
-
-
-<!-- ========== SLIDE 13: WHAT ARE RADICALS? ========== -->
-<section class="slide slide-white" id="s13">
-    <div class="slide-content">
-        <div class="slide-label">Radicals 部首</div>
-        <h2 class="slide-heading">Characters have structure.</h2>
-        <p class="slide-body">Chinese characters are not random drawings. They are built from recurring components called radicals. Radicals often hint at meaning or category.</p>
-
-        <div class="card-grid card-grid-3" style="margin-top:1.5rem;">
-            <div class="card" style="text-align:center;">
-                <div class="card-icon cjk">亻</div>
-                <div class="card-title">Person</div>
-                <div class="card-desc">Appears in 你, 他, 们: all person-related characters</div>
-            </div>
-            <div class="card card-dark" style="text-align:center;">
-                <div class="card-icon cjk">口</div>
-                <div class="card-title">Mouth</div>
-                <div class="card-desc">In 吗, 呢, 叫, 吃: speech, sound, mouth</div>
-            </div>
-            <div class="card" style="text-align:center;">
-                <div class="card-icon cjk">女</div>
-                <div class="card-title">Woman</div>
-                <div class="card-desc">In 她, 妈: female-related characters</div>
-            </div>
-        </div>
-
-        <div class="hbox" style="margin-top:1.5rem;">
-            <p>Good rule: radicals <em>often give useful clues</em>. Not: "the radical tells me the exact meaning." That is the sane version.</p>
-        </div>
-    </div>
-</section>
-
-
-<!-- ========== SLIDE 14: SPOT THE RADICAL ========== -->
-<section class="slide slide-gray" id="s14">
-    <div class="slide-content">
-        <div class="slide-label">Spot the Radical</div>
-        <h2 class="slide-heading">Find the clue inside.</h2>
-        <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
-            <div class="card" style="text-align:center;">
-                <div class="cjk" style="font-size:4rem; line-height:1.2;">你</div>
-                <div class="card-title" style="margin-top:0.5rem;">nǐ: you</div>
-                <div class="card-desc">Left side: <strong>亻</strong> person radical. Right side hints at the sound.</div>
-            </div>
-            <div class="card card-dark" style="text-align:center;">
-                <div class="cjk" style="font-size:4rem; line-height:1.2; color:white;">她</div>
-                <div class="card-title" style="margin-top:0.5rem; color:white;">tā: she</div>
-                <div class="card-desc">Left side: <strong>女</strong> woman radical. Tells you: female person.</div>
-            </div>
-            <div class="card" style="text-align:center;">
-                <div class="cjk" style="font-size:4rem; line-height:1.2;">吗</div>
-                <div class="card-title" style="margin-top:0.5rem;">ma: question particle</div>
-                <div class="card-desc">Left side: <strong>口</strong> mouth radical. It is a spoken particle: makes sense.</div>
-            </div>
-            <div class="card card-dark" style="text-align:center;">
-                <div class="cjk" style="font-size:4rem; line-height:1.2; color:white;">国</div>
-                <div class="card-title" style="margin-top:0.5rem; color:white;">guó: country</div>
-                <div class="card-desc">Enclosure structure: 囗 surrounds 玉. A territory enclosing something valuable.</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<!-- ========== PART 05: CONVERSATIONS ========== -->
-<section class="slide slide-accent" id="p5">
-    <div class="slide-content">
-        <div class="part-number">05</div>
+        <div class="part-number">03</div>
         <div class="part-label-big">Conversations</div>
         <div class="part-sub">Everything you have learned, put together</div>
     </div>
@@ -1078,10 +828,10 @@
 </section>
 
 
-<!-- ========== PART 06: PRACTICE ========== -->
-<section class="slide slide-accent" id="p6">
+<!-- ========== PART 04: PRACTICE ========== -->
+<section class="slide slide-accent" id="p4">
     <div class="slide-content">
-        <div class="part-number">06</div>
+        <div class="part-number">04</div>
         <div class="part-label-big">Practice</div>
         <div class="part-sub">Sentence bank and vocabulary flash cards</div>
     </div>

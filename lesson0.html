@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Chinese: Lesson 0</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #2d3748; line-height: 1.6; }
+        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #fff; z-index: 1000; transition: width 0.1s; width: 0%; }
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 2rem 3rem; }
+        .slide-content { max-width: 820px; width: 100%; }
+        .slide-dark { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: white; }
+        .slide-white { background: white; }
+        .slide-gray  { background: #f5f5f5; }
+        .slide-accent { background: linear-gradient(135deg, #1a1a1a 0%, #404040 100%); color: white; }
+        .slide-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.75rem; }
+        .slide-dark .slide-label, .slide-accent .slide-label { color: rgba(255,255,255,0.45); }
+        h1.slide-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; color: white; margin-bottom: 1rem; }
+        h2.slide-heading { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+        .slide-dark h2.slide-heading, .slide-accent h2.slide-heading { color: white; }
+        .slide-white h2.slide-heading, .slide-gray h2.slide-heading { color: #1a1a1a; }
+        .slide-body { font-size: 1.05rem; line-height: 1.7; color: #444; max-width: 640px; }
+        .slide-dark .slide-body, .slide-accent .slide-body { color: rgba(255,255,255,0.8); }
+        .hbox { background: #f8f8f8; border-left: 4px solid #1a1a1a; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.25rem 0; max-width: 680px; }
+        .slide-dark .hbox, .slide-accent .hbox { background: rgba(255,255,255,0.1); border-left-color: rgba(255,255,255,0.6); }
+        .hbox p { font-size: 0.95rem; color: #333; }
+        .slide-dark .hbox p, .slide-accent .hbox p { color: rgba(255,255,255,0.85); }
+        .card-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem; }
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .card-title { font-weight: 700; font-size: 1rem; color: #1a1a1a; margin-bottom: 0.35rem; }
+        .card-desc { font-size: 0.85rem; color: #555; line-height: 1.5; }
+        .card-dark { background: #1a1a1a; }
+        .card-dark .card-title { color: white; }
+        .card-dark .card-desc { color: rgba(255,255,255,0.75); }
+        .btn { background: #1a1a1a; color: white; border: none; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.75; }
+        .btn-outline { background: transparent; color: #1a1a1a; border: 2px solid #1a1a1a; }
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+        .part-number { font-size: 6rem; font-weight: 800; color: rgba(255,255,255,0.07); line-height: 1; margin-bottom: -1.5rem; }
+        .part-label-big { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: white; line-height: 1.2; }
+        .part-sub { font-size: 1rem; color: rgba(255,255,255,0.5); margin-top: 0.75rem; }
+        .slide-footer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 998; text-align: center; padding: 0.6rem 1.5rem; font-size: 0.78rem; background: rgba(26,26,26,0.85); backdrop-filter: blur(6px); color: rgba(255,255,255,0.35); }
+        .cjk { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Noto Sans CJK SC', serif; }
+        .t1 { color: #c0392b; } .t2 { color: #27ae60; } .t3 { color: #2980b9; } .t4 { color: #8e44ad; } .tn { color: #888; }
+        .goals-list { list-style: none; margin-top: 1.25rem; }
+        .goals-list li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid #eee; font-size: 1rem; color: #333; }
+        .goals-list li:last-child { border-bottom: none; }
+        .goal-num { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #1a1a1a; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+
+        /* Tone navigator */
+        .tone-navigator { margin-top: 1.5rem; }
+        .tone-display { background: #f8f8f8; border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 1rem; transition: all 0.25s; }
+        .tone-char { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 5rem; line-height: 1.1; margin-bottom: 0.2rem; }
+        .tone-pinyin { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.4rem; }
+        .tone-name { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin-bottom: 0.35rem; }
+        .tone-meaning { font-size: 0.95rem; color: #555; }
+        .tone-controls { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .tone-btn { flex: 1; min-width: 80px; }
+
+        /* Tone family */
+        .tone-family { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin-top: 1.25rem; }
+        .tone-cell { background: #f8f8f8; border-radius: 10px; padding: 1rem 0.5rem; text-align: center; }
+        .tone-cell-char { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.8rem; line-height: 1.2; }
+        .tone-cell-py { font-size: 1rem; font-weight: 600; margin: 0.2rem 0; }
+        .tone-cell-en { font-size: 0.75rem; color: #888; }
+
+        /* Pinyin breakdown */
+        .py-breakdown { background: #f8f8f8; border-radius: 14px; padding: 1.5rem; max-width: 500px; margin-top: 1.25rem; }
+        .py-word { font-size: 2.5rem; font-weight: 700; color: #1a1a1a; margin-bottom: 1rem; }
+        .py-parts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+        .py-part { background: white; border-radius: 8px; padding: 0.6rem; text-align: center; }
+        .py-part-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #aaa; margin-bottom: 0.25rem; }
+        .py-part-val { font-size: 1.1rem; font-weight: 700; color: #1a1a1a; }
+
+        /* Vocab table */
+        .vocab-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.95rem; }
+        .vocab-table th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #1a1a1a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+        .vocab-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .td-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.35rem; }
+        .td-py { color: #666; font-style: italic; }
+        .td-en { color: #333; }
+
+        /* Flashcards */
+        .flashcard-wrap { perspective: 800px; height: 210px; cursor: pointer; margin-bottom: 1rem; }
+        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.45s; }
+        .flashcard-wrap.flipped .flashcard { transform: rotateY(180deg); }
+        .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
+        .fc-front { background: #1a1a1a; color: white; }
+        .fc-back { background: #eef4fb; color: #1a1a1a; transform: rotateY(180deg); }
+        .fc-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 3.2rem; line-height: 1.1; }
+        .fc-hint { font-size: 0.72rem; opacity: 0.35; margin-top: 0.75rem; }
+        .fc-py { font-size: 1.35rem; font-style: italic; color: #555; margin-bottom: 0.2rem; }
+        .fc-en { font-size: 1.1rem; font-weight: 600; color: #1a1a1a; }
+        .fc-controls { display: flex; gap: 0.75rem; align-items: center; justify-content: center; }
+        .fc-counter { font-size: 0.85rem; color: #888; min-width: 4rem; text-align: center; }
+
+        @media (max-width: 640px) {
+            .card-grid-2, .card-grid-3 { grid-template-columns: 1fr; }
+            .tone-family { grid-template-columns: repeat(3, 1fr); }
+            .py-parts { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<a href="/" style="position:fixed;top:1rem;left:1.2rem;color:rgba(255,255,255,0.5);font-size:0.8rem;font-weight:600;letter-spacing:0.05em;text-decoration:none;background:rgba(0,0,0,0.45);padding:0.35rem 0.75rem;border-radius:6px;transition:color 0.2s,background 0.2s;z-index:100;" onmouseover="this.style.color='white';this.style.background='rgba(0,0,0,0.75)'" onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.background='rgba(0,0,0,0.45)'">← Back</a>
+
+
+<!-- ========== SLIDE 1: TITLE ========== -->
+<section class="slide slide-dark" id="s1">
+    <div class="slide-content">
+        <div class="slide-label">Network School · Beginner Chinese</div>
+        <h1 class="slide-title">Lesson 0:<br>The Foundation</h1>
+        <p class="slide-body">Pinyin · Tones · Radicals · Your First Words · HSK 1</p>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 2: GOALS ========== -->
+<section class="slide slide-white" id="s2">
+    <div class="slide-content">
+        <div class="slide-label">Lesson Goals</div>
+        <h2 class="slide-heading">By the end of this lesson…</h2>
+        <ul class="goals-list">
+            <li><span class="goal-num">1</span>Understand how Mandarin uses characters, pinyin, and tones together</li>
+            <li><span class="goal-num">2</span>Read and say the 4 tones correctly — and know why they matter</li>
+            <li><span class="goal-num">3</span>Recognize common pinyin sounds that differ from English</li>
+            <li><span class="goal-num">4</span>Spot radicals inside characters and know what they signal</li>
+            <li><span class="goal-num">5</span>Say your first 8 essential greetings and courtesy phrases</li>
+        </ul>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 3: THE SYSTEM ========== -->
+<section class="slide slide-gray" id="s3">
+    <div class="slide-content">
+        <div class="slide-label">The System</div>
+        <h2 class="slide-heading">Mandarin uses three layers.</h2>
+        <div class="card-grid card-grid-3">
+            <div class="card" style="text-align:center;">
+                <div class="card-icon cjk">字</div>
+                <div class="card-title">Characters</div>
+                <div class="card-desc">The writing system. Each character is a syllable with meaning.</div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div class="card-icon" style="font-style:italic;">Pīn</div>
+                <div class="card-title">Pinyin</div>
+                <div class="card-desc">Romanized pronunciation. Shows you how to say words.</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="card-icon">↗↘</div>
+                <div class="card-title">Tones</div>
+                <div class="card-desc">Pitch patterns that change meaning. Not optional.</div>
+            </div>
+        </div>
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p><strong class="t1">mā</strong> 妈 = mother &nbsp;·&nbsp; <strong class="t3">mǎ</strong> 马 = horse. Same syllable shape, different tone, completely different word.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 01: PINYIN & TONES ========== -->
+<section class="slide slide-accent" id="p1">
+    <div class="slide-content">
+        <div class="part-number">01</div>
+        <div class="part-label-big">Pinyin &amp; Tones</div>
+        <div class="part-sub">Learning to read and say Chinese sounds correctly</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 4: WHAT IS PINYIN? ========== -->
+<section class="slide slide-white" id="s4">
+    <div class="slide-content">
+        <div class="slide-label">Pinyin 拼音</div>
+        <h2 class="slide-heading">Your pronunciation map.</h2>
+        <p class="slide-body">Pinyin is the standard system for writing Mandarin pronunciation using the Latin alphabet. It helps you say words before you can fully read characters. Every syllable has three parts.</p>
+
+        <div class="py-breakdown">
+            <div class="py-word t3">hǎo</div>
+            <div class="py-parts">
+                <div class="py-part">
+                    <div class="py-part-label">Initial</div>
+                    <div class="py-part-val">h</div>
+                </div>
+                <div class="py-part">
+                    <div class="py-part-label">Final</div>
+                    <div class="py-part-val">ao</div>
+                </div>
+                <div class="py-part">
+                    <div class="py-part-label">Tone</div>
+                    <div class="py-part-val t3">3rd ˇ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hbox">
+            <p>Pinyin is not English spelling in disguise. <strong>x, q, zh, c, z</strong> are all different from their English cousins.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 5: THE 4 TONES ========== -->
+<section class="slide slide-gray" id="s5">
+    <div class="slide-content">
+        <div class="slide-label">The Tones</div>
+        <h2 class="slide-heading">4 tones + 1 neutral.</h2>
+        <p class="slide-body">Each syllable carries a tone. Change the tone, change the word.</p>
+
+        <div class="tone-navigator">
+            <div class="tone-display" id="tone-display">
+                <div class="tone-char t1 cjk" id="tone-char">妈</div>
+                <div class="tone-pinyin t1" id="tone-pinyin">mā</div>
+                <div class="tone-name" id="tone-name">1st tone · High &amp; Level</div>
+                <div class="tone-meaning" id="tone-meaning">= mother &nbsp;·&nbsp; steady, high, flat</div>
+            </div>
+            <div class="tone-controls">
+                <button class="btn tone-btn" id="tb0" onclick="setTone(0)">1st &nbsp;ā</button>
+                <button class="btn btn-outline tone-btn" id="tb1" onclick="setTone(1)">2nd &nbsp;á</button>
+                <button class="btn btn-outline tone-btn" id="tb2" onclick="setTone(2)">3rd &nbsp;ǎ</button>
+                <button class="btn btn-outline tone-btn" id="tb3" onclick="setTone(3)">4th &nbsp;à</button>
+                <button class="btn btn-outline tone-btn" id="tb4" onclick="setTone(4)">neutral</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 6: THE MA FAMILY ========== -->
+<section class="slide slide-white" id="s6">
+    <div class="slide-content">
+        <div class="slide-label">The Ma Family</div>
+        <h2 class="slide-heading">One syllable, five words.</h2>
+        <p class="slide-body">The full tone family for <strong>ma</strong> shows exactly how tones work — and introduces 吗, the most useful beginner grammar particle.</p>
+
+        <div class="tone-family">
+            <div class="tone-cell">
+                <div class="tone-cell-char cjk">妈</div>
+                <div class="tone-cell-py t1">mā</div>
+                <div class="tone-cell-en">mother</div>
+            </div>
+            <div class="tone-cell">
+                <div class="tone-cell-char cjk">麻</div>
+                <div class="tone-cell-py t2">má</div>
+                <div class="tone-cell-en">sesame</div>
+            </div>
+            <div class="tone-cell">
+                <div class="tone-cell-char cjk">马</div>
+                <div class="tone-cell-py t3">mǎ</div>
+                <div class="tone-cell-en">horse</div>
+            </div>
+            <div class="tone-cell">
+                <div class="tone-cell-char cjk">骂</div>
+                <div class="tone-cell-py t4">mà</div>
+                <div class="tone-cell-en">to scold</div>
+            </div>
+            <div class="tone-cell" style="background:#1a1a1a;">
+                <div class="tone-cell-char cjk" style="color:white;">吗</div>
+                <div class="tone-cell-py" style="color:rgba(255,255,255,0.65);">ma</div>
+                <div class="tone-cell-en" style="color:rgba(255,255,255,0.45);">question particle</div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p><strong>吗</strong> has no tone mark: it is a <strong>neutral-tone particle</strong>. It turns any statement into a yes/no question. You will use it constantly starting in Lesson 1.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 7: TRICKY SOUNDS ========== -->
+<section class="slide slide-gray" id="s7">
+    <div class="slide-content">
+        <div class="slide-label">Pinyin Sounds</div>
+        <h2 class="slide-heading">Watch out for these.</h2>
+        <p class="slide-body">English instincts will occasionally try to sabotage the mission.</p>
+        <div class="card-grid card-grid-3" style="margin-top:1.25rem;">
+            <div class="card">
+                <div class="card-title">zh / ch / sh</div>
+                <div class="card-desc">Retroflex: tongue curled slightly back.<br><em>zhōng, shì, chī</em></div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-title">x / q / j</div>
+                <div class="card-desc">Fronted, lighter than English sh/ch/j.<br><em>xī, qǐng, jiào</em></div>
+            </div>
+            <div class="card">
+                <div class="card-title">c / z</div>
+                <div class="card-desc">c = "ts" &nbsp;·&nbsp; z = "dz"<br><em>cài, zài</em></div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-title">ü</div>
+                <div class="card-desc">Say "ee" with rounded lips.<br><em>nǚ</em></div>
+            </div>
+            <div class="card">
+                <div class="card-title">r</div>
+                <div class="card-desc">Between English "r" and "zh".<br><em>rén, rènshi</em></div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-title">Day 1 mindset</div>
+                <div class="card-desc">Perfect pronunciation not required. Just notice that pinyin is not English.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 02: RADICALS ========== -->
+<section class="slide slide-accent" id="p2">
+    <div class="slide-content">
+        <div class="part-number">02</div>
+        <div class="part-label-big">Radicals &amp; Characters</div>
+        <div class="part-sub">How Chinese characters are built — and why it matters</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 8: WHAT ARE RADICALS? ========== -->
+<section class="slide slide-white" id="s8">
+    <div class="slide-content">
+        <div class="slide-label">Radicals 部首</div>
+        <h2 class="slide-heading">Characters have structure.</h2>
+        <p class="slide-body">Chinese characters are not random drawings. They are built from recurring components called radicals. Radicals often hint at meaning or category.</p>
+
+        <div class="card-grid card-grid-3" style="margin-top:1.5rem;">
+            <div class="card" style="text-align:center;">
+                <div class="card-icon cjk">亻</div>
+                <div class="card-title">Person</div>
+                <div class="card-desc">Appears in 你, 他, 们: all person-related characters</div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div class="card-icon cjk">口</div>
+                <div class="card-title">Mouth</div>
+                <div class="card-desc">In 吗, 呢, 叫, 吃: speech, sound, mouth</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="card-icon cjk">女</div>
+                <div class="card-title">Woman</div>
+                <div class="card-desc">In 她, 妈: female-related characters</div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p>Good rule: radicals <em>often give useful clues</em>. Not: "the radical tells me the exact meaning." That is the sane version.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 9: SPOT THE RADICAL ========== -->
+<section class="slide slide-gray" id="s9">
+    <div class="slide-content">
+        <div class="slide-label">Spot the Radical</div>
+        <h2 class="slide-heading">Find the clue inside.</h2>
+        <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:4rem; line-height:1.2;">你</div>
+                <div class="card-title" style="margin-top:0.5rem;">nǐ: you</div>
+                <div class="card-desc">Left side: <strong>亻</strong> person radical. Right side hints at the sound.</div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div class="cjk" style="font-size:4rem; line-height:1.2; color:white;">她</div>
+                <div class="card-title" style="margin-top:0.5rem; color:white;">tā: she</div>
+                <div class="card-desc">Left side: <strong>女</strong> woman radical. Tells you: female person.</div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="cjk" style="font-size:4rem; line-height:1.2;">吗</div>
+                <div class="card-title" style="margin-top:0.5rem;">ma: question particle</div>
+                <div class="card-desc">Left side: <strong>口</strong> mouth radical. It is a spoken particle: makes sense.</div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div class="cjk" style="font-size:4rem; line-height:1.2; color:white;">国</div>
+                <div class="card-title" style="margin-top:0.5rem; color:white;">guó: country</div>
+                <div class="card-desc">Enclosure structure: 囗 surrounds 玉. A territory enclosing something valuable.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 03: GREETINGS ========== -->
+<section class="slide slide-accent" id="p3">
+    <div class="slide-content">
+        <div class="part-number">03</div>
+        <div class="part-label-big">Your First Words</div>
+        <div class="part-sub">Greetings and courtesy — the phrases you will use every day</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 10: GREETINGS VOCAB ========== -->
+<section class="slide slide-white" id="s10">
+    <div class="slide-content">
+        <div class="slide-label">Greetings 问候</div>
+        <h2 class="slide-heading">Eight phrases. Infinite utility.</h2>
+        <p class="slide-body">These are not optional extras — they are the entry point to every Chinese conversation you will ever have.</p>
+
+        <table class="vocab-table" style="margin-top:1.5rem;">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">你好</td><td class="td-py">Nǐ hǎo</td><td class="td-en">Hello</td></tr>
+                <tr><td class="td-zh cjk">你好吗？</td><td class="td-py">Nǐ hǎo ma?</td><td class="td-en">How are you?</td></tr>
+                <tr><td class="td-zh cjk">我很好。</td><td class="td-py">Wǒ hěn hǎo.</td><td class="td-en">I am well.</td></tr>
+                <tr><td class="td-zh cjk">谢谢</td><td class="td-py">Xièxie</td><td class="td-en">Thank you</td></tr>
+                <tr><td class="td-zh cjk">不客气</td><td class="td-py">Bú kèqi</td><td class="td-en">You're welcome</td></tr>
+                <tr><td class="td-zh cjk">对不起</td><td class="td-py">Duìbuqǐ</td><td class="td-en">Sorry / Excuse me</td></tr>
+                <tr><td class="td-zh cjk">没关系</td><td class="td-py">Méi guānxi</td><td class="td-en">It's okay / No problem</td></tr>
+                <tr><td class="td-zh cjk">再见</td><td class="td-py">Zàijiàn</td><td class="td-en">Goodbye</td></tr>
+            </tbody>
+        </table>
+
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p><strong>你好</strong> is not casual — it is the standard neutral greeting. For casual friends: <strong>嗨</strong> (hāi) or <strong>哈喽</strong> (hāluó). For formal situations, 你好 is always safe.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 11: GREETINGS BREAKDOWN ========== -->
+<section class="slide slide-gray" id="s11">
+    <div class="slide-content">
+        <div class="slide-label">Inside the Phrases</div>
+        <h2 class="slide-heading">Nothing is arbitrary.</h2>
+        <p class="slide-body">Every greeting is built from characters you will see again and again.</p>
+
+        <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
+            <div class="card">
+                <div class="card-title cjk" style="font-size:1.5rem;">你好</div>
+                <div class="card-desc" style="margin-top:0.4rem;"><strong>你</strong> (nǐ) = you &nbsp;+&nbsp; <strong>好</strong> (hǎo) = good<br>Literally: "You good." Tone-perfect: nǐ hǎo.</div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-title cjk" style="font-size:1.5rem; color:white;">谢谢</div>
+                <div class="card-desc" style="margin-top:0.4rem;">Same character doubled for emphasis. <strong>谢</strong> (xiè) = thank. Saying it twice is polite and natural.</div>
+            </div>
+            <div class="card">
+                <div class="card-title cjk" style="font-size:1.5rem;">对不起</div>
+                <div class="card-desc" style="margin-top:0.4rem;"><strong>对</strong> = correct &nbsp;·&nbsp; <strong>不起</strong> = cannot stand up to. "I cannot live up to your expectations."</div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-title cjk" style="font-size:1.5rem; color:white;">再见</div>
+                <div class="card-desc" style="margin-top:0.4rem;"><strong>再</strong> (zài) = again &nbsp;+&nbsp; <strong>见</strong> (jiàn) = see. "See you again." Same logic as au revoir.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 04: PRACTICE ========== -->
+<section class="slide slide-accent" id="p4">
+    <div class="slide-content">
+        <div class="part-number">04</div>
+        <div class="part-label-big">Practice</div>
+        <div class="part-sub">Vocabulary flash cards</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 12: FLASHCARDS ========== -->
+<section class="slide slide-white" id="s12">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary Flash Cards</div>
+        <h2 class="slide-heading">Test yourself.</h2>
+        <p class="slide-body">Try to say the pinyin and meaning before you flip. These are all the words from Lesson 0.</p>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="fc-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="fc-zh">你好</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="fc-py">Nǐ hǎo</div>
+                        <div class="fc-en" id="fc-en">Hello</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="fcPrev()">← Prev</button>
+                <span class="fc-counter" id="fc-counter">1 / 12</span>
+                <button class="btn btn-sm" onclick="fcNext()">Next →</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 13: CLOSING ========== -->
+<section class="slide slide-dark" id="s13">
+    <div class="slide-content">
+        <div class="slide-label">End of Lesson 0</div>
+        <h1 class="slide-title cjk" style="font-size: clamp(2rem, 5vw, 3.5rem);">你好，世界。</h1>
+        <p class="slide-body" style="margin-top:0.4rem; font-style:italic; font-size:0.95rem; color:rgba(255,255,255,0.5);">Nǐ hǎo, shìjiè. &nbsp;·&nbsp; Hello, world.</p>
+        <p class="slide-body" style="margin-top:1.25rem;">You now understand how Mandarin is structured, how tones work, what radicals do, and you have your first eight phrases. That is the foundation everything else builds on.</p>
+        <div style="margin-top:2rem; display:flex; flex-wrap:wrap; gap:0.5rem;">
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">4 Tones + Neutral</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Pinyin System</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Tricky Sounds</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Radicals 部首</span>
+            <span style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">你好 · 谢谢 · 再见</span>
+        </div>
+        <div class="hbox" style="margin-top:2rem;">
+            <p><strong>Lesson 1:</strong> Greetings, names, nationality, core grammar patterns, and your first full conversations.</p>
+        </div>
+    </div>
+</section>
+
+
+<footer class="slide-footer">
+    Network School · Beginner Chinese · Lesson 0
+</footer>
+
+
+<script>
+    // Progress bar
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        document.getElementById('progress-bar').style.width = (pct || 0) + '%';
+    });
+
+    // Arrow key navigation
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    function nearestSlide() {
+        let best = 0, bestDist = Infinity;
+        slides.forEach((s, i) => { const d = Math.abs(s.getBoundingClientRect().top); if (d < bestDist) { bestDist = d; best = i; } });
+        return best;
+    }
+    function goToSlide(i) {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        slides[i].scrollIntoView({ behavior: 'smooth' });
+    }
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goToSlide(nearestSlide() + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goToSlide(nearestSlide() - 1); }
+    });
+
+    // Tone navigator
+    const tones = [
+        { char: '妈', pinyin: 'mā', cls: 't1', name: '1st tone · High & Level',   meaning: '= mother &nbsp;·&nbsp; steady, high, flat' },
+        { char: '麻', pinyin: 'má', cls: 't2', name: '2nd tone · Rising',          meaning: '= sesame &nbsp;·&nbsp; rises upward, like asking "really?"' },
+        { char: '马', pinyin: 'mǎ', cls: 't3', name: '3rd tone · Dipping',         meaning: '= horse &nbsp;·&nbsp; goes down then up slightly' },
+        { char: '骂', pinyin: 'mà', cls: 't4', name: '4th tone · Falling',         meaning: '= to scold &nbsp;·&nbsp; sharp, falling, firm' },
+        { char: '吗', pinyin: 'ma', cls: 'tn', name: 'Neutral tone · Unstressed',  meaning: '= question particle &nbsp;·&nbsp; light, short, no tone mark' },
+    ];
+    function setTone(i) {
+        const t = tones[i];
+        const charEl = document.getElementById('tone-char');
+        const pyEl   = document.getElementById('tone-pinyin');
+        charEl.className = 'tone-char cjk ' + t.cls;
+        charEl.textContent = t.char;
+        pyEl.className = 'tone-pinyin ' + t.cls;
+        pyEl.textContent = t.pinyin;
+        document.getElementById('tone-name').textContent = t.name;
+        document.getElementById('tone-meaning').innerHTML = t.meaning;
+        for (let j = 0; j < 5; j++) {
+            document.getElementById('tb' + j).classList.toggle('btn-outline', j !== i);
+        }
+    }
+
+    // Flashcards
+    const cards = [
+        { zh:'你好',     py:'Nǐ hǎo',       en:'Hello' },
+        { zh:'你好吗？', py:'Nǐ hǎo ma?',    en:'How are you?' },
+        { zh:'我很好。', py:'Wǒ hěn hǎo.',   en:'I am well.' },
+        { zh:'谢谢',     py:'Xièxie',        en:'Thank you' },
+        { zh:'不客气',   py:'Bú kèqi',       en:"You're welcome" },
+        { zh:'对不起',   py:'Duìbuqǐ',       en:'Sorry / Excuse me' },
+        { zh:'没关系',   py:'Méi guānxi',    en:"It's okay / No problem" },
+        { zh:'再见',     py:'Zàijiàn',       en:'Goodbye' },
+        { zh:'妈 mā',   py:'1st tone',      en:'High & level — mother' },
+        { zh:'麻 má',   py:'2nd tone',      en:'Rising — sesame' },
+        { zh:'马 mǎ',   py:'3rd tone',      en:'Dipping — horse' },
+        { zh:'骂 mà',   py:'4th tone',      en:'Falling — to scold' },
+    ];
+    let fcIdx = 0;
+    function fcShow() {
+        document.getElementById('fc-wrap').classList.remove('flipped');
+        setTimeout(() => {
+            const c = cards[fcIdx];
+            document.getElementById('fc-zh').textContent = c.zh;
+            document.getElementById('fc-py').textContent = c.py;
+            document.getElementById('fc-en').textContent = c.en;
+            document.getElementById('fc-counter').textContent = (fcIdx+1) + ' / ' + cards.length;
+        }, 240);
+    }
+    function fcNext() { fcIdx = (fcIdx + 1) % cards.length; fcShow(); }
+    function fcPrev() { fcIdx = (fcIdx - 1 + cards.length) % cards.length; fcShow(); }
+</script>
+
+</body>
+</html>
