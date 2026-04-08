@@ -123,13 +123,379 @@
 
 <script>
 // ── DATA ────────────────────────────────────────────────────────────────────
+// Each topic = one dialogue. vocab is shared per lesson (shown as flashcards + table).
+
+const L1_VOCAB = [
+    { zh:'你好',          py:'Nǐ hǎo',              en:'Hello' },
+    { zh:'你好吗？',       py:'Nǐ hǎo ma?',          en:'How are you?' },
+    { zh:'我很好。',       py:'Wǒ hěn hǎo.',          en:"I'm well." },
+    { zh:'你呢？',         py:'Nǐ ne?',               en:'And you?' },
+    { zh:'你叫什么名字？', py:'Nǐ jiào shénme míngzi?', en:'What is your name?' },
+    { zh:'我叫___。',      py:'Wǒ jiào ___.',          en:'My name is ___.' },
+    { zh:'你是哪国人？',   py:'Nǐ shì nǎ guó rén?',   en:'What nationality are you?' },
+    { zh:'我是___人。',    py:'Wǒ shì ___ rén.',       en:'I am ___ (nationality).' },
+    { zh:'很高兴认识你。', py:'Hěn gāoxìng rènshi nǐ.', en:'Nice to meet you.' },
+    { zh:'再见！',         py:'Zàijiàn!',              en:'Goodbye!' },
+    { zh:'吗',             py:'ma (neutral tone)',      en:'yes/no question particle' },
+    { zh:'呢',             py:'ne',                    en:'and you? (follow-up particle)' },
+];
+
+const L2_VOCAB = [
+    { zh:'爱好',           py:'àihào',                  en:'hobby / interest' },
+    { zh:'喜欢',           py:'xǐhuān',                 en:'to like' },
+    { zh:'我喜欢___。',    py:'Wǒ xǐhuān ___.',         en:'I like ___.' },
+    { zh:'我的爱好是___。', py:'Wǒ de àihào shì ___.',  en:'My hobby is ___.' },
+    { zh:'跑步',           py:'pǎobù',                  en:'running' },
+    { zh:'编程',           py:'biānchéng',               en:'programming' },
+    { zh:'人工智能',       py:'réngōng zhìnéng',        en:'artificial intelligence' },
+    { zh:'创业',           py:'chuàngyè',               en:'entrepreneurship' },
+    { zh:'哲学',           py:'zhéxué',                 en:'philosophy' },
+    { zh:'程序员',         py:'chéngyùyuán',             en:'programmer' },
+    { zh:'企业家',         py:'qǐyèjiā',                en:'entrepreneur' },
+    { zh:'你做什么工作？', py:'Nǐ zuò shénme gōngzuò?', en:'What work do you do?' },
+    { zh:'为什么',         py:'wèishéme',               en:'why' },
+    { zh:'因为',           py:'yīnwèi',                 en:'because' },
+    { zh:'太好了！',       py:'Tài hǎo le!',            en:'Awesome! / Great!' },
+    { zh:'的',             py:'de (neutral)',            en:'possessive particle' },
+];
+
+const L3_VOCAB = [
+    { zh:'有',     py:'yǒu',         en:'to have / there is' },
+    { zh:'没有',   py:'méiyǒu',      en:'to not have / there is not' },
+    { zh:'个',     py:'gè',          en:'measure word (general)' },
+    { zh:'本',     py:'běn',         en:'measure word (books)' },
+    { zh:'两',     py:'liǎng',       en:'two (used with measure words)' },
+    { zh:'几',     py:'jǐ',          en:'how many? (small numbers)' },
+    { zh:'爸爸',   py:'bàba',        en:'father / dad' },
+    { zh:'妈妈',   py:'māma',        en:'mother / mom' },
+    { zh:'朋友',   py:'péngyou',     en:'friend' },
+    { zh:'今天',   py:'jīntiān',     en:'today' },
+    { zh:'明天',   py:'míngtiān',    en:'tomorrow' },
+    { zh:'昨天',   py:'zuótiān',     en:'yesterday' },
+    { zh:'星期',   py:'xīngqī',      en:'week / weekday prefix' },
+    { zh:'星期天', py:'xīngqī tiān', en:'Sunday' },
+    { zh:'上午',   py:'shàngwǔ',     en:'morning / AM' },
+    { zh:'下午',   py:'xiàwǔ',       en:'afternoon / PM' },
+    { zh:'现在',   py:'xiànzài',     en:'now / right now' },
+    { zh:'谢谢',   py:'xièxie',      en:'thank you' },
+    { zh:'对不起', py:'duìbuqǐ',     en:'sorry' },
+    { zh:'没关系', py:'méi guānxi',  en:"it's okay / no problem" },
+];
+
+const L4_VOCAB = [
+    { zh:'在',    py:'zài',       en:'at / in / to be located' },
+    { zh:'去',    py:'qù',        en:'to go (away from speaker)' },
+    { zh:'来',    py:'lái',       en:'to come (toward speaker)' },
+    { zh:'回',    py:'huí',       en:'to return / go back' },
+    { zh:'住',    py:'zhù',       en:'to live (reside)' },
+    { zh:'哪儿',  py:'nǎr',       en:'where?' },
+    { zh:'家',    py:'jiā',       en:'home / family' },
+    { zh:'学校',  py:'xuéxiào',   en:'school' },
+    { zh:'饭店',  py:'fàndiàn',   en:'restaurant / hotel' },
+    { zh:'医院',  py:'yīyuàn',    en:'hospital' },
+    { zh:'上面',  py:'shàngmiàn', en:'above / on top' },
+    { zh:'下面',  py:'xiàmiàn',   en:'below / under' },
+    { zh:'里面',  py:'lǐmiàn',    en:'inside' },
+    { zh:'前面',  py:'qiánmiàn',  en:'in front' },
+    { zh:'后面',  py:'hòumiàn',   en:'behind' },
+    { zh:'吃',    py:'chī',       en:'to eat' },
+    { zh:'喝',    py:'hē',        en:'to drink' },
+    { zh:'睡觉',  py:'shuìjiào',  en:'to sleep' },
+    { zh:'学习',  py:'xuéxí',     en:'to study' },
+    { zh:'一起',  py:'yīqǐ',      en:'together' },
+];
+
+const L5_VOCAB = [
+    { zh:'想',      py:'xiǎng',     en:'want to / would like to' },
+    { zh:'不想',    py:'bù xiǎng',  en:"don't want to" },
+    { zh:'多少',    py:'duōshao',   en:'how many / how much' },
+    { zh:'钱',      py:'qián',      en:'money' },
+    { zh:'块',      py:'kuài',      en:'yuan (spoken)' },
+    { zh:'买',      py:'mǎi',       en:'to buy' },
+    { zh:'太___了', py:'tài___ le', en:'too ___ / so ___!' },
+    { zh:'漂亮',    py:'piàoliang', en:'pretty / beautiful' },
+    { zh:'好吃',    py:'hǎochī',    en:'delicious' },
+    { zh:'贵',      py:'guì',       en:'expensive' },
+    { zh:'便宜',    py:'piányí',    en:'cheap / inexpensive' },
+    { zh:'都',      py:'dōu',       en:'all / both' },
+    { zh:'一点儿',  py:'yīdiǎnr',   en:'a little' },
+    { zh:'水',      py:'shuǐ',      en:'water' },
+    { zh:'茶',      py:'chá',       en:'tea' },
+    { zh:'米饭',    py:'mǐfàn',     en:'rice' },
+    { zh:'面条',    py:'miàntiáo',  en:'noodles' },
+    { zh:'水果',    py:'shuǐguǒ',   en:'fruit' },
+    { zh:'衣服',    py:'yīfu',      en:'clothing' },
+    { zh:'请问',    py:'qǐngwèn',   en:'excuse me / may I ask' },
+];
+
+const L6_VOCAB = [
+    { zh:'会',      py:'huì',         en:'can (learned skill)' },
+    { zh:'能',      py:'néng',        en:'can (be able to)' },
+    { zh:'不能',    py:'bù néng',     en:'cannot / not allowed to' },
+    { zh:'坐',      py:'zuò',         en:'to sit / to take (transport)' },
+    { zh:'飞机',    py:'fēijī',       en:'airplane' },
+    { zh:'火车',    py:'huǒchē',      en:'train' },
+    { zh:'地铁',    py:'dìtiě',       en:'subway / metro' },
+    { zh:'出租车',  py:'chūzū chē',   en:'taxi' },
+    { zh:'天气',    py:'tiānqì',      en:'weather' },
+    { zh:'下雨',    py:'xià yǔ',      en:'to rain' },
+    { zh:'热',      py:'rè',          en:'hot' },
+    { zh:'冷',      py:'lěng',        en:'cold' },
+    { zh:'了',      py:'le',          en:'completion particle' },
+    { zh:'喂',      py:'wèi',         en:'hello? (phone)' },
+    { zh:'打电话',  py:'dǎ diànhuà',  en:'to make a phone call' },
+    { zh:'等一下',  py:'děng yīxià',  en:'just a moment' },
+    { zh:'再见',    py:'zàijiàn',     en:'goodbye' },
+    { zh:'游泳',    py:'yóuyǒng',     en:'to swim' },
+    { zh:'开车',    py:'kāi chē',     en:'to drive' },
+    { zh:'说好了',  py:'shuō hǎo le', en:"it's a plan / agreed" },
+];
 
 const topics = [
+    // ── LESSON 1 ──
     {
+        tab: 'Greetings',
         num: '01',
-        title: 'Greetings & Introductions',
-        sub: '你好 · 你叫什么名字？ · 很高兴认识你',
+        title: 'Greetings',
+        sub: '你好 · 你好吗？ · 再见',
         lesson: 'Lesson 1',
+        vocab: L1_VOCAB,
+        dialogue: {
+            title: 'Meeting Someone',
+            lines: [
+                { sp:'A', zh:'你好！',                          py:'Nǐ hǎo!',                                      en:'Hello!' },
+                { sp:'B', zh:'你好！',                          py:'Nǐ hǎo!',                                      en:'Hello!' },
+                { sp:'A', zh:'你好吗？',                        py:'Nǐ hǎo ma?',                                   en:'How are you?' },
+                { sp:'B', zh:'我很好。你呢？',                  py:'Wǒ hěn hǎo. Nǐ ne?',                          en:"I'm very well. And you?" },
+                { sp:'A', zh:'我也很好。你叫什么名字？',        py:'Wǒ yě hěn hǎo. Nǐ jiào shénme míngzi?',       en:"I'm also well. What is your name?" },
+                { sp:'B', zh:'我叫 Maya。你呢？',               py:'Wǒ jiào Maya. Nǐ ne?',                         en:'My name is Maya. And you?' },
+                { sp:'A', zh:'我叫 Leo。很高兴认识你。',        py:'Wǒ jiào Leo. Hěn gāoxìng rènshi nǐ.',         en:'My name is Leo. Nice to meet you.' },
+                { sp:'B', zh:'很高兴认识你。再见！',            py:'Hěn gāoxìng rènshi nǐ. Zàijiàn!',            en:'Nice to meet you. Goodbye!' },
+                { sp:'A', zh:'再见！',                          py:'Zàijiàn!',                                     en:'Goodbye!' },
+            ]
+        }
+    },
+    {
+        tab: 'Introductions',
+        num: '02',
+        title: 'Introductions',
+        sub: '你是哪国人？ · 我是___人',
+        lesson: 'Lesson 1',
+        vocab: L1_VOCAB,
+        dialogue: {
+            title: 'Where Are You From?',
+            lines: [
+                { sp:'A', zh:'你是哪国人？',        py:'Nǐ shì nǎ guó rén?',         en:'What nationality are you?' },
+                { sp:'B', zh:'我是加拿大人。你呢？', py:'Wǒ shì Jiānádà rén. Nǐ ne?', en:'I am Canadian. And you?' },
+                { sp:'A', zh:'我是美国人。',         py:'Wǒ shì Měiguó rén.',          en:'I am American.' },
+            ]
+        }
+    },
+    // ── LESSON 2 ──
+    {
+        tab: 'Hobbies',
+        num: '03',
+        title: 'Hobbies',
+        sub: '喜欢 · 爱好 · 我喜欢___',
+        lesson: 'Lesson 2',
+        vocab: L2_VOCAB,
+        dialogue: {
+            title: 'What Are Your Hobbies?',
+            lines: [
+                { sp:'A', zh:'你有什么爱好？',                    py:'Nǐ yǒu shénme àihào?',                                 en:'What hobbies do you have?' },
+                { sp:'B', zh:'我喜欢跑步和看电影。你呢？',        py:'Wǒ xǐhuān pǎobù hé kàn diànyǐng. Nǐ ne?',            en:'I like running and watching movies. And you?' },
+                { sp:'A', zh:'我的爱好是学中文和打篮球。',        py:'Wǒ de àihào shì xué Zhōngwén hé dǎ lánqiú.',          en:'My hobbies are studying Chinese and playing basketball.' },
+                { sp:'B', zh:'太好了！你喜欢运动吗？',            py:'Tài hǎo le! Nǐ xǐhuān yùndòng ma?',                   en:"That's great! Do you like exercise?" },
+                { sp:'A', zh:'喜欢！我也喜欢瑜伽。',              py:'Xǐhuān! Wǒ yě xǐhuān yújiā.',                         en:'Yes I do! I also like yoga.' },
+                { sp:'B', zh:'你喜欢唱歌吗？',                    py:'Nǐ xǐhuān chànggē ma?',                               en:'Do you like singing?' },
+                { sp:'A', zh:'不太喜欢。我更喜欢读书。',          py:'Bù tài xǐhuān. Wǒ gèng xǐhuān dúshū.',               en:'Not really. I prefer reading.' },
+            ]
+        }
+    },
+    {
+        tab: 'Jobs',
+        num: '04',
+        title: 'Jobs',
+        sub: '你做什么工作？ · 我是___',
+        lesson: 'Lesson 2',
+        vocab: L2_VOCAB,
+        dialogue: {
+            title: "What's Your Job?",
+            lines: [
+                { sp:'A', zh:'你做什么工作？',             py:'Nǐ zuò shénme gōngzuò?',                           en:'What work do you do?' },
+                { sp:'B', zh:'我是程序员。你呢？',         py:'Wǒ shì chéngyùyuán. Nǐ ne?',                       en:"I'm a programmer. And you?" },
+                { sp:'A', zh:'我是学生。我喜欢人工智能。', py:'Wǒ shì xuéshēng. Wǒ xǐhuān réngōng zhìnéng.',     en:"I'm a student. I like AI." },
+                { sp:'B', zh:'我也喜欢人工智能！太好了！', py:'Wǒ yě xǐhuān réngōng zhìnéng! Tài hǎo le!',       en:'I also like AI! Awesome!' },
+                { sp:'A', zh:'你的爱好是什么？',           py:'Nǐ de àihào shì shénme?',                          en:"What are your hobbies?" },
+                { sp:'B', zh:'我喜欢创业和哲学。',         py:'Wǒ xǐhuān chuàngyè hé zhéxué.',                    en:'I like entrepreneurship and philosophy.' },
+            ]
+        }
+    },
+    // ── LESSON 3 ──
+    {
+        tab: 'Family',
+        num: '05',
+        title: 'Family',
+        sub: '有/没有 · 量词 · 兄弟姐妹',
+        lesson: 'Lesson 3',
+        vocab: L3_VOCAB,
+        dialogue: {
+            title: 'Family Introduction',
+            lines: [
+                { sp:'A', zh:'你有兄弟姐妹吗？',                       py:'Nǐ yǒu xiōngdì jiěmèi ma?',                                  en:'Do you have any siblings?' },
+                { sp:'B', zh:'有！我有一个哥哥和一个妹妹。你呢？',     py:'Yǒu! Wǒ yǒu yī gè gēge hé yī gè mèimei. Nǐ ne?',           en:'Yes! I have one older brother and one younger sister. And you?' },
+                { sp:'A', zh:'我没有兄弟姐妹。我是独生女。',           py:'Wǒ méiyǒu xiōngdì jiěmèi. Wǒ shì dúshēngnǚ.',               en:"I don't have any siblings. I'm an only child." },
+                { sp:'B', zh:'你爸爸妈妈做什么工作？',                 py:'Nǐ bàba māma zuò shénme gōngzuò?',                           en:'What do your parents do for work?' },
+                { sp:'A', zh:'我爸爸是医生，我妈妈是老师。',           py:'Wǒ bàba shì yīshēng, wǒ māma shì lǎoshī.',                   en:'My dad is a doctor, my mom is a teacher.' },
+                { sp:'B', zh:'太好了！你有几个好朋友？',               py:'Tài hǎo le! Nǐ yǒu jǐ gè hǎo péngyou?',                     en:'Awesome! How many close friends do you have?' },
+                { sp:'A', zh:'我有很多朋友！我们都是同学。',           py:'Wǒ yǒu hěn duō péngyou! Wǒmen dōu shì tóngxué.',             en:'I have many friends! We are all classmates.' },
+            ]
+        }
+    },
+    {
+        tab: 'Time & Plans',
+        num: '06',
+        title: 'Time & Plans',
+        sub: '今天 · 明天 · 星期几 · 上午',
+        lesson: 'Lesson 3',
+        vocab: L3_VOCAB,
+        dialogue: {
+            title: 'Making Plans',
+            lines: [
+                { sp:'A', zh:'你今天有时间吗？',                 py:'Nǐ jīntiān yǒu shíjiān ma?',                           en:'Do you have time today?' },
+                { sp:'B', zh:'今天没有。明天可以吗？',           py:'Jīntiān méiyǒu. Míngtiān kěyǐ ma?',                    en:"Not today. Is tomorrow okay?" },
+                { sp:'A', zh:'明天可以！明天是星期几？',         py:'Míngtiān kěyǐ! Míngtiān shì xīngqī jǐ?',               en:'Tomorrow works! What day is tomorrow?' },
+                { sp:'B', zh:'明天是星期三。上午十点怎么样？',   py:'Míngtiān shì xīngqīsān. Shàngwǔ shí diǎn zěnme yàng?', en:'Tomorrow is Wednesday. How about 10 AM?' },
+                { sp:'A', zh:'好！谢谢你！',                     py:'Hǎo! Xièxie nǐ!',                                      en:'Great! Thank you!' },
+                { sp:'B', zh:'不客气！星期三见！',               py:'Bú kèqi! Xīngqīsān jiàn!',                             en:"You're welcome! See you Wednesday!" },
+            ]
+        }
+    },
+    // ── LESSON 4 ──
+    {
+        tab: 'Location',
+        num: '07',
+        title: 'Location',
+        sub: '在哪儿？ · 住在 · 前面/后面',
+        lesson: 'Lesson 4',
+        vocab: L4_VOCAB,
+        dialogue: {
+            title: 'Where Are You? What Are You Doing?',
+            lines: [
+                { sp:'A', zh:'你现在在哪儿？',               py:'Nǐ xiànzài zài nǎr?',                                       en:'Where are you right now?' },
+                { sp:'B', zh:'我在学校。我在学习。你呢？',   py:'Wǒ zài xuéxiào. Wǒ zài xuéxí. Nǐ ne?',                    en:"I'm at school. I'm studying. And you?" },
+                { sp:'A', zh:'我在家。我在看书。',           py:'Wǒ zài jiā. Wǒ zài kàn shū.',                              en:"I'm at home. I'm reading a book." },
+                { sp:'B', zh:'你住在哪里？',                 py:'Nǐ zhù zài nǎlǐ?',                                         en:'Where do you live?' },
+                { sp:'A', zh:'我住在北京。学校在我家前面。', py:'Wǒ zhù zài Běijīng. Xuéxiào zài wǒ jiā qiánmiàn.',        en:'I live in Beijing. The school is in front of my home.' },
+                { sp:'B', zh:'太方便了！你今天去学校吗？',   py:'Tài fāngbiàn le! Nǐ jīntiān qù xuéxiào ma?',              en:'How convenient! Are you going to school today?' },
+                { sp:'A', zh:'不去。今天我在家工作。明天去。', py:'Bù qù. Jīntiān wǒ zài jiā gōngzuò. Míngtiān qù.',      en:"No. Today I'm working from home. I'll go tomorrow." },
+            ]
+        }
+    },
+    {
+        tab: 'Daily Life',
+        num: '08',
+        title: 'Daily Life',
+        sub: '去/来/回 · 一起 · 饭店/学校',
+        lesson: 'Lesson 4',
+        vocab: L4_VOCAB,
+        dialogue: {
+            title: "Let's Go Together",
+            lines: [
+                { sp:'A', zh:'你去饭店吗？',                     py:'Nǐ qù fàndiàn ma?',                                    en:'Are you going to the restaurant?' },
+                { sp:'B', zh:'去！饭店在哪儿？',                 py:'Qù! Fàndiàn zài nǎr?',                                 en:'Yes! Where is the restaurant?' },
+                { sp:'A', zh:'饭店在医院后面，商店前面。',       py:'Fàndiàn zài yīyuàn hòumiàn, shāngdiàn qiánmiàn.',     en:'The restaurant is behind the hospital, in front of the store.' },
+                { sp:'B', zh:'好的！你现在在哪里？',             py:'Hǎo de! Nǐ xiànzài zài nǎlǐ?',                        en:'Got it! Where are you right now?' },
+                { sp:'A', zh:'我在火车站。我现在去饭店。',       py:'Wǒ zài huǒchēzhàn. Wǒ xiànzài qù fàndiàn.',          en:"I'm at the train station. I'm heading to the restaurant now." },
+                { sp:'B', zh:'太好了！我也去！我们一起去！',     py:'Tài hǎo le! Wǒ yě qù! Wǒmen yīqǐ qù!',              en:"Great! I'll go too! Let's go together!" },
+            ]
+        }
+    },
+    // ── LESSON 5 ──
+    {
+        tab: 'Ordering Food',
+        num: '09',
+        title: 'Ordering Food',
+        sub: '想吃 · 想喝 · 多少钱',
+        lesson: 'Lesson 5',
+        vocab: L5_VOCAB,
+        dialogue: {
+            title: 'Ordering at a Restaurant',
+            lines: [
+                { sp:'A', zh:'你好！请问，你们想吃什么？',   py:'Nǐ hǎo! Qǐngwèn, nǐmen xiǎng chī shénme?',              en:'Hello! Excuse me, what would you like to eat?' },
+                { sp:'B', zh:'我想吃米饭和菜。她想吃面条。', py:'Wǒ xiǎng chī mǐfàn hé cài. Tā xiǎng chī miàntiáo.',     en:'I want rice and a dish. She wants noodles.' },
+                { sp:'A', zh:'好的！你们想喝什么？',         py:'Hǎo de! Nǐmen xiǎng hē shénme?',                         en:"Sure! What would you like to drink?" },
+                { sp:'B', zh:'我们都想喝茶，谢谢。',         py:'Wǒmen dōu xiǎng hē chá, xièxie.',                        en:'We both want tea, thank you.' },
+                { sp:'A', zh:'这是你们的茶。菜好吃吗？',     py:'Zhè shì nǐmen de chá. Cài hǎochī ma?',                  en:"Here's your tea. Is the food delicious?" },
+                { sp:'B', zh:'太好吃了！谢谢！',             py:'Tài hǎochī le! Xièxie!',                                 en:'So delicious! Thank you!' },
+                { sp:'A', zh:'请问，多少钱？',               py:'Qǐngwèn, duōshao qián?',                                en:'Excuse me, how much is it?' },
+                { sp:'B', zh:'一共八十八块。',               py:'Yīgòng bāshíbā kuài.',                                  en:'Eighty-eight yuan in total.' },
+            ]
+        }
+    },
+    {
+        tab: 'Shopping',
+        num: '10',
+        title: 'Shopping',
+        sub: '买衣服 · 太贵了 · 便宜一点儿',
+        lesson: 'Lesson 5',
+        vocab: L5_VOCAB,
+        dialogue: {
+            title: 'Shopping for Clothes',
+            lines: [
+                { sp:'A', zh:'你好！我想买衣服。',                       py:'Nǐ hǎo! Wǒ xiǎng mǎi yīfu.',                              en:'Hello! I want to buy clothes.' },
+                { sp:'B', zh:'好的！这件衣服很漂亮，怎么样？',           py:'Hǎo de! Zhè jiàn yīfu hěn piàoliang, zěnme yàng?',        en:'Sure! This piece of clothing is very pretty, what do you think?' },
+                { sp:'A', zh:'很漂亮！多少钱？',                         py:'Hěn piàoliang! Duōshao qián?',                            en:'Very pretty! How much is it?' },
+                { sp:'B', zh:'二百八十块。',                             py:'Èrbǎi bāshí kuài.',                                       en:'Two hundred and eighty yuan.' },
+                { sp:'A', zh:'太贵了！便宜一点儿，好吗？',               py:'Tài guì le! Piányí yīdiǎnr, hǎo ma?',                     en:'Too expensive! Can you make it a little cheaper?' },
+                { sp:'B', zh:'好吧，两百四十块。这已经很便宜了。',       py:'Hǎo ba, liǎngbǎi sìshí kuài. Zhè yǐjīng hěn piányí le.', en:'Okay, two hundred and forty yuan. This is already very cheap.' },
+                { sp:'A', zh:'好！我买这件。谢谢！',                     py:'Hǎo! Wǒ mǎi zhè jiàn. Xièxie!',                          en:"Okay! I'll buy this one. Thank you!" },
+            ]
+        }
+    },
+    // ── LESSON 6 ──
+    {
+        tab: 'Phone Call',
+        num: '11',
+        title: 'Phone Call',
+        sub: '喂 · 打电话 · 会/能',
+        lesson: 'Lesson 6',
+        vocab: L6_VOCAB,
+        dialogue: {
+            title: 'A Phone Call',
+            lines: [
+                { sp:'A', zh:'喂！你好，请问你是李明吗？',         py:'Wèi! Nǐ hǎo, qǐngwèn nǐ shì Lǐ Míng ma?',            en:'Hello! Is this Li Ming?' },
+                { sp:'B', zh:'是的，我是李明。你是谁？',           py:'Shì de, wǒ shì Lǐ Míng. Nǐ shì shuí?',               en:"Yes, I'm Li Ming. Who are you?" },
+                { sp:'A', zh:'我是王芳。你现在在哪儿？',           py:'Wǒ shì Wáng Fāng. Nǐ xiànzài zài nǎr?',              en:"I'm Wang Fang. Where are you right now?" },
+                { sp:'B', zh:'我在家。外面下雨了，我不能出去。',   py:'Wǒ zài jiā. Wàimiàn xià yǔ le, wǒ bù néng chūqù.',  en:"I'm at home. It's raining outside, I can't go out." },
+                { sp:'A', zh:'没关系！你会游泳吗？',               py:'Méi guānxi! Nǐ huì yóuyǒng ma?',                     en:'No problem! Can you swim?' },
+                { sp:'B', zh:'哈哈！会，我很喜欢游泳。',           py:'Hāhā! Huì, wǒ hěn xǐhuān yóuyǒng.',                 en:'Haha! Yes, I really like swimming.' },
+                { sp:'A', zh:'明天天气会好。我们去游泳，好吗？',   py:'Míngtiān tiānqì huì hǎo. Wǒmen qù yóuyǒng, hǎo ma?', en:"Tomorrow the weather will be nice. Let's go swimming, okay?" },
+                { sp:'B', zh:'好啊！说好了。再见！',               py:'Hǎo a! Shuō hǎo le. Zàijiàn!',                       en:"Great! It's a plan. Goodbye!" },
+            ]
+        }
+    },
+    {
+        tab: 'Travel & Weather',
+        num: '12',
+        title: 'Travel & Weather',
+        sub: '坐火车 · 天气 · 晴天/下雨',
+        lesson: 'Lesson 6',
+        vocab: L6_VOCAB,
+        dialogue: {
+            title: 'Travel Day',
+            lines: [
+                { sp:'A', zh:'你好！你去哪儿？',                         py:'Nǐ hǎo! Nǐ qù nǎr?',                                    en:'Hi! Where are you going?' },
+                { sp:'B', zh:'我去北京。我坐火车去。',                   py:'Wǒ qù Běijīng. Wǒ zuò huǒchē qù.',                     en:"I'm going to Beijing. I'm taking the train." },
+                { sp:'A', zh:'今天天气怎么样？',                         py:'Jīntiān tiānqì zěnme yàng?',                            en:"How's the weather today?" },
+                { sp:'B', zh:'很好！晴天，不冷也不热。',                 py:'Hěn hǎo! Qíngtiān, bù lěng yě bù rè.',                 en:'Very nice! Sunny, not cold and not hot.' },
+                { sp:'A', zh:'你以前去过北京吗？',                       py:'Nǐ yǐqián qù guò Běijīng ma?',                          en:'Have you been to Beijing before?' },
+                { sp:'B', zh:'去过！我很喜欢北京。你呢？',               py:'Qù guò! Wǒ hěn xǐhuān Běijīng. Nǐ ne?',               en:"Yes, I have! I really like Beijing. And you?" },
+                { sp:'A', zh:'我没去过，但我想去！祝你旅途愉快！',       py:'Wǒ méi qù guò, dàn wǒ xiǎng qù! Zhù nǐ lǚtú yúkuài!', en:"I haven't been, but I want to go! Have a great trip!" },
+            ]
+        }
+    },
+];
         vocab: [
             { zh:'你好',          py:'Nǐ hǎo',              en:'Hello' },
             { zh:'你好吗？',       py:'Nǐ hǎo ma?',          en:'How are you?' },
@@ -440,12 +806,10 @@ const topics = [
 
 let activeTopic = 0;
 
-// Per-topic state
+// One state entry per topic (one dialogue each)
 const state = topics.map(() => ({
     fcIdx: 0,
-    dl: [{ idx: 0, showPy: false, showEn: false }, { idx: 0, showPy: false, showEn: false }],
-    scriptPy: [false, false],
-    scriptEn: [false, false],
+    dl: { idx: 0, showPy: false, showEn: false },
 }));
 
 // ── RENDER ───────────────────────────────────────────────────────────────
@@ -453,7 +817,7 @@ const state = topics.map(() => ({
 function buildTopicBar() {
     const bar = document.getElementById('topic-bar');
     bar.innerHTML = topics.map((t, i) =>
-        `<button class="topic-btn${i === 0 ? ' active' : ''}" onclick="selectTopic(${i})">L${i+1} · ${t.title.split(',')[0].split(' &')[0]}</button>`
+        `<button class="topic-btn${i === 0 ? ' active' : ''}" onclick="selectTopic(${i})">${t.tab}</button>`
     ).join('');
 }
 
@@ -466,7 +830,12 @@ function selectTopic(i) {
 
 function buildAllSections() {
     const container = document.getElementById('topic-sections');
-    container.innerHTML = topics.map((t, ti) => `
+    container.innerHTML = topics.map((t, ti) => {
+        const d = t.dialogue;
+        const l0 = d.lines[0];
+        const id = `dl-${ti}`;
+        const sid = `sc-${ti}`;
+        return `
         <div class="topic-section${ti === 0 ? ' active' : ''}" id="topic-${ti}">
             <div class="topic-header">
                 <div class="topic-header-inner">
@@ -504,65 +873,54 @@ function buildAllSections() {
                     </tbody>
                 </table>
 
-                ${t.dialogues.map((d, di) => buildDialogue(ti, di, d)).join('<hr class="content-divider">')}
+                <hr class="content-divider">
 
-            </div>
-        </div>
-    `).join('');
-}
+                <!-- DIALOGUE LINE-BY-LINE -->
+                <div class="section-label">Dialogue · Practice</div>
+                <div class="section-heading">${d.title}</div>
 
-function buildDialogue(ti, di, d) {
-    const id = `dl-${ti}-${di}`;
-    const sid = `sc-${ti}-${di}`;
-    const l0 = d.lines[0];
-    return `
-        <hr class="content-divider">
-
-        <!-- DIALOGUE ${di+1} LINE-BY-LINE -->
-        <div class="section-label">Dialogue ${di+1} · Practice</div>
-        <div class="section-heading">${d.title}</div>
-
-        <div class="dl-display">
-            <div class="dl-speaker-row">
-                <span class="d-speaker${l0.sp==='B'?' sp-b':''}" id="${id}-sp">${l0.sp}</span>
-                <span class="dl-counter-label" id="${id}-counter">Line 1 / ${d.lines.length}</span>
-            </div>
-            <div class="dl-zh-big cjk" id="${id}-zh">${l0.zh}</div>
-            <div class="dl-py-line" id="${id}-py">${l0.py}</div>
-            <div class="dl-en-line" id="${id}-en">${l0.en}</div>
-        </div>
-        <div class="dl-controls">
-            <button class="btn btn-sm btn-outline" id="${id}-py-btn" onclick="dlToggle(${ti},${di},'py')">Pinyin</button>
-            <button class="btn btn-sm btn-outline" id="${id}-en-btn" onclick="dlToggle(${ti},${di},'en')">English</button>
-            <div style="flex:1"></div>
-            <button class="btn btn-sm btn-outline" onclick="dlPrev(${ti},${di})">← Prev</button>
-            <button class="btn btn-sm" onclick="dlNext(${ti},${di})">Next →</button>
-        </div>
-
-        <!-- DIALOGUE ${di+1} FULL SCRIPT -->
-        <div style="margin-top:2.5rem;">
-            <div class="full-script-bar">
-                <div>
-                    <div class="section-label">Dialogue ${di+1} · Full Script</div>
-                </div>
-                <div class="script-toggle-group">
-                    <button class="btn btn-sm btn-outline" id="${sid}-py-btn" onclick="scriptToggle(${ti},${di},'py')">Pinyin</button>
-                    <button class="btn btn-sm btn-outline" id="${sid}-en-btn" onclick="scriptToggle(${ti},${di},'en')">English</button>
-                </div>
-            </div>
-            <div class="full-script" id="${sid}">
-                ${d.lines.map(l => `
-                <div class="d-line">
-                    <span class="d-speaker${l.sp==='B'?' sp-b':''}" style="margin-top:0.25rem;">${l.sp}</span>
-                    <div>
-                        <div class="d-zh cjk">${l.zh}</div>
-                        <div class="d-py">${l.py}</div>
-                        <div class="d-en">${l.en}</div>
+                <div class="dl-display">
+                    <div class="dl-speaker-row">
+                        <span class="d-speaker${l0.sp==='B'?' sp-b':''}" id="${id}-sp">${l0.sp}</span>
+                        <span class="dl-counter-label" id="${id}-counter">Line 1 / ${d.lines.length}</span>
                     </div>
-                </div>`).join('')}
+                    <div class="dl-zh-big cjk" id="${id}-zh">${l0.zh}</div>
+                    <div class="dl-py-line" id="${id}-py">${l0.py}</div>
+                    <div class="dl-en-line" id="${id}-en">${l0.en}</div>
+                </div>
+                <div class="dl-controls">
+                    <button class="btn btn-sm btn-outline" id="${id}-py-btn" onclick="dlToggle(${ti},'py')">Pinyin</button>
+                    <button class="btn btn-sm btn-outline" id="${id}-en-btn" onclick="dlToggle(${ti},'en')">English</button>
+                    <div style="flex:1"></div>
+                    <button class="btn btn-sm btn-outline" onclick="dlPrev(${ti})">← Prev</button>
+                    <button class="btn btn-sm" onclick="dlNext(${ti})">Next →</button>
+                </div>
+
+                <!-- FULL SCRIPT -->
+                <div style="margin-top:2.5rem;">
+                    <div class="full-script-bar">
+                        <div class="section-label">Full Script</div>
+                        <div class="script-toggle-group">
+                            <button class="btn btn-sm btn-outline" id="${sid}-py-btn" onclick="scriptToggle(${ti},'py')">Pinyin</button>
+                            <button class="btn btn-sm btn-outline" id="${sid}-en-btn" onclick="scriptToggle(${ti},'en')">English</button>
+                        </div>
+                    </div>
+                    <div class="full-script" id="${sid}">
+                        ${d.lines.map(l => `
+                        <div class="d-line">
+                            <span class="d-speaker${l.sp==='B'?' sp-b':''}" style="margin-top:0.25rem;">${l.sp}</span>
+                            <div>
+                                <div class="d-zh cjk">${l.zh}</div>
+                                <div class="d-py">${l.py}</div>
+                                <div class="d-en">${l.en}</div>
+                            </div>
+                        </div>`).join('')}
+                    </div>
+                </div>
+
             </div>
-        </div>
-    `;
+        </div>`;
+    }).join('');
 }
 
 // ── FLASHCARD LOGIC ───────────────────────────────────────────────────────
@@ -570,8 +928,7 @@ function buildDialogue(ti, di, d) {
 function fcFlip(ti) { document.getElementById(`fc-wrap-${ti}`).classList.toggle('flipped'); }
 
 function fcShow(ti) {
-    const wrap = document.getElementById(`fc-wrap-${ti}`);
-    wrap.classList.remove('flipped');
+    document.getElementById(`fc-wrap-${ti}`).classList.remove('flipped');
     const s = state[ti];
     setTimeout(() => {
         const c = topics[ti].vocab[s.fcIdx];
@@ -587,11 +944,11 @@ function fcPrev(ti) { state[ti].fcIdx = (state[ti].fcIdx - 1 + topics[ti].vocab.
 
 // ── DIALOGUE LOGIC ────────────────────────────────────────────────────────
 
-function dlRender(ti, di) {
-    const s = state[ti].dl[di];
-    const lines = topics[ti].dialogues[di].lines;
+function dlRender(ti) {
+    const s = state[ti].dl;
+    const lines = topics[ti].dialogue.lines;
     const l = lines[s.idx];
-    const id = `dl-${ti}-${di}`;
+    const id = `dl-${ti}`;
     const spEl = document.getElementById(`${id}-sp`);
     spEl.textContent = l.sp;
     spEl.className = 'd-speaker' + (l.sp === 'B' ? ' sp-b' : '');
@@ -605,35 +962,33 @@ function dlRender(ti, di) {
     document.getElementById(`${id}-counter`).textContent = 'Line ' + (s.idx+1) + ' / ' + lines.length;
 }
 
-function dlToggle(ti, di, which) {
-    const s = state[ti].dl[di];
+function dlToggle(ti, which) {
+    const s = state[ti].dl;
     if (which === 'py') s.showPy = !s.showPy;
     else s.showEn = !s.showEn;
-    dlRender(ti, di);
+    dlRender(ti);
 }
 
-function dlNext(ti, di) {
-    const s = state[ti].dl[di];
-    s.idx = (s.idx + 1) % topics[ti].dialogues[di].lines.length;
+function dlNext(ti) {
+    const s = state[ti].dl;
+    s.idx = (s.idx + 1) % topics[ti].dialogue.lines.length;
     s.showPy = false; s.showEn = false;
-    dlRender(ti, di);
+    dlRender(ti);
 }
 
-function dlPrev(ti, di) {
-    const s = state[ti].dl[di];
-    const n = topics[ti].dialogues[di].lines.length;
+function dlPrev(ti) {
+    const s = state[ti].dl;
+    const n = topics[ti].dialogue.lines.length;
     s.idx = (s.idx - 1 + n) % n;
     s.showPy = false; s.showEn = false;
-    dlRender(ti, di);
+    dlRender(ti);
 }
 
 // ── FULL SCRIPT TOGGLE ────────────────────────────────────────────────────
 
-function scriptToggle(ti, di, which) {
-    const sid = `sc-${ti}-${di}`;
-    const cls = 'show-' + which;
-    const el = document.getElementById(sid);
-    const active = el.classList.toggle(cls);
+function scriptToggle(ti, which) {
+    const sid = `sc-${ti}`;
+    const active = document.getElementById(sid).classList.toggle('show-' + which);
     document.getElementById(`${sid}-${which}-btn`).classList.toggle('btn-outline', !active);
 }
 
