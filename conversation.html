@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Chinese: Full Conversation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #2d3748; line-height: 1.6; }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: white; z-index: 1001; transition: width 0.1s; width: 0%; }
+
+        .cjk { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Noto Sans CJK SC', serif; }
+
+        /* Hero */
+        .page-hero { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: white; padding: 5rem 2rem 2.5rem; text-align: center; }
+        .hero-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 0.75rem; }
+        .hero-title { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 700; line-height: 1.1; margin-bottom: 0.75rem; }
+        .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.6); }
+
+        /* Topic bar */
+        .topic-bar { position: sticky; top: 3px; z-index: 900; background: #111; padding: 0.7rem 1.5rem; display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; }
+        .topic-bar::-webkit-scrollbar { display: none; }
+        .topic-back { flex-shrink: 0; color: rgba(255,255,255,0.55); font-size: 0.82rem; font-weight: 600; text-decoration: none; padding: 0.45rem 0.75rem; white-space: nowrap; transition: color 0.15s; }
+        .topic-back:hover { color: white; }
+        .topic-bar-sep { width: 1px; background: rgba(255,255,255,0.15); margin: 0.15rem 0.25rem; flex-shrink: 0; }
+        .topic-btn { flex-shrink: 0; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.55); border: none; padding: 0.45rem 1.1rem; border-radius: 20px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: background 0.15s, color 0.15s; white-space: nowrap; text-decoration: none; display: inline-block; }
+        .topic-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+        .topic-btn.active { background: white; color: #1a1a1a; }
+
+        /* Content layout */
+        .content-wrap { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+        .content-divider { border: none; border-top: 1px solid #e0e0e0; margin: 3rem 0; }
+
+        .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.5rem; }
+        .section-heading { font-size: clamp(1.4rem, 2.5vw, 1.9rem); font-weight: 700; color: #1a1a1a; margin-bottom: 1rem; }
+        .section-body { font-size: 1rem; color: #555; line-height: 1.7; max-width: 640px; margin-bottom: 1.25rem; }
+
+        /* Lesson section headers */
+        .lesson-section-header { background: linear-gradient(135deg, #1a1a1a 0%, #404040 100%); color: white; padding: 3rem 2rem 2.5rem; }
+        .lesson-section-inner { max-width: 860px; margin: 0 auto; }
+        .part-number { font-size: 5rem; font-weight: 800; color: rgba(255,255,255,0.06); line-height: 1; margin-bottom: -1.2rem; }
+        .part-title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700; }
+        .part-sub { font-size: 0.95rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; }
+
+        /* Buttons */
+        .btn { background: #1a1a1a; color: white; border: none; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.75; }
+        .btn-outline { background: transparent; color: #1a1a1a; border: 2px solid #1a1a1a; }
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+
+        /* Dialogue line-by-line player */
+        .dl-display { background: #f8f8f8; border-radius: 16px; padding: 2rem; margin: 1.5rem 0 1rem; min-height: 170px; display: flex; flex-direction: column; justify-content: center; }
+        .dl-speaker-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .dl-counter-label { font-size: 0.75rem; color: #aaa; font-weight: 600; letter-spacing: 0.05em; }
+        .dl-zh-big { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.8rem; line-height: 1.35; color: #1a1a1a; margin-bottom: 0.4rem; }
+        .dl-py-line { font-size: 1rem; color: #888; font-style: italic; margin-bottom: 0.3rem; visibility: hidden; }
+        .dl-en-line { font-size: 1rem; color: #aaa; visibility: hidden; }
+        .dl-py-line.show, .dl-en-line.show { visibility: visible; }
+        .dl-controls { display: flex; gap: 0.6rem; align-items: center; }
+        .d-speaker { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #1a1a1a; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+        .d-speaker.sp-b { background: #555; }
+
+        /* Full script */
+        .full-script-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+        .script-toggle-group { display: flex; gap: 0.4rem; }
+        .full-script { background: white; border-radius: 12px; padding: 1.5rem; }
+        .d-line { display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.55rem 0; border-bottom: 1px solid #eee; }
+        .d-line:last-child { border-bottom: none; }
+        .d-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.2rem; line-height: 1.4; }
+        .d-py { font-size: 0.85rem; color: #888; font-style: italic; display: none; margin-top: 0.1rem; }
+        .d-en { font-size: 0.85rem; color: #bbb; display: none; }
+        .show-py .d-py { display: block; }
+        .show-en .d-en { display: block; }
+
+        /* Vocab table */
+        .vocab-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.95rem; }
+        .vocab-table th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #1a1a1a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+        .vocab-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .td-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.35rem; }
+        .td-py { color: #666; font-style: italic; }
+        .td-en { color: #333; }
+
+        /* Pattern blocks */
+        .pattern-block { background: #f8f8f8; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 0.75rem; }
+        .pattern-formula { font-size: 0.75rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+        .pattern-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.5rem; margin-bottom: 0.15rem; }
+        .pattern-py { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 0.15rem; }
+        .pattern-en { font-size: 0.9rem; color: #555; }
+
+        /* Tip box */
+        .hbox { background: #f8f8f8; border-left: 4px solid #1a1a1a; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.25rem 0; }
+        .hbox p { font-size: 0.95rem; color: #333; }
+
+        /* Card grid */
+        .card-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem; }
+        .card-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.6rem; line-height: 1.2; margin-bottom: 0.2rem; }
+        .card-py { font-size: 0.85rem; color: #888; font-style: italic; margin-bottom: 0.15rem; }
+        .card-en { font-size: 0.85rem; color: #555; }
+
+        /* Numbers grid */
+        .num-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin-top: 1.25rem; }
+        .num-cell { background: #f8f8f8; border-radius: 10px; padding: 1rem 0.5rem; text-align: center; }
+        .num-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.8rem; line-height: 1.2; }
+        .num-py { font-size: 0.85rem; color: #888; font-style: italic; margin-top: 0.15rem; }
+        .num-en { font-size: 0.72rem; color: #aaa; margin-top: 0.1rem; }
+
+        /* Footer */
+        .page-footer { text-align: center; padding: 2rem 1rem; font-size: 0.78rem; background: rgba(26,26,26,0.85); color: rgba(255,255,255,0.35); }
+
+        @media (max-width: 640px) {
+            .content-wrap { padding: 2rem 1rem 3rem; }
+            .card-grid-3 { grid-template-columns: 1fr; }
+            .num-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="page-hero">
+    <div class="hero-label">Network School · Beginner Chinese</div>
+    <h1 class="hero-title">Full Conversation</h1>
+    <p class="hero-sub">One complete conversation: greetings, names, age, nationality, jobs, and hobbies.</p>
+</div>
+
+<div class="topic-bar">
+    <a href="/" class="topic-back">Back</a>
+    <div class="topic-bar-sep"></div>
+    <a href="#dialogue" class="topic-btn active">Dialogue</a>
+    <a href="#greetings" class="topic-btn">Greetings</a>
+    <a href="#introductions" class="topic-btn">Introductions</a>
+    <a href="#age" class="topic-btn">Age</a>
+    <a href="#nationality" class="topic-btn">Nationality</a>
+    <a href="#jobs" class="topic-btn">Jobs</a>
+    <a href="#hobbies" class="topic-btn">Hobbies</a>
+</div>
+
+
+<!-- ===== DIALOGUE ===== -->
+<div id="dialogue">
+    <div class="content-wrap">
+        <div class="section-label">Full Conversation</div>
+        <div class="section-heading">Meeting Someone New</div>
+        <p class="section-body">A first meeting covering greetings, names, age, nationality, jobs, and hobbies. Practice line by line or read the full script below.</p>
+
+        <div class="dl-display">
+            <div class="dl-speaker-row">
+                <span class="d-speaker" id="dl-sp">A</span>
+                <span class="dl-counter-label" id="dl-counter">Line 1 / 16</span>
+            </div>
+            <div class="dl-zh-big cjk" id="dl-zh">你好！</div>
+            <div class="dl-py-line" id="dl-py">Nǐ hǎo!</div>
+            <div class="dl-en-line" id="dl-en">Hello!</div>
+        </div>
+        <div class="dl-controls">
+            <button class="btn btn-sm btn-outline" id="dl-py-btn" onclick="dlToggle('py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="dl-en-btn" onclick="dlToggle('en')">English</button>
+            <div style="flex:1"></div>
+            <button class="btn btn-sm btn-outline" onclick="dlPrev()">Prev</button>
+            <button class="btn btn-sm" onclick="dlNext()">Next</button>
+        </div>
+
+        <div style="margin-top:2.5rem;">
+            <div class="full-script-bar">
+                <div class="section-label">Full Script</div>
+                <div class="script-toggle-group">
+                    <button class="btn btn-sm btn-outline" id="sc-py-btn" onclick="scriptToggle('py')">Pinyin</button>
+                    <button class="btn btn-sm btn-outline" id="sc-en-btn" onclick="scriptToggle('en')">English</button>
+                </div>
+            </div>
+            <div class="full-script" id="sc"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===== GREETINGS ===== -->
+<div id="greetings">
+    <div class="lesson-section-header">
+        <div class="lesson-section-inner">
+            <div class="part-number">01</div>
+            <div class="part-title">Greetings</div>
+            <div class="part-sub">你好 · 你好吗？ · 再见</div>
+        </div>
+    </div>
+    <div class="content-wrap">
+        <div class="section-label">Key Phrases</div>
+        <div class="section-heading">Saying hello and goodbye.</div>
+        <table class="vocab-table">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">你好</td><td class="td-py">Nǐ hǎo</td><td class="td-en">Hello</td></tr>
+                <tr><td class="td-zh cjk">你好吗？</td><td class="td-py">Nǐ hǎo ma?</td><td class="td-en">How are you?</td></tr>
+                <tr><td class="td-zh cjk">我很好。</td><td class="td-py">Wǒ hěn hǎo.</td><td class="td-en">I am well.</td></tr>
+                <tr><td class="td-zh cjk">你呢？</td><td class="td-py">Nǐ ne?</td><td class="td-en">And you?</td></tr>
+                <tr><td class="td-zh cjk">不客气。</td><td class="td-py">Bú kèqi.</td><td class="td-en">You are welcome.</td></tr>
+                <tr><td class="td-zh cjk">再见！</td><td class="td-py">Zàijiàn!</td><td class="td-en">Goodbye!</td></tr>
+            </tbody>
+        </table>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Grammar</div>
+        <div class="section-heading">Patterns to know.</div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">Statement</div>
+            <div class="pattern-zh cjk">我很好。</div>
+            <div class="pattern-py">Wǒ hěn hǎo.</div>
+            <div class="pattern-en">I am well. (literally: I very good.)</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Yes/No Question</div>
+            <div class="pattern-zh cjk">你好吗？</div>
+            <div class="pattern-py">Nǐ hǎo ma?</div>
+            <div class="pattern-en">How are you? (literally: You good [question]?)</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Follow-up Question</div>
+            <div class="pattern-zh cjk">你呢？</div>
+            <div class="pattern-py">Nǐ ne?</div>
+            <div class="pattern-en">And you? (a short way to redirect a question back)</div>
+        </div>
+
+        <div class="hbox">
+            <p>Adding 吗 (ma) to the end of any statement turns it into a yes/no question. No word order change is needed. 你好 means Hello. 你好吗 means How are you?</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===== INTRODUCTIONS ===== -->
+<div id="introductions">
+    <div class="lesson-section-header">
+        <div class="lesson-section-inner">
+            <div class="part-number">02</div>
+            <div class="part-title">Introductions</div>
+            <div class="part-sub">你叫什么名字？ · 我叫___</div>
+        </div>
+    </div>
+    <div class="content-wrap">
+        <div class="section-label">Key Phrases</div>
+        <div class="section-heading">Sharing your name.</div>
+        <table class="vocab-table">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">叫</td><td class="td-py">jiào</td><td class="td-en">to be called / to call</td></tr>
+                <tr><td class="td-zh cjk">名字</td><td class="td-py">míngzi</td><td class="td-en">name</td></tr>
+                <tr><td class="td-zh cjk">什么</td><td class="td-py">shénme</td><td class="td-en">what</td></tr>
+                <tr><td class="td-zh cjk">我叫___。</td><td class="td-py">Wǒ jiào ___.</td><td class="td-en">My name is ___.</td></tr>
+                <tr><td class="td-zh cjk">你叫什么名字？</td><td class="td-py">Nǐ jiào shénme míngzi?</td><td class="td-en">What is your name?</td></tr>
+                <tr><td class="td-zh cjk">很高兴认识你。</td><td class="td-py">Hěn gāoxìng rènshi nǐ.</td><td class="td-en">Nice to meet you.</td></tr>
+            </tbody>
+        </table>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Grammar</div>
+        <div class="section-heading">Name patterns.</div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">Stating your name</div>
+            <div class="pattern-zh cjk">我叫 Maya。</div>
+            <div class="pattern-py">Wǒ jiào Maya.</div>
+            <div class="pattern-en">My name is Maya. (literally: I called Maya.)</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Asking someone's name</div>
+            <div class="pattern-zh cjk">你叫什么名字？</div>
+            <div class="pattern-py">Nǐ jiào shénme míngzi?</div>
+            <div class="pattern-en">What is your name? (literally: You called what name?)</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Nice to meet you</div>
+            <div class="pattern-zh cjk">很高兴认识你。</div>
+            <div class="pattern-py">Hěn gāoxìng rènshi nǐ.</div>
+            <div class="pattern-en">Nice to meet you. (literally: Very happy to know you.)</div>
+        </div>
+
+        <div class="hbox">
+            <p>Question words like 什么 (what) stay in the same position as the answer. In 你叫什么名字, the word 什么 sits exactly where the name would go. No word order flip is needed.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===== AGE ===== -->
+<div id="age">
+    <div class="lesson-section-header">
+        <div class="lesson-section-inner">
+            <div class="part-number">03</div>
+            <div class="part-title">Age</div>
+            <div class="part-sub">你多大？ · 我___岁</div>
+        </div>
+    </div>
+    <div class="content-wrap">
+        <div class="section-label">Key Phrases</div>
+        <div class="section-heading">Asking and saying your age.</div>
+        <table class="vocab-table">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">多大</td><td class="td-py">duō dà</td><td class="td-en">how old (for adults)</td></tr>
+                <tr><td class="td-zh cjk">几岁</td><td class="td-py">jǐ suì</td><td class="td-en">how old (for young children)</td></tr>
+                <tr><td class="td-zh cjk">岁</td><td class="td-py">suì</td><td class="td-en">years old</td></tr>
+                <tr><td class="td-zh cjk">今年</td><td class="td-py">jīnnián</td><td class="td-en">this year</td></tr>
+                <tr><td class="td-zh cjk">你多大？</td><td class="td-py">Nǐ duō dà?</td><td class="td-en">How old are you?</td></tr>
+                <tr><td class="td-zh cjk">我___岁。</td><td class="td-py">Wǒ ___ suì.</td><td class="td-en">I am ___ years old.</td></tr>
+            </tbody>
+        </table>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Numbers</div>
+        <div class="section-heading">One to ten.</div>
+        <div class="num-grid">
+            <div class="num-cell"><div class="num-zh cjk">一</div><div class="num-py">yī</div><div class="num-en">1</div></div>
+            <div class="num-cell"><div class="num-zh cjk">二</div><div class="num-py">èr</div><div class="num-en">2</div></div>
+            <div class="num-cell"><div class="num-zh cjk">三</div><div class="num-py">sān</div><div class="num-en">3</div></div>
+            <div class="num-cell"><div class="num-zh cjk">四</div><div class="num-py">sì</div><div class="num-en">4</div></div>
+            <div class="num-cell"><div class="num-zh cjk">五</div><div class="num-py">wǔ</div><div class="num-en">5</div></div>
+            <div class="num-cell"><div class="num-zh cjk">六</div><div class="num-py">liù</div><div class="num-en">6</div></div>
+            <div class="num-cell"><div class="num-zh cjk">七</div><div class="num-py">qī</div><div class="num-en">7</div></div>
+            <div class="num-cell"><div class="num-zh cjk">八</div><div class="num-py">bā</div><div class="num-en">8</div></div>
+            <div class="num-cell"><div class="num-zh cjk">九</div><div class="num-py">jiǔ</div><div class="num-en">9</div></div>
+            <div class="num-cell"><div class="num-zh cjk">十</div><div class="num-py">shí</div><div class="num-en">10</div></div>
+        </div>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Grammar</div>
+        <div class="section-heading">Age patterns.</div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">Asking age (adults)</div>
+            <div class="pattern-zh cjk">你多大？</div>
+            <div class="pattern-py">Nǐ duō dà?</div>
+            <div class="pattern-en">How old are you?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Stating age</div>
+            <div class="pattern-zh cjk">我二十三岁。</div>
+            <div class="pattern-py">Wǒ èrshísān suì.</div>
+            <div class="pattern-en">I am 23 years old.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Numbers 11 to 19</div>
+            <div class="pattern-zh cjk">十一 · 十五 · 十九</div>
+            <div class="pattern-py">shíyī · shíwǔ · shíjiǔ</div>
+            <div class="pattern-en">11 · 15 · 19 (ten + digit)</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Numbers 20 to 29</div>
+            <div class="pattern-zh cjk">二十 · 二十三 · 二十五</div>
+            <div class="pattern-py">èrshí · èrshísān · èrshíwǔ</div>
+            <div class="pattern-en">20 · 23 · 25 (two-ten + digit)</div>
+        </div>
+
+        <div class="hbox">
+            <p>Use 你多大 for adults and 你几岁 for small children. Numbers from 11 to 99 follow a logical pattern: 十 (ten) + digit for teens, and digit + 十 + digit for larger numbers. 二十五 is literally "two ten five."</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===== NATIONALITY ===== -->
+<div id="nationality">
+    <div class="lesson-section-header">
+        <div class="lesson-section-inner">
+            <div class="part-number">04</div>
+            <div class="part-title">Nationality</div>
+            <div class="part-sub">你是哪国人？ · 我是___人</div>
+        </div>
+    </div>
+    <div class="content-wrap">
+        <div class="section-label">Key Phrases</div>
+        <div class="section-heading">Where are you from?</div>
+        <table class="vocab-table">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">哪国人</td><td class="td-py">nǎ guó rén</td><td class="td-en">which country person</td></tr>
+                <tr><td class="td-zh cjk">国</td><td class="td-py">guó</td><td class="td-en">country</td></tr>
+                <tr><td class="td-zh cjk">人</td><td class="td-py">rén</td><td class="td-en">person</td></tr>
+                <tr><td class="td-zh cjk">你是哪国人？</td><td class="td-py">Nǐ shì nǎ guó rén?</td><td class="td-en">What nationality are you?</td></tr>
+                <tr><td class="td-zh cjk">我是___人。</td><td class="td-py">Wǒ shì ___ rén.</td><td class="td-en">I am ___ (nationality).</td></tr>
+            </tbody>
+        </table>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Countries</div>
+        <div class="section-heading">Common countries and nationalities.</div>
+        <div class="card-grid card-grid-3">
+            <div class="card"><div class="card-zh cjk">美国</div><div class="card-py">Měiguó</div><div class="card-en">USA / American</div></div>
+            <div class="card"><div class="card-zh cjk">中国</div><div class="card-py">Zhōngguó</div><div class="card-en">China / Chinese</div></div>
+            <div class="card"><div class="card-zh cjk">英国</div><div class="card-py">Yīngguó</div><div class="card-en">UK / British</div></div>
+            <div class="card"><div class="card-zh cjk">法国</div><div class="card-py">Fǎguó</div><div class="card-en">France / French</div></div>
+            <div class="card"><div class="card-zh cjk">加拿大</div><div class="card-py">Jiānádà</div><div class="card-en">Canada / Canadian</div></div>
+            <div class="card"><div class="card-zh cjk">日本</div><div class="card-py">Rìběn</div><div class="card-en">Japan / Japanese</div></div>
+            <div class="card"><div class="card-zh cjk">韩国</div><div class="card-py">Hánguó</div><div class="card-en">South Korea / Korean</div></div>
+            <div class="card"><div class="card-zh cjk">德国</div><div class="card-py">Déguó</div><div class="card-en">Germany / German</div></div>
+            <div class="card"><div class="card-zh cjk">澳大利亚</div><div class="card-py">Àodàlìyǎ</div><div class="card-en">Australia / Australian</div></div>
+        </div>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Grammar</div>
+        <div class="section-heading">Nationality pattern.</div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">Asking nationality</div>
+            <div class="pattern-zh cjk">你是哪国人？</div>
+            <div class="pattern-py">Nǐ shì nǎ guó rén?</div>
+            <div class="pattern-en">What nationality are you?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Stating nationality</div>
+            <div class="pattern-zh cjk">我是英国人。</div>
+            <div class="pattern-py">Wǒ shì Yīngguó rén.</div>
+            <div class="pattern-en">I am British.</div>
+        </div>
+
+        <div class="hbox">
+            <p>Adding 人 (person) after a country name gives the nationality. 美国 (America) plus 人 equals 美国人 (American). 中国 (China) plus 人 equals 中国人 (Chinese person). This pattern works for almost every country.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===== JOBS ===== -->
+<div id="jobs">
+    <div class="lesson-section-header">
+        <div class="lesson-section-inner">
+            <div class="part-number">05</div>
+            <div class="part-title">Jobs</div>
+            <div class="part-sub">你做什么工作？ · 我是___</div>
+        </div>
+    </div>
+    <div class="content-wrap">
+        <div class="section-label">Key Phrases</div>
+        <div class="section-heading">What do you do?</div>
+        <table class="vocab-table">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">工作</td><td class="td-py">gōngzuò</td><td class="td-en">work / job</td></tr>
+                <tr><td class="td-zh cjk">做</td><td class="td-py">zuò</td><td class="td-en">to do</td></tr>
+                <tr><td class="td-zh cjk">职业</td><td class="td-py">zhíyè</td><td class="td-en">occupation / profession</td></tr>
+                <tr><td class="td-zh cjk">你做什么工作？</td><td class="td-py">Nǐ zuò shénme gōngzuò?</td><td class="td-en">What work do you do?</td></tr>
+                <tr><td class="td-zh cjk">我是___。</td><td class="td-py">Wǒ shì ___.</td><td class="td-en">I am a ___.</td></tr>
+            </tbody>
+        </table>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Occupations</div>
+        <div class="section-heading">Common jobs.</div>
+        <div class="card-grid card-grid-3">
+            <div class="card"><div class="card-zh cjk">学生</div><div class="card-py">xuésheng</div><div class="card-en">student</div></div>
+            <div class="card"><div class="card-zh cjk">老师</div><div class="card-py">lǎoshī</div><div class="card-en">teacher</div></div>
+            <div class="card"><div class="card-zh cjk">医生</div><div class="card-py">yīshēng</div><div class="card-en">doctor</div></div>
+            <div class="card"><div class="card-zh cjk">护士</div><div class="card-py">hùshi</div><div class="card-en">nurse</div></div>
+            <div class="card"><div class="card-zh cjk">程序员</div><div class="card-py">chéngyùyuán</div><div class="card-en">programmer</div></div>
+            <div class="card"><div class="card-zh cjk">工程师</div><div class="card-py">gōngchéngshī</div><div class="card-en">engineer</div></div>
+            <div class="card"><div class="card-zh cjk">设计师</div><div class="card-py">shèjìshī</div><div class="card-en">designer</div></div>
+            <div class="card"><div class="card-zh cjk">企业家</div><div class="card-py">qǐyèjiā</div><div class="card-en">entrepreneur</div></div>
+            <div class="card"><div class="card-zh cjk">记者</div><div class="card-py">jìzhě</div><div class="card-en">journalist</div></div>
+        </div>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Grammar</div>
+        <div class="section-heading">Job patterns.</div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">Asking about someone's job</div>
+            <div class="pattern-zh cjk">你做什么工作？</div>
+            <div class="pattern-py">Nǐ zuò shénme gōngzuò?</div>
+            <div class="pattern-en">What work do you do?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Stating your job</div>
+            <div class="pattern-zh cjk">我是程序员。</div>
+            <div class="pattern-py">Wǒ shì chéngyùyuán.</div>
+            <div class="pattern-en">I am a programmer.</div>
+        </div>
+
+        <div class="hbox">
+            <p>Use 我是 followed by the occupation to state your job. This is the same 是 used for nationality. Chinese does not use articles like "a" or "the," so 我是学生 covers both "I am a student" and "I am the student."</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===== HOBBIES ===== -->
+<div id="hobbies">
+    <div class="lesson-section-header">
+        <div class="lesson-section-inner">
+            <div class="part-number">06</div>
+            <div class="part-title">Hobbies</div>
+            <div class="part-sub">你有什么爱好？ · 我喜欢___</div>
+        </div>
+    </div>
+    <div class="content-wrap">
+        <div class="section-label">Key Phrases</div>
+        <div class="section-heading">What do you like to do?</div>
+        <table class="vocab-table">
+            <thead><tr><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">爱好</td><td class="td-py">àihào</td><td class="td-en">hobby / interest</td></tr>
+                <tr><td class="td-zh cjk">喜欢</td><td class="td-py">xǐhuān</td><td class="td-en">to like</td></tr>
+                <tr><td class="td-zh cjk">和</td><td class="td-py">hé</td><td class="td-en">and (connecting nouns)</td></tr>
+                <tr><td class="td-zh cjk">你有什么爱好？</td><td class="td-py">Nǐ yǒu shénme àihào?</td><td class="td-en">What hobbies do you have?</td></tr>
+                <tr><td class="td-zh cjk">我喜欢___。</td><td class="td-py">Wǒ xǐhuān ___.</td><td class="td-en">I like ___.</td></tr>
+                <tr><td class="td-zh cjk">我的爱好是___。</td><td class="td-py">Wǒ de àihào shì ___.</td><td class="td-en">My hobby is ___.</td></tr>
+            </tbody>
+        </table>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Activities</div>
+        <div class="section-heading">Common hobbies.</div>
+        <div class="card-grid card-grid-3">
+            <div class="card"><div class="card-zh cjk">跑步</div><div class="card-py">pǎobù</div><div class="card-en">running</div></div>
+            <div class="card"><div class="card-zh cjk">游泳</div><div class="card-py">yóuyǒng</div><div class="card-en">swimming</div></div>
+            <div class="card"><div class="card-zh cjk">看电影</div><div class="card-py">kàn diànyǐng</div><div class="card-en">watching movies</div></div>
+            <div class="card"><div class="card-zh cjk">读书</div><div class="card-py">dúshū</div><div class="card-en">reading</div></div>
+            <div class="card"><div class="card-zh cjk">听音乐</div><div class="card-py">tīng yīnyuè</div><div class="card-en">listening to music</div></div>
+            <div class="card"><div class="card-zh cjk">旅游</div><div class="card-py">lǚyóu</div><div class="card-en">traveling</div></div>
+            <div class="card"><div class="card-zh cjk">学中文</div><div class="card-py">xué Zhōngwén</div><div class="card-en">studying Chinese</div></div>
+            <div class="card"><div class="card-zh cjk">打篮球</div><div class="card-py">dǎ lánqiú</div><div class="card-en">playing basketball</div></div>
+            <div class="card"><div class="card-zh cjk">做饭</div><div class="card-py">zuòfàn</div><div class="card-en">cooking</div></div>
+        </div>
+
+        <hr class="content-divider">
+
+        <div class="section-label">Grammar</div>
+        <div class="section-heading">Hobby patterns.</div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">Asking about hobbies</div>
+            <div class="pattern-zh cjk">你有什么爱好？</div>
+            <div class="pattern-py">Nǐ yǒu shénme àihào?</div>
+            <div class="pattern-en">What hobbies do you have?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Saying what you like</div>
+            <div class="pattern-zh cjk">我喜欢跑步和看电影。</div>
+            <div class="pattern-py">Wǒ xǐhuān pǎobù hé kàn diànyǐng.</div>
+            <div class="pattern-en">I like running and watching movies.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Stating your hobby</div>
+            <div class="pattern-zh cjk">我的爱好是读书。</div>
+            <div class="pattern-py">Wǒ de àihào shì dúshū.</div>
+            <div class="pattern-en">My hobby is reading.</div>
+        </div>
+
+        <div class="hbox">
+            <p>和 (hé) means "and" when listing items. 我喜欢跑步和游泳 means "I like running and swimming." You can list as many hobbies as you like by joining them with 和. Note that 和 connects nouns and noun phrases, not verbs.</p>
+        </div>
+    </div>
+</div>
+
+
+<footer class="page-footer">Network School · Beginner Chinese · Full Conversation</footer>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+
+const dialogue = {
+    title: 'Meeting Someone New',
+    lines: [
+        { sp:'A', zh:'你好！',                              py:'Nǐ hǎo!',                                          en:'Hello!' },
+        { sp:'B', zh:'你好！',                              py:'Nǐ hǎo!',                                          en:'Hello!' },
+        { sp:'A', zh:'你叫什么名字？',                      py:'Nǐ jiào shénme míngzi?',                           en:'What is your name?' },
+        { sp:'B', zh:'我叫 Leo。你呢？',                    py:'Wǒ jiào Leo. Nǐ ne?',                              en:'My name is Leo. And you?' },
+        { sp:'A', zh:'我叫 Maya。很高兴认识你。',            py:'Wǒ jiào Maya. Hěn gāoxìng rènshi nǐ.',             en:'My name is Maya. Nice to meet you.' },
+        { sp:'B', zh:'很高兴认识你！你多大？',              py:'Hěn gāoxìng rènshi nǐ! Nǐ duō dà?',               en:'Nice to meet you! How old are you?' },
+        { sp:'A', zh:'我二十三岁。你呢？',                  py:'Wǒ èrshísān suì. Nǐ ne?',                         en:"I'm 23 years old. And you?" },
+        { sp:'B', zh:'我二十五岁。你是哪国人？',            py:'Wǒ èrshíwǔ suì. Nǐ shì nǎ guó rén?',             en:"I'm 25. What nationality are you?" },
+        { sp:'A', zh:'我是英国人。你呢？',                  py:'Wǒ shì Yīngguó rén. Nǐ ne?',                      en:"I'm British. And you?" },
+        { sp:'B', zh:'我是美国人。你做什么工作？',          py:'Wǒ shì Měiguó rén. Nǐ zuò shénme gōngzuò?',       en:"I'm American. What work do you do?" },
+        { sp:'A', zh:'我是学生。你呢？',                    py:'Wǒ shì xuésheng. Nǐ ne?',                         en:"I'm a student. And you?" },
+        { sp:'B', zh:'我是程序员。你有什么爱好？',          py:'Wǒ shì chéngyùyuán. Nǐ yǒu shénme àihào?',        en:"I'm a programmer. What hobbies do you have?" },
+        { sp:'A', zh:'我喜欢读书和学中文。你呢？',          py:'Wǒ xǐhuān dúshū hé xué Zhōngwén. Nǐ ne?',         en:'I like reading and studying Chinese. And you?' },
+        { sp:'B', zh:'我喜欢跑步和看电影。太好了！',        py:'Wǒ xǐhuān pǎobù hé kàn diànyǐng. Tài hǎo le!',   en:'I like running and watching movies. That is great!' },
+        { sp:'A', zh:'再见！',                              py:'Zàijiàn!',                                         en:'Goodbye!' },
+        { sp:'B', zh:'再见！',                              py:'Zàijiàn!',                                         en:'Goodbye!' },
+    ]
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+
+const dlState = { idx: 0, showPy: false, showEn: false };
+
+// ── BUILD FULL SCRIPT ─────────────────────────────────────────────────────────
+
+function buildScript() {
+    document.getElementById('sc').innerHTML = dialogue.lines.map(l => `
+        <div class="d-line">
+            <span class="d-speaker${l.sp === 'B' ? ' sp-b' : ''}" style="margin-top:0.25rem;">${l.sp}</span>
+            <div>
+                <div class="d-zh cjk">${l.zh}</div>
+                <div class="d-py">${l.py}</div>
+                <div class="d-en">${l.en}</div>
+            </div>
+        </div>`).join('');
+}
+
+// ── DIALOGUE PLAYER ───────────────────────────────────────────────────────────
+
+function dlRender() {
+    const l = dialogue.lines[dlState.idx];
+    const spEl = document.getElementById('dl-sp');
+    spEl.textContent = l.sp;
+    spEl.className = 'd-speaker' + (l.sp === 'B' ? ' sp-b' : '');
+    document.getElementById('dl-zh').textContent = l.zh;
+    document.getElementById('dl-py').textContent = l.py;
+    document.getElementById('dl-en').textContent = l.en;
+    document.getElementById('dl-py').classList.toggle('show', dlState.showPy);
+    document.getElementById('dl-en').classList.toggle('show', dlState.showEn);
+    document.getElementById('dl-py-btn').classList.toggle('btn-outline', !dlState.showPy);
+    document.getElementById('dl-en-btn').classList.toggle('btn-outline', !dlState.showEn);
+    document.getElementById('dl-counter').textContent = 'Line ' + (dlState.idx + 1) + ' / ' + dialogue.lines.length;
+}
+
+function dlToggle(which) {
+    if (which === 'py') dlState.showPy = !dlState.showPy;
+    else dlState.showEn = !dlState.showEn;
+    dlRender();
+}
+
+function dlNext() {
+    dlState.idx = (dlState.idx + 1) % dialogue.lines.length;
+    dlState.showPy = false;
+    dlState.showEn = false;
+    dlRender();
+}
+
+function dlPrev() {
+    dlState.idx = (dlState.idx - 1 + dialogue.lines.length) % dialogue.lines.length;
+    dlState.showPy = false;
+    dlState.showEn = false;
+    dlRender();
+}
+
+// ── FULL SCRIPT TOGGLE ────────────────────────────────────────────────────────
+
+function scriptToggle(which) {
+    const active = document.getElementById('sc').classList.toggle('show-' + which);
+    document.getElementById('sc-' + which + '-btn').classList.toggle('btn-outline', !active);
+}
+
+// ── ACTIVE NAV HIGHLIGHTING ───────────────────────────────────────────────────
+
+const sections = ['dialogue','greetings','introductions','age','nationality','jobs','hobbies'];
+
+function updateActiveNav() {
+    const scrollY = window.scrollY + 120;
+    let active = sections[0];
+    for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollY) active = id;
+    }
+    document.querySelectorAll('.topic-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('href') === '#' + active);
+    });
+}
+
+// ── PROGRESS BAR ──────────────────────────────────────────────────────────────
+
+window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+    document.getElementById('progress-bar').style.width = (pct || 0) + '%';
+    updateActiveNav();
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+
+buildScript();
+dlRender();
+</script>
+
+</body>
+</html>
