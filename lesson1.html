@@ -470,15 +470,15 @@
             <div class="card card-dark" style="color:white;">
                 <div class="card-title" style="font-size:1.1rem;margin-bottom:0.75rem;">Production</div>
                 <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;color:white;">
-                    <li style="display:flex;align-items:center;gap:0.6rem;"><span style="font-size:1.3rem;">🗣</span> <span><strong>Speaking</strong> — output sounds, tones, words</span></li>
-                    <li style="display:flex;align-items:center;gap:0.6rem;"><span style="font-size:1.3rem;">✍️</span> <span><strong>Writing</strong> — characters, pinyin, sentences</span></li>
+                    <li style="display:flex;align-items:center;gap:0.6rem;"><span style="font-size:1.3rem;">🗣</span> <span><strong>Speaking</strong>: output sounds, tones, words</span></li>
+                    <li style="display:flex;align-items:center;gap:0.6rem;"><span style="font-size:1.3rem;">✍️</span> <span><strong>Writing</strong>: characters, pinyin, sentences</span></li>
                 </ul>
             </div>
             <div class="card">
                 <div class="card-title" style="font-size:1.1rem;margin-bottom:0.75rem;">Consumption</div>
                 <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
-                    <li style="display:flex;align-items:center;gap:0.6rem;"><span style="font-size:1.3rem;">👂</span> <span><strong>Listening</strong> — tones, rhythm, real speech</span></li>
-                    <li style="display:flex;align-items:center;gap:0.6rem;"><span style="font-size:1.3rem;">📖</span> <span><strong>Reading</strong> — characters, words, context</span></li>
+                    <li style="display:flex;align-items:center;gap:0.6rem;"><span style="font-size:1.3rem;">👂</span> <span><strong>Listening</strong>: tones, rhythm, real speech</span></li>
+                    <li style="display:flex;align-items:center;gap:0.6rem;"><span style="font-size:1.3rem;">📖</span> <span><strong>Reading</strong>: characters, words, context</span></li>
                 </ul>
             </div>
         </div>
@@ -503,7 +503,7 @@
         <div class="card-grid card-grid-3">
             <div class="card">
                 <div class="card-title">Pick the exam</div>
-                <div class="card-desc">HSK 1, HSK 2, TOCFL, OPI — know exactly what you are being tested on.</div>
+                <div class="card-desc">HSK 1, HSK 2, TOCFL, OPI: know exactly what you are being tested on.</div>
             </div>
             <div class="card card-dark">
                 <div class="card-title">Pick the date</div>
@@ -770,16 +770,17 @@
     <div class="slide-content">
         <div class="slide-label">Dialogue 1 · Full</div>
         <h2 class="slide-heading">Greeting &amp; Introduction</h2>
-        <div class="dialogue-lines" style="margin-top:1.25rem;">
-            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你好！</div><div class="d-py show">Nǐ hǎo!</div><div class="d-en show">Hello!</div></div></div>
-            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">你好！</div><div class="d-py show">Nǐ hǎo!</div><div class="d-en show">Hello!</div></div></div>
-            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你好吗？</div><div class="d-py show">Nǐ hǎo ma?</div><div class="d-en show">How are you?</div></div></div>
-            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我很好。你呢？</div><div class="d-py show">Wǒ hěn hǎo. Nǐ ne?</div><div class="d-en show">I'm very well. And you?</div></div></div>
-            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我也很好。你叫什么名字？</div><div class="d-py show">Wǒ yě hěn hǎo. Nǐ jiào shénme míngzi?</div><div class="d-en show">I'm also well. What is your name?</div></div></div>
-            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我叫 Maya。你呢？</div><div class="d-py show">Wǒ jiào Maya. Nǐ ne?</div><div class="d-en show">My name is Maya. And you?</div></div></div>
-            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我叫 Leo。很高兴认识你。</div><div class="d-py show">Wǒ jiào Leo. Hěn gāoxìng rènshi nǐ.</div><div class="d-en show">My name is Leo. Nice to meet you.</div></div></div>
-            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">很高兴认识你。再见！</div><div class="d-py show">Hěn gāoxìng rènshi nǐ. Zàijiàn!</div><div class="d-en show">Nice to meet you. Goodbye!</div></div></div>
-            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">再见！</div><div class="d-py show">Zàijiàn!</div><div class="d-en show">Goodbye!</div></div></div>
+        <div style="display:flex;justify-content:flex-end;gap:0.4rem;margin-top:1.25rem;margin-bottom:0.75rem;"><button class="btn btn-sm btn-outline" id="sc1-py-btn" onclick="scToggle('sc1','py')">Pinyin</button><button class="btn btn-sm btn-outline" id="sc1-en-btn" onclick="scToggle('sc1','en')">English</button></div>
+        <div class="dialogue-lines" id="sc1">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你好！</div><div class="d-py">Nǐ hǎo!</div><div class="d-en">Hello!</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">你好！</div><div class="d-py">Nǐ hǎo!</div><div class="d-en">Hello!</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你好吗？</div><div class="d-py">Nǐ hǎo ma?</div><div class="d-en">How are you?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我很好。你呢？</div><div class="d-py">Wǒ hěn hǎo. Nǐ ne?</div><div class="d-en">I'm very well. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我也很好。你叫什么名字？</div><div class="d-py">Wǒ yě hěn hǎo. Nǐ jiào shénme míngzi?</div><div class="d-en">I'm also well. What is your name?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我叫 Maya。你呢？</div><div class="d-py">Wǒ jiào Maya. Nǐ ne?</div><div class="d-en">My name is Maya. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我叫 Leo。很高兴认识你。</div><div class="d-py">Wǒ jiào Leo. Hěn gāoxìng rènshi nǐ.</div><div class="d-en">My name is Leo. Nice to meet you.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">很高兴认识你。再见！</div><div class="d-py">Hěn gāoxìng rènshi nǐ. Zàijiàn!</div><div class="d-en">Nice to meet you. Goodbye!</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">再见！</div><div class="d-py">Zàijiàn!</div><div class="d-en">Goodbye!</div></div></div>
         </div>
     </div>
 </section>
@@ -816,10 +817,11 @@
     <div class="slide-content">
         <div class="slide-label">Dialogue 2 · Full</div>
         <h2 class="slide-heading">Nationality</h2>
-        <div class="dialogue-lines" style="margin-top:1.25rem;">
-            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你是哪国人？</div><div class="d-py show">Nǐ shì nǎ guó rén?</div><div class="d-en show">What nationality are you?</div></div></div>
-            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我是加拿大人。你呢？</div><div class="d-py show">Wǒ shì Jiānádà rén. Nǐ ne?</div><div class="d-en show">I am Canadian. And you?</div></div></div>
-            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我是美国人。</div><div class="d-py show">Wǒ shì Měiguó rén.</div><div class="d-en show">I am American.</div></div></div>
+        <div style="display:flex;justify-content:flex-end;gap:0.4rem;margin-top:1.25rem;margin-bottom:0.75rem;"><button class="btn btn-sm btn-outline" id="sc2-py-btn" onclick="scToggle('sc2','py')">Pinyin</button><button class="btn btn-sm btn-outline" id="sc2-en-btn" onclick="scToggle('sc2','en')">English</button></div>
+        <div class="dialogue-lines" id="sc2">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你是哪国人？</div><div class="d-py">Nǐ shì nǎ guó rén?</div><div class="d-en">What nationality are you?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">我是加拿大人。你呢？</div><div class="d-py">Wǒ shì Jiānádà rén. Nǐ ne?</div><div class="d-en">I am Canadian. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我是美国人。</div><div class="d-py">Wǒ shì Měiguó rén.</div><div class="d-en">I am American.</div></div></div>
         </div>
         <div class="hbox" style="margin-top:1.5rem;">
             <p>Swap in any country: <span class="cjk">我是<strong>印度</strong>人。&nbsp;·&nbsp; 我是<strong>马来西亚</strong>人。&nbsp;·&nbsp; 我是<strong>新加坡</strong>人。</span></p>
@@ -1065,6 +1067,11 @@
     function dl2Next() { dl2Idx = (dl2Idx + 1) % dl2lines.length; dl2Render(); }
     function dl2Prev() { dl2Idx = (dl2Idx - 1 + dl2lines.length) % dl2lines.length; dl2Render(); }
 
+    function scToggle(id, which) {
+        const active = document.getElementById(id).classList.toggle('show-' + which);
+        document.getElementById(id + '-' + which + '-btn').classList.toggle('btn-outline', !active);
+    }
+
     // ---- Flash cards ----
     const cards = [
         { zh: '你好',       py: 'Nǐ hǎo',                    en: 'Hello' },
@@ -1228,7 +1235,7 @@
             <div style="text-align:center; margin-top:1.75rem;">
                 <div style="font-size:3.5rem; font-weight:800; letter-spacing:0.03em; color:#1a1a1a; line-height:1.1;">Pīnyīn</div>
                 <div style="font-size:2rem; color:#555; margin-top:0.3rem; font-weight:600;">拼音</div>
-                <div style="font-size:0.9rem; color:#888; margin-top:0.75rem; max-width:34rem; margin-left:auto; margin-right:auto;">The romanization system for Mandarin — Latin letters plus tone marks that show how to pronounce any character.</div>
+                <div style="font-size:0.9rem; color:#888; margin-top:0.75rem; max-width:34rem; margin-left:auto; margin-right:auto;">The romanization system for Mandarin: Latin letters plus tone marks that show how to pronounce any character.</div>
             </div>
             <div class="py-breakdown" style="margin-top:1.5rem; opacity:0.75; transform:scale(0.88); transform-origin:top center;">
                 <div class="py-word t3">hǎo</div>
@@ -1290,7 +1297,7 @@
             <div style="text-align:center; margin-top:1.75rem;">
                 <div style="font-size:3.5rem; font-weight:800; color:#1a1a1a; line-height:1.1;">吗</div>
                 <div style="font-size:1.5rem; color:#555; margin-top:0.3rem; font-weight:600;">ma</div>
-                <div style="font-size:0.9rem; color:#888; margin-top:0.75rem;">Add 吗 to the end of any statement — no word order change needed.</div>
+                <div style="font-size:0.9rem; color:#888; margin-top:0.75rem;">Add 吗 to the end of any statement: no word order change needed.</div>
             </div>
             <div class="pattern-block" style="margin-top:1.5rem; opacity:0.8;">
                 <div class="pattern-formula">Statement</div>
