@@ -8,6 +8,7 @@
     { "source": "/lesson5", "destination": "/lesson5.html" },
     { "source": "/lesson6", "destination": "/lesson6.html" },
     { "source": "/dialogues", "destination": "/dialogues.html" },
-    { "source": "/conversation", "destination": "/conversation.html" }
+    { "source": "/conversation", "destination": "/conversation.html" },
+    { "source": "/ordering", "destination": "/ordering.html" }
   ]
 }
