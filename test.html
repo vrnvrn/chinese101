@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSK 1 Mock Test · 30 questions</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f5f5f5;
+        color: #2d3748;
+        line-height: 1.55;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .han { font-family: 'Noto Serif SC', 'PingFang SC', 'Songti SC', serif; }
+
+    .topbar {
+        background: rgba(26,26,26,0.96);
+        backdrop-filter: blur(8px);
+        color: white;
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.85rem;
+    }
+    .topbar a {
+        color: rgba(255,255,255,0.75);
+        text-decoration: none;
+        padding: 0.3rem 0.65rem;
+        border-radius: 6px;
+    }
+    .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+    .topbar .title { font-weight: 600; color: white; margin-left: 0.25rem; }
+    .topbar .badge {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: #f59e0b;
+        color: #1a1a1a;
+        padding: 0.18rem 0.5rem;
+        border-radius: 4px;
+        margin-left: 0.25rem;
+    }
+    .topbar .spacer { flex: 1; }
+    .topbar .progress-text { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+
+    main {
+        flex: 1;
+        padding: 2rem 1.25rem 4rem;
+        display: flex;
+        justify-content: center;
+    }
+    .wrap { max-width: 720px; width: 100%; }
+
+    .intro {
+        margin-bottom: 2rem;
+    }
+    .intro h1 {
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+    }
+    .intro p {
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 0.4rem;
+    }
+    .intro .meta {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 0.75rem;
+        font-size: 0.72rem;
+    }
+    .intro .meta span {
+        background: white;
+        border: 1px solid #e5e7eb;
+        color: #555;
+        padding: 0.25rem 0.6rem;
+        border-radius: 999px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+    }
+
+    .question {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.25rem 1.4rem;
+        margin-bottom: 1rem;
+    }
+    .q-head {
+        display: flex;
+        align-items: baseline;
+        gap: 0.6rem;
+        margin-bottom: 0.65rem;
+    }
+    .q-num {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #888;
+        text-transform: uppercase;
+    }
+    .q-area {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        background: #f0f0f0;
+        color: #555;
+        padding: 0.15rem 0.45rem;
+        border-radius: 4px;
+    }
+
+    .q-stim-card {
+        background: #fafaf9;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 0.85rem 1rem;
+        font-family: 'Noto Serif SC', 'PingFang SC', monospace;
+        font-size: 1rem;
+        color: #1a1a1a;
+        margin-bottom: 0.6rem;
+        line-height: 1.7;
+    }
+    .q-stim-sentence {
+        background: #fff8e7;
+        border-left: 3px solid #f59e0b;
+        padding: 0.65rem 0.9rem;
+        margin-bottom: 0.6rem;
+        border-radius: 0 8px 8px 0;
+    }
+    .q-stim-sentence .han {
+        font-size: 1.2rem;
+        color: #1a1a1a;
+        margin-bottom: 0.1rem;
+    }
+    .q-stim-sentence .py {
+        font-size: 0.78rem;
+        color: #92400e;
+        font-style: italic;
+    }
+    .q-stim-note {
+        font-size: 0.85rem;
+        color: #555;
+        font-style: italic;
+        margin-bottom: 0.6rem;
+    }
+
+    .q-prompt {
+        font-size: 0.95rem;
+        color: #1a1a1a;
+        font-weight: 500;
+        margin-bottom: 0.85rem;
+    }
+
+    .q-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .q-opt {
+        background: #fafafa;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 0.7rem 1rem;
+        cursor: pointer;
+        text-align: left;
+        font-family: inherit;
+        color: #1a1a1a;
+        font-size: 0.92rem;
+        transition: all 0.12s;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+    .q-opt:hover {
+        border-color: #1a1a1a;
+        background: white;
+    }
+    .q-opt.selected {
+        background: #1a1a1a;
+        color: white;
+        border-color: #1a1a1a;
+    }
+    .q-opt .opt-marker {
+        flex-shrink: 0;
+        width: 1.4rem;
+        height: 1.4rem;
+        border-radius: 50%;
+        border: 1.5px solid #c4c4c4;
+        font-size: 0.7rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+    }
+    .q-opt.selected .opt-marker {
+        background: white;
+        border-color: white;
+        color: #1a1a1a;
+    }
+    .q-opt .opt-body {
+        flex: 1;
+        min-width: 0;
+    }
+    .q-opt .opt-han { font-size: 1.05rem; }
+    .q-opt .opt-py {
+        font-size: 0.75rem;
+        color: #888;
+        font-style: italic;
+        margin-top: 0.1rem;
+    }
+    .q-opt.selected .opt-py { color: rgba(255,255,255,0.7); }
+    .q-opt .opt-en {
+        font-size: 0.78rem;
+        color: #666;
+        margin-top: 0.1rem;
+    }
+    .q-opt.selected .opt-en { color: rgba(255,255,255,0.75); }
+
+    /* Result mode coloring */
+    body.results .q-opt { cursor: default; }
+    body.results .q-opt.is-correct {
+        border-color: #16a34a;
+        background: #f0fdf4;
+        color: #14532d;
+    }
+    body.results .q-opt.is-correct .opt-marker {
+        background: #16a34a;
+        border-color: #16a34a;
+        color: white;
+    }
+    body.results .q-opt.is-wrong-pick {
+        border-color: #dc2626;
+        background: #fef2f2;
+        color: #7f1d1d;
+    }
+    body.results .q-opt.is-wrong-pick .opt-marker {
+        background: #dc2626;
+        border-color: #dc2626;
+        color: white;
+    }
+    body.results .q-opt.is-correct .opt-py,
+    body.results .q-opt.is-correct .opt-en { color: #14532d; }
+    body.results .q-opt.is-wrong-pick .opt-py,
+    body.results .q-opt.is-wrong-pick .opt-en { color: #7f1d1d; }
+
+    .q-status {
+        margin-top: 0.7rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        display: none;
+    }
+    body.results .q-status { display: block; }
+    .q-status.correct { color: #16a34a; }
+    .q-status.wrong { color: #dc2626; }
+
+    .submit-wrap {
+        margin-top: 1.5rem;
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.25rem;
+        text-align: center;
+    }
+    .submit-status {
+        font-size: 0.85rem;
+        color: #555;
+        margin-bottom: 0.85rem;
+    }
+    .submit-status strong { color: #1a1a1a; }
+    .submit-btn {
+        background: #1a1a1a;
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        padding: 0.9rem 2rem;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.15s, transform 0.1s;
+    }
+    .submit-btn:hover:not(:disabled) { background: #2d2d2d; transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .reset-btn {
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #1a1a1a;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-left: 0.5rem;
+        transition: all 0.15s;
+    }
+    .reset-btn:hover { border-color: #1a1a1a; background: #1a1a1a; color: white; }
+
+    /* Result panel */
+    .results-panel {
+        display: none;
+        background: white;
+        border: 2px solid #1a1a1a;
+        border-radius: 16px;
+        padding: 1.75rem 1.5rem;
+        margin-bottom: 1.5rem;
+        scroll-margin-top: 1rem;
+    }
+    body.results .results-panel { display: block; }
+    .results-panel h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.25rem;
+    }
+    .results-timestamp {
+        font-size: 0.82rem;
+        color: #888;
+        margin-bottom: 1.25rem;
+    }
+    .score-total {
+        font-size: clamp(3rem, 8vw, 4.5rem);
+        font-weight: 800;
+        color: #1a1a1a;
+        line-height: 1;
+        margin-bottom: 0.25rem;
+    }
+    .score-total .out-of {
+        font-size: 0.4em;
+        color: #888;
+        font-weight: 600;
+    }
+    .score-pct {
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 1.25rem;
+    }
+    .breakdown {
+        background: #fafafa;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 1rem 1.1rem;
+        margin-bottom: 1rem;
+    }
+    .breakdown-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.45rem 0;
+        font-size: 0.92rem;
+    }
+    .breakdown-row + .breakdown-row { border-top: 1px solid #f0f0f0; }
+    .breakdown-row .br-label {
+        flex: 1;
+        color: #333;
+        font-weight: 500;
+    }
+    .breakdown-row .br-bar {
+        width: 100px;
+        height: 6px;
+        background: #e5e7eb;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+    .breakdown-row .br-fill {
+        height: 100%;
+        background: #1a1a1a;
+    }
+    .breakdown-row .br-score {
+        font-weight: 700;
+        color: #1a1a1a;
+        font-variant-numeric: tabular-nums;
+        width: 4.5rem;
+        text-align: right;
+    }
+
+    footer {
+        text-align: center;
+        padding: 1rem;
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.35);
+        background: rgba(26,26,26,0.85);
+    }
+    footer a { color: inherit; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <a href="/">← Chinese 101</a>
+    <span class="title">HSK 1 Mock Test</span>
+    <span class="badge">Temp</span>
+    <div class="spacer"></div>
+    <span class="progress-text" id="progress-text">0 / 30 answered</span>
+</div>
+
+<main>
+    <div class="wrap">
+        <div class="intro">
+            <h1>HSK 1 Reading Mock Test</h1>
+            <p>30 multiple-choice questions across reading comprehension, character recognition, and grammar fill-in-blank. Suggested time: 20 minutes. No timer.</p>
+            <div class="meta">
+                <span>13 reading</span>
+                <span>9 vocab</span>
+                <span>8 grammar</span>
+                <span>30 questions</span>
+            </div>
+        </div>
+
+        <div class="results-panel" id="results">
+            <h2 id="results-headline">Results</h2>
+            <div class="results-timestamp" id="results-timestamp"></div>
+            <div class="score-total"><span id="score-num">0</span><span class="out-of"> / 30</span></div>
+            <div class="score-pct" id="score-pct"></div>
+            <div class="breakdown" id="breakdown"></div>
+            <button class="reset-btn" id="reset-btn" type="button">Take again</button>
+        </div>
+
+        <div id="questions"></div>
+
+        <div class="submit-wrap">
+            <div class="submit-status"><strong id="answered">0</strong> of 30 answered</div>
+            <button class="submit-btn" id="submit" type="button" disabled>Submit answers</button>
+        </div>
+    </div>
+</main>
+
+<footer>
+    Chinese 101 · HSK 1 Mock Test · <a href="/textbook">Full textbook</a>
+</footer>
+
+<script>
+const QUESTIONS = [{"n": 1, "area": "reading", "stimulus": {"type": "card", "html": "姓名: 王小明<br>国籍: 中国<br>电话: 13800000000"}, "prompt": "What is the person's nationality?", "options": [{"han": "中国", "py": "Zhōngguó", "en": "China"}, {"han": "日本", "py": "Rìběn", "en": "Japan"}, {"han": "韩国", "py": "Hánguó", "en": "Korea"}], "correct": 0}, {"n": 2, "area": "reading", "stimulus": {"type": "note", "text": "You see four signs in a Chinese subway station."}, "prompt": "Which sign means 'exit'?", "options": [{"han": "入口", "py": "rùkǒu", "en": "entrance"}, {"han": "出口", "py": "chūkǒu", "en": "exit"}, {"han": "厕所", "py": "cèsuǒ", "en": "restroom"}, {"han": "银行", "py": "yínháng", "en": "bank"}], "correct": 1}, {"n": 3, "area": "reading", "stimulus": {"type": "sentence", "han": "我有三个朋友。", "py": "Wǒ yǒu sān gè péngyou."}, "prompt": "How many friends does the speaker have?", "options": [{"en": "Two"}, {"en": "Three"}, {"en": "Five"}, {"en": "One"}], "correct": 1}, {"n": 4, "area": "reading", "stimulus": {"type": "sentence", "han": "今天星期五。", "py": "Jīntiān xīngqīwǔ."}, "prompt": "If today is the day described, what day will it be tomorrow?", "options": [{"en": "Thursday"}, {"en": "Saturday"}, {"en": "Friday"}, {"en": "Sunday"}], "correct": 1}, {"n": 5, "area": "reading", "stimulus": {"type": "sentence", "han": "他是我妈妈的爸爸。", "py": "Tā shì wǒ māma de bàba."}, "prompt": "Who is 'he'?", "options": [{"en": "My mother (妈妈)"}, {"en": "My maternal grandfather"}], "correct": 1}, {"n": 6, "area": "vocab", "stimulus": {"type": "note", "text": "You see four single characters on a menu."}, "prompt": "Which character means 'tea'?", "options": [{"han": "菜", "py": "cài"}, {"han": "茶", "py": "chá"}, {"han": "米", "py": "mǐ"}, {"han": "水", "py": "shuǐ"}], "correct": 1}, {"n": 7, "area": "vocab", "stimulus": {"type": "note", "text": "Four characters share a similar component but only one means 'moon'."}, "prompt": "Which one means 'moon'?", "options": [{"han": "日", "py": "rì"}, {"han": "月", "py": "yuè"}, {"han": "明", "py": "míng"}, {"han": "朋", "py": "péng"}], "correct": 1}, {"n": 8, "area": "vocab", "stimulus": {"type": "note", "text": "Four common HSK 1 verbs."}, "prompt": "Which one means 'to drink'?", "options": [{"han": "吃", "py": "chī"}, {"han": "喝", "py": "hē"}, {"han": "看", "py": "kàn"}, {"han": "听", "py": "tīng"}], "correct": 1}, {"n": 9, "area": "grammar", "stimulus": {"type": "note", "text": "Four sentences using HSK 1 vocabulary."}, "prompt": "Which one is the yes-or-no question 'Do you have a book?'", "options": [{"han": "你有书。", "py": "Nǐ yǒu shū."}, {"han": "你有书吗？", "py": "Nǐ yǒu shū ma?"}, {"han": "你有什么书？", "py": "Nǐ yǒu shénme shū?"}, {"han": "你没有书。", "py": "Nǐ méiyǒu shū."}], "correct": 1}, {"n": 10, "area": "grammar", "stimulus": {"type": "sentence", "han": "我 ___ 喝茶。", "py": "Wǒ ___ hē chá."}, "prompt": "Pick the word that fits the blank.", "options": [{"han": "不", "py": "bù"}, {"han": "没", "py": "méi"}, {"han": "也", "py": "yě"}, {"han": "都", "py": "dōu"}], "correct": 0}, {"n": 11, "area": "reading", "stimulus": {"type": "sentence", "han": "我是中国人。", "py": "Wǒ shì Zhōngguó rén."}, "prompt": "What nationality is the speaker?", "options": [{"en": "Chinese"}, {"en": "Not Chinese"}, {"en": "Japanese"}, {"en": "Not stated"}], "correct": 0}, {"n": 12, "area": "reading", "stimulus": {"type": "sentence", "han": "我今天早上喝茶。", "py": "Wǒ jīntiān zǎoshang hē chá."}, "prompt": "When does the speaker drink tea today?", "options": [{"en": "In the morning"}, {"en": "In the evening"}], "correct": 0}, {"n": 13, "area": "reading", "stimulus": {"type": "sentence", "han": "我喜欢看书。", "py": "Wǒ xǐhuan kàn shū."}, "prompt": "What does the speaker like to do?", "options": [{"en": "Read books"}, {"en": "Listen to music"}, {"en": "Eat food"}, {"en": "Drink water"}], "correct": 0}, {"n": 14, "area": "reading", "stimulus": {"type": "sentence", "han": "今天天气很好。", "py": "Jīntiān tiānqì hěn hǎo."}, "prompt": "How is today's weather according to the speaker?", "options": [{"en": "Good"}, {"en": "Bad"}], "correct": 0}, {"n": 15, "area": "reading", "stimulus": {"type": "sentence", "han": "现在三点。", "py": "Xiànzài sān diǎn."}, "prompt": "According to the speaker, what time is it?", "options": [{"en": "2 o'clock"}, {"en": "3 o'clock"}, {"en": "3:30"}, {"en": "13 o'clock"}], "correct": 1}, {"n": 16, "area": "reading", "stimulus": {"type": "sentence", "han": "我在学校。", "py": "Wǒ zài xuéxiào."}, "prompt": "Where is the speaker?", "options": [{"en": "At school"}, {"en": "At home"}, {"en": "In China"}, {"en": "Not stated"}], "correct": 0}, {"n": 17, "area": "reading", "stimulus": {"type": "sentence", "han": "妈妈在做饭。", "py": "Māma zài zuòfàn."}, "prompt": "What is the speaker's mother doing?", "options": [{"en": "Cooking"}, {"en": "Eating"}, {"en": "Reading"}, {"en": "Sleeping"}], "correct": 0}, {"n": 18, "area": "vocab", "stimulus": {"type": "note", "text": "Four single HSK 1 characters."}, "prompt": "Which one means 'book'?", "options": [{"han": "书", "py": "shū"}, {"han": "字", "py": "zì"}, {"han": "名", "py": "míng"}, {"han": "写", "py": "xiě"}], "correct": 0}, {"n": 19, "area": "vocab", "stimulus": {"type": "note", "text": "Four single characters with related pictographic origins."}, "prompt": "Which one means 'fire'?", "options": [{"han": "火", "py": "huǒ"}, {"han": "水", "py": "shuǐ"}, {"han": "山", "py": "shān"}, {"han": "大", "py": "dà"}], "correct": 0}, {"n": 20, "area": "vocab", "stimulus": {"type": "note", "text": "Four HSK 1 words for people."}, "prompt": "Which one means 'student'?", "options": [{"han": "学生", "py": "xuéshēng"}, {"han": "老师", "py": "lǎoshī"}, {"han": "朋友", "py": "péngyou"}, {"han": "妈妈", "py": "māma"}], "correct": 0}, {"n": 21, "area": "vocab", "stimulus": {"type": "note", "text": "Four HSK 1 words for people in your life."}, "prompt": "Which one means 'friend'?", "options": [{"han": "朋友", "py": "péngyou"}, {"han": "哥哥", "py": "gēge"}, {"han": "弟弟", "py": "dìdi"}, {"han": "妹妹", "py": "mèimei"}], "correct": 0}, {"n": 22, "area": "vocab", "stimulus": {"type": "note", "text": "Four HSK 1 characters that share or near-share the pinyin 'shi'."}, "prompt": "Which one means 'to be' as in 'I am a student'?", "options": [{"han": "是", "py": "shì"}, {"han": "时", "py": "shí"}, {"han": "十", "py": "shí"}, {"han": "师", "py": "shī"}], "correct": 0}, {"n": 23, "area": "vocab", "stimulus": {"type": "note", "text": "Four HSK 1 characters with similar two-stroke shapes."}, "prompt": "Which one means 'eight'?", "options": [{"han": "八", "py": "bā"}, {"han": "几", "py": "jǐ"}, {"han": "入", "py": "rù"}, {"han": "人", "py": "rén"}], "correct": 0}, {"n": 24, "area": "grammar", "stimulus": {"type": "sentence", "han": "我 ___ 学生。", "py": "Wǒ ___ xuéshēng."}, "prompt": "Which word completes the sentence so it means 'I am a student'?", "options": [{"han": "是", "py": "shì"}, {"han": "在", "py": "zài"}, {"han": "有", "py": "yǒu"}, {"han": "不", "py": "bù"}], "correct": 0}, {"n": 25, "area": "grammar", "stimulus": {"type": "sentence", "han": "她是老师。他 ___ 是老师。", "py": "Tā shì lǎoshī. Tā ___ shì lǎoshī."}, "prompt": "Pick the word that completes the second sentence to mean 'he is also a teacher'.", "options": [{"han": "也", "py": "yě"}, {"han": "都", "py": "dōu"}, {"han": "很", "py": "hěn"}, {"han": "不", "py": "bù"}], "correct": 0}, {"n": 26, "area": "grammar", "stimulus": {"type": "sentence", "han": "我有两 ___ 哥哥。", "py": "Wǒ yǒu liǎng ___ gēge."}, "prompt": "Pick the measure word that fits.", "options": [{"han": "个", "py": "gè"}, {"han": "是", "py": "shì"}, {"han": "几", "py": "jǐ"}, {"han": "多", "py": "duō"}], "correct": 0}, {"n": 27, "area": "grammar", "stimulus": {"type": "sentence", "han": "我妈妈 ___ 好。", "py": "Wǒ māma ___ hǎo."}, "prompt": "Pick the word that fits.", "options": [{"han": "很", "py": "hěn"}, {"han": "不", "py": "bù"}, {"han": "也", "py": "yě"}, {"han": "是", "py": "shì"}], "correct": 0}, {"n": 28, "area": "grammar", "stimulus": {"type": "sentence", "han": "我们 ___ 是学生。", "py": "Wǒmen ___ shì xuéshēng."}, "prompt": "Pick the word that fits to mean 'we are all students'.", "options": [{"han": "都", "py": "dōu"}, {"han": "也", "py": "yě"}, {"han": "很", "py": "hěn"}, {"han": "不", "py": "bù"}], "correct": 0}, {"n": 29, "area": "grammar", "stimulus": {"type": "sentence", "han": "你家有 ___ 个人？", "py": "Nǐ jiā yǒu ___ gè rén?"}, "prompt": "Which question word fits?", "options": [{"han": "几", "py": "jǐ"}, {"han": "什么", "py": "shénme"}, {"han": "哪", "py": "nǎ"}, {"han": "谁", "py": "shéi"}], "correct": 0}, {"n": 30, "area": "reading", "stimulus": {"type": "card", "html": "苹果 5 元<br>水   3 元<br>茶   4 元"}, "prompt": "How much does water cost?", "options": [{"han": "5 元", "py": "wǔ yuán"}, {"han": "3 元", "py": "sān yuán"}, {"han": "4 元", "py": "sì yuán"}, {"han": "12 元", "py": "shí'èr yuán"}], "correct": 1}];
+const AREAS = {
+    reading: "Reading comprehension",
+    vocab:   "Character & vocabulary",
+    grammar: "Grammar fill-in-blank",
+};
+const AREA_TOTALS = { reading: 13, vocab: 9, grammar: 8 };
+const answers = new Array(QUESTIONS.length).fill(null);
+
+function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderStimulus(s) {
+    if (s.type === 'card') {
+        return `<div class="q-stim-card han">${s.html}</div>`;
+    }
+    if (s.type === 'sentence') {
+        return `<div class="q-stim-sentence"><div class="han">${escapeHTML(s.han)}</div><div class="py">${escapeHTML(s.py)}</div></div>`;
+    }
+    if (s.type === 'note') {
+        return `<div class="q-stim-note">${escapeHTML(s.text)}</div>`;
+    }
+    return '';
+}
+
+function renderOption(opt, i) {
+    const letter = String.fromCharCode(65 + i); // A, B, C, D
+    let body = '';
+    if (opt.han) {
+        body += `<div class="opt-han han">${escapeHTML(opt.han)}</div>`;
+    }
+    if (opt.py) {
+        body += `<div class="opt-py">${escapeHTML(opt.py)}</div>`;
+    }
+    if (opt.en) {
+        body += `<div class="opt-en">${escapeHTML(opt.en)}</div>`;
+    }
+    return `<button type="button" class="q-opt" data-opt="${i}">
+        <span class="opt-marker">${letter}</span>
+        <span class="opt-body">${body}</span>
+    </button>`;
+}
+
+function renderQuestions() {
+    const root = document.getElementById('questions');
+    root.innerHTML = QUESTIONS.map((q, qi) => `
+        <div class="question" id="q-${q.n}" data-area="${q.area}" data-idx="${qi}" data-correct="${q.correct}">
+            <div class="q-head">
+                <span class="q-num">Q${q.n}</span>
+                <span class="q-area">${escapeHTML(AREAS[q.area])}</span>
+            </div>
+            ${renderStimulus(q.stimulus)}
+            <div class="q-prompt">${escapeHTML(q.prompt)}</div>
+            <div class="q-options">
+                ${q.options.map((o, i) => renderOption(o, i)).join('')}
+            </div>
+            <div class="q-status"></div>
+        </div>
+    `).join('');
+
+    root.querySelectorAll('.question').forEach(qEl => {
+        const qi = parseInt(qEl.dataset.idx, 10);
+        qEl.querySelectorAll('.q-opt').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (document.body.classList.contains('results')) return;
+                const i = parseInt(btn.dataset.opt, 10);
+                answers[qi] = i;
+                qEl.querySelectorAll('.q-opt').forEach(b => b.classList.toggle('selected', b === btn));
+                updateProgress();
+            });
+        });
+    });
+}
+
+function updateProgress() {
+    const answered = answers.filter(a => a !== null).length;
+    document.getElementById('answered').textContent = answered;
+    document.getElementById('progress-text').textContent = `${answered} / ${QUESTIONS.length} answered`;
+    document.getElementById('submit').disabled = answered === 0;
+}
+
+function showResults() {
+    document.body.classList.add('results');
+
+    let total = 0;
+    const byArea = { reading: 0, vocab: 0, grammar: 0 };
+    QUESTIONS.forEach((q, qi) => {
+        const picked = answers[qi];
+        const qEl = document.getElementById(`q-${q.n}`);
+        const opts = qEl.querySelectorAll('.q-opt');
+        const isCorrect = picked === q.correct;
+        if (isCorrect) {
+            total++;
+            byArea[q.area]++;
+        }
+        opts.forEach((opt, i) => {
+            opt.classList.remove('selected');
+            if (i === q.correct) opt.classList.add('is-correct');
+            if (i === picked && picked !== q.correct) opt.classList.add('is-wrong-pick');
+        });
+        const status = qEl.querySelector('.q-status');
+        if (picked === null) {
+            status.textContent = 'Skipped (correct answer highlighted)';
+            status.className = 'q-status wrong';
+        } else if (isCorrect) {
+            status.textContent = '✓ Correct';
+            status.className = 'q-status correct';
+        } else {
+            status.textContent = '✗ Wrong';
+            status.className = 'q-status wrong';
+        }
+    });
+
+    document.getElementById('score-num').textContent = total;
+    const pct = Math.round((total / QUESTIONS.length) * 100);
+    document.getElementById('score-pct').textContent = `${pct}% correct`;
+
+    const now = new Date();
+    const ts = now.toLocaleString(undefined, {
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+        hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
+    });
+    document.getElementById('results-timestamp').textContent = `Submitted ${ts}`;
+
+    const breakdown = document.getElementById('breakdown');
+    breakdown.innerHTML = Object.keys(AREAS).map(key => {
+        const got = byArea[key];
+        const out = AREA_TOTALS[key];
+        const pct = (got / out) * 100;
+        return `
+            <div class="breakdown-row">
+                <span class="br-label">${AREAS[key]}</span>
+                <div class="br-bar"><div class="br-fill" style="width: ${pct}%"></div></div>
+                <span class="br-score">${got} / ${out}</span>
+            </div>
+        `;
+    }).join('') + `
+        <div class="breakdown-row">
+            <span class="br-label" style="font-weight:700;">Total</span>
+            <div class="br-bar"><div class="br-fill" style="width: ${(total / QUESTIONS.length) * 100}%"></div></div>
+            <span class="br-score">${total} / ${QUESTIONS.length}</span>
+        </div>
+    `;
+
+    document.getElementById('submit').textContent = 'Scroll to first wrong answer';
+    document.getElementById('submit').disabled = false;
+    document.getElementById('submit').onclick = scrollToFirstWrong;
+
+    setTimeout(() => {
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+}
+
+function scrollToFirstWrong() {
+    for (let qi = 0; qi < QUESTIONS.length; qi++) {
+        if (answers[qi] !== QUESTIONS[qi].correct) {
+            document.getElementById(`q-${QUESTIONS[qi].n}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+        }
+    }
+}
+
+function reset() {
+    for (let i = 0; i < answers.length; i++) answers[i] = null;
+    document.body.classList.remove('results');
+    document.getElementById('submit').textContent = 'Submit answers';
+    document.getElementById('submit').onclick = onSubmit;
+    document.querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected', 'is-correct', 'is-wrong-pick'));
+    document.querySelectorAll('.q-status').forEach(s => { s.textContent = ''; s.className = 'q-status'; });
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function onSubmit() {
+    const answered = answers.filter(a => a !== null).length;
+    if (answered === 0) return;
+    if (answered < QUESTIONS.length) {
+        const skipped = QUESTIONS.length - answered;
+        if (!confirm(`You haven't answered ${skipped} question${skipped === 1 ? '' : 's'}. Submit anyway?`)) {
+            return;
+        }
+    }
+    showResults();
+}
+
+renderQuestions();
+document.getElementById('submit').addEventListener('click', onSubmit);
+document.getElementById('reset-btn').addEventListener('click', reset);
+updateProgress();
+</script>
+
+</body>
+</html>
