@@ -13,41 +13,125 @@
         color: #2d3748;
         line-height: 1.6;
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
     }
     .han { font-family: 'Noto Serif SC', 'PingFang SC', 'Songti SC', serif; }
 
-    .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: rgba(26,26,26,0.96);
-        backdrop-filter: blur(8px);
-        color: white;
-        padding: 0.7rem 1.25rem;
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        font-size: 0.82rem;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+    /* Layout: sidebar + main */
+    .layout { display: flex; min-height: 100vh; }
+    aside.toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: 260px;
+        height: 100vh;
+        background: white;
+        border-right: 1px solid #e5e7eb;
+        padding: 1.5rem 1rem;
+        overflow-y: auto;
+        z-index: 50;
     }
-    .topbar a, .topbar span.idx {
-        color: rgba(255,255,255,0.75);
+    .toc-brand {
+        display: block;
         text-decoration: none;
-        padding: 0.3rem 0.6rem;
-        border-radius: 6px;
-        transition: background 0.15s, color 0.15s;
+        color: inherit;
+        margin-bottom: 1.25rem;
     }
-    .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
-    .topbar .spacer { flex: 1; }
-    .topbar a.disabled { opacity: 0.35; pointer-events: none; }
-    .topbar .crumb { color: rgba(255,255,255,0.5); padding: 0.3rem 0; }
+    .toc-brand .crumb-back {
+        font-size: 0.7rem;
+        color: #888;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.05em;
+    }
+    .toc-brand .crumb-back:hover { color: #1a1a1a; }
+    .toc-brand .brand-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #888;
+        margin-bottom: 0.3rem;
+    }
+    .toc-brand .brand-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        line-height: 1.3;
+    }
+    .toc-section-label {
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #aaa;
+        margin-top: 1.5rem;
+        margin-bottom: 0.4rem;
+        padding-left: 0.5rem;
+    }
+    .toc-link {
+        display: block;
+        padding: 0.35rem 0.6rem;
+        font-size: 0.82rem;
+        color: #444;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-bottom: 0.15rem;
+        transition: background 0.12s, color 0.12s;
+    }
+    .toc-link:hover { background: #f0f0f0; color: #1a1a1a; }
+    .toc-link.active {
+        background: #1a1a1a;
+        color: white;
+        font-weight: 600;
+    }
+    .toc-link .toc-num {
+        display: inline-block;
+        min-width: 1.5rem;
+        color: #aaa;
+        font-weight: 600;
+        font-size: 0.75rem;
+    }
+    .toc-link.active .toc-num { color: rgba(255,255,255,0.7); }
+    .toc-link.current-lesson {
+        background: #fef3c7;
+        color: #92400e;
+        font-weight: 600;
+    }
+    .toc-link.current-lesson .toc-num { color: #92400e; }
+
+    main.content {
+        margin-left: 260px;
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Mobile: collapsible sidebar */
+    .toc-toggle {
+        display: none;
+        position: fixed;
+        top: 0.75rem;
+        left: 0.75rem;
+        z-index: 60;
+        background: #1a1a1a;
+        color: white;
+        border: none;
+        padding: 0.5rem 0.8rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    @media (max-width: 880px) {
+        aside.toc { transform: translateX(-100%); transition: transform 0.2s; }
+        aside.toc.open { transform: translateX(0); box-shadow: 0 0 40px rgba(0,0,0,0.2); }
+        main.content { margin-left: 0; }
+        .toc-toggle { display: block; }
+    }
 
     .hero {
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
         color: white;
-        padding: 4rem 2rem 3.5rem;
+        padding: 3.5rem 2rem 3rem;
         display: flex;
         justify-content: center;
     }
@@ -61,7 +145,7 @@
         margin-bottom: 0.75rem;
     }
     .hero h1 {
-        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        font-size: clamp(2rem, 4.5vw, 3.2rem);
         font-weight: 700;
         line-height: 1.1;
         margin-bottom: 1rem;
@@ -87,12 +171,11 @@
     }
 
     .section {
-        flex: 1;
-        padding: 3rem 2rem 4rem;
+        padding: 2.75rem 2rem 1rem;
         display: flex;
         justify-content: center;
     }
-    .section + .section { padding-top: 0; }
+    .section.last { padding-bottom: 3.5rem; }
     .section-inner { max-width: 820px; width: 100%; }
 
     .section-label {
@@ -104,10 +187,10 @@
         margin-bottom: 0.5rem;
     }
     .section-title {
-        font-size: 1.6rem;
+        font-size: 1.55rem;
         font-weight: 700;
         color: #1a1a1a;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.6rem;
     }
     .section-sub {
         font-size: 0.92rem;
@@ -116,11 +199,33 @@
         max-width: 620px;
     }
 
-    .toggles {
+    /* Global toggle bar */
+    .global-toggles {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(245,245,245,0.95);
+        backdrop-filter: blur(8px);
+        padding: 0.75rem 2rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: center;
+    }
+    .global-toggles-inner {
+        max-width: 820px;
+        width: 100%;
         display: flex;
         gap: 0.5rem;
-        margin-bottom: 1.5rem;
+        align-items: center;
         flex-wrap: wrap;
+    }
+    .gt-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #666;
+        margin-right: 0.25rem;
     }
     .toggle-btn {
         background: white;
@@ -128,7 +233,7 @@
         color: #444;
         font-size: 0.78rem;
         font-weight: 600;
-        padding: 0.45rem 0.85rem;
+        padding: 0.42rem 0.85rem;
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.15s;
@@ -150,6 +255,7 @@
     }
     .toggle-btn.active .dot { background: #4ade80; }
 
+    /* Vocabulary cards */
     .vocab-grid {
         display: grid;
         gap: 0.85rem;
@@ -158,32 +264,22 @@
     @media (min-width: 720px) {
         .vocab-grid { grid-template-columns: 1fr 1fr; }
     }
-
     .vocab-card {
         background: white;
         border: 1.5px solid #e5e7eb;
         border-radius: 12px;
         padding: 1rem 1.1rem;
-        transition: border-color 0.15s, transform 0.1s;
+        transition: border-color 0.15s;
     }
     .vocab-card:hover { border-color: #1a1a1a; }
-
     .vc-head {
         display: flex;
         align-items: baseline;
         gap: 0.7rem;
         margin-bottom: 0.35rem;
     }
-    .vc-hanzi {
-        font-size: 1.7rem;
-        font-weight: 600;
-        color: #1a1a1a;
-    }
-    .vc-pinyin {
-        font-size: 0.95rem;
-        font-weight: 500;
-        color: #4b5563;
-    }
+    .vc-hanzi { font-size: 1.7rem; font-weight: 600; color: #1a1a1a; }
+    .vc-pinyin { font-size: 0.95rem; font-weight: 500; color: #4b5563; }
     .vc-pos {
         margin-left: auto;
         font-size: 0.65rem;
@@ -192,11 +288,7 @@
         letter-spacing: 0.06em;
         color: #94a3b8;
     }
-    .vc-en {
-        font-size: 0.88rem;
-        color: #475569;
-        margin-bottom: 0.7rem;
-    }
+    .vc-en { font-size: 0.88rem; color: #475569; margin-bottom: 0.7rem; }
     .vc-ex {
         border-top: 1px solid #f1f5f9;
         padding-top: 0.6rem;
@@ -206,10 +298,19 @@
     .vc-ex .ex-py  { color: #64748b; font-size: 0.8rem; margin-bottom: 0.15rem; }
     .vc-ex .ex-en  { color: #64748b; font-size: 0.8rem; }
 
+    /* Hide pinyin/english via body classes */
     body.hide-pinyin .vc-pinyin,
-    body.hide-pinyin .ex-py { display: none; }
+    body.hide-pinyin .ex-py,
+    body.hide-pinyin .gr-py,
+    body.hide-pinyin .dl-py,
+    body.hide-pinyin .fc-back .fc-pinyin,
+    body.hide-pinyin .fc-back .fc-ex-py { display: none; }
     body.hide-english .vc-en,
-    body.hide-english .ex-en { display: none; }
+    body.hide-english .ex-en,
+    body.hide-english .gr-en,
+    body.hide-english .dl-en,
+    body.hide-english .fc-back .fc-en,
+    body.hide-english .fc-back .fc-ex-en { display: none; }
 
     /* Flashcards */
     .flash-controls {
@@ -225,11 +326,7 @@
         color: #555;
         margin-left: 0.25rem;
     }
-
-    .flash-stage {
-        perspective: 1200px;
-        margin-bottom: 1rem;
-    }
+    .flash-stage { perspective: 1200px; margin-bottom: 1rem; }
     .flashcard {
         position: relative;
         width: 100%;
@@ -268,41 +365,13 @@
         margin-top: 1.5rem;
     }
     .fc-back { transform: rotateY(180deg); }
-    .fc-back .fc-pinyin {
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: #1a1a1a;
-        margin-bottom: 0.4rem;
-    }
-    .fc-back .fc-en {
-        font-size: 1.1rem;
-        color: #475569;
-        margin-bottom: 1rem;
-    }
-    .fc-back .fc-ex-han {
-        font-size: 1.25rem;
-        color: #1a1a1a;
-        margin-bottom: 0.25rem;
-    }
-    .fc-back .fc-ex-py {
-        font-size: 0.85rem;
-        color: #64748b;
-        margin-bottom: 0.15rem;
-    }
-    .fc-back .fc-ex-en {
-        font-size: 0.85rem;
-        color: #64748b;
-    }
-    body.hide-pinyin .fc-back .fc-pinyin,
-    body.hide-pinyin .fc-back .fc-ex-py { display: none; }
-    body.hide-english .fc-back .fc-en,
-    body.hide-english .fc-back .fc-ex-en { display: none; }
+    .fc-back .fc-pinyin { font-size: 1.4rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.4rem; }
+    .fc-back .fc-en { font-size: 1.1rem; color: #475569; margin-bottom: 1rem; }
+    .fc-back .fc-ex-han { font-size: 1.25rem; color: #1a1a1a; margin-bottom: 0.25rem; }
+    .fc-back .fc-ex-py { font-size: 0.85rem; color: #64748b; margin-bottom: 0.15rem; }
+    .fc-back .fc-ex-en { font-size: 0.85rem; color: #64748b; }
 
-    .flash-nav {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 0.5rem;
-    }
+    .flash-nav { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
     .flash-nav button {
         flex: 1;
         background: white;
@@ -318,12 +387,86 @@
     .flash-nav button:hover:not(:disabled) { border-color: #1a1a1a; background: #1a1a1a; color: white; }
     .flash-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
 
+    /* Grammar focus */
+    .gr-card {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.25rem 1.35rem;
+        margin-bottom: 1rem;
+    }
+    .gr-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.4rem;
+    }
+    .gr-note {
+        font-size: 0.92rem;
+        color: #475569;
+        margin-bottom: 0.9rem;
+        line-height: 1.55;
+    }
+    .gr-example {
+        border-left: 3px solid #1a1a1a;
+        padding: 0.5rem 0 0.5rem 0.85rem;
+        margin-bottom: 0.7rem;
+    }
+    .gr-example:last-child { margin-bottom: 0; }
+    .gr-example .gr-han { font-size: 1.1rem; color: #1a1a1a; margin-bottom: 0.15rem; }
+    .gr-example .gr-py  { font-size: 0.82rem; color: #64748b; margin-bottom: 0.1rem; }
+    .gr-example .gr-en  { font-size: 0.85rem; color: #475569; }
+
+    /* Dialogue */
+    .dialogue-meta {
+        font-size: 0.85rem;
+        color: #555;
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 0.7rem 1rem;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 1.25rem;
+    }
+    .dialogue {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.5rem 1.5rem;
+    }
+    .dl-line {
+        display: flex;
+        gap: 0.9rem;
+        padding: 0.9rem 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .dl-line:last-child { border-bottom: none; }
+    .dl-speaker {
+        flex-shrink: 0;
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        font-size: 0.85rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+    .dl-speaker.spk-A { background: #1a1a1a; }
+    .dl-speaker.spk-B { background: #d97706; }
+    .dl-text { flex: 1; min-width: 0; }
+    .dl-han { font-size: 1.15rem; color: #1a1a1a; margin-bottom: 0.2rem; line-height: 1.5; }
+    .dl-py  { font-size: 0.82rem; color: #64748b; font-style: italic; margin-bottom: 0.15rem; }
+    .dl-en  { font-size: 0.88rem; color: #475569; }
+
+    /* Bottom lesson nav */
     .bottom-nav {
         background: white;
         border-top: 1px solid #e5e7eb;
         padding: 1.5rem 2rem;
         display: flex;
         justify-content: center;
+        margin-top: auto;
     }
     .bottom-nav-inner {
         max-width: 820px;
@@ -374,15 +517,30 @@
 </head>
 <body>
 
-<div class="topbar">
-    <a href="/">← Chinese 101</a>
-    <a href="/textbook">Textbook</a>
-    <span class="crumb">/</span>
-    <span class="idx" id="topbar-idx">Lesson</span>
-    <div class="spacer"></div>
-    <a href="#" id="topbar-prev" class="disabled">← Prev</a>
-    <a href="#" id="topbar-next" class="disabled">Next →</a>
-</div>
+<button class="toc-toggle" id="toc-toggle" aria-label="Open lesson menu">☰ Menu</button>
+
+<div class="layout">
+
+<aside class="toc" id="toc">
+    <a href="/" class="toc-brand">
+        <div class="crumb-back">← Chinese 101</div>
+        <div class="brand-label">HSK 1 Digital Textbook</div>
+        <div class="brand-title" id="toc-lesson-title">Lesson</div>
+    </a>
+    <div class="toc-section-label">This lesson</div>
+    <a href="#flashcards" class="toc-link section-link">Flashcards</a>
+    <a href="#vocabulary" class="toc-link section-link">Vocabulary</a>
+    <a href="#grammar"    class="toc-link section-link">Grammar Focus</a>
+    <a href="#dialogue"   class="toc-link section-link">Full Dialogue</a>
+
+    <div class="toc-section-label">All 25 Lessons</div>
+    <div id="toc-lessons"></div>
+
+    <div class="toc-section-label">More</div>
+    <a href="/textbook" class="toc-link">Full Textbook</a>
+</aside>
+
+<main class="content">
 
 <div class="hero">
     <div class="hero-content">
@@ -393,24 +551,19 @@
     </div>
 </div>
 
-<div class="section">
-    <div class="section-inner">
-        <div class="section-label">Vocabulary</div>
-        <div class="section-title">All the words for this lesson</div>
-        <p class="section-sub">Tap a toggle to hide pinyin or English and quiz yourself. Each card shows one example sentence in context.</p>
-        <div class="toggles">
-            <button class="toggle-btn active" id="toggle-pinyin"><span class="dot"></span>Pinyin</button>
-            <button class="toggle-btn active" id="toggle-english"><span class="dot"></span>English</button>
-        </div>
-        <div class="vocab-grid" id="vocab-grid"></div>
+<div class="global-toggles">
+    <div class="global-toggles-inner">
+        <span class="gt-label">Show</span>
+        <button class="toggle-btn active" id="toggle-pinyin"><span class="dot"></span>Pinyin</button>
+        <button class="toggle-btn active" id="toggle-english"><span class="dot"></span>English</button>
     </div>
 </div>
 
-<div class="section">
+<section class="section" id="flashcards">
     <div class="section-inner">
-        <div class="section-label">Flashcards</div>
-        <div class="section-title">Drill the vocab</div>
-        <p class="section-sub">Recall the meaning before flipping. The toggle settings above also apply to the back of every card.</p>
+        <div class="section-label">Step 1 · Flashcards</div>
+        <div class="section-title">Drill the vocab first</div>
+        <p class="section-sub">Tap the card to flip. Try to recall the meaning before flipping. The Pinyin and English toggles above apply to the back of every card.</p>
         <div class="flash-controls">
             <button class="toggle-btn" id="flash-shuffle">Shuffle</button>
             <button class="toggle-btn" id="flash-reset">Reset</button>
@@ -436,7 +589,35 @@
             <button id="flash-next">Next →</button>
         </div>
     </div>
-</div>
+</section>
+
+<section class="section" id="vocabulary">
+    <div class="section-inner">
+        <div class="section-label">Step 2 · Vocabulary</div>
+        <div class="section-title">The full word list</div>
+        <p class="section-sub">Every HSK 1 word in this lesson, with one example sentence in context. Use the toggles above to hide pinyin or English.</p>
+        <div class="vocab-grid" id="vocab-grid"></div>
+    </div>
+</section>
+
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <div class="section-label">Step 3 · Grammar Focus</div>
+        <div class="section-title">Sentences that demonstrate the patterns</div>
+        <p class="section-sub">The grammar rules that this lesson's vocabulary unlocks, each with worked examples.</p>
+        <div id="grammar-list"></div>
+    </div>
+</section>
+
+<section class="section last" id="dialogue">
+    <div class="section-inner">
+        <div class="section-label">Step 4 · Full Dialogue</div>
+        <div class="section-title">A short conversation using this lesson</div>
+        <p class="section-sub">Read line by line. The pinyin and English toggles above apply here too, so you can quiz yourself.</p>
+        <div class="dialogue-meta" id="dialogue-meta"></div>
+        <div class="dialogue" id="dialogue"></div>
+    </div>
+</section>
 
 <div class="bottom-nav">
     <div class="bottom-nav-inner">
@@ -455,6 +636,9 @@
     Chinese 101 · HSK 1 Textbook · <a href="/textbook">All lessons</a>
 </footer>
 
+</main>
+</div>
+
 <script>
 const LESSONS = [
 { id: "l1", num: 1, title: "Greetings & Pleasantries", blurb:
@@ -471,7 +655,37 @@ const LESSONS = [
     ["喂","wèi","interj.","hello (on phone)","喂，你好。","Wèi, nǐ hǎo.","Hello (on the phone)."],
     ["请","qǐng","v.","please / invite","请坐。","Qǐng zuò.","Please sit."],
     ["请问","qǐngwèn","v.","may I ask","请问，您叫什么名字？","Qǐngwèn, nín jiào shénme míngzi?","Excuse me, what is your name?"]
-  ]
+  ],
+  grammar: [
+    { title: "你好 vs 您好",
+      note: "Use 你好 in most everyday situations. Switch to 您好 (with the polite pronoun 您) when speaking to an elder, a customer, a teacher, or anyone you want to show extra respect to.",
+      examples: [
+        ["你好，小明！","Nǐ hǎo, Xiǎomíng!","Hi, Xiaoming!"],
+        ["您好，王老师。","Nín hǎo, Wáng lǎoshī.","Hello, Teacher Wang."]
+      ] },
+    { title: "请 + verb (polite imperative)",
+      note: "Put 请 in front of a verb to soften a command into a polite request. 请问 (literally 'please ask') is the formula for excuse me, may I ask.",
+      examples: [
+        ["请坐。","Qǐng zuò.","Please sit."],
+        ["请问，您叫什么名字？","Qǐngwèn, nín jiào shénme míngzi?","Excuse me, what is your name?"]
+      ] },
+    { title: "Apology pair: 对不起 / 没关系",
+      note: "When someone says 对不起 (sorry), the standard reply is 没关系 (it's okay). 谢谢 (thanks) pairs the same way with 不客气 (you're welcome).",
+      examples: [
+        ["对不起。 / 没关系。","Duìbuqǐ. / Méi guānxi.","Sorry. / It's okay."],
+        ["谢谢你！ / 不客气。","Xièxie nǐ! / Bú kèqi.","Thank you! / You're welcome."]
+      ] }
+  ],
+  dialogue: { setting: "Two students greet a teacher in the hallway.",
+    lines: [
+      ["A","你好，王老师！","Nǐ hǎo, Wáng lǎoshī!","Hello, Teacher Wang!"],
+      ["B","你好。","Nǐ hǎo.","Hello."],
+      ["A","请问，您叫什么名字？","Qǐngwèn, nín jiào shénme míngzi?","Excuse me, what is your name?"],
+      ["B","我叫王明。","Wǒ jiào Wáng Míng.","I'm called Wang Ming."],
+      ["A","谢谢老师！","Xièxie lǎoshī!","Thank you, teacher!"],
+      ["B","不客气。再见！","Bú kèqi. Zàijiàn!","You're welcome. Goodbye!"],
+      ["A","老师再见！","Lǎoshī zàijiàn!","Goodbye, teacher!"]
+    ] }
 },
 { id: "l2", num: 2, title: "Personal Pronouns", blurb:
   "Chinese pronouns don't change for case. Plural just adds 们. Use 您 for formal address.",
@@ -487,7 +701,37 @@ const LESSONS = [
     ["她们","tāmen","pron.","they (f.)","她们是朋友。","Tāmen shì péngyou.","They are friends."],
     ["它们","tāmen","pron.","they (things)","它们是我的书。","Tāmen shì wǒ de shū.","They are my books."],
     ["大家","dàjiā","pron.","everyone","大家好！","Dàjiā hǎo!","Hello, everyone!"]
-  ]
+  ],
+  grammar: [
+    { title: "Plural with 们",
+      note: "Add 们 to a pronoun for people to make it plural: 我 → 我们, 你 → 你们, 他/她 → 他们/她们. 它们 (things) is less common in speech.",
+      examples: [
+        ["我们都是学生。","Wǒmen dōu shì xuéshēng.","We are all students."],
+        ["你们好！","Nǐmen hǎo!","Hello, everyone."]
+      ] },
+    { title: "他 vs 她 vs 它",
+      note: "All three are pronounced tā. The character changes to mark gender (他 male / 她 female) or thing (它). Plural follows the same split.",
+      examples: [
+        ["他是我哥哥。","Tā shì wǒ gēge.","He is my older brother."],
+        ["她是老师。","Tā shì lǎoshī.","She is a teacher."],
+        ["它是一只猫。","Tā shì yì zhī māo.","It is a cat."]
+      ] },
+    { title: "您 (formal you)",
+      note: "您 is the polite singular form. There is no 您们 in standard Mandarin; use 你们 or 各位 (everyone) for a polite plural.",
+      examples: [
+        ["您好。","Nín hǎo.","Hello (polite)."],
+        ["您是王老师吗？","Nín shì Wáng lǎoshī ma?","Are you Teacher Wang?"]
+      ] }
+  ],
+  dialogue: { setting: "Pointing out family at a school event.",
+    lines: [
+      ["A","他是谁？","Tā shì shéi?","Who is he?"],
+      ["B","他是我哥哥。","Tā shì wǒ gēge.","He is my older brother."],
+      ["A","她呢？","Tā ne?","And her?"],
+      ["B","她是我姐姐。我们都是学生。","Tā shì wǒ jiějie. Wǒmen dōu shì xuéshēng.","She is my older sister. We are all students."],
+      ["A","你们好！我叫李丽。","Nǐmen hǎo! Wǒ jiào Lǐ Lì.","Hello, everyone! I am Li Li."],
+      ["B","大家好！","Dàjiā hǎo!","Hi, everyone!"]
+    ] }
 },
 { id: "l3", num: 3, title: "Demonstratives", blurb:
   "这 is for things near, 那 is for things far. Add 个 for objects, 里/儿 for places, 些 for plurals, 边 for sides.",
@@ -506,7 +750,34 @@ const LESSONS = [
     ["那边","nàbiān","pron.","that side","他在那边。","Tā zài nàbiān.","He's over that way."],
     ["有的","yǒude","pron.","some","有的人喜欢茶。","Yǒude rén xǐhuan chá.","Some people like tea."],
     ["有些","yǒuxiē","pron.","some","有些菜很好吃。","Yǒuxiē cài hěn hǎochī.","Some dishes are very tasty."]
-  ]
+  ],
+  grammar: [
+    { title: "这 / 那 family",
+      note: "Pick the base by distance (这 near, 那 far), then add a tail by what you mean: 个 for one object, 里/儿 for a place, 些 for plurals, 边 for a side or direction.",
+      examples: [
+        ["这是我的书。","Zhè shì wǒ de shū.","This is my book."],
+        ["那个多少钱？","Nàge duōshao qián?","How much is that one?"],
+        ["他在那边。","Tā zài nàbiān.","He's over that way."],
+        ["这些都是新的。","Zhèxiē dōu shì xīn de.","These are all new."]
+      ] },
+    { title: "这里 vs 这儿",
+      note: "Both mean here. 这里/那里 is more common in writing and in the south; 这儿/那儿 is the Beijing-style spoken form. They are interchangeable in HSK 1 contexts.",
+      examples: [
+        ["你来这儿。","Nǐ lái zhèr.","Come here."],
+        ["这里是学校。","Zhèlǐ shì xuéxiào.","This is the school."]
+      ] }
+  ],
+  dialogue: { setting: "Two friends looking at items in a shop.",
+    lines: [
+      ["A","这是什么？","Zhè shì shénme?","What is this?"],
+      ["B","这是我的新手机。","Zhè shì wǒ de xīn shǒujī.","This is my new phone."],
+      ["A","那个呢？","Nàge ne?","And that one?"],
+      ["B","那是我哥哥的电脑。","Nà shì wǒ gēge de diànnǎo.","That is my older brother's computer."],
+      ["A","这些都是新的吗？","Zhèxiē dōu shì xīn de ma?","Are these all new?"],
+      ["B","有些是新的，有些不是。","Yǒuxiē shì xīn de, yǒuxiē bú shì.","Some are new, some aren't."],
+      ["A","你的书在哪儿？","Nǐ de shū zài nǎr?","Where are your books?"],
+      ["B","在那边。","Zài nàbiān.","Over that way."]
+    ] }
 },
 { id: "l4", num: 4, title: "Question Words", blurb:
   "Chinese keeps the word order of a statement and slots in a question word where the answer would go.",
@@ -522,7 +793,33 @@ const LESSONS = [
     ["多少","duōshao","pron.","how many / much","这个多少钱？","Zhège duōshao qián?","How much is this?"],
     ["怎么","zěnme","pron.","how","这个字怎么读？","Zhège zì zěnme dú?","How do you read this character?"],
     ["怎么样","zěnmeyàng","pron.","how about","今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","How is the weather today?"]
-  ]
+  ],
+  grammar: [
+    { title: "Question word replaces the answer",
+      note: "Mandarin keeps statement word order in questions. Whatever you want to ask about, just drop the question word in where the answer would sit.",
+      examples: [
+        ["你叫小明。 / 你叫什么？","Nǐ jiào Xiǎomíng. / Nǐ jiào shénme?","You're called Xiaoming. / What are you called?"],
+        ["他是医生。 / 他是谁？","Tā shì yīshēng. / Tā shì shéi?","He's a doctor. / Who is he?"],
+        ["我住在北京。 / 你住在哪儿？","Wǒ zhù zài Běijīng. / Nǐ zhù zài nǎr?","I live in Beijing. / Where do you live?"]
+      ] },
+    { title: "几 vs 多少",
+      note: "Use 几 when you expect a small number (under ten, like family size or age of a child). Use 多少 for any quantity, including prices and phone numbers. 几 needs a measure word; 多少 usually doesn't.",
+      examples: [
+        ["你家有几口人？","Nǐ jiā yǒu jǐ kǒu rén?","How many people are in your family?"],
+        ["这个多少钱？","Zhège duōshao qián?","How much is this?"]
+      ] }
+  ],
+  dialogue: { setting: "Getting to know a new classmate.",
+    lines: [
+      ["A","你叫什么名字？","Nǐ jiào shénme míngzi?","What's your name?"],
+      ["B","我叫李明。你呢？","Wǒ jiào Lǐ Míng. Nǐ ne?","I'm Li Ming. And you?"],
+      ["A","我叫小红。你家有几口人？","Wǒ jiào Xiǎo Hóng. Nǐ jiā yǒu jǐ kǒu rén?","I'm Xiao Hong. How many people are in your family?"],
+      ["B","我家有四口人。你呢？","Wǒ jiā yǒu sì kǒu rén. Nǐ ne?","Four. And you?"],
+      ["A","我家有三口人。你住在哪儿？","Wǒ jiā yǒu sān kǒu rén. Nǐ zhù zài nǎr?","Three. Where do you live?"],
+      ["B","我住在北京。","Wǒ zhù zài Běijīng.","I live in Beijing."],
+      ["A","北京怎么样？","Běijīng zěnmeyàng?","How is Beijing?"],
+      ["B","很好！","Hěn hǎo!","Great!"]
+    ] }
 },
 { id: "l5", num: 5, title: "Numbers", blurb:
   "0 to 10 are the building blocks. Combine for two and three digit numbers. 两 replaces 二 before measure words.",
@@ -544,7 +841,39 @@ const LESSONS = [
     ["半","bàn","num./adv.","half","现在五点半。","Xiànzài wǔ diǎn bàn.","It's 5:30 now."],
     ["一半","yíbàn","num.","one half","我喝了一半。","Wǒ hē le yíbàn.","I drank half of it."],
     ["第","dì","prefix","ordinal prefix","他是第一名。","Tā shì dì-yī míng.","He is first place."]
-  ]
+  ],
+  grammar: [
+    { title: "两 vs 二",
+      note: "Use 二 for counting numbers (one, two, three) and ordinals (二月 = February, 第二 = second). Use 两 when the number sits before a measure word (两个, 两本, 两杯).",
+      examples: [
+        ["二月很冷。","Èr yuè hěn lěng.","February is very cold."],
+        ["我要两杯茶。","Wǒ yào liǎng bēi chá.","I want two cups of tea."],
+        ["我有两个哥哥。","Wǒ yǒu liǎng gè gēge.","I have two older brothers."]
+      ] },
+    { title: "Tens, hundreds, thousands",
+      note: "Building numbers is additive: 十一 (11), 二十 (20), 二十一 (21), 一百 (100), 一千 (1000). 两百 / 两千 use 两 because 百 and 千 act as measure-like nouns.",
+      examples: [
+        ["这本书一百块。","Zhè běn shū yì bǎi kuài.","This book is 100 yuan."],
+        ["这个手机三千块。","Zhège shǒujī sān qiān kuài.","This phone is 3000 yuan."]
+      ] },
+    { title: "半 (half) and 第 (ordinal)",
+      note: "半 means half. After a number and a measure word it means thirty minutes past (五点半 = 5:30). 第 + number turns a cardinal into an ordinal: 第一 (first), 第二 (second).",
+      examples: [
+        ["现在五点半。","Xiànzài wǔ diǎn bàn.","It's 5:30 now."],
+        ["他是第一名。","Tā shì dì-yī míng.","He is first place."]
+      ] }
+  ],
+  dialogue: { setting: "A clerk and a customer at a small shop.",
+    lines: [
+      ["A","你家有几口人？","Nǐ jiā yǒu jǐ kǒu rén?","How many people in your family?"],
+      ["B","我家有五口人。","Wǒ jiā yǒu wǔ kǒu rén.","Five."],
+      ["A","你今年多少岁？","Nǐ jīnnián duōshao suì?","How old are you this year?"],
+      ["B","我今年二十岁。","Wǒ jīnnián èrshí suì.","Twenty."],
+      ["A","现在几点？","Xiànzài jǐ diǎn?","What time is it?"],
+      ["B","现在五点半。","Xiànzài wǔ diǎn bàn.","Five thirty."],
+      ["A","这本书多少钱？","Zhè běn shū duōshao qián?","How much is this book?"],
+      ["B","一百块。","Yì bǎi kuài.","One hundred yuan."]
+    ] }
 },
 { id: "l6", num: 6, title: "Measure Words", blurb:
   "Chinese counts almost everything through a measure word: number + measure word + noun. 个 is the generic one.",
@@ -562,7 +891,40 @@ const LESSONS = [
     ["有点儿","yǒudiǎnr","adv.","a little (negative)","今天有点儿冷。","Jīntiān yǒudiǎnr lěng.","Today is a little cold."],
     ["一下","yíxià","mw./adv.","once / a moment","请等一下。","Qǐng děng yíxià.","Please wait a moment."],
     ["岁","suì","mw.","years of age","我妹妹七岁。","Wǒ mèimei qī suì.","My younger sister is seven."]
-  ]
+  ],
+  grammar: [
+    { title: "Number + measure word + noun",
+      note: "You almost never put a number directly before a noun. The measure word goes in between. 个 is the safe default if you forget the specific one.",
+      examples: [
+        ["一个人","yí gè rén","one person"],
+        ["两本书","liǎng běn shū","two books"],
+        ["三只猫","sān zhī māo","three cats"],
+        ["四口人","sì kǒu rén","four (family) people"]
+      ] },
+    { title: "一点儿 vs 有点儿",
+      note: "Both mean a little, but they sit in different slots. 一点儿 follows the verb (我喝一点儿). 有点儿 sits before an adjective and adds a negative flavor (a bit too...).",
+      examples: [
+        ["我会一点儿汉语。","Wǒ huì yìdiǎnr Hànyǔ.","I know a little Chinese."],
+        ["今天有点儿冷。","Jīntiān yǒudiǎnr lěng.","Today is a little (too) cold."]
+      ] },
+    { title: "一下 (for a moment)",
+      note: "Tag 一下 onto a verb to soften it into a brief, casual action: 等一下 (wait a sec), 看一下 (take a look), 说一下 (just say briefly).",
+      examples: [
+        ["请等一下。","Qǐng děng yíxià.","Please wait a moment."],
+        ["你说一下。","Nǐ shuō yíxià.","Just say it briefly."]
+      ] }
+  ],
+  dialogue: { setting: "Ordering at a small bookshop counter.",
+    lines: [
+      ["A","你要几本书？","Nǐ yào jǐ běn shū?","How many books do you want?"],
+      ["B","我要两本。","Wǒ yào liǎng běn.","Two."],
+      ["A","那件衣服呢？","Nà jiàn yīfu ne?","And that piece of clothing?"],
+      ["B","我也要一件。","Wǒ yě yào yí jiàn.","I want one of those too."],
+      ["A","还要别的吗？","Hái yào bié de ma?","Anything else?"],
+      ["B","再来一杯茶。","Zài lái yì bēi chá.","One more cup of tea."],
+      ["A","一共五十块。","Yígòng wǔshí kuài.","Fifty yuan altogether."],
+      ["B","好，请等一下。","Hǎo, qǐng děng yíxià.","Okay, just a moment."]
+    ] }
 },
 { id: "l7", num: 7, title: "Family", blurb:
   "The HSK 1 family centers on the nuclear unit. 家 covers both home and family, and 家人 names the members.",
@@ -580,7 +942,33 @@ const LESSONS = [
     ["孩子","háizi","n.","child","孩子在玩。","Háizi zài wán.","The child is playing."],
     ["男朋友","nánpéngyou","n.","boyfriend","她有男朋友吗？","Tā yǒu nánpéngyou ma?","Does she have a boyfriend?"],
     ["女朋友","nǚpéngyou","n.","girlfriend","他的女朋友很漂亮。","Tā de nǚpéngyou hěn piàoliang.","His girlfriend is very pretty."]
-  ]
+  ],
+  grammar: [
+    { title: "我 + close kin (drop 的)",
+      note: "With close family and groups you belong to, the possessive 的 is usually dropped: 我爸爸, 我妈妈, 我家. Keep 的 with distant or non-family possessions (我的书, 我的手机).",
+      examples: [
+        ["我爸爸是医生。","Wǒ bàba shì yīshēng.","My dad is a doctor."],
+        ["我家在北京。","Wǒ jiā zài Běijīng.","My home is in Beijing."],
+        ["我的书在桌子上。","Wǒ de shū zài zhuōzi shàng.","My book is on the table."]
+      ] },
+    { title: "Counting family with 口",
+      note: "家 takes the measure word 口 when you're counting people in the family unit. The pattern is 家 + 有 + number + 口 + 人.",
+      examples: [
+        ["我家有四口人。","Wǒ jiā yǒu sì kǒu rén.","My family has four people."],
+        ["你家有几口人？","Nǐ jiā yǒu jǐ kǒu rén?","How many people are in your family?"]
+      ] }
+  ],
+  dialogue: { setting: "Two classmates compare family.",
+    lines: [
+      ["A","你家有几口人？","Nǐ jiā yǒu jǐ kǒu rén?","How many people in your family?"],
+      ["B","我家有五口人：爸爸、妈妈、哥哥、我和弟弟。","Wǒ jiā yǒu wǔ kǒu rén: bàba, māma, gēge, wǒ hé dìdi.","Five: dad, mom, my older brother, me, and my younger brother."],
+      ["A","你哥哥多大？","Nǐ gēge duō dà?","How old is your older brother?"],
+      ["B","我哥哥二十五岁。","Wǒ gēge èrshíwǔ suì.","Twenty-five."],
+      ["A","你弟弟呢？","Nǐ dìdi ne?","And your younger brother?"],
+      ["B","我弟弟七岁，是小学生。","Wǒ dìdi qī suì, shì xiǎoxuéshēng.","He's seven, a primary school student."],
+      ["A","你爱你的家人吗？","Nǐ ài nǐ de jiārén ma?","Do you love your family?"],
+      ["B","我很爱我的家人。","Wǒ hěn ài wǒ de jiārén.","I love them very much."]
+    ] }
 },
 { id: "l8", num: 8, title: "People & Identity", blurb:
   "Words for naming people you meet, work with, or learn with. Notice the pattern 大学/中学/小学 plus 生 for student.",
@@ -600,7 +988,36 @@ const LESSONS = [
     ["同学","tóngxué","n.","classmate","他是我同学。","Tā shì wǒ tóngxué.","He is my classmate."],
     ["医生","yīshēng","n.","doctor","医生在医院。","Yīshēng zài yīyuàn.","The doctor is at the hospital."],
     ["名字","míngzi","n.","name","我的名字是小明。","Wǒ de míngzi shì Xiǎomíng.","My name is Xiaoming."]
-  ]
+  ],
+  grammar: [
+    { title: "是 for identity",
+      note: "Use 是 to equate two nouns: subject + 是 + identity. Negate with 不是. Don't use 是 to link a subject to an adjective (see Adjectives).",
+      examples: [
+        ["我是学生。","Wǒ shì xuéshēng.","I am a student."],
+        ["他不是医生。","Tā bú shì yīshēng.","He is not a doctor."]
+      ] },
+    { title: "我叫… vs 我的名字是…",
+      note: "Both work for introducing yourself. 我叫 is the casual default. 我的名字是 sounds formal or written. The polite question is 您叫什么名字？",
+      examples: [
+        ["我叫小明。","Wǒ jiào Xiǎomíng.","I'm called Xiaoming."],
+        ["我的名字是小明。","Wǒ de míngzi shì Xiǎomíng.","My name is Xiaoming."]
+      ] },
+    { title: "School level + 生",
+      note: "大 / 中 / 小 + 学 names the school (university / middle / primary). Add 生 to name the student. The same chunks reappear in lesson 16 for the buildings.",
+      examples: [
+        ["他是大学生。","Tā shì dàxuéshēng.","He is a university student."],
+        ["我妹妹是小学生。","Wǒ mèimei shì xiǎoxuéshēng.","My younger sister is a primary school student."]
+      ] }
+  ],
+  dialogue: { setting: "A student meeting a teacher at a school event.",
+    lines: [
+      ["A","你好！请问你叫什么名字？","Nǐ hǎo! Qǐngwèn nǐ jiào shénme míngzi?","Hello! May I ask your name?"],
+      ["B","我叫王小明。你呢？","Wǒ jiào Wáng Xiǎomíng. Nǐ ne?","I'm Wang Xiaoming. And you?"],
+      ["A","我叫李丽。你是学生吗？","Wǒ jiào Lǐ Lì. Nǐ shì xuéshēng ma?","I'm Li Li. Are you a student?"],
+      ["B","是，我是大学生。你呢？","Shì, wǒ shì dàxuéshēng. Nǐ ne?","Yes, I'm a university student. You?"],
+      ["A","我是老师。很高兴认识你。","Wǒ shì lǎoshī. Hěn gāoxìng rènshi nǐ.","I'm a teacher. Nice to meet you."],
+      ["B","我也很高兴认识你。","Wǒ yě hěn gāoxìng rènshi nǐ.","Nice to meet you too."]
+    ] }
 },
 { id: "l9", num: 9, title: "Time, Days & Dates", blurb:
   "Dates go big to small: 年, then 月, then 日/号. Hours use 点, minutes use 分. Bare 半 means half past.",
@@ -634,7 +1051,39 @@ const LESSONS = [
     ["小时","xiǎoshí","n.","hour","我学了两个小时。","Wǒ xué le liǎng gè xiǎoshí.","I studied for two hours."],
     ["早","zǎo","adj.","early","你早！","Nǐ zǎo!","Good morning."],
     ["晚","wǎn","adj.","late","对不起，我来晚了。","Duìbuqǐ, wǒ lái wǎn le.","Sorry, I'm late."]
-  ]
+  ],
+  grammar: [
+    { title: "Date order: big to small",
+      note: "Dates run from biggest unit to smallest: 年 → 月 → 日/号. The same logic applies inside a sentence: time of day before the verb, not after.",
+      examples: [
+        ["今天是二〇二六年五月一号。","Jīntiān shì èr líng èr liù nián wǔ yuè yī hào.","Today is May 1, 2026."],
+        ["我明天早上去学校。","Wǒ míngtiān zǎoshang qù xuéxiào.","I'm going to school tomorrow morning."]
+      ] },
+    { title: "Telling the clock",
+      note: "Hours use 点, minutes use 分. 半 alone means thirty (五点半 = 5:30). Drop 分 when the minutes are zero (三点 = 3:00).",
+      examples: [
+        ["现在三点。","Xiànzài sān diǎn.","It's three o'clock now."],
+        ["三点十分。","Sān diǎn shí fēn.","Three ten."],
+        ["五点半。","Wǔ diǎn bàn.","Five thirty."]
+      ] },
+    { title: "什么时候 (when)",
+      note: "什么时候 sits in the slot where the time expression would go in a statement. Same word order as the answer.",
+      examples: [
+        ["你什么时候来？","Nǐ shénme shíhou lái?","When are you coming?"],
+        ["明天下午来。","Míngtiān xiàwǔ lái.","Tomorrow afternoon."]
+      ] }
+  ],
+  dialogue: { setting: "Two friends making plans.",
+    lines: [
+      ["A","今天几号？","Jīntiān jǐ hào?","What's the date today?"],
+      ["B","今天五月一号，星期一。","Jīntiān wǔ yuè yī hào, xīngqīyī.","May 1st, Monday."],
+      ["A","明天呢？","Míngtiān ne?","And tomorrow?"],
+      ["B","明天五月二号，星期二。","Míngtiān wǔ yuè èr hào, xīngqī'èr.","Tomorrow is May 2nd, Tuesday."],
+      ["A","现在几点？","Xiànzài jǐ diǎn?","What time is it?"],
+      ["B","现在下午三点半。","Xiànzài xiàwǔ sān diǎn bàn.","It's three thirty in the afternoon."],
+      ["A","你晚上有时间吗？","Nǐ wǎnshang yǒu shíjiān ma?","Do you have time this evening?"],
+      ["B","没有，我晚上要工作。","Méiyǒu, wǒ wǎnshang yào gōngzuò.","No, I have to work."]
+    ] }
 },
 { id: "l10", num: 10, title: "Daily Verbs", blurb:
   "What you do from morning to night. Several verbs are 离合词 (separable verb-object pairs) like 睡觉, 上班, 看病.",
@@ -680,7 +1129,39 @@ const LESSONS = [
     ["卖","mài","v.","sell","商店卖衣服。","Shāngdiàn mài yīfu.","The shop sells clothes."],
     ["找","zhǎo","v.","look for","我找我的手机。","Wǒ zhǎo wǒ de shǒujī.","I'm looking for my phone."],
     ["见","jiàn","v.","meet, see","明天见！","Míngtiān jiàn!","See you tomorrow."]
-  ]
+  ],
+  grammar: [
+    { title: "Subject + (time) + verb + object",
+      note: "Time phrases sit before the verb, not after. This is the opposite of English. Place expressions usually sit before the verb too, often with 在.",
+      examples: [
+        ["我七点起床。","Wǒ qī diǎn qǐchuáng.","I get up at seven."],
+        ["我晚上看电视。","Wǒ wǎnshang kàn diànshì.","I watch TV in the evening."]
+      ] },
+    { title: "Separable verbs (离合词)",
+      note: "Verbs like 睡觉, 上班, 下课, 看病, 说话, 唱歌 are really verb-object pairs glued together. The verb half and object half can be split by a measure, duration, or aspect marker.",
+      examples: [
+        ["我睡了八个小时觉。","Wǒ shuì le bā gè xiǎoshí jiào.","I slept eight hours."],
+        ["我们上了一节课。","Wǒmen shàng le yì jié kè.","We had one class."]
+      ] },
+    { title: "Movement verbs 来 / 去 / 回 / 到",
+      note: "These take a destination directly, no preposition needed. 来 = come (toward speaker), 去 = go (away), 回 = return, 到 = arrive at / reach.",
+      examples: [
+        ["我去学校。","Wǒ qù xuéxiào.","I'm going to school."],
+        ["我回家。","Wǒ huí jiā.","I'm going home."],
+        ["我到学校了。","Wǒ dào xuéxiào le.","I've arrived at school."]
+      ] }
+  ],
+  dialogue: { setting: "Two friends comparing daily schedules.",
+    lines: [
+      ["A","你早上几点起床？","Nǐ zǎoshang jǐ diǎn qǐchuáng?","What time do you get up?"],
+      ["B","我七点起床。","Wǒ qī diǎn qǐchuáng.","Seven."],
+      ["A","起床后做什么？","Qǐchuáng hòu zuò shénme?","What do you do after?"],
+      ["B","我吃早饭，喝牛奶。","Wǒ chī zǎofàn, hē niúnǎi.","Eat breakfast, drink milk."],
+      ["A","然后呢？","Ránhòu ne?","Then?"],
+      ["B","八点去上班。","Bā diǎn qù shàngbān.","Eight, go to work."],
+      ["A","晚上呢？","Wǎnshang ne?","Evening?"],
+      ["B","看电视，十点睡觉。","Kàn diànshì, shí diǎn shuìjiào.","Watch TV, then sleep at ten."]
+    ] }
 },
 { id: "l11", num: 11, title: "Mental & Modal Verbs", blurb:
   "These verbs name how you think, want, and can. Modal verbs (会, 能, 可以, 想, 要) come before the main verb.",
@@ -703,7 +1184,39 @@ const LESSONS = [
     ["会","huì","v.","can, will (learned)","我会说汉语。","Wǒ huì shuō Hànyǔ.","I can speak Chinese."],
     ["能","néng","v.","be able to","你能来吗？","Nǐ néng lái ma?","Can you come?"],
     ["可以","kěyǐ","v./adj.","may, can","我可以坐这儿吗？","Wǒ kěyǐ zuò zhèr ma?","May I sit here?"]
-  ]
+  ],
+  grammar: [
+    { title: "会 vs 能 vs 可以",
+      note: "会 = learned skill (I learned to speak Chinese). 能 = physical or circumstantial ability (Can you come? Can you eat spicy food?). 可以 = permitted to (May I sit here?).",
+      examples: [
+        ["我会说汉语。","Wǒ huì shuō Hànyǔ.","I can speak Chinese (learned)."],
+        ["你能来吗？","Nǐ néng lái ma?","Can you come (are you free)?"],
+        ["我可以坐这儿吗？","Wǒ kěyǐ zuò zhèr ma?","May I sit here (permission)?"]
+      ] },
+    { title: "想 vs 要",
+      note: "想 = would like to (softer, more about thinking). 要 = want (firmer, often a request or plan). 不要 is the negative imperative: don't.",
+      examples: [
+        ["我想吃饺子。","Wǒ xiǎng chī jiǎozi.","I'd like to eat dumplings."],
+        ["我要一杯水。","Wǒ yào yì bēi shuǐ.","I want a glass of water."],
+        ["不要说话。","Búyào shuōhuà.","Don't talk."]
+      ] },
+    { title: "Negating 有",
+      note: "有 is special: it uses 没 instead of 不. 没有 means don't have. The same 没/没有 negates past actions for any verb (我没吃 = I didn't eat).",
+      examples: [
+        ["他没有手机。","Tā méiyǒu shǒujī.","He doesn't have a phone."],
+        ["我昨天没去。","Wǒ zuótiān méi qù.","I didn't go yesterday."]
+      ] }
+  ],
+  dialogue: { setting: "Asking a friend about Chinese ability.",
+    lines: [
+      ["A","你会说汉语吗？","Nǐ huì shuō Hànyǔ ma?","Can you speak Chinese?"],
+      ["B","我会一点儿。","Wǒ huì yìdiǎnr.","A little."],
+      ["A","你想去中国吗？","Nǐ xiǎng qù Zhōngguó ma?","Do you want to go to China?"],
+      ["B","我很想去！","Wǒ hěn xiǎng qù!","I really want to!"],
+      ["A","我可以教你。","Wǒ kěyǐ jiāo nǐ.","I can teach you."],
+      ["B","真的吗？谢谢你！","Zhēn de ma? Xièxie nǐ!","Really? Thank you!"],
+      ["A","不客气，我们是朋友。","Bú kèqi, wǒmen shì péngyou.","You're welcome, we're friends."]
+    ] }
 },
 { id: "l12", num: 12, title: "Adjectives", blurb:
   "Most HSK 1 adjectives take 很 in plain affirmative sentences (我很高兴). Drop the noun copula 是: never say 我是高兴.",
@@ -726,7 +1239,39 @@ const LESSONS = [
     ["好听","hǎotīng","adj.","pleasant to hear","这首歌很好听。","Zhè shǒu gē hěn hǎotīng.","This song is lovely."],
     ["好玩儿","hǎowánr","adj.","fun","这个很好玩儿。","Zhège hěn hǎowánr.","This is fun."],
     ["对","duì","adj./prep.","correct, toward","你说得对。","Nǐ shuō de duì.","You're right."]
-  ]
+  ],
+  grammar: [
+    { title: "很 + adjective, no 是",
+      note: "In plain affirmative sentences, an adjective takes 很 as a neutral filler: 我很高兴 (I'm happy), 今天很热 (today is hot). Never write 我是高兴 or 今天是热.",
+      examples: [
+        ["我很高兴。","Wǒ hěn gāoxìng.","I'm happy."],
+        ["这本书很好看。","Zhè běn shū hěn hǎokàn.","This book is great."],
+        ["今天天气很好。","Jīntiān tiānqì hěn hǎo.","Today's weather is good."]
+      ] },
+    { title: "好 + verb (good to V)",
+      note: "Stick 好 onto a verb of sensing to mean 'good to ...': 好看 (good to look at), 好吃 (good to eat), 好听 (good to listen to), 好玩儿 (fun to play).",
+      examples: [
+        ["这个菜很好吃。","Zhège cài hěn hǎochī.","This dish is tasty."],
+        ["这首歌很好听。","Zhè shǒu gē hěn hǎotīng.","This song sounds great."]
+      ] },
+    { title: "Negation: 不 + adjective",
+      note: "Negate an adjective with 不 (not 没). 太 + adj + 了 means too ...; 不太 + adj softens to not very...",
+      examples: [
+        ["今天不冷。","Jīntiān bù lěng.","Today isn't cold."],
+        ["太贵了！","Tài guì le!","Too expensive!"],
+        ["这件衣服不太贵。","Zhè jiàn yīfu bú tài guì.","This isn't too expensive."]
+      ] }
+  ],
+  dialogue: { setting: "Chatting about food and clothes.",
+    lines: [
+      ["A","今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","How is the weather today?"],
+      ["B","今天很热。","Jīntiān hěn rè.","Hot."],
+      ["A","这个菜好吃吗？","Zhège cài hǎochī ma?","Is this dish tasty?"],
+      ["B","很好吃，但是有点儿贵。","Hěn hǎochī, dànshì yǒudiǎnr guì.","Yes, but a little pricey."],
+      ["A","这件衣服漂亮吗？","Zhè jiàn yīfu piàoliang ma?","Is this dress pretty?"],
+      ["B","很漂亮，但是太贵了。","Hěn piàoliang, dànshì tài guì le.","Pretty, but too expensive."],
+      ["A","便宜的也很好看。","Piányi de yě hěn hǎokàn.","The cheaper ones look nice too."]
+    ] }
 },
 { id: "l13", num: 13, title: "Adverbs", blurb:
   "Adverbs sit before the verb or adjective. 不 negates verbs and adjectives; 没(有) negates 有 and past actions.",
@@ -741,7 +1286,38 @@ const LESSONS = [
     ["还","hái","adv.","still, also","我还想吃。","Wǒ hái xiǎng chī.","I still want to eat."],
     ["再","zài","adv.","again","再说一下。","Zài shuō yíxià.","Say it again."],
     ["正在","zhèngzài","adv.","currently doing","他正在睡觉。","Tā zhèngzài shuìjiào.","He is currently sleeping."]
-  ]
+  ],
+  grammar: [
+    { title: "Position: adverb before verb / adj",
+      note: "Adverbs almost always come right before the verb or adjective they modify. Multiple adverbs stack in this rough order: scope (都) → 也 → 不 → degree (很/非常/太).",
+      examples: [
+        ["我们都是学生。","Wǒmen dōu shì xuéshēng.","We are all students."],
+        ["我也很喜欢。","Wǒ yě hěn xǐhuan.","I really like it too."]
+      ] },
+    { title: "不 vs 没(有)",
+      note: "不 negates verbs and adjectives in the present or future. 没(有) negates 有 itself and negates past or completed actions.",
+      examples: [
+        ["我不去。","Wǒ bú qù.","I'm not going."],
+        ["他没有手机。","Tā méiyǒu shǒujī.","He doesn't have a phone."],
+        ["我昨天没去。","Wǒ zuótiān méi qù.","I didn't go yesterday."]
+      ] },
+    { title: "正在 + verb (ongoing)",
+      note: "正在 + verb says the action is in progress right now: he is sleeping, they are eating. The sentence often ends with 呢 in casual speech.",
+      examples: [
+        ["他正在睡觉。","Tā zhèngzài shuìjiào.","He is currently sleeping."],
+        ["我们正在上课。","Wǒmen zhèngzài shàngkè.","We are in class right now."]
+      ] }
+  ],
+  dialogue: { setting: "Three friends chatting at a tea shop.",
+    lines: [
+      ["A","你也是学生吗？","Nǐ yě shì xuéshēng ma?","Are you a student too?"],
+      ["B","是，我也是。","Shì, wǒ yě shì.","Yes, me too."],
+      ["A","你们都喜欢茶吗？","Nǐmen dōu xǐhuan chá ma?","Do you both like tea?"],
+      ["B","我们都喜欢。","Wǒmen dōu xǐhuan.","We both do."],
+      ["A","今天非常热。","Jīntiān fēicháng rè.","It's really hot today."],
+      ["B","真的，太热了。","Zhēn de, tài rè le.","Truly, too hot."],
+      ["A","我想再喝一杯水。","Wǒ xiǎng zài hē yì bēi shuǐ.","I want another glass of water."]
+    ] }
 },
 { id: "l14", num: 14, title: "Particles", blurb:
   "Small grammar markers. They sit at the end of phrases or sentences and tone the whole sentence.",
@@ -752,7 +1328,38 @@ const LESSONS = [
     ["呢","ne","part.","follow-up question","我很好，你呢？","Wǒ hěn hǎo, nǐ ne?","I'm fine, and you?"],
     ["吧","ba","part.","suggestion / softener","我们走吧。","Wǒmen zǒu ba.","Let's go."],
     ["们","men","suffix","plural for people","老师们好。","Lǎoshī men hǎo.","Hello, teachers."]
-  ]
+  ],
+  grammar: [
+    { title: "的 (possessive / modifier)",
+      note: "Insert 的 between a possessor and a thing (我的书), or between a modifier and the noun (新的衣服, 漂亮的女朋友). Drop 的 with close kin (我妈妈).",
+      examples: [
+        ["这是我的书。","Zhè shì wǒ de shū.","This is my book."],
+        ["漂亮的衣服。","Piàoliang de yīfu.","Pretty clothes."]
+      ] },
+    { title: "了: completion vs change of state",
+      note: "Right after a verb, 了 marks the action as completed (我吃了 = I ate). At the end of a sentence, 了 marks a change of state (下雨了 = it started raining).",
+      examples: [
+        ["我吃了。","Wǒ chī le.","I've eaten."],
+        ["下雨了。","Xià yǔ le.","It started raining."]
+      ] },
+    { title: "吗 / 呢 / 吧",
+      note: "吗 turns a statement into a yes/no question. 呢 asks the same question back (你呢？). 吧 softens a command into a suggestion (我们走吧).",
+      examples: [
+        ["你是学生吗？","Nǐ shì xuéshēng ma?","Are you a student?"],
+        ["我很好，你呢？","Wǒ hěn hǎo, nǐ ne?","I'm fine, and you?"],
+        ["我们走吧。","Wǒmen zǒu ba.","Let's go."]
+      ] }
+  ],
+  dialogue: { setting: "Two friends deciding to grab lunch.",
+    lines: [
+      ["A","这是你的书吗？","Zhè shì nǐ de shū ma?","Is this your book?"],
+      ["B","是的，是我的书。","Shì de, shì wǒ de shū.","Yes, it's my book."],
+      ["A","你吃饭了吗？","Nǐ chīfàn le ma?","Have you eaten?"],
+      ["B","我吃了。你呢？","Wǒ chī le. Nǐ ne?","I have. You?"],
+      ["A","我还没吃。","Wǒ hái méi chī.","I haven't yet."],
+      ["B","我们一起去吃吧。","Wǒmen yìqǐ qù chī ba.","Let's go eat together."],
+      ["A","好吧！","Hǎo ba!","Okay!"]
+    ] }
 },
 { id: "l15", num: 15, title: "Prepositions & Conjunctions", blurb:
   "Just a handful at HSK 1, but they tie sentences together. 在 introduces location; 和 joins two nouns.",
@@ -761,7 +1368,37 @@ const LESSONS = [
     ["对","duì","prep.","toward","他对我很好。","Tā duì wǒ hěn hǎo.","He is very nice to me."],
     ["在","zài","prep.","at, in","他在学校学习。","Tā zài xuéxiào xuéxí.","He studies at school."],
     ["给","gěi","prep.","for, to","我给你打电话。","Wǒ gěi nǐ dǎ diànhuà.","I'll call you."]
-  ]
+  ],
+  grammar: [
+    { title: "在 + place + verb",
+      note: "To say where an action happens, put 在 + place before the verb. 在 can also stand alone as a verb meaning to be at (我在学校 = I'm at school).",
+      examples: [
+        ["他在学校学习。","Tā zài xuéxiào xuéxí.","He studies at school."],
+        ["我在家。","Wǒ zài jiā.","I'm at home."]
+      ] },
+    { title: "和 joins two nouns",
+      note: "和 connects two nouns (A 和 B) the way English uses and. It does not connect verbs or sentences. For with-someone, use 跟 or just 和 + person before the verb.",
+      examples: [
+        ["我和爸爸去学校。","Wǒ hé bàba qù xuéxiào.","Dad and I go to school."],
+        ["我喜欢茶和水。","Wǒ xǐhuan chá hé shuǐ.","I like tea and water."]
+      ] },
+    { title: "给 (for / to)",
+      note: "给 + person + verb says you're doing the action for or to that person. 给 also works as a verb meaning to give.",
+      examples: [
+        ["我给你打电话。","Wǒ gěi nǐ dǎ diànhuà.","I'll call you."],
+        ["请给我一杯水。","Qǐng gěi wǒ yì bēi shuǐ.","Please give me a glass of water."]
+      ] }
+  ],
+  dialogue: { setting: "A short phone exchange.",
+    lines: [
+      ["A","你在哪儿？","Nǐ zài nǎr?","Where are you?"],
+      ["B","我在学校。","Wǒ zài xuéxiào.","At school."],
+      ["A","你和谁一起？","Nǐ hé shéi yìqǐ?","Who are you with?"],
+      ["B","我和爸爸一起。","Wǒ hé bàba yìqǐ.","With my dad."],
+      ["A","我给你打电话好吗？","Wǒ gěi nǐ dǎ diànhuà hǎo ma?","Can I call you?"],
+      ["B","好，晚上给我打吧。","Hǎo, wǎnshang gěi wǒ dǎ ba.","Sure, call me in the evening."],
+      ["A","你对我真好。","Nǐ duì wǒ zhēn hǎo.","You're so good to me."]
+    ] }
 },
 { id: "l16", num: 16, title: "Places & Buildings", blurb:
   "The everyday geography of an HSK 1 learner: school, work, hospital, shops, and home.",
@@ -781,7 +1418,31 @@ const LESSONS = [
     ["店","diàn","n.","shop","那家店很大。","Nà jiā diàn hěn dà.","That shop is big."],
     ["国","guó","n.","country","你是哪国人？","Nǐ shì nǎ guó rén?","Which country are you from?"],
     ["中国","Zhōngguó","n.","China","我想去中国。","Wǒ xiǎng qù Zhōngguó.","I want to go to China."]
-  ]
+  ],
+  grammar: [
+    { title: "去 + place (no preposition)",
+      note: "Movement verbs (去, 来, 到, 回) take a place noun directly. No 到 or 在 needed: 我去学校, not 我去到学校.",
+      examples: [
+        ["我去超市。","Wǒ qù chāoshì.","I'm going to the supermarket."],
+        ["他回家了。","Tā huí jiā le.","He went home."]
+      ] },
+    { title: "Place + 有 + thing (there is)",
+      note: "Place + 有 + thing tells you what's at a place: 超市里有水果 (there is fruit in the supermarket). Negate with 没有.",
+      examples: [
+        ["超市里有水果。","Chāoshì lǐ yǒu shuǐguǒ.","There's fruit in the supermarket."],
+        ["书店在学校旁边。","Shūdiàn zài xuéxiào pángbiān.","The bookstore is next to the school."]
+      ] }
+  ],
+  dialogue: { setting: "Two friends running errands.",
+    lines: [
+      ["A","你去哪儿？","Nǐ qù nǎr?","Where are you going?"],
+      ["B","我去超市。","Wǒ qù chāoshì.","To the supermarket."],
+      ["A","超市在哪儿？","Chāoshì zài nǎr?","Where is the supermarket?"],
+      ["B","超市在书店旁边。","Chāoshì zài shūdiàn pángbiān.","Next to the bookstore."],
+      ["A","我也要去商店。","Wǒ yě yào qù shāngdiàn.","I'm going to the shop too."],
+      ["B","我们一起去吧。","Wǒmen yìqǐ qù ba.","Let's go together."],
+      ["A","好，然后去饭店吃饭。","Hǎo, ránhòu qù fàndiàn chīfàn.","Sure, then we'll eat at a restaurant."]
+    ] }
 },
 { id: "l17", num: 17, title: "Locations & Directions", blurb:
   "Position words attach to nouns: 桌子上, 学校里, 家外, 那边. 在 + location says where something is.",
@@ -794,7 +1455,32 @@ const LESSONS = [
     ["后","hòu","n.","back, after","下课后我去吃饭。","Xiàkè hòu wǒ qù chī fàn.","After class I'll go eat."],
     ["边","biān","n./suffix","side","在我旁边。","Zài wǒ pángbiān.","Next to me."],
     ["外边","wàibian","n.","outside","外边在下雨。","Wàibian zài xiàyǔ.","It's raining outside."]
-  ]
+  ],
+  grammar: [
+    { title: "Noun + position word",
+      note: "Position words (上, 下, 里, 外, 前, 后) attach to a noun to mark a precise location: 桌子上 (on the table), 椅子下 (under the chair), 房间里 (in the room). The 边 suffix makes the side standalone: 外边, 旁边.",
+      examples: [
+        ["书在桌子上。","Shū zài zhuōzi shàng.","The book is on the table."],
+        ["椅子下有猫。","Yǐzi xià yǒu māo.","There's a cat under the chair."],
+        ["房间里没人。","Fángjiān lǐ méi rén.","There's no one in the room."]
+      ] },
+    { title: "在 + location",
+      note: "在 + a noun-plus-position phrase tells you where something is sitting. The order is always thing + 在 + place.",
+      examples: [
+        ["我在房间里。","Wǒ zài fángjiān lǐ.","I'm in the room."],
+        ["他在我旁边。","Tā zài wǒ pángbiān.","He's next to me."]
+      ] }
+  ],
+  dialogue: { setting: "Looking around the house for things.",
+    lines: [
+      ["A","我的手机在哪儿？","Wǒ de shǒujī zài nǎr?","Where's my phone?"],
+      ["B","在桌子上。","Zài zhuōzi shàng.","On the table."],
+      ["A","椅子下有什么？","Yǐzi xià yǒu shénme?","What's under the chair?"],
+      ["B","椅子下有一只猫。","Yǐzi xià yǒu yì zhī māo.","There's a cat under the chair."],
+      ["A","外边怎么样？","Wàibian zěnmeyàng?","How is it outside?"],
+      ["B","外边在下雨，很冷。","Wàibian zài xiàyǔ, hěn lěng.","It's raining outside, very cold."],
+      ["A","我们就在家里休息吧。","Wǒmen jiù zài jiā lǐ xiūxi ba.","Let's just rest at home."]
+    ] }
 },
 { id: "l18", num: 18, title: "Food & Drink", blurb:
   "Three meals plus the most common dishes and drinks. 早饭 is breakfast, 午饭 lunch, 晚饭 dinner.",
@@ -816,7 +1502,38 @@ const LESSONS = [
     ["午饭","wǔfàn","n.","lunch","午饭吃米饭。","Wǔfàn chī mǐfàn.","Eat rice for lunch."],
     ["晚饭","wǎnfàn","n.","dinner","晚饭后我去玩。","Wǎnfàn hòu wǒ qù wán.","After dinner I'll go play."],
     ["东西","dōngxi","n.","thing(s)","我买了很多东西。","Wǒ mǎi le hěn duō dōngxi.","I bought a lot of things."]
-  ]
+  ],
+  grammar: [
+    { title: "吃 / 喝 + food / drink",
+      note: "吃 takes solids (吃饭, 吃饺子, 吃水果). 喝 takes liquids (喝水, 喝茶, 喝牛奶). 我要 + dish is the basic ordering pattern.",
+      examples: [
+        ["我吃米饭。","Wǒ chī mǐfàn.","I'm eating rice."],
+        ["我喝茶。","Wǒ hē chá.","I drink tea."],
+        ["我要一碗米饭。","Wǒ yào yì wǎn mǐfàn.","I want a bowl of rice."]
+      ] },
+    { title: "想 + verb (would like to)",
+      note: "When you want to order, 想 + verb is softer than 要 + noun: 我想吃饺子 (I'd like to eat dumplings). Add 一点儿 to mean a little of something.",
+      examples: [
+        ["我想吃饺子。","Wǒ xiǎng chī jiǎozi.","I'd like to eat dumplings."],
+        ["我想喝一点儿茶。","Wǒ xiǎng hē yìdiǎnr chá.","I'd like a little tea."]
+      ] },
+    { title: "早饭 / 午饭 / 晚饭",
+      note: "Meals follow a time + 饭 pattern: 早 (early) + 饭 = breakfast, 午 (noon) + 饭 = lunch, 晚 (evening) + 饭 = dinner. 吃饭 alone means to have a meal.",
+      examples: [
+        ["我没吃早饭。","Wǒ méi chī zǎofàn.","I didn't eat breakfast."],
+        ["晚饭后我去玩。","Wǎnfàn hòu wǒ qù wán.","After dinner I'll go play."]
+      ] }
+  ],
+  dialogue: { setting: "Ordering at a small noodle shop.",
+    lines: [
+      ["A","你想吃什么？","Nǐ xiǎng chī shénme?","What would you like to eat?"],
+      ["B","我想吃饺子和米饭。","Wǒ xiǎng chī jiǎozi hé mǐfàn.","Dumplings and rice."],
+      ["A","喝什么？","Hē shénme?","To drink?"],
+      ["B","我要一杯茶。","Wǒ yào yì bēi chá.","A cup of tea."],
+      ["A","我也来一杯。","Wǒ yě lái yì bēi.","I'll have one too."],
+      ["B","这个菜很好吃！","Zhège cài hěn hǎochī!","This dish is great!"],
+      ["A","真的，太好吃了。","Zhēn de, tài hǎochī le.","Really, super tasty."]
+    ] }
 },
 { id: "l19", num: 19, title: "Body & Health", blurb:
   "HSK 1 stays simple here: getting sick, seeing a doctor, going to the hospital, and the things that go wrong.",
@@ -826,7 +1543,37 @@ const LESSONS = [
     ["看病","kànbìng","v.","see a doctor","我去医院看病。","Wǒ qù yīyuàn kànbìng.","I'm going to the hospital to see a doctor."],
     ["事","shì","n.","matter, thing","你有事吗？","Nǐ yǒu shì ma?","Do you have something to do?"],
     ["问题","wèntí","n.","question, problem","我有一个问题。","Wǒ yǒu yí gè wèntí.","I have a question."]
-  ]
+  ],
+  grammar: [
+    { title: "生病了 (change of state)",
+      note: "生病 means to get sick. The 了 at the end marks the change: 妹妹生病了 means she's just come down with something. Without 了 it just states the verb without the change angle.",
+      examples: [
+        ["妹妹生病了。","Mèimei shēngbìng le.","Younger sister got sick."],
+        ["他没生病。","Tā méi shēngbìng.","He isn't sick."]
+      ] },
+    { title: "看病 (离合词)",
+      note: "看病 (see a doctor) is a separable verb. The 病 (illness) is the object of 看. You can split them: 看了一次病 (saw a doctor once).",
+      examples: [
+        ["我去医院看病。","Wǒ qù yīyuàn kànbìng.","I'm going to the hospital to see a doctor."],
+        ["他看了一次病。","Tā kàn le yí cì bìng.","He saw a doctor once."]
+      ] },
+    { title: "有 + thing (have a problem)",
+      note: "Use 有 to introduce things that are happening to you: 有病, 有事, 有问题. The negative is 没有.",
+      examples: [
+        ["我有一个问题。","Wǒ yǒu yí gè wèntí.","I have a question."],
+        ["你有事吗？","Nǐ yǒu shì ma?","Do you have something to do?"]
+      ] }
+  ],
+  dialogue: { setting: "A friend visits a sick classmate.",
+    lines: [
+      ["A","你今天怎么样？","Nǐ jīntiān zěnmeyàng?","How are you today?"],
+      ["B","我生病了。","Wǒ shēngbìng le.","I got sick."],
+      ["A","你去看病了吗？","Nǐ qù kànbìng le ma?","Have you seen a doctor?"],
+      ["B","还没有。","Hái méiyǒu.","Not yet."],
+      ["A","我们去医院吧。","Wǒmen qù yīyuàn ba.","Let's go to the hospital."],
+      ["B","好，谢谢你。","Hǎo, xièxie nǐ.","Okay, thank you."],
+      ["A","没事，我们是朋友。","Méishì, wǒmen shì péngyou.","It's nothing, we're friends."]
+    ] }
 },
 { id: "l20", num: 20, title: "Weather", blurb:
   "Talk about the weather and the seasons. 下雨/下雪 use 下 as a verb (literally 'to come down').",
@@ -837,7 +1584,31 @@ const LESSONS = [
     ["雪","xuě","n.","snow","北京有雪。","Běijīng yǒu xuě.","Beijing has snow."],
     ["冷","lěng","adj.","cold","冬天很冷。","Dōngtiān hěn lěng.","Winter is cold."],
     ["热","rè","adj.","hot","今天很热。","Jīntiān hěn rè.","Today is hot."]
-  ]
+  ],
+  grammar: [
+    { title: "下 + 雨 / 雪 (come down)",
+      note: "Chinese treats rain and snow as something that comes down. 下 is the verb, 雨 / 雪 is the object: 下雨 (it's raining), 下雪 (it's snowing).",
+      examples: [
+        ["明天下雨。","Míngtiān xiàyǔ.","It will rain tomorrow."],
+        ["昨天下了雪。","Zuótiān xià le xuě.","It snowed yesterday."]
+      ] },
+    { title: "adj + 了 (a change happened)",
+      note: "Adding 了 to an adjective at the end of a sentence marks a change: 天气热了 means it has gotten hot (it wasn't before). Pair it with 太 + adj + 了 for an exclamation.",
+      examples: [
+        ["天气冷了。","Tiānqì lěng le.","The weather has gotten cold."],
+        ["太热了！","Tài rè le!","Too hot!"]
+      ] }
+  ],
+  dialogue: { setting: "Friends checking the weather.",
+    lines: [
+      ["A","今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","How's the weather today?"],
+      ["B","今天很冷，下雪了。","Jīntiān hěn lěng, xià xuě le.","Cold, it's snowing."],
+      ["A","明天呢？","Míngtiān ne?","And tomorrow?"],
+      ["B","明天下雨。","Míngtiān xiàyǔ.","It'll rain tomorrow."],
+      ["A","太冷了！","Tài lěng le!","Too cold!"],
+      ["B","是啊，我不想出去。","Shì a, wǒ bù xiǎng chūqù.","Yeah, I don't want to go out."],
+      ["A","我们在家看电视吧。","Wǒmen zài jiā kàn diànshì ba.","Let's stay home and watch TV."]
+    ] }
 },
 { id: "l21", num: 21, title: "Transport", blurb:
   "How you get around. 坐 is the verb for taking public transport; 开 is for driving.",
@@ -846,13 +1617,61 @@ const LESSONS = [
     ["出租车","chūzūchē","n.","taxi","坐出租车去机场。","Zuò chūzūchē qù jīchǎng.","Take a taxi to the airport."],
     ["飞机","fēijī","n.","airplane","我坐飞机回家。","Wǒ zuò fēijī huí jiā.","I take a plane home."],
     ["火车","huǒchē","n.","train","火车很快。","Huǒchē hěn kuài.","The train is fast."]
-  ]
+  ],
+  grammar: [
+    { title: "坐 + vehicle (take a ride)",
+      note: "坐 (literally to sit) is the verb for taking public transport: 坐火车, 坐飞机, 坐出租车. It comes before the destination verb: 坐火车去北京 (take a train to Beijing).",
+      examples: [
+        ["我坐火车去北京。","Wǒ zuò huǒchē qù Běijīng.","I'm taking a train to Beijing."],
+        ["他坐飞机回家。","Tā zuò fēijī huí jiā.","He's flying home."]
+      ] },
+    { title: "开车 (drive)",
+      note: "开 + 车 means to drive. It's a separable verb: 我会开车 (I can drive), 他开了一个小时的车 (he drove for an hour). For a specific car add 的: 开他的车.",
+      examples: [
+        ["爸爸会开车。","Bàba huì kāichē.","Dad can drive."],
+        ["我不会开车。","Wǒ bú huì kāichē.","I can't drive."]
+      ] }
+  ],
+  dialogue: { setting: "Planning the commute.",
+    lines: [
+      ["A","你怎么去学校？","Nǐ zěnme qù xuéxiào?","How do you get to school?"],
+      ["B","我坐火车去。","Wǒ zuò huǒchē qù.","By train."],
+      ["A","远吗？","Yuǎn ma?","Is it far?"],
+      ["B","不远，一个小时。","Bù yuǎn, yí gè xiǎoshí.","Not far, one hour."],
+      ["A","你会开车吗？","Nǐ huì kāichē ma?","Can you drive?"],
+      ["B","我不会开车。","Wǒ bú huì kāichē.","I can't drive."],
+      ["A","那我们坐出租车吧。","Nà wǒmen zuò chūzūchē ba.","Then let's take a taxi."]
+    ] }
 },
 { id: "l22", num: 22, title: "Money & Shopping", blurb:
   "Prices follow the pattern 数 + 块 + 钱. 块 is the colloquial money word; 元 is its formal sibling.",
   words: [
     ["钱","qián","n.","money","我没有钱。","Wǒ méiyǒu qián.","I don't have money."]
-  ]
+  ],
+  grammar: [
+    { title: "Price: number + 块 + 钱",
+      note: "Everyday prices say number + 块 + 钱 (the 钱 is often dropped): 五十块 / 五十块钱 (50 yuan). 元 is the formal/written version, common in restaurants and on signs.",
+      examples: [
+        ["这本书五十块。","Zhè běn shū wǔshí kuài.","This book is 50 yuan."],
+        ["这个面包十元。","Zhège miànbāo shí yuán.","This bread is 10 yuan."]
+      ] },
+    { title: "多少钱 (how much)",
+      note: "多少钱 always works for asking the price. The pattern is thing + 多少钱 or thing + 几块钱 (for small expected amounts).",
+      examples: [
+        ["这个多少钱？","Zhège duōshao qián?","How much is this?"],
+        ["一杯茶几块钱？","Yì bēi chá jǐ kuài qián?","How much is a cup of tea?"]
+      ] }
+  ],
+  dialogue: { setting: "Light bargaining at a small stall.",
+    lines: [
+      ["A","这个多少钱？","Zhège duōshao qián?","How much is this?"],
+      ["B","五十块。","Wǔshí kuài.","Fifty yuan."],
+      ["A","太贵了，便宜一点儿吗？","Tài guì le, piányi yìdiǎnr ma?","Too expensive, any cheaper?"],
+      ["B","四十块，好不好？","Sìshí kuài, hǎo bù hǎo?","Forty, okay?"],
+      ["A","好的，我要两个。","Hǎo de, wǒ yào liǎng gè.","Okay, I'll take two."],
+      ["B","一共八十块。","Yígòng bāshí kuài.","Eighty yuan altogether."],
+      ["A","给你钱。","Gěi nǐ qián.","Here's the money."]
+    ] }
 },
 { id: "l23", num: 23, title: "Tech & Everyday Objects", blurb:
   "The things on a desk, in a pocket, and around the house.",
@@ -870,7 +1689,31 @@ const LESSONS = [
     ["椅子","yǐzi","n.","chair","椅子很新。","Yǐzi hěn xīn.","The chair is new."],
     ["桌子","zhuōzi","n.","table","桌子上有书。","Zhuōzi shàng yǒu shū.","There are books on the table."],
     ["歌","gē","n.","song","这首歌真好听。","Zhè shǒu gē zhēn hǎotīng.","This song sounds great."]
-  ]
+  ],
+  grammar: [
+    { title: "电 + thing (electric ...)",
+      note: "Many object words for tech start with 电 (electric): 电话 (phone), 电脑 (computer), 电视 (TV), 电影 (movie). Once you know the pattern, new ones are easy to guess.",
+      examples: [
+        ["我的电脑是新的。","Wǒ de diànnǎo shì xīn de.","My computer is new."],
+        ["晚上我看电视。","Wǎnshang wǒ kàn diànshì.","I watch TV in the evening."]
+      ] },
+    { title: "的 turns an adj into a noun phrase",
+      note: "Adjective + 的 alone (without the noun) means the ... one: 新的 (the new one), 我的 (mine). You usually leave off the noun when context makes it clear.",
+      examples: [
+        ["我的电脑是新的。","Wǒ de diànnǎo shì xīn de.","My computer is a new one."],
+        ["这本书是我的。","Zhè běn shū shì wǒ de.","This book is mine."]
+      ] }
+  ],
+  dialogue: { setting: "Looking for stuff before going out.",
+    lines: [
+      ["A","我的手机在哪儿？","Wǒ de shǒujī zài nǎr?","Where's my phone?"],
+      ["B","在桌子上。","Zài zhuōzi shàng.","On the table."],
+      ["A","我的书呢？","Wǒ de shū ne?","And my book?"],
+      ["B","在椅子上。","Zài yǐzi shàng.","On the chair."],
+      ["A","谢谢！晚上看电视吗？","Xièxie! Wǎnshang kàn diànshì ma?","Thanks! Want to watch TV tonight?"],
+      ["B","不，我想看电影。","Bù, wǒ xiǎng kàn diànyǐng.","No, I'd rather see a movie."],
+      ["A","好，一起去电影院。","Hǎo, yìqǐ qù diànyǐngyuàn.","Sure, let's go to the cinema."]
+    ] }
 },
 { id: "l24", num: 24, title: "Language & Learning", blurb:
   "Words about the language you're studying. 汉语 emphasizes the spoken side, 中文 the language as a whole, 汉字 the writing.",
@@ -878,14 +1721,63 @@ const LESSONS = [
     ["汉语","Hànyǔ","n.","Chinese (spoken)","我学汉语。","Wǒ xué Hànyǔ.","I study Chinese."],
     ["汉字","Hànzì","n.","Chinese character","汉字很漂亮。","Hànzì hěn piàoliang.","Chinese characters are beautiful."],
     ["中文","Zhōngwén","n.","Chinese (language)","他说中文。","Tā shuō Zhōngwén.","He speaks Chinese."]
-  ]
+  ],
+  grammar: [
+    { title: "学 / 说 / 写 + language",
+      note: "学 + 汉语 (study Chinese), 说 + 中文 (speak Chinese), 写 + 汉字 (write characters). Pick the right object: 汉语 for the spoken language, 中文 for the language as a whole, 汉字 for the writing.",
+      examples: [
+        ["我学汉语。","Wǒ xué Hànyǔ.","I study Chinese."],
+        ["他说中文。","Tā shuō Zhōngwén.","He speaks Chinese."],
+        ["我写汉字。","Wǒ xiě Hànzì.","I write Chinese characters."]
+      ] },
+    { title: "会说 vs 能说",
+      note: "会说 + language = learned to speak it (a skill). 能说 + language = able to speak it (e.g. loud enough, sober enough). HSK 1 mostly uses 会.",
+      examples: [
+        ["我会说汉语。","Wǒ huì shuō Hànyǔ.","I can speak Chinese (learned)."],
+        ["我能说一点儿。","Wǒ néng shuō yìdiǎnr.","I can manage a little (right now)."]
+      ] }
+  ],
+  dialogue: { setting: "Comparing language progress.",
+    lines: [
+      ["A","你会说汉语吗？","Nǐ huì shuō Hànyǔ ma?","Can you speak Chinese?"],
+      ["B","我会一点儿。","Wǒ huì yìdiǎnr.","A little."],
+      ["A","你学了多久？","Nǐ xué le duō jiǔ?","How long have you studied?"],
+      ["B","我学了一年。","Wǒ xué le yì nián.","One year."],
+      ["A","汉字难吗？","Hànzì nán ma?","Are the characters hard?"],
+      ["B","汉字很漂亮，但是很难。","Hànzì hěn piàoliang, dànshì hěn nán.","They're beautiful, but hard."],
+      ["A","我们一起学吧！","Wǒmen yìqǐ xué ba!","Let's study together!"]
+    ] }
 },
 { id: "l25", num: 25, title: "Animals & Affixes", blurb:
   "The two HSK 1 animals, plus the morpheme-level pieces that build words.",
   words: [
     ["狗","gǒu","n.","dog","我有一只小狗。","Wǒ yǒu yì zhī xiǎo gǒu.","I have a small dog."],
     ["猫","māo","n.","cat","猫在椅子上。","Māo zài yǐzi shàng.","The cat is on the chair."]
-  ]
+  ],
+  grammar: [
+    { title: "小 + animal / kid",
+      note: "小 + a creature reads as little or pet: 小狗, 小猫, 小朋友 (kid). 小 also acts as a name prefix for nicknames: 小明, 小红.",
+      examples: [
+        ["我有一只小狗。","Wǒ yǒu yì zhī xiǎo gǒu.","I have a small dog."],
+        ["小朋友很可爱。","Xiǎopéngyǒu hěn kě'ài.","The kid is cute."]
+      ] },
+    { title: "只 (measure word for animals)",
+      note: "只 is the default measure word for animals: 一只猫, 两只狗, 三只鸡蛋 (also used for eggs and some paired items).",
+      examples: [
+        ["我有一只猫。","Wǒ yǒu yì zhī māo.","I have one cat."],
+        ["他家有两只狗。","Tā jiā yǒu liǎng zhī gǒu.","His family has two dogs."]
+      ] }
+  ],
+  dialogue: { setting: "Two friends comparing pets.",
+    lines: [
+      ["A","你家有猫吗？","Nǐ jiā yǒu māo ma?","Does your family have a cat?"],
+      ["B","我家有一只小猫和一只小狗。","Wǒ jiā yǒu yì zhī xiǎo māo hé yì zhī xiǎo gǒu.","One little cat and one little dog."],
+      ["A","它们叫什么名字？","Tāmen jiào shénme míngzi?","What are their names?"],
+      ["B","猫叫小白，狗叫大黑。","Māo jiào Xiǎobái, gǒu jiào Dàhēi.","The cat is Xiaobai, the dog is Dahei."],
+      ["A","真好玩儿！","Zhēn hǎowánr!","So fun!"],
+      ["B","你呢？你家有动物吗？","Nǐ ne? Nǐ jiā yǒu dòngwù ma?","You? Any pets at your place?"],
+      ["A","我家有一只狗。","Wǒ jiā yǒu yì zhī gǒu.","One dog."]
+    ] }
 }
 ];
 
@@ -914,10 +1806,10 @@ function renderHero() {
     document.getElementById('hero-blurb').textContent = lesson.blurb;
     document.getElementById('hero-meta').innerHTML = `
         <span>${lesson.words.length} words</span>
-        <span>HSK 1</span>
-        <span>Themed vocabulary</span>
+        <span>${(lesson.grammar || []).length} grammar points</span>
+        <span>${(lesson.dialogue && lesson.dialogue.lines.length) || 0}-line dialogue</span>
     `;
-    document.getElementById('topbar-idx').textContent = `Lesson ${lesson.num}`;
+    document.getElementById('toc-lesson-title').textContent = `Lesson ${lesson.num}: ${lesson.title}`;
 }
 
 function renderVocab() {
@@ -939,6 +1831,53 @@ function renderVocab() {
     `).join('');
 }
 
+function renderGrammar() {
+    const root = document.getElementById('grammar-list');
+    const items = lesson.grammar || [];
+    if (!items.length) {
+        root.innerHTML = `<p style="color:#888;font-style:italic;">No extra grammar focus for this short lesson, see the vocabulary examples above.</p>`;
+        return;
+    }
+    root.innerHTML = items.map(g => `
+        <div class="gr-card">
+            <div class="gr-title">${escapeHTML(g.title)}</div>
+            <div class="gr-note">${escapeHTML(g.note)}</div>
+            ${g.examples.map(ex => `
+                <div class="gr-example">
+                    <div class="gr-han han">${escapeHTML(ex[0])}</div>
+                    <div class="gr-py">${escapeHTML(ex[1])}</div>
+                    <div class="gr-en">${escapeHTML(ex[2])}</div>
+                </div>
+            `).join('')}
+        </div>
+    `).join('');
+}
+
+function renderDialogue() {
+    const root = document.getElementById('dialogue');
+    const meta = document.getElementById('dialogue-meta');
+    const dlg = lesson.dialogue;
+    if (!dlg) {
+        meta.style.display = 'none';
+        root.innerHTML = '<p style="color:#888;">No dialogue yet for this lesson.</p>';
+        return;
+    }
+    meta.textContent = dlg.setting;
+    root.innerHTML = dlg.lines.map(line => {
+        const [spk, han, py, en] = line;
+        return `
+            <div class="dl-line">
+                <div class="dl-speaker spk-${escapeHTML(spk)}">${escapeHTML(spk)}</div>
+                <div class="dl-text">
+                    <div class="dl-han han">${escapeHTML(han)}</div>
+                    <div class="dl-py">${escapeHTML(py)}</div>
+                    <div class="dl-en">${escapeHTML(en)}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
 function renderFlashcard() {
     const w = cards[cardIdx];
     const card = document.getElementById('flashcard');
@@ -954,36 +1893,37 @@ function renderFlashcard() {
     document.getElementById('flash-next').disabled = cardIdx === cards.length - 1;
 }
 
+function renderTocLessons() {
+    const root = document.getElementById('toc-lessons');
+    root.innerHTML = LESSONS.map(L => `
+        <a href="/tb${L.num}" class="toc-link ${L.num === currentNum ? 'current-lesson' : ''}">
+            <span class="toc-num">${L.num}.</span>${escapeHTML(L.title)}
+        </a>
+    `).join('');
+}
+
 function renderNav() {
     const prevEl = document.getElementById('nav-prev');
     const nextEl = document.getElementById('nav-next');
-    const topPrev = document.getElementById('topbar-prev');
-    const topNext = document.getElementById('topbar-next');
 
     if (currentNum > 1) {
         const p = LESSONS[currentNum - 2];
         prevEl.href = `/tb${p.num}`;
-        topPrev.href = `/tb${p.num}`;
         document.getElementById('nav-prev-title').textContent = `${p.num}. ${p.title}`;
         prevEl.classList.remove('disabled');
-        topPrev.classList.remove('disabled');
     } else {
         document.getElementById('nav-prev-title').textContent = 'Start of textbook';
         prevEl.classList.add('disabled');
-        topPrev.classList.add('disabled');
     }
 
     if (currentNum < LESSONS.length) {
         const n = LESSONS[currentNum];
         nextEl.href = `/tb${n.num}`;
-        topNext.href = `/tb${n.num}`;
         document.getElementById('nav-next-title').textContent = `${n.num}. ${n.title}`;
         nextEl.classList.remove('disabled');
-        topNext.classList.remove('disabled');
     } else {
         document.getElementById('nav-next-title').textContent = 'End of textbook';
         nextEl.classList.add('disabled');
-        topNext.classList.add('disabled');
     }
 }
 
@@ -991,14 +1931,14 @@ function setupToggles() {
     const py = document.getElementById('toggle-pinyin');
     const en = document.getElementById('toggle-english');
     py.addEventListener('click', () => {
-        const active = !document.body.classList.contains('hide-pinyin');
-        document.body.classList.toggle('hide-pinyin', active);
-        py.classList.toggle('active', !active);
+        const willHide = !document.body.classList.contains('hide-pinyin');
+        document.body.classList.toggle('hide-pinyin', willHide);
+        py.classList.toggle('active', !willHide);
     });
     en.addEventListener('click', () => {
-        const active = !document.body.classList.contains('hide-english');
-        document.body.classList.toggle('hide-english', active);
-        en.classList.toggle('active', !active);
+        const willHide = !document.body.classList.contains('hide-english');
+        document.body.classList.toggle('hide-english', willHide);
+        en.classList.toggle('active', !willHide);
     });
 }
 
@@ -1029,18 +1969,61 @@ function setupFlashcard() {
         if (e.key === 'ArrowLeft' && cardIdx > 0) { cardIdx--; renderFlashcard(); }
         else if (e.key === 'ArrowRight' && cardIdx < cards.length - 1) { cardIdx++; renderFlashcard(); }
         else if (e.key === ' ' || e.key === 'Enter') {
+            if (document.activeElement && document.activeElement.tagName === 'BUTTON') return;
             e.preventDefault();
             card.classList.toggle('flipped');
         }
     });
 }
 
+function setupTocToggle() {
+    const btn = document.getElementById('toc-toggle');
+    const toc = document.getElementById('toc');
+    btn.addEventListener('click', () => {
+        const open = toc.classList.toggle('open');
+        btn.textContent = open ? '✕ Close' : '☰ Menu';
+    });
+    // Close on link click (mobile)
+    toc.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' && window.innerWidth <= 880) {
+            toc.classList.remove('open');
+            btn.textContent = '☰ Menu';
+        }
+    });
+}
+
+function setupSectionHighlight() {
+    const sections = ['flashcards', 'vocabulary', 'grammar', 'dialogue'];
+    const links = {};
+    document.querySelectorAll('.section-link').forEach(a => {
+        const id = a.getAttribute('href').replace('#', '');
+        links[id] = a;
+    });
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                Object.values(links).forEach(l => l.classList.remove('active'));
+                if (links[e.target.id]) links[e.target.id].classList.add('active');
+            }
+        });
+    }, { rootMargin: '-25% 0px -65% 0px' });
+    sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+    });
+}
+
 renderHero();
 renderVocab();
+renderGrammar();
+renderDialogue();
 renderFlashcard();
+renderTocLessons();
 renderNav();
 setupToggles();
 setupFlashcard();
+setupTocToggle();
+setupSectionHighlight();
 </script>
 
 </body>
