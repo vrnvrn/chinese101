@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chinese 101 · Grammar Review</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f5f5f5;
+        color: #2d3748;
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .han { font-family: 'Noto Serif SC', 'PingFang SC', 'Songti SC', serif; }
+
+    .topbar {
+        background: rgba(26,26,26,0.96);
+        color: white;
+        padding: 0.7rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.85rem;
+    }
+    .topbar a {
+        color: rgba(255,255,255,0.75);
+        text-decoration: none;
+        padding: 0.3rem 0.65rem;
+        border-radius: 6px;
+    }
+    .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+    .topbar .title { font-weight: 600; color: white; margin-left: 0.25rem; }
+    .topbar .spacer { flex: 1; }
+
+    .hero {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        color: white;
+        padding: 1.75rem 1.5rem 1.5rem;
+        display: flex;
+        justify-content: center;
+    }
+    .hero-inner { max-width: 920px; width: 100%; }
+    .hero-label {
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 0.3rem;
+    }
+    .hero h1 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 0.3rem;
+    }
+    .hero p {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.65);
+        max-width: 620px;
+    }
+
+    .toggles-bar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(245,245,245,0.96);
+        backdrop-filter: blur(8px);
+        padding: 0.55rem 1.25rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: center;
+    }
+    .toggles-inner {
+        max-width: 920px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+    }
+    .gt-label {
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #666;
+    }
+    .toggle-btn {
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #444;
+        font-size: 0.74rem;
+        font-weight: 600;
+        padding: 0.32rem 0.7rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .toggle-btn:hover { border-color: #1a1a1a; }
+    .toggle-btn.active {
+        background: #1a1a1a;
+        color: white;
+        border-color: #1a1a1a;
+    }
+    .toggle-btn .dot {
+        display: inline-block;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #cbd5e0;
+        margin-right: 0.35rem;
+        vertical-align: middle;
+    }
+    .toggle-btn.active .dot { background: #4ade80; }
+    .count-pill {
+        margin-left: auto;
+        font-size: 0.72rem;
+        color: #555;
+        font-weight: 600;
+    }
+
+    main {
+        flex: 1;
+        padding: 1.25rem 1.25rem 3rem;
+        display: flex;
+        justify-content: center;
+    }
+    .wrap { max-width: 920px; width: 100%; }
+
+    .grammar-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+    .gp-row {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 0.6rem 0.85rem;
+        display: grid;
+        grid-template-columns: minmax(160px, 1fr) 2fr auto;
+        gap: 0.85rem;
+        align-items: baseline;
+    }
+    @media (max-width: 760px) {
+        .gp-row {
+            grid-template-columns: 1fr;
+            gap: 0.25rem;
+        }
+    }
+    .gp-title {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        line-height: 1.3;
+    }
+    .gp-example {
+        display: flex;
+        flex-direction: column;
+        gap: 0.05rem;
+        min-width: 0;
+    }
+    .gp-han { font-size: 0.95rem; color: #1a1a1a; line-height: 1.4; }
+    .gp-py {
+        font-size: 0.72rem;
+        color: #64748b;
+        font-style: italic;
+        line-height: 1.3;
+    }
+    .gp-en {
+        font-size: 0.78rem;
+        color: #475569;
+        line-height: 1.3;
+    }
+    .gp-source {
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #94a3b8;
+        white-space: nowrap;
+        background: #f3f4f6;
+        padding: 0.18rem 0.5rem;
+        border-radius: 999px;
+        align-self: center;
+    }
+    @media (max-width: 760px) {
+        .gp-source { justify-self: start; margin-top: 0.2rem; }
+    }
+
+    body.hide-pinyin .gp-py { display: none; }
+    body.hide-english .gp-en { display: none; }
+
+    .group-label {
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #aaa;
+        margin-top: 1.25rem;
+        margin-bottom: 0.4rem;
+        padding-left: 0.25rem;
+    }
+    .group-label:first-child { margin-top: 0; }
+
+    footer {
+        text-align: center;
+        padding: 1rem;
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.35);
+        background: rgba(26,26,26,0.85);
+    }
+    footer a { color: inherit; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <a href="/">← Chinese 101</a>
+    <span class="title">Grammar Review</span>
+    <div class="spacer"></div>
+    <a href="/textbook">Textbook</a>
+    <a href="/practice">Flashcards</a>
+</div>
+
+<div class="hero">
+    <div class="hero-inner">
+        <div class="hero-label">Grammar Review</div>
+        <h1>Every grammar point on the site</h1>
+        <p>Each rule with one example sentence. Toggle pinyin and English to quiz yourself.</p>
+    </div>
+</div>
+
+<div class="toggles-bar">
+    <div class="toggles-inner">
+        <span class="gt-label">Show</span>
+        <button class="toggle-btn active" id="toggle-pinyin"><span class="dot"></span>Pinyin</button>
+        <button class="toggle-btn active" id="toggle-english"><span class="dot"></span>English</button>
+        <span class="count-pill" id="count-pill"></span>
+    </div>
+</div>
+
+<main>
+    <div class="wrap" id="root"></div>
+</main>
+
+<footer>
+    Chinese 101 · Grammar Review · <a href="/textbook">Textbook</a>
+</footer>
+
+<script>
+const POINTS = [{"lesson_num": 1, "lesson_title": "Greetings & Pleasantries", "title": "你好 vs 您好", "note": "Use 你好 in most everyday situations. Switch to 您好 (with the polite pronoun 您) when speaking to an elder, a customer, a teacher, or anyone you want to show extra respect to.", "examples": [["你好，小明！", "Nǐ hǎo, Xiǎomíng!", "Hi, Xiaoming!"], ["您好，王老师。", "Nín hǎo, Wáng lǎoshī.", "Hello, Teacher Wang."]]}, {"lesson_num": 1, "lesson_title": "Greetings & Pleasantries", "title": "请 + verb (polite imperative)", "note": "Put 请 in front of a verb to soften a command into a polite request. 请问 (literally 'please ask') is the formula for excuse me, may I ask.", "examples": [["请坐。", "Qǐng zuò.", "Please sit."], ["请问，您叫什么名字？", "Qǐngwèn, nín jiào shénme míngzi?", "Excuse me, what is your name?"]]}, {"lesson_num": 1, "lesson_title": "Greetings & Pleasantries", "title": "Apology pair: 对不起 / 没关系", "note": "When someone says 对不起 (sorry), the standard reply is 没关系 (it's okay). 谢谢 (thanks) pairs the same way with 不客气 (you're welcome).", "examples": [["对不起。 / 没关系。", "Duìbuqǐ. / Méi guānxi.", "Sorry. / It's okay."], ["谢谢你！ / 不客气。", "Xièxie nǐ! / Bú kèqi.", "Thank you! / You're welcome."]]}, {"lesson_num": 2, "lesson_title": "Personal Pronouns", "title": "Plural with 们", "note": "Add 们 to a pronoun for people to make it plural: 我 → 我们, 你 → 你们, 他/她 → 他们/她们. 它们 (things) is less common in speech.", "examples": [["我们都是学生。", "Wǒmen dōu shì xuéshēng.", "We are all students."], ["你们好！", "Nǐmen hǎo!", "Hello, everyone."]]}, {"lesson_num": 2, "lesson_title": "Personal Pronouns", "title": "他 vs 她 vs 它", "note": "All three are pronounced tā. The character changes to mark gender (他 male / 她 female) or thing (它). Plural follows the same split.", "examples": [["他是我哥哥。", "Tā shì wǒ gēge.", "He is my older brother."], ["她是老师。", "Tā shì lǎoshī.", "She is a teacher."], ["它是一只猫。", "Tā shì yì zhī māo.", "It is a cat."]]}, {"lesson_num": 2, "lesson_title": "Personal Pronouns", "title": "您 (formal you)", "note": "您 is the polite singular form. There is no 您们 in standard Mandarin; use 你们 or 各位 (everyone) for a polite plural.", "examples": [["您好。", "Nín hǎo.", "Hello (polite)."], ["您是王老师吗？", "Nín shì Wáng lǎoshī ma?", "Are you Teacher Wang?"]]}, {"lesson_num": 3, "lesson_title": "Demonstratives", "title": "这 / 那 family", "note": "Pick the base by distance (这 near, 那 far), then add a tail by what you mean: 个 for one object, 里/儿 for a place, 些 for plurals, 边 for a side or direction.", "examples": [["这是我的书。", "Zhè shì wǒ de shū.", "This is my book."], ["那个多少钱？", "Nàge duōshao qián?", "How much is that one?"], ["他在那边。", "Tā zài nàbiān.", "He's over that way."], ["这些都是新的。", "Zhèxiē dōu shì xīn de.", "These are all new."]]}, {"lesson_num": 3, "lesson_title": "Demonstratives", "title": "这里 vs 这儿", "note": "Both mean here. 这里/那里 is more common in writing and in the south; 这儿/那儿 is the Beijing-style spoken form. They are interchangeable in HSK 1 contexts.", "examples": [["你来这儿。", "Nǐ lái zhèr.", "Come here."], ["这里是学校。", "Zhèlǐ shì xuéxiào.", "This is the school."]]}, {"lesson_num": 4, "lesson_title": "Question Words", "title": "Question word replaces the answer", "note": "Mandarin keeps statement word order in questions. Whatever you want to ask about, just drop the question word in where the answer would sit.", "examples": [["你叫小明。 / 你叫什么？", "Nǐ jiào Xiǎomíng. / Nǐ jiào shénme?", "You're called Xiaoming. / What are you called?"], ["他是医生。 / 他是谁？", "Tā shì yīshēng. / Tā shì shéi?", "He's a doctor. / Who is he?"], ["我住在北京。 / 你住在哪儿？", "Wǒ zhù zài Běijīng. / Nǐ zhù zài nǎr?", "I live in Beijing. / Where do you live?"]]}, {"lesson_num": 4, "lesson_title": "Question Words", "title": "几 vs 多少", "note": "Use 几 when you expect a small number (under ten, like family size or age of a child). Use 多少 for any quantity, including prices and phone numbers. 几 needs a measure word; 多少 usually doesn't.", "examples": [["你家有几口人？", "Nǐ jiā yǒu jǐ kǒu rén?", "How many people are in your family?"], ["这个多少钱？", "Zhège duōshao qián?", "How much is this?"]]}, {"lesson_num": 5, "lesson_title": "Numbers", "title": "两 vs 二", "note": "Use 二 for counting numbers (one, two, three) and ordinals (二月 = February, 第二 = second). Use 两 when the number sits before a measure word (两个, 两本, 两杯).", "examples": [["二月很冷。", "Èr yuè hěn lěng.", "February is very cold."], ["我要两杯茶。", "Wǒ yào liǎng bēi chá.", "I want two cups of tea."], ["我有两个哥哥。", "Wǒ yǒu liǎng gè gēge.", "I have two older brothers."]]}, {"lesson_num": 5, "lesson_title": "Numbers", "title": "Tens, hundreds, thousands", "note": "Building numbers is additive: 十一 (11), 二十 (20), 二十一 (21), 一百 (100), 一千 (1000). 两百 / 两千 use 两 because 百 and 千 act as measure-like nouns.", "examples": [["这本书一百块。", "Zhè běn shū yì bǎi kuài.", "This book is 100 yuan."], ["这个手机三千块。", "Zhège shǒujī sān qiān kuài.", "This phone is 3000 yuan."]]}, {"lesson_num": 5, "lesson_title": "Numbers", "title": "半 (half) and 第 (ordinal)", "note": "半 means half. After a number and a measure word it means thirty minutes past (五点半 = 5:30). 第 + number turns a cardinal into an ordinal: 第一 (first), 第二 (second).", "examples": [["现在五点半。", "Xiànzài wǔ diǎn bàn.", "It's 5:30 now."], ["他是第一名。", "Tā shì dì-yī míng.", "He is first place."]]}, {"lesson_num": 6, "lesson_title": "Measure Words", "title": "Number + measure word + noun", "note": "You almost never put a number directly before a noun. The measure word goes in between. 个 is the safe default if you forget the specific one.", "examples": [["一个人", "yí gè rén", "one person"], ["两本书", "liǎng běn shū", "two books"], ["三只猫", "sān zhī māo", "three cats"], ["四口人", "sì kǒu rén", "four (family) people"]]}, {"lesson_num": 6, "lesson_title": "Measure Words", "title": "一点儿 vs 有点儿", "note": "Both mean a little, but they sit in different slots. 一点儿 follows the verb (我喝一点儿). 有点儿 sits before an adjective and adds a negative flavor (a bit too...).", "examples": [["我会一点儿汉语。", "Wǒ huì yìdiǎnr Hànyǔ.", "I know a little Chinese."], ["今天有点儿冷。", "Jīntiān yǒudiǎnr lěng.", "Today is a little (too) cold."]]}, {"lesson_num": 6, "lesson_title": "Measure Words", "title": "一下 (for a moment)", "note": "Tag 一下 onto a verb to soften it into a brief, casual action: 等一下 (wait a sec), 看一下 (take a look), 说一下 (just say briefly).", "examples": [["请等一下。", "Qǐng děng yíxià.", "Please wait a moment."], ["你说一下。", "Nǐ shuō yíxià.", "Just say it briefly."]]}, {"lesson_num": 7, "lesson_title": "Family", "title": "我 + close kin (drop 的)", "note": "With close family and groups you belong to, the possessive 的 is usually dropped: 我爸爸, 我妈妈, 我家. Keep 的 with distant or non-family possessions (我的书, 我的手机).", "examples": [["我爸爸是医生。", "Wǒ bàba shì yīshēng.", "My dad is a doctor."], ["我家在北京。", "Wǒ jiā zài Běijīng.", "My home is in Beijing."], ["我的书在桌子上。", "Wǒ de shū zài zhuōzi shàng.", "My book is on the table."]]}, {"lesson_num": 7, "lesson_title": "Family", "title": "Counting family with 口", "note": "家 takes the measure word 口 when you're counting people in the family unit. The pattern is 家 + 有 + number + 口 + 人.", "examples": [["我家有四口人。", "Wǒ jiā yǒu sì kǒu rén.", "My family has four people."], ["你家有几口人？", "Nǐ jiā yǒu jǐ kǒu rén?", "How many people are in your family?"]]}, {"lesson_num": 8, "lesson_title": "People & Identity", "title": "是 for identity", "note": "Use 是 to equate two nouns: subject + 是 + identity. Negate with 不是. Don't use 是 to link a subject to an adjective (see Adjectives).", "examples": [["我是学生。", "Wǒ shì xuéshēng.", "I am a student."], ["他不是医生。", "Tā bú shì yīshēng.", "He is not a doctor."]]}, {"lesson_num": 8, "lesson_title": "People & Identity", "title": "我叫… vs 我的名字是…", "note": "Both work for introducing yourself. 我叫 is the casual default. 我的名字是 sounds formal or written. The polite question is 您叫什么名字？", "examples": [["我叫小明。", "Wǒ jiào Xiǎomíng.", "I'm called Xiaoming."], ["我的名字是小明。", "Wǒ de míngzi shì Xiǎomíng.", "My name is Xiaoming."]]}, {"lesson_num": 8, "lesson_title": "People & Identity", "title": "School level + 生", "note": "大 / 中 / 小 + 学 names the school (university / middle / primary). Add 生 to name the student. The same chunks reappear in lesson 16 for the buildings.", "examples": [["他是大学生。", "Tā shì dàxuéshēng.", "He is a university student."], ["我妹妹是小学生。", "Wǒ mèimei shì xiǎoxuéshēng.", "My younger sister is a primary school student."]]}, {"lesson_num": 9, "lesson_title": "Time, Days & Dates", "title": "Date order: big to small", "note": "Dates run from biggest unit to smallest: 年 → 月 → 日/号. The same logic applies inside a sentence: time of day before the verb, not after.", "examples": [["今天是二〇二六年五月一号。", "Jīntiān shì èr líng èr liù nián wǔ yuè yī hào.", "Today is May 1, 2026."], ["我明天早上去学校。", "Wǒ míngtiān zǎoshang qù xuéxiào.", "I'm going to school tomorrow morning."]]}, {"lesson_num": 9, "lesson_title": "Time, Days & Dates", "title": "Telling the clock", "note": "Hours use 点, minutes use 分. 半 alone means thirty (五点半 = 5:30). Drop 分 when the minutes are zero (三点 = 3:00).", "examples": [["现在三点。", "Xiànzài sān diǎn.", "It's three o'clock now."], ["三点十分。", "Sān diǎn shí fēn.", "Three ten."], ["五点半。", "Wǔ diǎn bàn.", "Five thirty."]]}, {"lesson_num": 9, "lesson_title": "Time, Days & Dates", "title": "什么时候 (when)", "note": "什么时候 sits in the slot where the time expression would go in a statement. Same word order as the answer.", "examples": [["你什么时候来？", "Nǐ shénme shíhou lái?", "When are you coming?"], ["明天下午来。", "Míngtiān xiàwǔ lái.", "Tomorrow afternoon."]]}, {"lesson_num": 10, "lesson_title": "Daily Verbs", "title": "Subject + (time) + verb + object", "note": "Time phrases sit before the verb, not after. This is the opposite of English. Place expressions usually sit before the verb too, often with 在.", "examples": [["我七点起床。", "Wǒ qī diǎn qǐchuáng.", "I get up at seven."], ["我晚上看电视。", "Wǒ wǎnshang kàn diànshì.", "I watch TV in the evening."]]}, {"lesson_num": 10, "lesson_title": "Daily Verbs", "title": "Separable verbs (离合词)", "note": "Verbs like 睡觉, 上班, 下课, 看病, 说话, 唱歌 are really verb-object pairs glued together. The verb half and object half can be split by a measure, duration, or aspect marker.", "examples": [["我睡了八个小时觉。", "Wǒ shuì le bā gè xiǎoshí jiào.", "I slept eight hours."], ["我们上了一节课。", "Wǒmen shàng le yì jié kè.", "We had one class."]]}, {"lesson_num": 10, "lesson_title": "Daily Verbs", "title": "Movement verbs 来 / 去 / 回 / 到", "note": "These take a destination directly, no preposition needed. 来 = come (toward speaker), 去 = go (away), 回 = return, 到 = arrive at / reach.", "examples": [["我去学校。", "Wǒ qù xuéxiào.", "I'm going to school."], ["我回家。", "Wǒ huí jiā.", "I'm going home."], ["我到学校了。", "Wǒ dào xuéxiào le.", "I've arrived at school."]]}, {"lesson_num": 11, "lesson_title": "Mental & Modal Verbs", "title": "会 vs 能 vs 可以", "note": "会 = learned skill (I learned to speak Chinese). 能 = physical or circumstantial ability (Can you come? Can you eat spicy food?). 可以 = permitted to (May I sit here?).", "examples": [["我会说汉语。", "Wǒ huì shuō Hànyǔ.", "I can speak Chinese (learned)."], ["你能来吗？", "Nǐ néng lái ma?", "Can you come (are you free)?"], ["我可以坐这儿吗？", "Wǒ kěyǐ zuò zhèr ma?", "May I sit here (permission)?"]]}, {"lesson_num": 11, "lesson_title": "Mental & Modal Verbs", "title": "想 vs 要", "note": "想 = would like to (softer, more about thinking). 要 = want (firmer, often a request or plan). 不要 is the negative imperative: don't.", "examples": [["我想吃饺子。", "Wǒ xiǎng chī jiǎozi.", "I'd like to eat dumplings."], ["我要一杯水。", "Wǒ yào yì bēi shuǐ.", "I want a glass of water."], ["不要说话。", "Búyào shuōhuà.", "Don't talk."]]}, {"lesson_num": 11, "lesson_title": "Mental & Modal Verbs", "title": "Negating 有", "note": "有 is special: it uses 没 instead of 不. 没有 means don't have. The same 没/没有 negates past actions for any verb (我没吃 = I didn't eat).", "examples": [["他没有手机。", "Tā méiyǒu shǒujī.", "He doesn't have a phone."], ["我昨天没去。", "Wǒ zuótiān méi qù.", "I didn't go yesterday."]]}, {"lesson_num": 12, "lesson_title": "Adjectives", "title": "很 + adjective, no 是", "note": "In plain affirmative sentences, an adjective takes 很 as a neutral filler: 我很高兴 (I'm happy), 今天很热 (today is hot). Never write 我是高兴 or 今天是热.", "examples": [["我很高兴。", "Wǒ hěn gāoxìng.", "I'm happy."], ["这本书很好看。", "Zhè běn shū hěn hǎokàn.", "This book is great."], ["今天天气很好。", "Jīntiān tiānqì hěn hǎo.", "Today's weather is good."]]}, {"lesson_num": 12, "lesson_title": "Adjectives", "title": "好 + verb (good to V)", "note": "Stick 好 onto a verb of sensing to mean 'good to ...': 好看 (good to look at), 好吃 (good to eat), 好听 (good to listen to), 好玩儿 (fun to play).", "examples": [["这个菜很好吃。", "Zhège cài hěn hǎochī.", "This dish is tasty."], ["这首歌很好听。", "Zhè shǒu gē hěn hǎotīng.", "This song sounds great."]]}, {"lesson_num": 12, "lesson_title": "Adjectives", "title": "Negation: 不 + adjective", "note": "Negate an adjective with 不 (not 没). 太 + adj + 了 means too ...; 不太 + adj softens to not very...", "examples": [["今天不冷。", "Jīntiān bù lěng.", "Today isn't cold."], ["太贵了！", "Tài guì le!", "Too expensive!"], ["这件衣服不太贵。", "Zhè jiàn yīfu bú tài guì.", "This isn't too expensive."]]}, {"lesson_num": 13, "lesson_title": "Adverbs", "title": "Position: adverb before verb / adj", "note": "Adverbs almost always come right before the verb or adjective they modify. Multiple adverbs stack in this rough order: scope (都) → 也 → 不 → degree (很/非常/太).", "examples": [["我们都是学生。", "Wǒmen dōu shì xuéshēng.", "We are all students."], ["我也很喜欢。", "Wǒ yě hěn xǐhuan.", "I really like it too."]]}, {"lesson_num": 13, "lesson_title": "Adverbs", "title": "不 vs 没(有)", "note": "不 negates verbs and adjectives in the present or future. 没(有) negates 有 itself and negates past or completed actions.", "examples": [["我不去。", "Wǒ bú qù.", "I'm not going."], ["他没有手机。", "Tā méiyǒu shǒujī.", "He doesn't have a phone."], ["我昨天没去。", "Wǒ zuótiān méi qù.", "I didn't go yesterday."]]}, {"lesson_num": 13, "lesson_title": "Adverbs", "title": "正在 + verb (ongoing)", "note": "正在 + verb says the action is in progress right now: he is sleeping, they are eating. The sentence often ends with 呢 in casual speech.", "examples": [["他正在睡觉。", "Tā zhèngzài shuìjiào.", "He is currently sleeping."], ["我们正在上课。", "Wǒmen zhèngzài shàngkè.", "We are in class right now."]]}, {"lesson_num": 14, "lesson_title": "Particles", "title": "的 (possessive / modifier)", "note": "Insert 的 between a possessor and a thing (我的书), or between a modifier and the noun (新的衣服, 漂亮的女朋友). Drop 的 with close kin (我妈妈).", "examples": [["这是我的书。", "Zhè shì wǒ de shū.", "This is my book."], ["漂亮的衣服。", "Piàoliang de yīfu.", "Pretty clothes."]]}, {"lesson_num": 14, "lesson_title": "Particles", "title": "了: completion vs change of state", "note": "Right after a verb, 了 marks the action as completed (我吃了 = I ate). At the end of a sentence, 了 marks a change of state (下雨了 = it started raining).", "examples": [["我吃了。", "Wǒ chī le.", "I've eaten."], ["下雨了。", "Xià yǔ le.", "It started raining."]]}, {"lesson_num": 14, "lesson_title": "Particles", "title": "吗 / 呢 / 吧", "note": "吗 turns a statement into a yes/no question. 呢 asks the same question back (你呢？). 吧 softens a command into a suggestion (我们走吧).", "examples": [["你是学生吗？", "Nǐ shì xuéshēng ma?", "Are you a student?"], ["我很好，你呢？", "Wǒ hěn hǎo, nǐ ne?", "I'm fine, and you?"], ["我们走吧。", "Wǒmen zǒu ba.", "Let's go."]]}, {"lesson_num": 15, "lesson_title": "Prepositions & Conjunctions", "title": "在 + place + verb", "note": "To say where an action happens, put 在 + place before the verb. 在 can also stand alone as a verb meaning to be at (我在学校 = I'm at school).", "examples": [["他在学校学习。", "Tā zài xuéxiào xuéxí.", "He studies at school."], ["我在家。", "Wǒ zài jiā.", "I'm at home."]]}, {"lesson_num": 15, "lesson_title": "Prepositions & Conjunctions", "title": "和 joins two nouns", "note": "和 connects two nouns (A 和 B) the way English uses and. It does not connect verbs or sentences. For with-someone, use 跟 or just 和 + person before the verb.", "examples": [["我和爸爸去学校。", "Wǒ hé bàba qù xuéxiào.", "Dad and I go to school."], ["我喜欢茶和水。", "Wǒ xǐhuan chá hé shuǐ.", "I like tea and water."]]}, {"lesson_num": 15, "lesson_title": "Prepositions & Conjunctions", "title": "给 (for / to)", "note": "给 + person + verb says you're doing the action for or to that person. 给 also works as a verb meaning to give.", "examples": [["我给你打电话。", "Wǒ gěi nǐ dǎ diànhuà.", "I'll call you."], ["请给我一杯水。", "Qǐng gěi wǒ yì bēi shuǐ.", "Please give me a glass of water."]]}, {"lesson_num": 16, "lesson_title": "Places & Buildings", "title": "去 + place (no preposition)", "note": "Movement verbs (去, 来, 到, 回) take a place noun directly. No 到 or 在 needed: 我去学校, not 我去到学校.", "examples": [["我去超市。", "Wǒ qù chāoshì.", "I'm going to the supermarket."], ["他回家了。", "Tā huí jiā le.", "He went home."]]}, {"lesson_num": 16, "lesson_title": "Places & Buildings", "title": "Place + 有 + thing (there is)", "note": "Place + 有 + thing tells you what's at a place: 超市里有水果 (there is fruit in the supermarket). Negate with 没有.", "examples": [["超市里有水果。", "Chāoshì lǐ yǒu shuǐguǒ.", "There's fruit in the supermarket."], ["书店在学校旁边。", "Shūdiàn zài xuéxiào pángbiān.", "The bookstore is next to the school."]]}, {"lesson_num": 17, "lesson_title": "Locations & Directions", "title": "Noun + position word", "note": "Position words (上, 下, 里, 外, 前, 后) attach to a noun to mark a precise location: 桌子上 (on the table), 椅子下 (under the chair), 房间里 (in the room). The 边 suffix makes the side standalone: 外边, 旁边.", "examples": [["书在桌子上。", "Shū zài zhuōzi shàng.", "The book is on the table."], ["椅子下有猫。", "Yǐzi xià yǒu māo.", "There's a cat under the chair."], ["房间里没人。", "Fángjiān lǐ méi rén.", "There's no one in the room."]]}, {"lesson_num": 17, "lesson_title": "Locations & Directions", "title": "在 + location", "note": "在 + a noun-plus-position phrase tells you where something is sitting. The order is always thing + 在 + place.", "examples": [["我在房间里。", "Wǒ zài fángjiān lǐ.", "I'm in the room."], ["他在我旁边。", "Tā zài wǒ pángbiān.", "He's next to me."]]}, {"lesson_num": 18, "lesson_title": "Food & Drink", "title": "吃 / 喝 + food / drink", "note": "吃 takes solids (吃饭, 吃饺子, 吃水果). 喝 takes liquids (喝水, 喝茶, 喝牛奶). 我要 + dish is the basic ordering pattern.", "examples": [["我吃米饭。", "Wǒ chī mǐfàn.", "I'm eating rice."], ["我喝茶。", "Wǒ hē chá.", "I drink tea."], ["我要一碗米饭。", "Wǒ yào yì wǎn mǐfàn.", "I want a bowl of rice."]]}, {"lesson_num": 18, "lesson_title": "Food & Drink", "title": "想 + verb (would like to)", "note": "When you want to order, 想 + verb is softer than 要 + noun: 我想吃饺子 (I'd like to eat dumplings). Add 一点儿 to mean a little of something.", "examples": [["我想吃饺子。", "Wǒ xiǎng chī jiǎozi.", "I'd like to eat dumplings."], ["我想喝一点儿茶。", "Wǒ xiǎng hē yìdiǎnr chá.", "I'd like a little tea."]]}, {"lesson_num": 18, "lesson_title": "Food & Drink", "title": "早饭 / 午饭 / 晚饭", "note": "Meals follow a time + 饭 pattern: 早 (early) + 饭 = breakfast, 午 (noon) + 饭 = lunch, 晚 (evening) + 饭 = dinner. 吃饭 alone means to have a meal.", "examples": [["我没吃早饭。", "Wǒ méi chī zǎofàn.", "I didn't eat breakfast."], ["晚饭后我去玩。", "Wǎnfàn hòu wǒ qù wán.", "After dinner I'll go play."]]}, {"lesson_num": 19, "lesson_title": "Body & Health", "title": "生病了 (change of state)", "note": "生病 means to get sick. The 了 at the end marks the change: 妹妹生病了 means she's just come down with something. Without 了 it just states the verb without the change angle.", "examples": [["妹妹生病了。", "Mèimei shēngbìng le.", "Younger sister got sick."], ["他没生病。", "Tā méi shēngbìng.", "He isn't sick."]]}, {"lesson_num": 19, "lesson_title": "Body & Health", "title": "看病 (离合词)", "note": "看病 (see a doctor) is a separable verb. The 病 (illness) is the object of 看. You can split them: 看了一次病 (saw a doctor once).", "examples": [["我去医院看病。", "Wǒ qù yīyuàn kànbìng.", "I'm going to the hospital to see a doctor."], ["他看了一次病。", "Tā kàn le yí cì bìng.", "He saw a doctor once."]]}, {"lesson_num": 19, "lesson_title": "Body & Health", "title": "有 + thing (have a problem)", "note": "Use 有 to introduce things that are happening to you: 有病, 有事, 有问题. The negative is 没有.", "examples": [["我有一个问题。", "Wǒ yǒu yí gè wèntí.", "I have a question."], ["你有事吗？", "Nǐ yǒu shì ma?", "Do you have something to do?"]]}, {"lesson_num": 20, "lesson_title": "Weather", "title": "下 + 雨 / 雪 (come down)", "note": "Chinese treats rain and snow as something that comes down. 下 is the verb, 雨 / 雪 is the object: 下雨 (it's raining), 下雪 (it's snowing).", "examples": [["明天下雨。", "Míngtiān xiàyǔ.", "It will rain tomorrow."], ["昨天下了雪。", "Zuótiān xià le xuě.", "It snowed yesterday."]]}, {"lesson_num": 20, "lesson_title": "Weather", "title": "adj + 了 (a change happened)", "note": "Adding 了 to an adjective at the end of a sentence marks a change: 天气热了 means it has gotten hot (it wasn't before). Pair it with 太 + adj + 了 for an exclamation.", "examples": [["天气冷了。", "Tiānqì lěng le.", "The weather has gotten cold."], ["太热了！", "Tài rè le!", "Too hot!"]]}, {"lesson_num": 21, "lesson_title": "Transport", "title": "坐 + vehicle (take a ride)", "note": "坐 (literally to sit) is the verb for taking public transport: 坐火车, 坐飞机, 坐出租车. It comes before the destination verb: 坐火车去北京 (take a train to Beijing).", "examples": [["我坐火车去北京。", "Wǒ zuò huǒchē qù Běijīng.", "I'm taking a train to Beijing."], ["他坐飞机回家。", "Tā zuò fēijī huí jiā.", "He's flying home."]]}, {"lesson_num": 21, "lesson_title": "Transport", "title": "开车 (drive)", "note": "开 + 车 means to drive. It's a separable verb: 我会开车 (I can drive), 他开了一个小时的车 (he drove for an hour). For a specific car add 的: 开他的车.", "examples": [["爸爸会开车。", "Bàba huì kāichē.", "Dad can drive."], ["我不会开车。", "Wǒ bú huì kāichē.", "I can't drive."]]}, {"lesson_num": 22, "lesson_title": "Money & Shopping", "title": "Price: number + 块 + 钱", "note": "Everyday prices say number + 块 + 钱 (the 钱 is often dropped): 五十块 / 五十块钱 (50 yuan). 元 is the formal/written version, common in restaurants and on signs.", "examples": [["这本书五十块。", "Zhè běn shū wǔshí kuài.", "This book is 50 yuan."], ["这个面包十元。", "Zhège miànbāo shí yuán.", "This bread is 10 yuan."]]}, {"lesson_num": 22, "lesson_title": "Money & Shopping", "title": "多少钱 (how much)", "note": "多少钱 always works for asking the price. The pattern is thing + 多少钱 or thing + 几块钱 (for small expected amounts).", "examples": [["这个多少钱？", "Zhège duōshao qián?", "How much is this?"], ["一杯茶几块钱？", "Yì bēi chá jǐ kuài qián?", "How much is a cup of tea?"]]}, {"lesson_num": 23, "lesson_title": "Tech & Everyday Objects", "title": "电 + thing (electric ...)", "note": "Many object words for tech start with 电 (electric): 电话 (phone), 电脑 (computer), 电视 (TV), 电影 (movie). Once you know the pattern, new ones are easy to guess.", "examples": [["我的电脑是新的。", "Wǒ de diànnǎo shì xīn de.", "My computer is new."], ["晚上我看电视。", "Wǎnshang wǒ kàn diànshì.", "I watch TV in the evening."]]}, {"lesson_num": 23, "lesson_title": "Tech & Everyday Objects", "title": "的 turns an adj into a noun phrase", "note": "Adjective + 的 alone (without the noun) means the ... one: 新的 (the new one), 我的 (mine). You usually leave off the noun when context makes it clear.", "examples": [["我的电脑是新的。", "Wǒ de diànnǎo shì xīn de.", "My computer is a new one."], ["这本书是我的。", "Zhè běn shū shì wǒ de.", "This book is mine."]]}, {"lesson_num": 24, "lesson_title": "Language & Learning", "title": "学 / 说 / 写 + language", "note": "学 + 汉语 (study Chinese), 说 + 中文 (speak Chinese), 写 + 汉字 (write characters). Pick the right object: 汉语 for the spoken language, 中文 for the language as a whole, 汉字 for the writing.", "examples": [["我学汉语。", "Wǒ xué Hànyǔ.", "I study Chinese."], ["他说中文。", "Tā shuō Zhōngwén.", "He speaks Chinese."], ["我写汉字。", "Wǒ xiě Hànzì.", "I write Chinese characters."]]}, {"lesson_num": 24, "lesson_title": "Language & Learning", "title": "会说 vs 能说", "note": "会说 + language = learned to speak it (a skill). 能说 + language = able to speak it (e.g. loud enough, sober enough). HSK 1 mostly uses 会.", "examples": [["我会说汉语。", "Wǒ huì shuō Hànyǔ.", "I can speak Chinese (learned)."], ["我能说一点儿。", "Wǒ néng shuō yìdiǎnr.", "I can manage a little (right now)."]]}, {"lesson_num": 25, "lesson_title": "Animals & Affixes", "title": "小 + animal / kid", "note": "小 + a creature reads as little or pet: 小狗, 小猫, 小朋友 (kid). 小 also acts as a name prefix for nicknames: 小明, 小红.", "examples": [["我有一只小狗。", "Wǒ yǒu yì zhī xiǎo gǒu.", "I have a small dog."], ["小朋友很可爱。", "Xiǎopéngyǒu hěn kě'ài.", "The kid is cute."]]}, {"lesson_num": 25, "lesson_title": "Animals & Affixes", "title": "只 (measure word for animals)", "note": "只 is the default measure word for animals: 一只猫, 两只狗, 三只鸡蛋 (also used for eggs and some paired items).", "examples": [["我有一只猫。", "Wǒ yǒu yì zhī māo.", "I have one cat."], ["他家有两只狗。", "Tā jiā yǒu liǎng zhī gǒu.", "His family has two dogs."]]}, {"lesson_num": "T", "lesson_title": "Practical Travel", "title": "来自 (to come from)", "note": "来 means come, and adding 自 (from) makes it 来自, the verb for telling someone where you're from. Pattern: subject + 来自 + place.", "examples": [["我来自美国。", "Wǒ láizì Měiguó.", "I'm from the US."], ["他来自哪儿？", "Tā láizì nǎr?", "Where is he from?"], ["这些游客来自日本。", "Zhèxiē yóukè láizì Rìběn.", "These tourists are from Japan."]]}, {"lesson_num": "T", "lesson_title": "Practical Travel", "title": "第 N 次 (the Nth time)", "note": "第 + a number + 次 marks how many times something has happened. 第一次 (first time), 第二次 (second time). It usually sits before the verb: subject + 第 N 次 + verb.", "examples": [["这是我第一次来中国。", "Zhè shì wǒ dì-yī cì lái Zhōngguó.", "This is my first time in China."], ["我第二次坐飞机。", "Wǒ dì-èr cì zuò fēijī.", "This is my second time on a plane."]]}, {"lesson_num": "T", "lesson_title": "Practical Travel", "title": "多 + adjective (asking quantity)", "note": "多 + adjective is the way to ask how X something is. 多远 = how far, 多久 = how long, 多大 = how big or how old. Pair with 离 + place to ask distance from a reference point.", "examples": [["机场离这儿多远？", "Jīchǎng lí zhèr duō yuǎn?", "How far is the airport from here?"], ["你待多久？", "Nǐ dāi duō jiǔ?", "How long are you staying?"], ["你今年多大？", "Nǐ jīnnián duō dà?", "How old are you this year?"]]}, {"lesson_num": "T", "lesson_title": "Practical Travel", "title": "来 + verb (came to do X)", "note": "Use 来 + verb to say you came in order to do something. 我来旅游 = I came to travel. 我来出差 = I came on business. The verb after 来 explains the purpose of the trip.", "examples": [["我来旅游。", "Wǒ lái lǚyóu.", "I came to travel."], ["他来出差。", "Tā lái chūchāi.", "He came on business."], ["你来中国做什么？", "Nǐ lái Zhōngguó zuò shénme?", "What did you come to China to do?"]]}, {"lesson_num": "T", "lesson_title": "Practical Travel", "title": "请 + verb (polite request)", "note": "请 in front of a verb is the standard polite imperative used by staff at airports, hotels, and customs. 请出示 (please show), 请填 (please fill in), 请等一下 (please wait a moment).", "examples": [["请出示护照。", "Qǐng chūshì hùzhào.", "Please show your passport."], ["请填这张表。", "Qǐng tián zhè zhāng biǎo.", "Please fill in this form."], ["请等一下。", "Qǐng děng yíxià.", "Please wait a moment."]]}];
+
+function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function sourceLabel(p) {
+    if (p.lesson_num === 'T') return 'Travel';
+    return 'L' + p.lesson_num;
+}
+
+function lessonHref(p) {
+    if (p.lesson_num === 'T') return '/travel#grammar';
+    return '/tb' + p.lesson_num + '#grammar';
+}
+
+function render() {
+    const root = document.getElementById('root');
+
+    // Group by lesson source for a sense of order
+    const groups = {};
+    POINTS.forEach(p => {
+        const key = p.lesson_num === 'T' ? 'Practical Travel' : `Lesson ${p.lesson_num}: ${p.lesson_title}`;
+        const orderKey = p.lesson_num === 'T' ? 999 : parseInt(p.lesson_num, 10);
+        if (!groups[orderKey]) groups[orderKey] = { label: key, items: [] };
+        groups[orderKey].items.push(p);
+    });
+
+    const sortedKeys = Object.keys(groups).map(k => parseInt(k, 10)).sort((a, b) => a - b);
+    root.innerHTML = sortedKeys.map(k => {
+        const g = groups[k];
+        return `
+            <div class="group-label">${escapeHTML(g.label)}</div>
+            <div class="grammar-list">
+                ${g.items.map(p => {
+                    const ex = p.examples[0];
+                    return `
+                        <div class="gp-row">
+                            <div class="gp-title">${escapeHTML(p.title)}</div>
+                            <div class="gp-example">
+                                <div class="gp-han han">${escapeHTML(ex[0])}</div>
+                                <div class="gp-py">${escapeHTML(ex[1])}</div>
+                                <div class="gp-en">${escapeHTML(ex[2])}</div>
+                            </div>
+                            <a class="gp-source" href="${lessonHref(p)}" style="text-decoration:none;">${escapeHTML(sourceLabel(p))}</a>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+    }).join('');
+
+    document.getElementById('count-pill').textContent = `${POINTS.length} grammar points`;
+}
+
+function setupToggles() {
+    const py = document.getElementById('toggle-pinyin');
+    const en = document.getElementById('toggle-english');
+    py.addEventListener('click', () => {
+        const willHide = !document.body.classList.contains('hide-pinyin');
+        document.body.classList.toggle('hide-pinyin', willHide);
+        py.classList.toggle('active', !willHide);
+    });
+    en.addEventListener('click', () => {
+        const willHide = !document.body.classList.contains('hide-english');
+        document.body.classList.toggle('hide-english', willHide);
+        en.classList.toggle('active', !willHide);
+    });
+}
+
+render();
+setupToggles();
+</script>
+
+</body>
+</html>

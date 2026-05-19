@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chinese 101 · Practical Travel</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f5f5f5;
+        color: #2d3748;
+        line-height: 1.55;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .han { font-family: 'Noto Serif SC', 'PingFang SC', 'Songti SC', serif; }
+
+    .topbar {
+        background: rgba(26,26,26,0.96);
+        color: white;
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.85rem;
+    }
+    .topbar a {
+        color: rgba(255,255,255,0.75);
+        text-decoration: none;
+        padding: 0.3rem 0.65rem;
+        border-radius: 6px;
+    }
+    .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+    .topbar .title { font-weight: 600; color: white; margin-left: 0.25rem; }
+    .topbar .spacer { flex: 1; }
+
+    .hero {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        color: white;
+        padding: 2.5rem 2rem 2.25rem;
+        display: flex;
+        justify-content: center;
+    }
+    .hero-inner { max-width: 820px; width: 100%; }
+    .hero-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 0.6rem;
+    }
+    .hero h1 {
+        font-size: clamp(1.9rem, 4vw, 2.6rem);
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 0.65rem;
+    }
+    .hero p {
+        font-size: 0.95rem;
+        color: rgba(255,255,255,0.7);
+        max-width: 620px;
+    }
+    .hero .meta {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        font-size: 0.7rem;
+    }
+    .hero .meta span {
+        background: rgba(255,255,255,0.08);
+        color: rgba(255,255,255,0.8);
+        padding: 0.22rem 0.55rem;
+        border-radius: 999px;
+        letter-spacing: 0.03em;
+    }
+
+    .toggles-bar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(245,245,245,0.96);
+        backdrop-filter: blur(8px);
+        padding: 0.65rem 1.25rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: center;
+    }
+    .toggles-inner {
+        max-width: 820px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        flex-wrap: wrap;
+    }
+    .gt-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #666;
+        margin-right: 0.15rem;
+    }
+    .toggle-btn {
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #444;
+        font-size: 0.76rem;
+        font-weight: 600;
+        padding: 0.38rem 0.75rem;
+        border-radius: 7px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .toggle-btn:hover { border-color: #1a1a1a; }
+    .toggle-btn.active {
+        background: #1a1a1a;
+        color: white;
+        border-color: #1a1a1a;
+    }
+    .toggle-btn .dot {
+        display: inline-block;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #cbd5e0;
+        margin-right: 0.4rem;
+        vertical-align: middle;
+    }
+    .toggle-btn.active .dot { background: #4ade80; }
+
+    section.section {
+        padding: 2rem 1.5rem 0.5rem;
+        display: flex;
+        justify-content: center;
+    }
+    section.section.last { padding-bottom: 3rem; }
+    .section-inner { max-width: 820px; width: 100%; }
+    .section-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #888;
+        margin-bottom: 0.35rem;
+    }
+    .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.45rem;
+    }
+    .section-sub {
+        font-size: 0.85rem;
+        color: #555;
+        margin-bottom: 1.25rem;
+        max-width: 620px;
+    }
+
+    /* Flashcards */
+    .flash-controls {
+        display: flex;
+        gap: 0.4rem;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+    .flash-progress {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #555;
+        margin-left: 0.25rem;
+    }
+    .flash-stage { perspective: 1200px; margin-bottom: 0.75rem; }
+    .flashcard {
+        position: relative;
+        width: 100%;
+        min-height: 260px;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        transition: transform 0.45s;
+    }
+    .flashcard.flipped { transform: rotateY(180deg); }
+    .fc-face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        border-radius: 16px;
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        padding: 1.75rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .fc-pos {
+        position: absolute;
+        top: 0.85rem;
+        right: 1.1rem;
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: #94a3b8;
+    }
+    .fc-front .fc-hanzi {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 600;
+        color: #1a1a1a;
+        line-height: 1;
+        margin-bottom: 0.75rem;
+    }
+    .fc-front .fc-hint {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-top: 1.25rem;
+    }
+    .fc-back { transform: rotateY(180deg); }
+    .fc-back .fc-pinyin { font-size: 1.35rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.35rem; }
+    .fc-back .fc-en { font-size: 1.05rem; color: #475569; margin-bottom: 1rem; }
+    .fc-back .fc-ex-han { font-size: 1.2rem; color: #1a1a1a; margin-bottom: 0.2rem; }
+    .fc-back .fc-ex-py { font-size: 0.8rem; color: #64748b; }
+    .fc-back .fc-ex-en { font-size: 0.8rem; color: #64748b; }
+
+    body.hide-pinyin .fc-back .fc-pinyin,
+    body.hide-pinyin .fc-back .fc-ex-py,
+    body.hide-pinyin .vc-pinyin,
+    body.hide-pinyin .ex-py,
+    body.hide-pinyin .gr-py,
+    body.hide-pinyin .dl-py { display: none; }
+    body.hide-english .fc-back .fc-en,
+    body.hide-english .fc-back .fc-ex-en,
+    body.hide-english .vc-en,
+    body.hide-english .ex-en,
+    body.hide-english .gr-en,
+    body.hide-english .dl-en { display: none; }
+
+    .flash-nav { display: flex; gap: 0.4rem; }
+    .flash-nav button {
+        flex: 1;
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #1a1a1a;
+        font-size: 0.82rem;
+        font-weight: 600;
+        padding: 0.6rem 0.9rem;
+        border-radius: 7px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .flash-nav button:hover:not(:disabled) { border-color: #1a1a1a; background: #1a1a1a; color: white; }
+    .flash-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Vocabulary */
+    .vocab-grid { display: grid; gap: 0.7rem; grid-template-columns: 1fr; }
+    @media (min-width: 720px) { .vocab-grid { grid-template-columns: 1fr 1fr; } }
+    .vocab-card {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 0.85rem 1rem;
+        transition: border-color 0.15s;
+    }
+    .vocab-card:hover { border-color: #1a1a1a; }
+    .vc-head { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.3rem; }
+    .vc-hanzi { font-size: 1.5rem; font-weight: 600; color: #1a1a1a; }
+    .vc-pinyin { font-size: 0.88rem; font-weight: 500; color: #4b5563; }
+    .vc-pos {
+        margin-left: auto;
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #94a3b8;
+    }
+    .vc-en { font-size: 0.83rem; color: #475569; margin-bottom: 0.55rem; }
+    .vc-ex {
+        border-top: 1px solid #f1f5f9;
+        padding-top: 0.5rem;
+        font-size: 0.82rem;
+    }
+    .vc-ex .ex-han { color: #1a1a1a; margin-bottom: 0.1rem; }
+    .vc-ex .ex-py  { color: #64748b; font-size: 0.76rem; margin-bottom: 0.1rem; }
+    .vc-ex .ex-en  { color: #64748b; font-size: 0.76rem; }
+
+    /* Grammar */
+    .gr-card {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 1rem 1.15rem;
+        margin-bottom: 0.85rem;
+    }
+    .gr-title {
+        font-size: 0.98rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.3rem;
+    }
+    .gr-note {
+        font-size: 0.88rem;
+        color: #475569;
+        margin-bottom: 0.75rem;
+        line-height: 1.55;
+    }
+    .gr-example {
+        border-left: 3px solid #1a1a1a;
+        padding: 0.4rem 0 0.4rem 0.75rem;
+        margin-bottom: 0.55rem;
+    }
+    .gr-example:last-child { margin-bottom: 0; }
+    .gr-example .gr-han { font-size: 1.05rem; color: #1a1a1a; margin-bottom: 0.1rem; }
+    .gr-example .gr-py  { font-size: 0.78rem; color: #64748b; margin-bottom: 0.08rem; }
+    .gr-example .gr-en  { font-size: 0.82rem; color: #475569; }
+
+    /* Dialogue */
+    .dialogue-meta {
+        font-size: 0.82rem;
+        color: #555;
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 0.6rem 0.9rem;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 1rem;
+    }
+    .dialogue {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 1.2rem 1.25rem;
+    }
+    .dl-line {
+        display: flex;
+        gap: 0.85rem;
+        padding: 0.7rem 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .dl-line:last-child { border-bottom: none; }
+    .dl-speaker {
+        flex-shrink: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        font-size: 0.78rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+    .dl-speaker.spk-A { background: #1a1a1a; }
+    .dl-speaker.spk-B { background: #d97706; }
+    .dl-text { flex: 1; min-width: 0; }
+    .dl-han { font-size: 1.08rem; color: #1a1a1a; margin-bottom: 0.18rem; line-height: 1.45; }
+    .dl-py  { font-size: 0.78rem; color: #64748b; font-style: italic; margin-bottom: 0.12rem; }
+    .dl-en  { font-size: 0.85rem; color: #475569; }
+
+    footer {
+        text-align: center;
+        padding: 1rem;
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.35);
+        background: rgba(26,26,26,0.85);
+    }
+    footer a { color: inherit; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <a href="/">← Chinese 101</a>
+    <span class="title">Practical Travel</span>
+    <div class="spacer"></div>
+    <a href="#flashcards">Flashcards</a>
+    <a href="#vocabulary">Vocab</a>
+    <a href="#grammar">Grammar</a>
+    <a href="#dialogue">Dialogue</a>
+</div>
+
+<div class="hero">
+    <div class="hero-inner">
+        <div class="hero-label">Practical Conversational Lesson · 7</div>
+        <h1 id="hero-title">Practical Travel</h1>
+        <p id="hero-blurb"></p>
+        <div class="meta" id="hero-meta"></div>
+    </div>
+</div>
+
+<div class="toggles-bar">
+    <div class="toggles-inner">
+        <span class="gt-label">Show</span>
+        <button class="toggle-btn active" id="toggle-pinyin"><span class="dot"></span>Pinyin</button>
+        <button class="toggle-btn active" id="toggle-english"><span class="dot"></span>English</button>
+    </div>
+</div>
+
+<section class="section" id="flashcards">
+    <div class="section-inner">
+        <div class="section-label">Step 1 · Flashcards</div>
+        <div class="section-title">Drill the new travel vocab</div>
+        <p class="section-sub">Tap to flip. Arrow keys, space, or up/down also flip.</p>
+        <div class="flash-controls">
+            <button class="toggle-btn" id="flash-shuffle">Shuffle</button>
+            <button class="toggle-btn" id="flash-reset">Reset</button>
+            <span class="flash-progress" id="flash-progress">1 / 1</span>
+        </div>
+        <div class="flash-stage">
+            <div class="flashcard" id="flashcard">
+                <div class="fc-face fc-front">
+                    <span class="fc-pos" id="fc-front-pos"></span>
+                    <div class="fc-hanzi han" id="fc-front-han"></div>
+                    <div class="fc-hint">tap to reveal</div>
+                </div>
+                <div class="fc-face fc-back">
+                    <span class="fc-pos" id="fc-back-pos"></span>
+                    <div class="fc-pinyin" id="fc-back-py"></div>
+                    <div class="fc-en" id="fc-back-en"></div>
+                    <div class="fc-ex-han han" id="fc-back-ex-han"></div>
+                    <div class="fc-ex-py" id="fc-back-ex-py"></div>
+                    <div class="fc-ex-en" id="fc-back-ex-en"></div>
+                </div>
+            </div>
+        </div>
+        <div class="flash-nav">
+            <button id="flash-prev">← Previous</button>
+            <button id="flash-next">Next →</button>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="vocabulary">
+    <div class="section-inner">
+        <div class="section-label">Step 2 · Vocabulary</div>
+        <div class="section-title">Travel words and phrases</div>
+        <p class="section-sub">Each word with one example sentence in context. Toggles above apply here.</p>
+        <div class="vocab-grid" id="vocab-grid"></div>
+    </div>
+</section>
+
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <div class="section-label">Step 3 · Grammar Focus</div>
+        <div class="section-title">Patterns you'll hear at customs and beyond</div>
+        <p class="section-sub">A few of the most useful patterns for talking about travel.</p>
+        <div id="grammar-list"></div>
+    </div>
+</section>
+
+<section class="section last" id="dialogue">
+    <div class="section-inner">
+        <div class="section-label">Step 4 · Full Dialogue</div>
+        <div class="section-title">Going through customs</div>
+        <p class="section-sub">Read line by line. Pinyin and English toggles above work here too.</p>
+        <div class="dialogue-meta" id="dialogue-meta"></div>
+        <div class="dialogue" id="dialogue"></div>
+    </div>
+</section>
+
+<footer>
+    Chinese 101 · Practical Travel · <a href="/">Home</a>
+</footer>
+
+<script>
+const DATA = {"title": "Practical Travel", "blurb": "Phrases for the airport, customs, and the first questions a tourist gets asked. Pinyin and English toggles work on every line.", "words": [["机场", "jīchǎng", "n.", "airport", "机场离这儿很远。", "Jīchǎng lí zhèr hěn yuǎn.", "The airport is far from here."], ["飞机", "fēijī", "n.", "airplane", "我坐飞机来中国。", "Wǒ zuò fēijī lái Zhōngguó.", "I came to China by plane."], ["票", "piào", "n.", "ticket", "我有飞机票。", "Wǒ yǒu fēijī piào.", "I have a plane ticket."], ["护照", "hùzhào", "n.", "passport", "请出示您的护照。", "Qǐng chūshì nín de hùzhào.", "Please show your passport."], ["行李", "xíngli", "n.", "luggage", "我的行李在哪儿？", "Wǒ de xíngli zài nǎr?", "Where is my luggage?"], ["登机牌", "dēngjīpái", "n.", "boarding pass", "这是您的登机牌。", "Zhè shì nín de dēngjīpái.", "This is your boarding pass."], ["起飞", "qǐfēi", "v.", "take off", "飞机几点起飞？", "Fēijī jǐ diǎn qǐfēi?", "What time does the plane take off?"], ["到达", "dàodá", "v.", "arrive", "我们下午到达北京。", "Wǒmen xiàwǔ dàodá Běijīng.", "We arrive in Beijing in the afternoon."], ["海关", "hǎiguān", "n.", "customs", "海关在那边。", "Hǎiguān zài nàbiān.", "Customs is over there."], ["入境", "rùjìng", "v.", "enter the country", "请填入境表。", "Qǐng tián rùjìng biǎo.", "Please fill in the entry form."], ["签证", "qiānzhèng", "n.", "visa", "这是我的签证。", "Zhè shì wǒ de qiānzhèng.", "This is my visa."], ["申报", "shēnbào", "v.", "declare", "我没有东西申报。", "Wǒ méiyǒu dōngxi shēnbào.", "I have nothing to declare."], ["表", "biǎo", "n.", "form", "请填这张表。", "Qǐng tián zhè zhāng biǎo.", "Please fill in this form."], ["填", "tián", "v.", "fill in", "请填您的名字。", "Qǐng tián nín de míngzi.", "Please fill in your name."], ["旅游", "lǚyóu", "v./n.", "tourism, travel", "我来中国旅游。", "Wǒ lái Zhōngguó lǚyóu.", "I came to China to travel."], ["游客", "yóukè", "n.", "tourist", "北京有很多游客。", "Běijīng yǒu hěn duō yóukè.", "Beijing has many tourists."], ["来自", "láizì", "v.", "come from", "我来自美国。", "Wǒ láizì Měiguó.", "I'm from the US."], ["第一次", "dìyīcì", "phrase", "first time", "这是我第一次来中国。", "Zhè shì wǒ dì-yī cì lái Zhōngguó.", "This is my first time in China."], ["度假", "dùjià", "v.", "take a vacation", "我来度假。", "Wǒ lái dùjià.", "I came for vacation."], ["出差", "chūchāi", "v.", "business trip", "他来北京出差。", "Tā lái Běijīng chūchāi.", "He came to Beijing on business."], ["计划", "jìhuà", "n./v.", "plan", "你的计划是什么？", "Nǐ de jìhuà shì shénme?", "What's your plan?"], ["酒店", "jiǔdiàn", "n.", "hotel", "我的酒店在市中心。", "Wǒ de jiǔdiàn zài shì zhōngxīn.", "My hotel is downtown."], ["预订", "yùdìng", "v.", "reserve, book", "我预订了房间。", "Wǒ yùdìng le fángjiān.", "I booked a room."], ["入住", "rùzhù", "v.", "check in", "我们下午入住。", "Wǒmen xiàwǔ rùzhù.", "We check in this afternoon."], ["出租车", "chūzūchē", "n.", "taxi", "我坐出租车去酒店。", "Wǒ zuò chūzūchē qù jiǔdiàn.", "I'll take a taxi to the hotel."], ["地图", "dìtú", "n.", "map", "你有地图吗？", "Nǐ yǒu dìtú ma?", "Do you have a map?"], ["多远", "duō yuǎn", "phrase", "how far", "机场离这儿多远？", "Jīchǎng lí zhèr duō yuǎn?", "How far is the airport from here?"], ["多久", "duō jiǔ", "phrase", "how long", "你待多久？", "Nǐ dāi duō jiǔ?", "How long are you staying?"]], "grammar": [{"title": "来自 (to come from)", "note": "来 means come, and adding 自 (from) makes it 来自, the verb for telling someone where you're from. Pattern: subject + 来自 + place.", "examples": [["我来自美国。", "Wǒ láizì Měiguó.", "I'm from the US."], ["他来自哪儿？", "Tā láizì nǎr?", "Where is he from?"], ["这些游客来自日本。", "Zhèxiē yóukè láizì Rìběn.", "These tourists are from Japan."]]}, {"title": "第 N 次 (the Nth time)", "note": "第 + a number + 次 marks how many times something has happened. 第一次 (first time), 第二次 (second time). It usually sits before the verb: subject + 第 N 次 + verb.", "examples": [["这是我第一次来中国。", "Zhè shì wǒ dì-yī cì lái Zhōngguó.", "This is my first time in China."], ["我第二次坐飞机。", "Wǒ dì-èr cì zuò fēijī.", "This is my second time on a plane."]]}, {"title": "多 + adjective (asking quantity)", "note": "多 + adjective is the way to ask how X something is. 多远 = how far, 多久 = how long, 多大 = how big or how old. Pair with 离 + place to ask distance from a reference point.", "examples": [["机场离这儿多远？", "Jīchǎng lí zhèr duō yuǎn?", "How far is the airport from here?"], ["你待多久？", "Nǐ dāi duō jiǔ?", "How long are you staying?"], ["你今年多大？", "Nǐ jīnnián duō dà?", "How old are you this year?"]]}, {"title": "来 + verb (came to do X)", "note": "Use 来 + verb to say you came in order to do something. 我来旅游 = I came to travel. 我来出差 = I came on business. The verb after 来 explains the purpose of the trip.", "examples": [["我来旅游。", "Wǒ lái lǚyóu.", "I came to travel."], ["他来出差。", "Tā lái chūchāi.", "He came on business."], ["你来中国做什么？", "Nǐ lái Zhōngguó zuò shénme?", "What did you come to China to do?"]]}, {"title": "请 + verb (polite request)", "note": "请 in front of a verb is the standard polite imperative used by staff at airports, hotels, and customs. 请出示 (please show), 请填 (please fill in), 请等一下 (please wait a moment).", "examples": [["请出示护照。", "Qǐng chūshì hùzhào.", "Please show your passport."], ["请填这张表。", "Qǐng tián zhè zhāng biǎo.", "Please fill in this form."], ["请等一下。", "Qǐng děng yíxià.", "Please wait a moment."]]}], "dialogue": {"setting": "A tourist arriving at a Beijing airport customs counter.", "lines": [["A", "您好，请出示护照。", "Nín hǎo, qǐng chūshì hùzhào.", "Hello, please show your passport."], ["B", "给您。这是我的签证。", "Gěi nín. Zhè shì wǒ de qiānzhèng.", "Here you go. This is my visa."], ["A", "您来自哪里？", "Nín láizì nǎlǐ?", "Where are you from?"], ["B", "我来自美国。", "Wǒ láizì Měiguó.", "I'm from the US."], ["A", "您来中国做什么？", "Nín lái Zhōngguó zuò shénme?", "What did you come to China to do?"], ["B", "我来旅游。这是我第一次来中国。", "Wǒ lái lǚyóu. Zhè shì wǒ dì-yī cì lái Zhōngguó.", "I came to travel. It's my first time in China."], ["A", "您计划待多久？", "Nín jìhuà dāi duō jiǔ?", "How long do you plan to stay?"], ["B", "我计划待七天。", "Wǒ jìhuà dāi qī tiān.", "I plan to stay seven days."], ["A", "您住在哪儿？", "Nín zhù zài nǎr?", "Where are you staying?"], ["B", "我住在酒店，我已经预订了房间。", "Wǒ zhù zài jiǔdiàn, wǒ yǐjīng yùdìng le fángjiān.", "I'm staying at a hotel. I already booked a room."], ["A", "有东西要申报吗？", "Yǒu dōngxi yào shēnbào ma?", "Anything to declare?"], ["B", "没有。", "Méiyǒu.", "No."], ["A", "好的，欢迎来中国！", "Hǎo de, huānyíng lái Zhōngguó!", "Okay, welcome to China!"], ["B", "谢谢！", "Xièxie!", "Thank you!"]]}};
+const WORDS = DATA.words;
+let cards = WORDS.map((_, i) => i);
+let idx = 0;
+
+const $ = (id) => document.getElementById(id);
+function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderHero() {
+    $('hero-blurb').textContent = DATA.blurb;
+    $('hero-meta').innerHTML = `
+        <span>${WORDS.length} words</span>
+        <span>${DATA.grammar.length} grammar points</span>
+        <span>${DATA.dialogue.lines.length}-line dialogue</span>
+        <span>HSK 1+</span>
+    `;
+}
+
+function renderVocab() {
+    $('vocab-grid').innerHTML = WORDS.map(w => `
+        <div class="vocab-card">
+            <div class="vc-head">
+                <span class="vc-hanzi han">${escapeHTML(w[0])}</span>
+                <span class="vc-pinyin">${escapeHTML(w[1])}</span>
+                <span class="vc-pos">${escapeHTML(w[2])}</span>
+            </div>
+            <div class="vc-en">${escapeHTML(w[3])}</div>
+            <div class="vc-ex">
+                <div class="ex-han han">${escapeHTML(w[4])}</div>
+                <div class="ex-py">${escapeHTML(w[5])}</div>
+                <div class="ex-en">${escapeHTML(w[6])}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderGrammar() {
+    $('grammar-list').innerHTML = DATA.grammar.map(g => `
+        <div class="gr-card">
+            <div class="gr-title">${escapeHTML(g.title)}</div>
+            <div class="gr-note">${escapeHTML(g.note)}</div>
+            ${g.examples.map(ex => `
+                <div class="gr-example">
+                    <div class="gr-han han">${escapeHTML(ex[0])}</div>
+                    <div class="gr-py">${escapeHTML(ex[1])}</div>
+                    <div class="gr-en">${escapeHTML(ex[2])}</div>
+                </div>
+            `).join('')}
+        </div>
+    `).join('');
+}
+
+function renderDialogue() {
+    $('dialogue-meta').textContent = DATA.dialogue.setting;
+    $('dialogue').innerHTML = DATA.dialogue.lines.map(line => {
+        const [spk, han, py, en] = line;
+        return `
+            <div class="dl-line">
+                <div class="dl-speaker spk-${escapeHTML(spk)}">${escapeHTML(spk)}</div>
+                <div class="dl-text">
+                    <div class="dl-han han">${escapeHTML(han)}</div>
+                    <div class="dl-py">${escapeHTML(py)}</div>
+                    <div class="dl-en">${escapeHTML(en)}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderFlashcard() {
+    const w = WORDS[cards[idx]];
+    const card = $('flashcard');
+    card.classList.remove('flipped');
+    $('fc-front-pos').textContent = w[2];
+    $('fc-back-pos').textContent = w[2];
+    $('fc-front-han').textContent = w[0];
+    $('fc-back-py').textContent = w[1];
+    $('fc-back-en').textContent = w[3];
+    $('fc-back-ex-han').textContent = w[4];
+    $('fc-back-ex-py').textContent = w[5];
+    $('fc-back-ex-en').textContent = w[6];
+    $('flash-progress').textContent = `${idx + 1} / ${cards.length}`;
+    $('flash-prev').disabled = idx === 0;
+    $('flash-next').disabled = idx === cards.length - 1;
+}
+
+function setupToggles() {
+    const py = $('toggle-pinyin');
+    const en = $('toggle-english');
+    py.addEventListener('click', () => {
+        const willHide = !document.body.classList.contains('hide-pinyin');
+        document.body.classList.toggle('hide-pinyin', willHide);
+        py.classList.toggle('active', !willHide);
+    });
+    en.addEventListener('click', () => {
+        const willHide = !document.body.classList.contains('hide-english');
+        document.body.classList.toggle('hide-english', willHide);
+        en.classList.toggle('active', !willHide);
+    });
+}
+
+function setupFlash() {
+    const card = $('flashcard');
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    $('flash-prev').addEventListener('click', () => { if (idx > 0) { idx--; renderFlashcard(); } });
+    $('flash-next').addEventListener('click', () => { if (idx < cards.length - 1) { idx++; renderFlashcard(); } });
+    $('flash-shuffle').addEventListener('click', () => {
+        for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+        idx = 0;
+        renderFlashcard();
+    });
+    $('flash-reset').addEventListener('click', () => {
+        cards = WORDS.map((_, i) => i);
+        idx = 0;
+        renderFlashcard();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowLeft' && idx > 0) { idx--; renderFlashcard(); }
+        else if (e.key === 'ArrowRight' && idx < cards.length - 1) { idx++; renderFlashcard(); }
+        else if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            if (document.activeElement && document.activeElement.tagName === 'BUTTON') return;
+            e.preventDefault();
+            card.classList.toggle('flipped');
+        }
+    });
+}
+
+renderHero();
+renderVocab();
+renderGrammar();
+renderDialogue();
+renderFlashcard();
+setupToggles();
+setupFlash();
+</script>
+
+</body>
+</html>
