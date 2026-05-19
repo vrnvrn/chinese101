@@ -12,7 +12,7 @@
     { "source": "/ordering", "destination": "/ordering.html" },
     { "source": "/textbook", "destination": "/hsk-1-textbook.html" },
     { "source": "/tb:n(\\d+)", "destination": "/textbook-lesson.html?n=:n" },
-    { "source": "/temp", "destination": "/temp.html" },
+    { "source": "/practice", "destination": "/practice.html" },
     { "source": "/test", "destination": "/test.html" }
   ]
 }

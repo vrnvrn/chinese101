@@ -672,7 +672,7 @@ function setupNav() {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         if (e.key === 'ArrowLeft' && idx > 0) { idx--; render(); }
         else if (e.key === 'ArrowRight' && idx < WORDS.length - 1) { idx++; render(); }
-        else if (e.key === ' ' || e.key === 'Enter') {
+        else if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
             if (document.activeElement && document.activeElement.tagName === 'BUTTON') return;
             e.preventDefault();
             $('flashcard').classList.toggle('flipped');
