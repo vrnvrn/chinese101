@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HSK 1 Digital Textbook</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hsk-red: #D4423E;
+    --iron-50: #F9F9F9;
+    --iron-100: #F4F4F5;
+    --iron-200: #E4E4E7;
+    --iron-300: #D1D1D6;
+    --iron-400: #A0A0AB;
+    --iron-500: #70707B;
+    --iron-700: #3F3F46;
+    --iron-900: #1A1A1E;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: var(--iron-900); }
+  .han { font-family: 'Noto Serif SC', 'PingFang SC', 'Songti SC', serif; }
+  .py-tone { font-variant-numeric: tabular-nums; }
+  .word-card { transition: border-color .12s ease, background .12s ease; }
+  .word-card:hover { border-color: var(--hsk-red); background: #FFFBFB; }
+  .word-card:hover .ex { color: var(--iron-700); }
+  .nav-link.active { color: var(--hsk-red); background: #FEEBEA; }
+  .accent { color: var(--hsk-red); }
+  .bg-accent { background: var(--hsk-red); }
+  .border-accent { border-color: var(--hsk-red); }
+  /* Print/readability */
+  @media (max-width: 900px) {
+    aside.toc { display: none; }
+    main { margin-left: 0 !important; }
+  }
+</style>
+</head>
+<body class="bg-white antialiased">
+
+<aside class="toc fixed top-0 left-0 h-screen w-64 border-r border-zinc-200 bg-white overflow-y-auto py-6 px-4">
+  <a href="#top" class="block mb-6">
+    <div class="text-[11px] uppercase tracking-[0.16em] text-zinc-500">Digital Textbook</div>
+    <div class="font-semibold text-zinc-900 text-base mt-1">HSK 1 Textbook</div>
+    <div class="text-xs text-zinc-500 mt-1">300 words, grouped by theme</div>
+  </a>
+  <a href="/" class="block mb-5 text-xs text-zinc-500 hover:text-zinc-900 transition">← Back to Chinese 101</a>
+  <nav class="space-y-0.5 text-sm">
+    <div class="text-[10px] uppercase tracking-[0.16em] text-zinc-400 mt-2 mb-1 px-2">HSK 1 Lessons</div>
+    <a href="#l1" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">1. Greetings &amp; Pleasantries</a>
+    <a href="#l2" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">2. Personal Pronouns</a>
+    <a href="#l3" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">3. Demonstratives</a>
+    <a href="#l4" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">4. Question Words</a>
+    <a href="#l5" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">5. Numbers</a>
+    <a href="#l6" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">6. Measure Words</a>
+    <a href="#l7" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">7. Family</a>
+    <a href="#l8" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">8. People &amp; Identity</a>
+    <a href="#l9" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">9. Time, Days &amp; Dates</a>
+    <a href="#l10" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">10. Daily Verbs</a>
+    <a href="#l11" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">11. Mental &amp; Modal Verbs</a>
+    <a href="#l12" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">12. Adjectives</a>
+    <a href="#l13" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">13. Adverbs</a>
+    <a href="#l14" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">14. Particles</a>
+    <a href="#l15" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">15. Prepositions &amp; Conjunctions</a>
+    <a href="#l16" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">16. Places &amp; Buildings</a>
+    <a href="#l17" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">17. Locations &amp; Directions</a>
+    <a href="#l18" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">18. Food &amp; Drink</a>
+    <a href="#l19" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">19. Body &amp; Health</a>
+    <a href="#l20" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">20. Weather</a>
+    <a href="#l21" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">21. Transport</a>
+    <a href="#l22" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">22. Money &amp; Shopping</a>
+    <a href="#l23" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">23. Tech &amp; Everyday Objects</a>
+    <a href="#l24" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">24. Language &amp; Learning</a>
+    <a href="#l25" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100">25. Animals &amp; Affixes</a>
+    <a href="#grammar" class="nav-link block px-2 py-1.5 rounded hover:bg-zinc-100 mt-3 font-medium">Grammar Reference</a>
+  </nav>
+  <div class="mt-8 pt-4 border-t border-zinc-200 text-xs text-zinc-500 leading-relaxed">
+    Based on the official HSK 一级 syllabus
+    (中外语言交流合作中心, effective 2026-07): 词汇大纲 300 words and 语法大纲.
+  </div>
+</aside>
+
+<main id="top" class="ml-64 px-10 py-14 max-w-4xl">
+  <header class="mb-14 pb-10 border-b border-zinc-200">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-accent text-white text-[11px] font-semibold uppercase tracking-wider px-2 py-1 rounded">HSK 一级</span>
+      <span class="text-xs text-zinc-500">Reading literacy · Digital textbook</span>
+    </div>
+    <h1 class="text-5xl font-bold tracking-tight text-zinc-900">HSK 1 Digital Textbook</h1>
+    <p class="mt-4 text-lg text-zinc-600 leading-relaxed max-w-2xl">
+      Every HSK 1 word, grouped by theme, with one example sentence each.
+      A grammar reference at the end covers the full HSK 1 语法大纲.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-2 text-xs">
+      <span class="px-2 py-1 rounded-full bg-zinc-100 text-zinc-700">300 vocabulary words</span>
+      <span class="px-2 py-1 rounded-full bg-zinc-100 text-zinc-700">25 themed lessons</span>
+      <span class="px-2 py-1 rounded-full bg-zinc-100 text-zinc-700">Pinyin and English on every entry</span>
+      <span class="px-2 py-1 rounded-full bg-zinc-100 text-zinc-700">Grammar reference</span>
+    </div>
+  </header>
+
+  <!-- LESSONS RENDERED BELOW -->
+  <div id="lessons"></div>
+
+  <!-- GRAMMAR REFERENCE -->
+  <section id="grammar" class="mt-20 pt-12 border-t border-zinc-200 scroll-mt-8">
+    <div class="flex items-baseline gap-3 mb-2">
+      <span class="text-xs font-semibold uppercase tracking-widest accent">Reference</span>
+      <span class="text-xs text-zinc-400">语法大纲 verbatim</span>
+    </div>
+    <h2 class="text-4xl font-bold tracking-tight text-zinc-900 mb-3">Grammar Reference</h2>
+    <p class="text-zinc-600 leading-relaxed mb-10 max-w-2xl">
+      The full HSK 1 grammar inventory from the 语法大纲 (pp. 383 to 385 of the syllabus),
+      grouped by category, with one example sentence per item built only from HSK 1 vocabulary.
+    </p>
+
+    <!-- G1. Word classes (词类) -->
+    <div class="mb-12">
+      <h3 class="text-xl font-semibold text-zinc-900 mb-1">1. Word classes (词类)</h3>
+      <p class="text-sm text-zinc-500 mb-6">The parts of speech you need to identify at HSK 1.</p>
+
+      <div class="space-y-5">
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Location nouns (方位名词)</div>
+          <div class="text-xs text-zinc-500 mb-2 han">上、下、里、外、前、后</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">书在桌子上。</div>
+            <div class="text-zinc-500">Shū zài zhuōzi shàng.</div>
+            <div class="text-zinc-500">The book is on the table.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Modal verbs (能愿动词): 会, 能, 想, 要, 可以</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">我会说汉语。</div><div class="text-zinc-500">Wǒ huì shuō Hànyǔ. I can speak Chinese (learned skill).</div></div>
+            <div><div class="han text-zinc-900">你能来吗？</div><div class="text-zinc-500">Nǐ néng lái ma? Can you come (possibility)?</div></div>
+            <div><div class="han text-zinc-900">我想吃饺子。</div><div class="text-zinc-500">Wǒ xiǎng chī jiǎozi. I want to eat dumplings.</div></div>
+            <div><div class="han text-zinc-900">我要一杯茶。</div><div class="text-zinc-500">Wǒ yào yì bēi chá. I want a cup of tea.</div></div>
+            <div><div class="han text-zinc-900">我可以坐这儿吗？</div><div class="text-zinc-500">Wǒ kěyǐ zuò zhèr ma? May I sit here (permission)?</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Separable verbs (离合词)</div>
+          <div class="text-xs text-zinc-500 mb-2 han">看病、睡觉、说话、上课、下课、上班、下班、生病</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">我睡了八个小时觉。</div><div class="text-zinc-500">Wǒ shuì le bā gè xiǎoshí jiào. I slept eight hours.</div></div>
+            <div class="text-xs text-zinc-500 italic">The object 觉 is detached from 睡 by the duration phrase.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Question pronouns (疑问代词)</div>
+          <div class="text-xs text-zinc-500 mb-2 han">多、多少、几、哪、哪儿、哪里、哪些、什么、谁、怎么、怎么样</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">你叫什么名字？</div><div class="text-zinc-500">Nǐ jiào shénme míngzi? What is your name?</div></div>
+            <div><div class="han text-zinc-900">你家有几口人？</div><div class="text-zinc-500">Nǐ jiā yǒu jǐ kǒu rén? How many people in your family (small number)?</div></div>
+            <div><div class="han text-zinc-900">这个多少钱？</div><div class="text-zinc-500">Zhège duōshao qián? How much is this (any number)?</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Numerals (数词)</div>
+          <div class="text-xs text-zinc-500 mb-2 han">一、二/两、三、四、五、六、七、八、九、零、十、百、半、千</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">我有两个哥哥。</div><div class="text-zinc-500">Wǒ yǒu liǎng gè gēge. I have two older brothers (use 两 before MW, not 二).</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Nominal measure words (名量词)</div>
+          <div class="text-xs text-zinc-500 mb-2 han">本、个、家、口、块、件、只、元 (专用); 杯 (借用)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">一本书、三件衣服、四口人</div><div class="text-zinc-500">yì běn shū, sān jiàn yīfu, sì kǒu rén. one book, three pieces of clothing, four (family) people.</div></div>
+            <div><div class="han text-zinc-900">两杯茶。</div><div class="text-zinc-500">Liǎng bēi chá. Two cups of tea (the noun 杯子 borrowed as MW).</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Temporal measure words (时量词)</div>
+          <div class="text-xs text-zinc-500 mb-2 han">日、号、岁、点、分、年、天</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">今天是五月一号，下午三点。</div>
+            <div class="text-zinc-500">Jīntiān shì wǔ yuè yī hào, xiàwǔ sān diǎn.</div>
+            <div class="text-zinc-500">Today is May 1st, 3:00 in the afternoon.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Adverbs of degree (程度副词): 非常, 很, 太, 真, 有(一)点儿</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">今天非常热。</div><div class="text-zinc-500">Jīntiān fēicháng rè. Today is extremely hot.</div></div>
+            <div><div class="han text-zinc-900">这个有点儿贵。</div><div class="text-zinc-500">Zhège yǒudiǎnr guì. This is a little (too) expensive (negative tone).</div></div>
+            <div><div class="han text-zinc-900">太好了！</div><div class="text-zinc-500">Tài hǎo le! Wonderful (太...了 pattern).</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Other adverbs</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">我们都是学生。</div><div class="text-zinc-500">Wǒmen dōu shì xuéshēng. Scope adverb 都 (all).</div></div>
+            <div><div class="han text-zinc-900">他正在睡觉。</div><div class="text-zinc-500">Tā zhèngzài shuìjiào. Time adverb 正在 (in the middle of).</div></div>
+            <div><div class="han text-zinc-900">我再说一下。</div><div class="text-zinc-500">Wǒ zài shuō yíxià. Frequency adverb 再 (again, future repetition).</div></div>
+            <div><div class="han text-zinc-900">我也喜欢茶。</div><div class="text-zinc-500">Wǒ yě xǐhuan chá. Linking adverb 也 (also).</div></div>
+            <div><div class="han text-zinc-900">我不去。</div><div class="text-zinc-500">Wǒ bú qù. Negation 不 (not, for verbs and adjectives in non-past).</div></div>
+            <div><div class="han text-zinc-900">他没有手机。</div><div class="text-zinc-500">Tā méiyǒu shǒujī. Negation 没(有) (for 有 and past actions).</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Prepositions (介词): 在, 和, 对</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">他在学校学习。</div><div class="text-zinc-500">Tā zài xuéxiào xuéxí. He studies at school (place).</div></div>
+            <div><div class="han text-zinc-900">我和爸爸去商店。</div><div class="text-zinc-500">Wǒ hé bàba qù shāngdiàn. Dad and I go to the shop (joining nouns).</div></div>
+            <div><div class="han text-zinc-900">他对我很好。</div><div class="text-zinc-500">Tā duì wǒ hěn hǎo. He is very nice to me.</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Particles (助词)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">这是我的书。</div><div class="text-zinc-500">Zhè shì wǒ de shū. Structural 的: possessive/modifier.</div></div>
+            <div><div class="han text-zinc-900">我吃了。</div><div class="text-zinc-500">Wǒ chī le. Dynamic 了¹: action complete.</div></div>
+            <div><div class="han text-zinc-900">下雨了。</div><div class="text-zinc-500">Xià yǔ le. Sentence 了²: change of state (it started raining).</div></div>
+            <div><div class="han text-zinc-900">你是学生吗？</div><div class="text-zinc-500">Nǐ shì xuéshēng ma? Yes/no question 吗.</div></div>
+            <div><div class="han text-zinc-900">我们走吧。</div><div class="text-zinc-500">Wǒmen zǒu ba. Suggestion / softener 吧.</div></div>
+            <div><div class="han text-zinc-900">我很好，你呢？</div><div class="text-zinc-500">Wǒ hěn hǎo, nǐ ne? Follow-up question 呢¹.</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- G2. Sentence types (句子的类型) -->
+    <div class="mb-12">
+      <h3 class="text-xl font-semibold text-zinc-900 mb-1">2. Sentence types (句子的类型)</h3>
+      <p class="text-sm text-zinc-500 mb-6">Statements, questions, and the special copular and existential frames.</p>
+
+      <div class="space-y-5">
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Verbal predicate sentence (动词谓语句)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">我喝水。</div>
+            <div class="text-zinc-500">Wǒ hē shuǐ. I drink water.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Adjectival predicate sentence (形容词谓语句)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">今天很冷。</div>
+            <div class="text-zinc-500">Jīntiān hěn lěng. Today is cold. (No 是. 很 is the linker.)</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Nominal predicate sentence (名词谓语句)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">他三岁。</div>
+            <div class="text-zinc-500">Tā sān suì. He is three years old. (No verb needed for age, date, price.)</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Yes / no question (是非问句) with 吗</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">你是中国人吗？</div>
+            <div class="text-zinc-500">Nǐ shì Zhōngguó rén ma? Are you Chinese?</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Information question (特指问句)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">你叫什么？</div>
+            <div class="text-zinc-500">Nǐ jiào shénme? What is your name? (Question word in place of the answer.)</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">A-not-A question (正反问句)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">你去不去？</div>
+            <div class="text-zinc-500">Nǐ qù bú qù? Are you going or not?</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">是 sentence (identity / category)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">他是我的老师。</div>
+            <div class="text-zinc-500">Tā shì wǒ de lǎoshī. He is my teacher.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">有 sentence (possession)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">我有一只猫。</div>
+            <div class="text-zinc-500">Wǒ yǒu yì zhī māo. I have a cat.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Existential sentence (存现句): place + 是/有 + thing</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">学校前面有商店。</div><div class="text-zinc-500">Xuéxiào qiánmiàn yǒu shāngdiàn. There's a shop in front of the school.</div></div>
+            <div><div class="han text-zinc-900">桌子上是我的书。</div><div class="text-zinc-500">Zhuōzi shàng shì wǒ de shū. On the table is my book.</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Serial verb sentence (连动句)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">我去商店买衣服。</div><div class="text-zinc-500">Wǒ qù shāngdiàn mǎi yīfu. I go to the shop to buy clothes (verb 2 is the goal).</div></div>
+            <div><div class="han text-zinc-900">我坐飞机回家。</div><div class="text-zinc-500">Wǒ zuò fēijī huí jiā. I go home by plane (verb 1 is the means).</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Double-object sentence (双宾语句)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">妈妈给我一本书。</div>
+            <div class="text-zinc-500">Māma gěi wǒ yì běn shū. Mom gives me a book. (Verb + indirect + direct object.)</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Coordinating complex sentence (并列复句) with 也 / 还</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">我喜欢茶，他也喜欢茶。</div><div class="text-zinc-500">Wǒ xǐhuan chá, tā yě xǐhuan chá. I like tea, and he likes tea too.</div></div>
+            <div><div class="han text-zinc-900">我会写汉字，还会说汉语。</div><div class="text-zinc-500">Wǒ huì xiě Hànzì, hái huì shuō Hànyǔ. I can write characters, and I can also speak Chinese.</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- G3. Aspect / time (动作的态) -->
+    <div class="mb-12">
+      <h3 class="text-xl font-semibold text-zinc-900 mb-1">3. Aspect: when an action happens (动作的态)</h3>
+      <p class="text-sm text-zinc-500 mb-6">Chinese has no tense. Aspect particles do the work.</p>
+
+      <div class="space-y-5">
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Completed (完成态): 了¹ after the verb</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">我吃了三个包子。</div>
+            <div class="text-zinc-500">Wǒ chī le sān gè bāozi. I ate three baozi.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Change of state (变化态): 了² at the end</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">下雨了。</div>
+            <div class="text-zinc-500">Xià yǔ le. It started raining.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">In progress (进行态): 在/正在 + verb (+ 呢)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">他在看书。</div><div class="text-zinc-500">Tā zài kàn shū. He is reading.</div></div>
+            <div><div class="han text-zinc-900">妈妈正在做饭呢。</div><div class="text-zinc-500">Māma zhèngzài zuòfàn ne. Mom is cooking right now.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- G4. Special expressions (特殊表达法) -->
+    <div class="mb-12">
+      <h3 class="text-xl font-semibold text-zinc-900 mb-1">4. Special expressions (特殊表达法)</h3>
+      <p class="text-sm text-zinc-500 mb-6">Money, dates, clock time, and ordinal numbers.</p>
+
+      <div class="space-y-5">
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Money (钱数表示法)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">这本书十块五。</div>
+            <div class="text-zinc-500">Zhè běn shū shí kuài wǔ. This book is 10.50 yuan. (块 + 数 for jiao.)</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Ordinals (序数): 第 + number</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm">
+            <div class="han text-zinc-900">他是第一个来的。</div>
+            <div class="text-zinc-500">Tā shì dì-yī gè lái de. He is the first one to arrive.</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Year / month / day / weekday</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">二〇二六年五月十九日，星期二。</div><div class="text-zinc-500">Èr líng èr liù nián wǔ yuè shíjiǔ rì, xīngqī'èr. May 19, 2026, Tuesday. (Read year digit by digit, big to small.)</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold text-zinc-900 mb-2">Clock time (钟点表示法)</div>
+          <div class="border-l-2 border-zinc-200 pl-4 text-sm space-y-2">
+            <div><div class="han text-zinc-900">现在三点。</div><div class="text-zinc-500">Xiànzài sān diǎn. It's 3:00.</div></div>
+            <div><div class="han text-zinc-900">三点半。</div><div class="text-zinc-500">Sān diǎn bàn. 3:30.</div></div>
+            <div><div class="han text-zinc-900">三点十五分。</div><div class="text-zinc-500">Sān diǎn shíwǔ fēn. 3:15.</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Source -->
+    <div class="mt-16 pt-8 border-t border-zinc-200 text-xs text-zinc-500 leading-relaxed">
+      <div class="font-semibold text-zinc-700 mb-1">Source</div>
+      <div>
+        《中文水平考试 HSK 考试大纲》(Syllabus for the Chinese Proficiency Test),
+        中外语言交流合作中心 (Center for Language Education and Cooperation),
+        published 2025-11, effective 2026-07. HSK 1 词汇大纲 (pp. 77 to 83) and 语法大纲 (pp. 383 to 385).
+      </div>
+    </div>
+  </section>
+
+<script>
+// Each word: [hanzi, pinyin, pos, en, ex_zh, ex_py, ex_en]
+// pos uses the syllabus 词性 codes mapped to short English labels.
+const LESSONS = [
+{ id: "l1", num: 1, title: "Greetings & Pleasantries", blurb:
+  "The handful of words you can say on the first day. Most are fixed phrases. Politeness in Chinese leans on these short formulas.",
+  words: [
+    ["你好","nǐ hǎo","phrase","hello","你好，老师。","Nǐ hǎo, lǎoshī.","Hello, teacher."],
+    ["您","nín","pron.","you (polite)","您好！","Nín hǎo!","Hello (polite)."],
+    ["谢谢","xièxie","v.","to thank","谢谢你。","Xièxie nǐ.","Thank you."],
+    ["不客气","bú kèqi","phrase","you're welcome","不客气。","Bú kèqi.","You're welcome."],
+    ["没关系","méi guānxi","phrase","it's okay","没关系。","Méi guānxi.","It's okay."],
+    ["没事","méishì","v.","it's nothing","我没事。","Wǒ méishì.","I'm fine."],
+    ["再见","zàijiàn","v.","goodbye","老师再见！","Lǎoshī zàijiàn!","Goodbye, teacher."],
+    ["对不起","duìbuqǐ","v.","sorry","对不起，我不知道。","Duìbuqǐ, wǒ bù zhīdào.","Sorry, I don't know."],
+    ["喂","wèi","interj.","hello (on phone)","喂，你好。","Wèi, nǐ hǎo.","Hello (on the phone)."],
+    ["请","qǐng","v.","please / invite","请坐。","Qǐng zuò.","Please sit."],
+    ["请问","qǐngwèn","v.","may I ask","请问，您叫什么名字？","Qǐngwèn, nín jiào shénme míngzi?","Excuse me, what is your name?"]
+  ]
+},
+{ id: "l2", num: 2, title: "Personal Pronouns", blurb:
+  "Chinese pronouns don't change for case. Plural just adds 们. Use 您 for formal address.",
+  words: [
+    ["我","wǒ","pron.","I, me","我是学生。","Wǒ shì xuéshēng.","I am a student."],
+    ["你","nǐ","pron.","you (singular)","你叫什么？","Nǐ jiào shénme?","What is your name?"],
+    ["他","tā","pron.","he, him","他是我哥哥。","Tā shì wǒ gēge.","He is my older brother."],
+    ["她","tā","pron.","she, her","她是老师。","Tā shì lǎoshī.","She is a teacher."],
+    ["它","tā","pron.","it","它是我的猫。","Tā shì wǒ de māo.","It is my cat."],
+    ["我们","wǒmen","pron.","we, us","我们都是中国人。","Wǒmen dōu shì Zhōngguó rén.","We are all Chinese."],
+    ["你们","nǐmen","pron.","you (plural)","你们好。","Nǐmen hǎo.","Hello, everyone."],
+    ["他们","tāmen","pron.","they (m./mixed)","他们是同学。","Tāmen shì tóngxué.","They are classmates."],
+    ["她们","tāmen","pron.","they (f.)","她们是朋友。","Tāmen shì péngyou.","They are friends."],
+    ["它们","tāmen","pron.","they (things)","它们是我的书。","Tāmen shì wǒ de shū.","They are my books."],
+    ["大家","dàjiā","pron.","everyone","大家好！","Dàjiā hǎo!","Hello, everyone!"]
+  ]
+},
+{ id: "l3", num: 3, title: "Demonstratives", blurb:
+  "这 is for things near, 那 is for things far. Add 个 for objects, 里/儿 for places, 些 for plurals, 边 for sides.",
+  words: [
+    ["这","zhè","pron.","this","这是我的书。","Zhè shì wǒ de shū.","This is my book."],
+    ["那","nà","pron.","that","那是谁？","Nà shì shéi?","Who is that?"],
+    ["这个","zhège","pron.","this one","这个是我的。","Zhège shì wǒ de.","This one is mine."],
+    ["那个","nàge","pron.","that one","那个多少钱？","Nàge duōshao qián?","How much is that one?"],
+    ["这里","zhèlǐ","pron.","here","这里是学校。","Zhèlǐ shì xuéxiào.","This is the school."],
+    ["那里","nàlǐ","pron.","there","那里有医院。","Nàlǐ yǒu yīyuàn.","There is a hospital there."],
+    ["这儿","zhèr","pron.","here","你来这儿。","Nǐ lái zhèr.","Come here."],
+    ["那儿","nàr","pron.","there","他在那儿。","Tā zài nàr.","He is over there."],
+    ["这些","zhèxiē","pron.","these","这些都是新书。","Zhèxiē dōu shì xīn shū.","These are all new books."],
+    ["那些","nàxiē","pron.","those","那些是我的衣服。","Nàxiē shì wǒ de yīfu.","Those are my clothes."],
+    ["这边","zhèbiān","pron.","this side","请到这边来。","Qǐng dào zhèbiān lái.","Please come this way."],
+    ["那边","nàbiān","pron.","that side","他在那边。","Tā zài nàbiān.","He's over that way."],
+    ["有的","yǒude","pron.","some","有的人喜欢茶。","Yǒude rén xǐhuan chá.","Some people like tea."],
+    ["有些","yǒuxiē","pron.","some","有些菜很好吃。","Yǒuxiē cài hěn hǎochī.","Some dishes are very tasty."]
+  ]
+},
+{ id: "l4", num: 4, title: "Question Words", blurb:
+  "Chinese keeps the word order of a statement and slots in a question word where the answer would go.",
+  words: [
+    ["什么","shénme","pron.","what","你叫什么名字？","Nǐ jiào shénme míngzi?","What's your name?"],
+    ["谁","shéi","pron.","who","他是谁？","Tā shì shéi?","Who is he?"],
+    ["哪","nǎ","pron.","which","你是哪国人？","Nǐ shì nǎ guó rén?","Which country are you from?"],
+    ["哪个","nǎge","pron.","which one","你要哪个？","Nǐ yào nǎge?","Which one do you want?"],
+    ["哪里","nǎlǐ","pron.","where","你去哪里？","Nǐ qù nǎlǐ?","Where are you going?"],
+    ["哪儿","nǎr","pron.","where","你住在哪儿？","Nǐ zhù zài nǎr?","Where do you live?"],
+    ["哪些","nǎxiē","pron.","which ones","哪些是你的？","Nǎxiē shì nǐ de?","Which ones are yours?"],
+    ["几","jǐ","pron.","how many (small)","你家有几口人？","Nǐ jiā yǒu jǐ kǒu rén?","How many people are in your family?"],
+    ["多少","duōshao","pron.","how many / much","这个多少钱？","Zhège duōshao qián?","How much is this?"],
+    ["怎么","zěnme","pron.","how","这个字怎么读？","Zhège zì zěnme dú?","How do you read this character?"],
+    ["怎么样","zěnmeyàng","pron.","how about","今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","How is the weather today?"]
+  ]
+},
+{ id: "l5", num: 5, title: "Numbers", blurb:
+  "0 to 10 are the building blocks. Combine for two- and three-digit numbers. 两 replaces 二 before measure words.",
+  words: [
+    ["零","líng","num.","zero","零下三度。","Líng xià sān dù.","Three degrees below zero."],
+    ["一","yī","num.","one","我有一个哥哥。","Wǒ yǒu yí gè gēge.","I have one older brother."],
+    ["二","èr","num.","two","二月很冷。","Èr yuè hěn lěng.","February is very cold."],
+    ["两","liǎng","num.","two (with MW)","我要两杯茶。","Wǒ yào liǎng bēi chá.","I want two cups of tea."],
+    ["三","sān","num.","three","我有三个朋友。","Wǒ yǒu sān gè péngyou.","I have three friends."],
+    ["四","sì","num.","four","他四岁。","Tā sì suì.","He is four years old."],
+    ["五","wǔ","num.","five","现在五点。","Xiànzài wǔ diǎn.","It's five o'clock now."],
+    ["六","liù","num.","six","六月很热。","Liù yuè hěn rè.","June is very hot."],
+    ["七","qī","num.","seven","一个星期有七天。","Yí gè xīngqī yǒu qī tiān.","A week has seven days."],
+    ["八","bā","num.","eight","我家有八口人。","Wǒ jiā yǒu bā kǒu rén.","My family has eight people."],
+    ["九","jiǔ","num.","nine","他九岁了。","Tā jiǔ suì le.","He is nine now."],
+    ["十","shí","num.","ten","我十点睡觉。","Wǒ shí diǎn shuìjiào.","I sleep at ten."],
+    ["百","bǎi","num.","hundred","这本书一百块。","Zhè běn shū yì bǎi kuài.","This book is 100 yuan."],
+    ["千","qiān","num.","thousand","这个手机三千块。","Zhège shǒujī sān qiān kuài.","This phone is 3000 yuan."],
+    ["半","bàn","num./adv.","half","现在五点半。","Xiànzài wǔ diǎn bàn.","It's 5:30 now."],
+    ["一半","yíbàn","num.","one half","我喝了一半。","Wǒ hē le yíbàn.","I drank half of it."],
+    ["第","dì","prefix","ordinal prefix","他是第一名。","Tā shì dì-yī míng.","He is first place."]
+  ]
+},
+{ id: "l6", num: 6, title: "Measure Words", blurb:
+  "Chinese counts almost everything through a measure word: number + measure word + noun. 个 is the generic one.",
+  words: [
+    ["个","gè","mw.","generic MW","我有一个问题。","Wǒ yǒu yí gè wèntí.","I have a question."],
+    ["本","běn","mw.","MW for books","这本书很好看。","Zhè běn shū hěn hǎokàn.","This book is great."],
+    ["件","jiàn","mw.","MW for clothes / matters","这件衣服很漂亮。","Zhè jiàn yīfu hěn piàoliang.","This piece of clothing is pretty."],
+    ["块","kuài","mw.","yuan / piece","一杯茶五块钱。","Yì bēi chá wǔ kuài qián.","A cup of tea is 5 yuan."],
+    ["口","kǒu","mw.","MW for family members","我家有四口人。","Wǒ jiā yǒu sì kǒu rén.","My family has four people."],
+    ["只","zhī","mw.","MW for animals","我有一只猫。","Wǒ yǒu yì zhī māo.","I have one cat."],
+    ["元","yuán","mw.","yuan (formal)","这个面包十元。","Zhège miànbāo shí yuán.","This bread is 10 yuan."],
+    ["些","xiē","mw.","some, several","桌子上有些书。","Zhuōzi shàng yǒu xiē shū.","There are some books on the table."],
+    ["一些","yìxiē","mw.","some","我有一些朋友。","Wǒ yǒu yìxiē péngyou.","I have some friends."],
+    ["一点儿","yìdiǎnr","mw.","a little","我会一点儿汉语。","Wǒ huì yìdiǎnr Hànyǔ.","I know a little Chinese."],
+    ["有点儿","yǒudiǎnr","adv.","a little (negative)","今天有点儿冷。","Jīntiān yǒudiǎnr lěng.","Today is a little cold."],
+    ["一下","yíxià","mw./adv.","once / a moment","请等一下。","Qǐng děng yíxià.","Please wait a moment."],
+    ["岁","suì","mw.","years of age","我妹妹七岁。","Wǒ mèimei qī suì.","My younger sister is seven."]
+  ]
+},
+{ id: "l7", num: 7, title: "Family", blurb:
+  "The HSK 1 family centers on the nuclear unit. 家 covers both home and family, and 家人 names the members.",
+  words: [
+    ["家","jiā","n./mw.","home, family","我家在北京。","Wǒ jiā zài Běijīng.","My home is in Beijing."],
+    ["家人","jiārén","n.","family members","我爱我的家人。","Wǒ ài wǒ de jiārén.","I love my family."],
+    ["爸爸","bàba","n.","father, dad","我爸爸是医生。","Wǒ bàba shì yīshēng.","My dad is a doctor."],
+    ["妈妈","māma","n.","mother, mom","妈妈正在做饭。","Māma zhèngzài zuòfàn.","Mom is cooking."],
+    ["哥哥","gēge","n.","older brother","我哥哥很高兴。","Wǒ gēge hěn gāoxìng.","My older brother is happy."],
+    ["姐姐","jiějie","n.","older sister","姐姐在上班。","Jiějie zài shàngbān.","Older sister is at work."],
+    ["弟弟","dìdi","n.","younger brother","弟弟在睡觉。","Dìdi zài shuìjiào.","Younger brother is sleeping."],
+    ["妹妹","mèimei","n.","younger sister","妹妹喜欢猫。","Mèimei xǐhuan māo.","Younger sister likes cats."],
+    ["儿子","érzi","n.","son","他有一个儿子。","Tā yǒu yí gè érzi.","He has one son."],
+    ["女儿","nǚ'ér","n.","daughter","我女儿三岁。","Wǒ nǚ'ér sān suì.","My daughter is three."],
+    ["孩子","háizi","n.","child","孩子在玩。","Háizi zài wán.","The child is playing."],
+    ["男朋友","nánpéngyou","n.","boyfriend","她有男朋友吗？","Tā yǒu nánpéngyou ma?","Does she have a boyfriend?"],
+    ["女朋友","nǚpéngyou","n.","girlfriend","他的女朋友很漂亮。","Tā de nǚpéngyou hěn piàoliang.","His girlfriend is very pretty."]
+  ]
+},
+{ id: "l8", num: 8, title: "People & Identity", blurb:
+  "Words for naming people you meet, work with, or learn with. Notice the pattern 大学/中学/小学 plus 生 for student.",
+  words: [
+    ["人","rén","n.","person","我是中国人。","Wǒ shì Zhōngguó rén.","I am Chinese."],
+    ["男","nán","adj.","male","他是男老师。","Tā shì nán lǎoshī.","He is a male teacher."],
+    ["女","nǚ","adj.","female","她是女医生。","Tā shì nǚ yīshēng.","She is a female doctor."],
+    ["先生","xiānsheng","n.","mister, sir","王先生你好。","Wáng xiānsheng nǐ hǎo.","Hello, Mr. Wang."],
+    ["女士","nǚshì","n.","madam, ms.","李女士在吗？","Lǐ nǚshì zài ma?","Is Ms. Li here?"],
+    ["朋友","péngyou","n.","friend","他是我的好朋友。","Tā shì wǒ de hǎo péngyou.","He is my good friend."],
+    ["小朋友","xiǎopéngyǒu","n.","kid","小朋友很可爱。","Xiǎopéngyǒu hěn kě'ài.","The kid is cute."],
+    ["老师","lǎoshī","n.","teacher","老师在上课。","Lǎoshī zài shàngkè.","The teacher is teaching."],
+    ["学生","xuéshēng","n.","student","我是学生。","Wǒ shì xuéshēng.","I am a student."],
+    ["大学生","dàxuéshēng","n.","university student","他是大学生。","Tā shì dàxuéshēng.","He is a university student."],
+    ["中学生","zhōngxuéshēng","n.","middle schooler","我哥哥是中学生。","Wǒ gēge shì zhōngxuéshēng.","My older brother is in middle school."],
+    ["小学生","xiǎoxuéshēng","n.","primary schooler","妹妹是小学生。","Mèimei shì xiǎoxuéshēng.","My younger sister is in primary school."],
+    ["同学","tóngxué","n.","classmate","他是我同学。","Tā shì wǒ tóngxué.","He is my classmate."],
+    ["医生","yīshēng","n.","doctor","医生在医院。","Yīshēng zài yīyuàn.","The doctor is at the hospital."],
+    ["名字","míngzi","n.","name","我的名字是小明。","Wǒ de míngzi shì Xiǎomíng.","My name is Xiaoming."]
+  ]
+},
+{ id: "l9", num: 9, title: "Time, Days & Dates", blurb:
+  "Dates go big to small: 年, then 月, then 日/号. Hours use 点, minutes use 分. Bare 半 means half past.",
+  words: [
+    ["年","nián","n./mw.","year","今年是二〇二六年。","Jīnnián shì èr líng èr liù nián.","This year is 2026."],
+    ["月","yuè","n.","month","三月很漂亮。","Sān yuè hěn piàoliang.","March is very pretty."],
+    ["日","rì","mw./n.","day (of month)","今天是五月一日。","Jīntiān shì wǔ yuè yī rì.","Today is May 1st."],
+    ["号","hào","n./mw.","date, number","今天是几号？","Jīntiān shì jǐ hào?","What's the date today?"],
+    ["天","tiān","n./mw.","day, sky","我学了三天汉语。","Wǒ xué le sān tiān Hànyǔ.","I studied Chinese for three days."],
+    ["星期","xīngqī","n.","week","下个星期我去中国。","Xià gè xīngqī wǒ qù Zhōngguó.","Next week I'm going to China."],
+    ["星期日","xīngqīrì","n.","Sunday","星期日我不上班。","Xīngqīrì wǒ bú shàngbān.","I don't work on Sunday."],
+    ["星期天","xīngqītiān","n.","Sunday","星期天我们一起玩。","Xīngqītiān wǒmen yìqǐ wán.","Let's play together Sunday."],
+    ["今天","jīntiān","n.","today","今天天气很好。","Jīntiān tiānqì hěn hǎo.","Today's weather is great."],
+    ["明天","míngtiān","n.","tomorrow","明天我去学校。","Míngtiān wǒ qù xuéxiào.","Tomorrow I'm going to school."],
+    ["昨天","zuótiān","n.","yesterday","昨天我没上班。","Zuótiān wǒ méi shàngbān.","Yesterday I didn't work."],
+    ["今年","jīnnián","n.","this year","今年我二十岁。","Jīnnián wǒ èrshí suì.","I am 20 this year."],
+    ["明年","míngnián","n.","next year","明年我去大学。","Míngnián wǒ qù dàxué.","Next year I'll go to university."],
+    ["去年","qùnián","n.","last year","去年我去了中国。","Qùnián wǒ qù le Zhōngguó.","Last year I went to China."],
+    ["白天","báitiān","n.","daytime","白天我上班。","Báitiān wǒ shàngbān.","I work during the day."],
+    ["早上","zǎoshang","n.","early morning","早上我喝牛奶。","Zǎoshang wǒ hē niúnǎi.","I drink milk in the morning."],
+    ["上午","shàngwǔ","n.","late morning","上午我有课。","Shàngwǔ wǒ yǒu kè.","I have class in the morning."],
+    ["中午","zhōngwǔ","n.","noon","中午我吃米饭。","Zhōngwǔ wǒ chī mǐfàn.","I eat rice at noon."],
+    ["下午","xiàwǔ","n.","afternoon","下午我休息。","Xiàwǔ wǒ xiūxi.","I rest in the afternoon."],
+    ["晚上","wǎnshang","n.","evening","晚上我看电视。","Wǎnshang wǒ kàn diànshì.","In the evening I watch TV."],
+    ["现在","xiànzài","n.","now","现在几点？","Xiànzài jǐ diǎn?","What time is it now?"],
+    ["时候","shíhou","n.","time, moment","你什么时候来？","Nǐ shénme shíhou lái?","When are you coming?"],
+    ["时间","shíjiān","n.","time","我没有时间。","Wǒ méiyǒu shíjiān.","I don't have time."],
+    ["点","diǎn","mw./n.","o'clock","现在三点。","Xiànzài sān diǎn.","It's three o'clock now."],
+    ["分","fēn","mw.","minute","三点十分。","Sān diǎn shí fēn.","Three ten."],
+    ["分钟","fēnzhōng","mw.","minute(s)","等我五分钟。","Děng wǒ wǔ fēnzhōng.","Wait five minutes for me."],
+    ["小时","xiǎoshí","n.","hour","我学了两个小时。","Wǒ xué le liǎng gè xiǎoshí.","I studied for two hours."],
+    ["早","zǎo","adj.","early","你早！","Nǐ zǎo!","Good morning."],
+    ["晚","wǎn","adj.","late","对不起，我来晚了。","Duìbuqǐ, wǒ lái wǎn le.","Sorry, I'm late."]
+  ]
+},
+{ id: "l10", num: 10, title: "Daily Verbs", blurb:
+  "What you do from morning to night. Several verbs are 离合词 (separable verb-object pairs) like 睡觉, 上班, 看病.",
+  words: [
+    ["起床","qǐchuáng","v.","get up","我七点起床。","Wǒ qī diǎn qǐchuáng.","I get up at seven."],
+    ["睡","shuì","v.","sleep","他在睡。","Tā zài shuì.","He is sleeping."],
+    ["睡觉","shuìjiào","v.","sleep","我十点睡觉。","Wǒ shí diǎn shuìjiào.","I go to bed at ten."],
+    ["休息","xiūxi","v.","rest","你休息一下。","Nǐ xiūxi yíxià.","You rest a bit."],
+    ["吃","chī","v.","eat","我们吃饭吧。","Wǒmen chī fàn ba.","Let's eat."],
+    ["喝","hē","v.","drink","我喝水。","Wǒ hē shuǐ.","I drink water."],
+    ["看","kàn","v.","look, watch, read","我看书。","Wǒ kàn shū.","I read a book."],
+    ["看见","kànjiàn","v.","see","我看见他了。","Wǒ kànjiàn tā le.","I saw him."],
+    ["听","tīng","v.","listen","我听歌。","Wǒ tīng gē.","I listen to music."],
+    ["听见","tīngjiàn","v.","hear","你听见了吗？","Nǐ tīngjiàn le ma?","Did you hear?"],
+    ["说","shuō","v.","speak, say","他说什么？","Tā shuō shénme?","What did he say?"],
+    ["说话","shuōhuà","v.","speak, talk","老师在说话。","Lǎoshī zài shuōhuà.","The teacher is talking."],
+    ["读","dú","v.","read aloud","请读这个字。","Qǐng dú zhège zì.","Please read this character."],
+    ["读书","dúshū","v.","study, read books","他在读书。","Tā zài dúshū.","He is studying."],
+    ["写","xiě","v.","write","我写汉字。","Wǒ xiě Hànzì.","I write Chinese characters."],
+    ["唱","chàng","v.","sing","我喜欢唱歌。","Wǒ xǐhuan chàng gē.","I like to sing."],
+    ["玩","wán","v.","play","孩子们在玩。","Háizi men zài wán.","The kids are playing."],
+    ["学","xué","v.","study","我学汉语。","Wǒ xué Hànyǔ.","I study Chinese."],
+    ["学习","xuéxí","v.","study, learn","我喜欢学习。","Wǒ xǐhuan xuéxí.","I like to study."],
+    ["上学","shàngxué","v.","go to school","弟弟九点上学。","Dìdi jiǔ diǎn shàngxué.","Younger brother goes to school at nine."],
+    ["上课","shàngkè","v.","attend class","我们正在上课。","Wǒmen zhèngzài shàngkè.","We are in class."],
+    ["下课","xiàkè","v.","class ends","三点下课。","Sān diǎn xiàkè.","Class ends at three."],
+    ["上班","shàngbān","v.","go to work","爸爸去上班。","Bàba qù shàngbān.","Dad goes to work."],
+    ["下班","xiàbān","v.","get off work","妈妈五点下班。","Māma wǔ diǎn xiàbān.","Mom gets off work at five."],
+    ["工作","gōngzuò","v./n.","work","他的工作很忙。","Tā de gōngzuò hěn máng.","His job is very busy."],
+    ["做","zuò","v.","do, make","你在做什么？","Nǐ zài zuò shénme?","What are you doing?"],
+    ["做饭","zuòfàn","v.","cook","妈妈在做饭。","Māma zài zuòfàn.","Mom is cooking."],
+    ["来","lái","v.","come","你来不来？","Nǐ lái bù lái?","Are you coming?"],
+    ["去","qù","v.","go","我去学校。","Wǒ qù xuéxiào.","I'm going to school."],
+    ["回","huí","v.","return","我回家。","Wǒ huí jiā.","I'm going home."],
+    ["到","dào","v.","arrive, reach","我到学校了。","Wǒ dào xuéxiào le.","I've arrived at school."],
+    ["住","zhù","v.","live, stay","我住在北京。","Wǒ zhù zài Běijīng.","I live in Beijing."],
+    ["坐","zuò","v.","sit","请坐这儿。","Qǐng zuò zhèr.","Please sit here."],
+    ["开","kāi","v.","open, drive","请开门。","Qǐng kāi mén.","Please open the door."],
+    ["开车","kāichē","v.","drive a car","爸爸会开车。","Bàba huì kāichē.","Dad can drive."],
+    ["打电话","dǎ diànhuà","v.","make a phone call","我给妈妈打电话。","Wǒ gěi māma dǎ diànhuà.","I'm calling Mom."],
+    ["穿","chuān","v.","wear, put on","今天穿什么？","Jīntiān chuān shénme?","What to wear today?"],
+    ["买","mǎi","v.","buy","我买了一本书。","Wǒ mǎi le yì běn shū.","I bought a book."],
+    ["卖","mài","v.","sell","商店卖衣服。","Shāngdiàn mài yīfu.","The shop sells clothes."],
+    ["找","zhǎo","v.","look for","我找我的手机。","Wǒ zhǎo wǒ de shǒujī.","I'm looking for my phone."],
+    ["见","jiàn","v.","meet, see","明天见！","Míngtiān jiàn!","See you tomorrow."]
+  ]
+},
+{ id: "l11", num: 11, title: "Mental & Modal Verbs", blurb:
+  "These verbs name how you think, want, and can. Modal verbs (会, 能, 可以, 想, 要) come before the main verb.",
+  words: [
+    ["是","shì","v.","to be","我是老师。","Wǒ shì lǎoshī.","I am a teacher."],
+    ["有","yǒu","v.","to have","我有两个姐姐。","Wǒ yǒu liǎng gè jiějie.","I have two older sisters."],
+    ["没有","méiyǒu","v./adv.","not have, did not","他没有手机。","Tā méiyǒu shǒujī.","He doesn't have a phone."],
+    ["在","zài","v./prep.","be at, in","我在学校。","Wǒ zài xuéxiào.","I'm at school."],
+    ["叫","jiào","v.","be called","我叫小明。","Wǒ jiào Xiǎomíng.","My name is Xiaoming."],
+    ["问","wèn","v.","ask","我问老师。","Wǒ wèn lǎoshī.","I ask the teacher."],
+    ["认识","rènshi","v.","know, recognize","很高兴认识你。","Hěn gāoxìng rènshi nǐ.","Nice to meet you."],
+    ["知道","zhīdào","v.","know (a fact)","我不知道。","Wǒ bù zhīdào.","I don't know."],
+    ["觉得","juéde","v.","feel, think","我觉得很好。","Wǒ juéde hěn hǎo.","I think it's great."],
+    ["爱","ài","v.","love","我爱我的家人。","Wǒ ài wǒ de jiārén.","I love my family."],
+    ["喜欢","xǐhuan","v.","like","我喜欢喝茶。","Wǒ xǐhuan hē chá.","I like drinking tea."],
+    ["想","xiǎng","v.","want, think","我想去中国。","Wǒ xiǎng qù Zhōngguó.","I want to go to China."],
+    ["要","yào","v.","want, will","我要一杯水。","Wǒ yào yì bēi shuǐ.","I want a glass of water."],
+    ["不要","búyào","adv.","don't","不要说话。","Búyào shuōhuà.","Don't talk."],
+    ["给","gěi","v./prep.","give, to","给我一本书。","Gěi wǒ yì běn shū.","Give me a book."],
+    ["会","huì","v.","can, will (learned)","我会说汉语。","Wǒ huì shuō Hànyǔ.","I can speak Chinese."],
+    ["能","néng","v.","be able to","你能来吗？","Nǐ néng lái ma?","Can you come?"],
+    ["可以","kěyǐ","v./adj.","may, can","我可以坐这儿吗？","Wǒ kěyǐ zuò zhèr ma?","May I sit here?"]
+  ]
+},
+{ id: "l12", num: 12, title: "Adjectives", blurb:
+  "Most HSK 1 adjectives take 很 in plain affirmative sentences (我很高兴). Drop the noun copula 是: never say 我是高兴.",
+  words: [
+    ["大","dà","adj.","big","这个学校很大。","Zhège xuéxiào hěn dà.","This school is big."],
+    ["小","xiǎo","adj./prefix","small","我家有一只小狗。","Wǒ jiā yǒu yì zhī xiǎo gǒu.","My family has a small dog."],
+    ["多","duō","adj./adv.","many, much","今天人很多。","Jīntiān rén hěn duō.","There are a lot of people today."],
+    ["少","shǎo","adj.","few, little","水果太少了。","Shuǐguǒ tài shǎo le.","There's too little fruit."],
+    ["好","hǎo","adj.","good","今天天气很好。","Jīntiān tiānqì hěn hǎo.","Today's weather is good."],
+    ["新","xīn","adj.","new","这是我的新手机。","Zhè shì wǒ de xīn shǒujī.","This is my new phone."],
+    ["贵","guì","adj.","expensive","这件衣服很贵。","Zhè jiàn yīfu hěn guì.","This piece of clothing is expensive."],
+    ["便宜","piányi","adj.","cheap","水果很便宜。","Shuǐguǒ hěn piányi.","The fruit is cheap."],
+    ["冷","lěng","adj.","cold","今天很冷。","Jīntiān hěn lěng.","Today is cold."],
+    ["热","rè","adj.","hot","水很热。","Shuǐ hěn rè.","The water is hot."],
+    ["忙","máng","adj./v.","busy","爸爸很忙。","Bàba hěn máng.","Dad is very busy."],
+    ["高兴","gāoxìng","adj.","happy","我很高兴。","Wǒ hěn gāoxìng.","I'm very happy."],
+    ["漂亮","piàoliang","adj.","pretty","她很漂亮。","Tā hěn piàoliang.","She is very pretty."],
+    ["好吃","hǎochī","adj.","tasty","这个菜很好吃。","Zhège cài hěn hǎochī.","This dish is tasty."],
+    ["好看","hǎokàn","adj.","good-looking","这本书很好看。","Zhè běn shū hěn hǎokàn.","This book is great."],
+    ["好听","hǎotīng","adj.","pleasant to hear","这首歌很好听。","Zhè shǒu gē hěn hǎotīng.","This song is lovely."],
+    ["好玩儿","hǎowánr","adj.","fun","这个很好玩儿。","Zhège hěn hǎowánr.","This is fun."],
+    ["对","duì","adj./prep.","correct, toward","你说得对。","Nǐ shuō de duì.","You're right."]
+  ]
+},
+{ id: "l13", num: 13, title: "Adverbs", blurb:
+  "Adverbs sit before the verb or adjective. 不 negates verbs and adjectives; 没(有) negates 有 and past actions.",
+  words: [
+    ["不","bù","adv.","not","我不去。","Wǒ bú qù.","I'm not going."],
+    ["都","dōu","adv.","all, both","我们都是学生。","Wǒmen dōu shì xuéshēng.","We are all students."],
+    ["也","yě","adv.","also, too","我也喜欢茶。","Wǒ yě xǐhuan chá.","I like tea too."],
+    ["很","hěn","adv.","very (also linker)","今天很热。","Jīntiān hěn rè.","Today is hot."],
+    ["太","tài","adv.","too (excessive)","太贵了。","Tài guì le.","Too expensive."],
+    ["真","zhēn","adv./adj.","really","这个真好吃。","Zhège zhēn hǎochī.","This is really tasty."],
+    ["非常","fēicháng","adv.","extremely","他非常忙。","Tā fēicháng máng.","He is extremely busy."],
+    ["还","hái","adv.","still, also","我还想吃。","Wǒ hái xiǎng chī.","I still want to eat."],
+    ["再","zài","adv.","again","再说一下。","Zài shuō yíxià.","Say it again."],
+    ["正在","zhèngzài","adv.","currently doing","他正在睡觉。","Tā zhèngzài shuìjiào.","He is currently sleeping."]
+  ]
+},
+{ id: "l14", num: 14, title: "Particles", blurb:
+  "Small grammar markers. They sit at the end of phrases or sentences and tone the whole sentence.",
+  words: [
+    ["的","de","part.","possessive / modifier","这是我的书。","Zhè shì wǒ de shū.","This is my book."],
+    ["了","le","part.","completion / change","我吃了。","Wǒ chī le.","I've eaten."],
+    ["吗","ma","part.","yes/no question","你是学生吗？","Nǐ shì xuéshēng ma?","Are you a student?"],
+    ["呢","ne","part.","follow-up question","我很好，你呢？","Wǒ hěn hǎo, nǐ ne?","I'm fine, and you?"],
+    ["吧","ba","part.","suggestion / softener","我们走吧。","Wǒmen zǒu ba.","Let's go."],
+    ["们","men","suffix","plural for people","老师们好。","Lǎoshī men hǎo.","Hello, teachers."]
+  ]
+},
+{ id: "l15", num: 15, title: "Prepositions & Conjunctions", blurb:
+  "Just a handful at HSK 1, but they tie sentences together. 在 introduces location; 和 joins two nouns.",
+  words: [
+    ["和","hé","prep./conj.","and, with","我和爸爸去学校。","Wǒ hé bàba qù xuéxiào.","Dad and I go to school."],
+    ["对","duì","prep.","toward","他对我很好。","Tā duì wǒ hěn hǎo.","He is very nice to me."],
+    ["在","zài","prep.","at, in","他在学校学习。","Tā zài xuéxiào xuéxí.","He studies at school."],
+    ["给","gěi","prep.","for, to","我给你打电话。","Wǒ gěi nǐ dǎ diànhuà.","I'll call you."]
+  ]
+},
+{ id: "l16", num: 16, title: "Places & Buildings", blurb:
+  "The everyday geography of an HSK 1 learner: school, work, hospital, shops, and home.",
+  words: [
+    ["学校","xuéxiào","n.","school","我的学校很大。","Wǒ de xuéxiào hěn dà.","My school is big."],
+    ["大学","dàxué","n.","university","他在北京大学。","Tā zài Běijīng Dàxué.","He's at Peking University."],
+    ["中学","zhōngxué","n.","middle school","哥哥上中学。","Gēge shàng zhōngxué.","Older brother is in middle school."],
+    ["小学","xiǎoxué","n.","primary school","小学在那边。","Xiǎoxué zài nàbiān.","The primary school is over there."],
+    ["医院","yīyuàn","n.","hospital","医院在前边。","Yīyuàn zài qiánbian.","The hospital is up ahead."],
+    ["商店","shāngdiàn","n.","shop","商店九点开门。","Shāngdiàn jiǔ diǎn kāi mén.","The shop opens at nine."],
+    ["超市","chāoshì","n.","supermarket","超市里有水果。","Chāoshì lǐ yǒu shuǐguǒ.","There's fruit in the supermarket."],
+    ["书店","shūdiàn","n.","bookstore","书店在学校旁边。","Shūdiàn zài xuéxiào pángbiān.","The bookstore is next to the school."],
+    ["饭店","fàndiàn","n.","restaurant","这个饭店很贵。","Zhège fàndiàn hěn guì.","This restaurant is expensive."],
+    ["电影院","diànyǐngyuàn","n.","cinema","电影院在那里。","Diànyǐngyuàn zài nàlǐ.","The cinema is over there."],
+    ["公司","gōngsī","n.","company","爸爸在公司工作。","Bàba zài gōngsī gōngzuò.","Dad works at the company."],
+    ["房间","fángjiān","n.","room","我的房间很小。","Wǒ de fángjiān hěn xiǎo.","My room is small."],
+    ["店","diàn","n.","shop","那家店很大。","Nà jiā diàn hěn dà.","That shop is big."],
+    ["国","guó","n.","country","你是哪国人？","Nǐ shì nǎ guó rén?","Which country are you from?"],
+    ["中国","Zhōngguó","n.","China","我想去中国。","Wǒ xiǎng qù Zhōngguó.","I want to go to China."]
+  ]
+},
+{ id: "l17", num: 17, title: "Locations & Directions", blurb:
+  "Position words attach to nouns: 桌子上, 学校里, 家外, 那边. 在 + location says where something is.",
+  words: [
+    ["上","shàng","n./v.","up, above","书在桌子上。","Shū zài zhuōzi shàng.","The book is on the table."],
+    ["下","xià","n./v.","down, below","椅子下有猫。","Yǐzi xià yǒu māo.","There's a cat under the chair."],
+    ["里","lǐ","n.","inside","房间里没人。","Fángjiān lǐ méi rén.","There's no one in the room."],
+    ["外","wài","n.","outside","外边很冷。","Wàibian hěn lěng.","It's cold outside."],
+    ["前","qián","n.","front, before","家前面有车。","Jiā qiánmiàn yǒu chē.","There's a car in front of the house."],
+    ["后","hòu","n.","back, after","下课后我去吃饭。","Xiàkè hòu wǒ qù chī fàn.","After class I'll go eat."],
+    ["边","biān","n./suffix","side","在我旁边。","Zài wǒ pángbiān.","Next to me."],
+    ["外边","wàibian","n.","outside","外边在下雨。","Wàibian zài xiàyǔ.","It's raining outside."]
+  ]
+},
+{ id: "l18", num: 18, title: "Food & Drink", blurb:
+  "Three meals plus the most common dishes and drinks. 早饭 is breakfast, 午饭 lunch, 晚饭 dinner.",
+  words: [
+    ["饭","fàn","n.","meal, rice","吃饭了吗？","Chī fàn le ma?","Have you eaten?"],
+    ["菜","cài","n.","dish, vegetable","这个菜很好吃。","Zhège cài hěn hǎochī.","This dish is tasty."],
+    ["米饭","mǐfàn","n.","cooked rice","我要一碗米饭。","Wǒ yào yì wǎn mǐfàn.","I want a bowl of rice."],
+    ["面包","miànbāo","n.","bread","早上我吃面包。","Zǎoshang wǒ chī miànbāo.","I eat bread in the morning."],
+    ["面条儿","miàntiáor","n.","noodles","我喜欢吃面条儿。","Wǒ xǐhuan chī miàntiáor.","I like to eat noodles."],
+    ["包子","bāozi","n.","baozi (steamed bun)","我吃了三个包子。","Wǒ chī le sān gè bāozi.","I ate three baozi."],
+    ["饺子","jiǎozi","n.","dumplings","妈妈做饺子。","Māma zuò jiǎozi.","Mom makes dumplings."],
+    ["鸡蛋","jīdàn","n.","egg","我要两个鸡蛋。","Wǒ yào liǎng gè jīdàn.","I want two eggs."],
+    ["水果","shuǐguǒ","n.","fruit","我喜欢吃水果。","Wǒ xǐhuan chī shuǐguǒ.","I like to eat fruit."],
+    ["苹果","píngguǒ","n.","apple","这个苹果真好吃。","Zhège píngguǒ zhēn hǎochī.","This apple is really tasty."],
+    ["茶","chá","n.","tea","我喝茶。","Wǒ hē chá.","I drink tea."],
+    ["水","shuǐ","n.","water","请给我水。","Qǐng gěi wǒ shuǐ.","Please give me water."],
+    ["牛奶","niúnǎi","n.","milk","早上喝牛奶。","Zǎoshang hē niúnǎi.","Drink milk in the morning."],
+    ["早饭","zǎofàn","n.","breakfast","我没吃早饭。","Wǒ méi chī zǎofàn.","I didn't eat breakfast."],
+    ["午饭","wǔfàn","n.","lunch","午饭吃米饭。","Wǔfàn chī mǐfàn.","Eat rice for lunch."],
+    ["晚饭","wǎnfàn","n.","dinner","晚饭后我去玩。","Wǎnfàn hòu wǒ qù wán.","After dinner I'll go play."],
+    ["东西","dōngxi","n.","thing(s)","我买了很多东西。","Wǒ mǎi le hěn duō dōngxi.","I bought a lot of things."]
+  ]
+},
+{ id: "l19", num: 19, title: "Body & Health", blurb:
+  "HSK 1 stays simple here: getting sick, seeing a doctor, going to the hospital, and the things that go wrong.",
+  words: [
+    ["病","bìng","n./v.","illness, sick","他有病。","Tā yǒu bìng.","He is sick."],
+    ["生病","shēngbìng","v.","get sick","妹妹生病了。","Mèimei shēngbìng le.","Younger sister got sick."],
+    ["看病","kànbìng","v.","see a doctor","我去医院看病。","Wǒ qù yīyuàn kànbìng.","I'm going to the hospital to see a doctor."],
+    ["事","shì","n.","matter, thing","你有事吗？","Nǐ yǒu shì ma?","Do you have something to do?"],
+    ["问题","wèntí","n.","question, problem","我有一个问题。","Wǒ yǒu yí gè wèntí.","I have a question."]
+  ]
+},
+{ id: "l20", num: 20, title: "Weather", blurb:
+  "Talk about the weather and the seasons. 下雨/下雪 use 下 as a verb (literally 'to come down').",
+  words: [
+    ["天气","tiānqì","n.","weather","今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","How's the weather today?"],
+    ["雨","yǔ","n.","rain","雨很大。","Yǔ hěn dà.","The rain is heavy."],
+    ["下雨","xiàyǔ","v.","to rain","明天下雨。","Míngtiān xiàyǔ.","It will rain tomorrow."],
+    ["雪","xuě","n.","snow","北京有雪。","Běijīng yǒu xuě.","Beijing has snow."],
+    ["冷","lěng","adj.","cold","冬天很冷。","Dōngtiān hěn lěng.","Winter is cold."],
+    ["热","rè","adj.","hot","今天很热。","Jīntiān hěn rè.","Today is hot."]
+  ]
+},
+{ id: "l21", num: 21, title: "Transport", blurb:
+  "How you get around. 坐 is the verb for taking public transport; 开 is for driving.",
+  words: [
+    ["车","chē","n.","car, vehicle","车在外边。","Chē zài wàibian.","The car is outside."],
+    ["出租车","chūzūchē","n.","taxi","坐出租车去机场。","Zuò chūzūchē qù jīchǎng.","Take a taxi to the airport."],
+    ["飞机","fēijī","n.","airplane","我坐飞机回家。","Wǒ zuò fēijī huí jiā.","I take a plane home."],
+    ["火车","huǒchē","n.","train","火车很快。","Huǒchē hěn kuài.","The train is fast."]
+  ]
+},
+{ id: "l22", num: 22, title: "Money & Shopping", blurb:
+  "Prices follow the pattern 数 + 块 + 钱. 块 is the colloquial money word; 元 is its formal sibling.",
+  words: [
+    ["钱","qián","n.","money","我没有钱。","Wǒ méiyǒu qián.","I don't have money."]
+  ]
+},
+{ id: "l23", num: 23, title: "Tech & Everyday Objects", blurb:
+  "The things on a desk, in a pocket, and around the house.",
+  words: [
+    ["电话","diànhuà","n.","phone, call","你的电话是多少？","Nǐ de diànhuà shì duōshao?","What's your phone number?"],
+    ["电脑","diànnǎo","n.","computer","我的电脑是新的。","Wǒ de diànnǎo shì xīn de.","My computer is new."],
+    ["电视","diànshì","n.","television","晚上我看电视。","Wǎnshang wǒ kàn diànshì.","I watch TV in the evening."],
+    ["电影","diànyǐng","n.","movie","我喜欢看电影。","Wǒ xǐhuan kàn diànyǐng.","I like watching movies."],
+    ["手机","shǒujī","n.","mobile phone","我的手机在桌子上。","Wǒ de shǒujī zài zhuōzi shàng.","My phone is on the table."],
+    ["书","shū","n.","book","这本书很好。","Zhè běn shū hěn hǎo.","This book is good."],
+    ["字","zì","n.","character","这个字怎么读？","Zhège zì zěnme dú?","How is this character read?"],
+    ["课","kè","n.","class, lesson","今天有三节课。","Jīntiān yǒu sān jié kè.","Today has three classes."],
+    ["衣服","yīfu","n.","clothes","我买了新衣服。","Wǒ mǎi le xīn yīfu.","I bought new clothes."],
+    ["杯子","bēizi","n.","cup","杯子里有茶。","Bēizi lǐ yǒu chá.","There's tea in the cup."],
+    ["椅子","yǐzi","n.","chair","椅子很新。","Yǐzi hěn xīn.","The chair is new."],
+    ["桌子","zhuōzi","n.","table","桌子上有书。","Zhuōzi shàng yǒu shū.","There are books on the table."],
+    ["歌","gē","n.","song","这首歌真好听。","Zhè shǒu gē zhēn hǎotīng.","This song sounds great."]
+  ]
+},
+{ id: "l24", num: 24, title: "Language & Learning", blurb:
+  "Words about the language you're studying. 汉语 emphasizes the spoken side, 中文 the language as a whole, 汉字 the writing.",
+  words: [
+    ["汉语","Hànyǔ","n.","Chinese (spoken)","我学汉语。","Wǒ xué Hànyǔ.","I study Chinese."],
+    ["汉字","Hànzì","n.","Chinese character","汉字很漂亮。","Hànzì hěn piàoliang.","Chinese characters are beautiful."],
+    ["中文","Zhōngwén","n.","Chinese (language)","他说中文。","Tā shuō Zhōngwén.","He speaks Chinese."]
+  ]
+},
+{ id: "l25", num: 25, title: "Animals & Affixes", blurb:
+  "The two HSK 1 animals, plus the morpheme-level pieces that build words.",
+  words: [
+    ["狗","gǒu","n.","dog","我有一只小狗。","Wǒ yǒu yì zhī xiǎo gǒu.","I have a small dog."],
+    ["猫","māo","n.","cat","猫在椅子上。","Māo zài yǐzi shàng.","The cat is on the chair."]
+  ]
+}
+];
+</script>
+</main>
+
+<script>
+function render() {
+  const root = document.getElementById('lessons');
+  root.innerHTML = LESSONS.map(L => `
+    <section id="${L.id}" class="mb-16 scroll-mt-8">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-widest accent">Lesson ${L.num}</span>
+        <span class="text-xs text-zinc-400">${L.words.length} words</span>
+        <a href="/tb${L.num}" class="ml-auto text-xs font-medium px-2.5 py-1 rounded-md border border-zinc-300 hover:border-accent hover:text-accent text-zinc-700 transition">Practice this lesson →</a>
+      </div>
+      <h2 class="text-3xl font-bold tracking-tight text-zinc-900 mb-3">${L.title}</h2>
+      <p class="text-zinc-600 leading-relaxed mb-7 max-w-2xl">${L.blurb}</p>
+      <div class="grid sm:grid-cols-2 gap-3">
+        ${L.words.map(w => `
+          <div class="word-card border border-zinc-200 rounded-lg p-4 bg-white">
+            <div class="flex items-baseline gap-3 mb-1">
+              <span class="han text-2xl font-semibold text-zinc-900">${w[0]}</span>
+              <span class="py-tone text-sm font-medium text-zinc-700">${w[1]}</span>
+              <span class="ml-auto text-[11px] uppercase tracking-wider text-zinc-400">${w[2]}</span>
+            </div>
+            <div class="text-sm text-zinc-700 mb-2">${w[3]}</div>
+            <div class="ex pt-2 mt-1 border-t border-zinc-100 text-sm text-zinc-500">
+              <div class="han text-zinc-900">${w[4]}</div>
+              <div class="py-tone text-zinc-500 mt-0.5">${w[5]}</div>
+              <div class="text-zinc-500 mt-0.5">${w[6]}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </section>
+  `).join('');
+}
+render();
+
+// Active-section highlight in TOC
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.nav-link').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { rootMargin: "-30% 0px -60% 0px" });
+document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

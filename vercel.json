@@ -9,6 +9,8 @@
     { "source": "/lesson6", "destination": "/lesson6.html" },
     { "source": "/dialogues", "destination": "/dialogues.html" },
     { "source": "/conversation", "destination": "/conversation.html" },
-    { "source": "/ordering", "destination": "/ordering.html" }
+    { "source": "/ordering", "destination": "/ordering.html" },
+    { "source": "/textbook", "destination": "/hsk-1-textbook.html" },
+    { "source": "/tb:n(\\d+)", "destination": "/textbook-lesson.html?n=:n" }
   ]
 }
