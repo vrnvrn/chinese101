@@ -227,6 +227,9 @@
         margin-top: 0.1rem;
     }
     .q-opt.selected .opt-en { color: rgba(255,255,255,0.75); }
+    /* Hide English gloss under Chinese options during the quiz — it gives the answer away.
+       Revealed again in results view so users can see what each option meant. */
+    body:not(.results) .q-opt.bilingual .opt-en { display: none; }
 
     /* Result mode coloring */
     body.results .q-opt { cursor: default; }
@@ -480,7 +483,8 @@ function renderOption(opt, i) {
     if (opt.en) {
         body += `<div class="opt-en">${escapeHTML(opt.en)}</div>`;
     }
-    return `<button type="button" class="q-opt" data-opt="${i}">
+    const bilingual = opt.han && opt.en ? ' bilingual' : '';
+    return `<button type="button" class="q-opt${bilingual}" data-opt="${i}">
         <span class="opt-marker">${letter}</span>
         <span class="opt-body">${body}</span>
     </button>`;
