@@ -207,11 +207,44 @@
     .fc-back .fc-ex-han { font-size: 1.3rem; color: #1a1a1a; margin-bottom: 0.3rem; }
     .fc-back .fc-ex-py { font-size: 0.85rem; color: #64748b; margin-bottom: 0.15rem; }
     .fc-back .fc-ex-en { font-size: 0.85rem; color: #64748b; }
+    .fc-char-breakdown {
+        display: none;
+        margin: 0 0 1rem;
+        padding: 0.55rem 0.8rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 32rem;
+    }
+    .fc-char-breakdown.show { display: block; }
+    .fc-char-breakdown .cb-label {
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #94a3b8;
+        margin-bottom: 0.3rem;
+        text-align: left;
+    }
+    .fc-char-breakdown .cb-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.55rem;
+        padding: 0.16rem 0;
+        font-size: 0.85rem;
+        text-align: left;
+    }
+    .fc-char-breakdown .cb-ch { font-family: 'Noto Serif SC', 'PingFang SC', serif; font-size: 1.15rem; color: #1a1a1a; min-width: 1.5rem; }
+    .fc-char-breakdown .cb-py { color: #64748b; font-style: italic; min-width: 3.5rem; }
+    .fc-char-breakdown .cb-en { color: #475569; }
 
     body.hide-pinyin .fc-back .fc-pinyin,
-    body.hide-pinyin .fc-back .fc-ex-py { display: none; }
+    body.hide-pinyin .fc-back .fc-ex-py,
+    body.hide-pinyin .fc-char-breakdown .cb-py { display: none; }
     body.hide-english .fc-back .fc-en,
-    body.hide-english .fc-back .fc-ex-en { display: none; }
+    body.hide-english .fc-back .fc-ex-en,
+    body.hide-english .fc-char-breakdown .cb-en { display: none; }
 
     .controls {
         display: flex;
@@ -294,6 +327,7 @@
                     <span class="fc-pos" id="fc-back-pos"></span>
                     <div class="fc-pinyin" id="fc-back-py"></div>
                     <div class="fc-en" id="fc-back-en"></div>
+                    <div class="fc-char-breakdown" id="fc-back-chars"></div>
                     <div class="fc-ex-han han" id="fc-back-ex-han"></div>
                     <div class="fc-ex-py" id="fc-back-ex-py"></div>
                     <div class="fc-ex-en" id="fc-back-ex-en"></div>
@@ -317,7 +351,21 @@
     </div>
 </main>
 
+<script src="/refs/char-defs.js"></script>
 <script>
+function escapeHTML(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function renderCharBreakdown(root, word) {
+    if (!root) return;
+    const chars = (window.charBreakdown ? window.charBreakdown(word) : []);
+    if (chars.length < 2) { root.classList.remove('show'); root.innerHTML = ''; return; }
+    root.classList.add('show');
+    root.innerHTML = '<div class="cb-label">Characters</div>' + chars.map(c => `
+        <div class="cb-row">
+            <span class="cb-ch">${escapeHTML(c.ch)}</span>
+            <span class="cb-py">${escapeHTML(c.py)}</span>
+            <span class="cb-en">${escapeHTML(c.en)}</span>
+        </div>`).join('');
+}
 const WORDS = [
   ["你好","nǐ hǎo","phrase","hello","你好，老师。","Nǐ hǎo, lǎoshī.","Hello, teacher."],
   ["您","nín","pron.","you (polite)","您好！","Nín hǎo!","Hello (polite)."],
@@ -637,6 +685,7 @@ function render() {
     $('fc-front-han').textContent = w[0];
     $('fc-back-py').textContent = w[1];
     $('fc-back-en').textContent = w[3];
+    renderCharBreakdown($('fc-back-chars'), w[0]);
     $('fc-back-ex-han').textContent = w[4];
     $('fc-back-ex-py').textContent = w[5];
     $('fc-back-ex-en').textContent = w[6];

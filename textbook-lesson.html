@@ -370,6 +370,37 @@
     .fc-back .fc-ex-han { font-size: 1.25rem; color: #1a1a1a; margin-bottom: 0.25rem; }
     .fc-back .fc-ex-py { font-size: 0.85rem; color: #64748b; margin-bottom: 0.15rem; }
     .fc-back .fc-ex-en { font-size: 0.85rem; color: #64748b; }
+    .fc-char-breakdown {
+        display: none;
+        margin: 0 0 1rem;
+        padding: 0.6rem 0.8rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 32rem;
+    }
+    .fc-char-breakdown.show { display: block; }
+    .fc-char-breakdown .cb-label {
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #94a3b8;
+        margin-bottom: 0.35rem;
+        text-align: left;
+    }
+    .fc-char-breakdown .cb-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.55rem;
+        padding: 0.18rem 0;
+        font-size: 0.85rem;
+        text-align: left;
+    }
+    .fc-char-breakdown .cb-ch { font-family: 'Noto Serif SC', 'PingFang SC', serif; font-size: 1.15rem; color: #1a1a1a; min-width: 1.5rem; }
+    .fc-char-breakdown .cb-py { color: #64748b; font-style: italic; min-width: 3.5rem; }
+    .fc-char-breakdown .cb-en { color: #475569; }
 
     .flash-nav { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
     .flash-nav button {
@@ -427,21 +458,32 @@
         border-radius: 0 8px 8px 0;
         margin-bottom: 1.25rem;
     }
+    .dialogue-toolbar {
+        display: flex;
+        gap: 0.4rem;
+        justify-content: flex-end;
+        margin-bottom: 0.6rem;
+    }
+    .dialogue-toolbar .toggle-btn { font-size: 0.72rem; padding: 0.32rem 0.7rem; }
     .dialogue {
         background: white;
         border: 1.5px solid #e5e7eb;
         border-radius: 12px;
-        padding: 1.5rem 1.5rem;
+        padding: 1.25rem 1.5rem;
+        display: block;
     }
     .dl-line {
         display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 100%;
         gap: 0.9rem;
-        padding: 0.9rem 0;
+        padding: 0.7rem 0;
         border-bottom: 1px solid #f1f5f9;
     }
     .dl-line:last-child { border-bottom: none; }
     .dl-speaker {
-        flex-shrink: 0;
+        flex: 0 0 2.2rem;
         width: 2.2rem;
         height: 2.2rem;
         border-radius: 50%;
@@ -451,13 +493,16 @@
         align-items: center;
         justify-content: center;
         color: white;
+        margin-top: 0.1rem;
     }
     .dl-speaker.spk-A { background: #1a1a1a; }
     .dl-speaker.spk-B { background: #d97706; }
-    .dl-text { flex: 1; min-width: 0; }
-    .dl-han { font-size: 1.15rem; color: #1a1a1a; margin-bottom: 0.2rem; line-height: 1.5; }
-    .dl-py  { font-size: 0.82rem; color: #64748b; font-style: italic; margin-bottom: 0.15rem; }
-    .dl-en  { font-size: 0.88rem; color: #475569; }
+    .dl-text { flex: 1 1 auto; min-width: 0; }
+    .dl-han { font-size: 1.2rem; color: #1a1a1a; margin-bottom: 0.25rem; line-height: 1.5; }
+    .dl-py  { font-size: 0.85rem; color: #64748b; font-style: italic; margin-bottom: 0.15rem; display: none; }
+    .dl-en  { font-size: 0.9rem; color: #475569; display: none; }
+    #dialogue.show-py .dl-py { display: block; }
+    #dialogue.show-en .dl-en { display: block; }
 
     /* Bottom lesson nav */
     .bottom-nav {
@@ -531,7 +576,7 @@
     <a href="#flashcards" class="toc-link section-link">Flashcards</a>
     <a href="#vocabulary" class="toc-link section-link">Vocabulary</a>
     <a href="#grammar"    class="toc-link section-link">Grammar Focus</a>
-    <a href="#dialogue"   class="toc-link section-link">Full Dialogue</a>
+    <a href="#dialogue-section" class="toc-link section-link">Full Dialogue</a>
 
     <div class="toc-section-label">All 25 Lessons</div>
     <div id="toc-lessons"></div>
@@ -578,6 +623,7 @@
                 <div class="fc-face fc-back">
                     <div class="fc-pinyin" id="fc-back-py"></div>
                     <div class="fc-en" id="fc-back-en"></div>
+                    <div class="fc-char-breakdown" id="fc-back-chars"></div>
                     <div class="fc-ex-han han" id="fc-back-ex-han"></div>
                     <div class="fc-ex-py" id="fc-back-ex-py"></div>
                     <div class="fc-ex-en" id="fc-back-ex-en"></div>
@@ -609,12 +655,16 @@
     </div>
 </section>
 
-<section class="section last" id="dialogue">
+<section class="section last" id="dialogue-section">
     <div class="section-inner">
         <div class="section-label">Step 4 · Full Dialogue</div>
         <div class="section-title">A short conversation using this lesson</div>
-        <p class="section-sub">Read line by line. The pinyin and English toggles above apply here too, so you can quiz yourself.</p>
+        <p class="section-sub">Chinese stays on. Toggle pinyin or English when you want to check yourself.</p>
         <div class="dialogue-meta" id="dialogue-meta"></div>
+        <div class="dialogue-toolbar">
+            <button class="toggle-btn" id="dl-py-btn" onclick="toggleDialogue('py')">Pinyin</button>
+            <button class="toggle-btn" id="dl-en-btn" onclick="toggleDialogue('en')">English</button>
+        </div>
         <div class="dialogue" id="dialogue"></div>
     </div>
 </section>
@@ -639,6 +689,7 @@
 </main>
 </div>
 
+<script src="/refs/char-defs.js"></script>
 <script>
 const LESSONS = [
 { id: "l1", num: 1, title: "Greetings & Pleasantries", blurb:
@@ -1885,12 +1936,26 @@ function renderFlashcard() {
     document.getElementById('fc-front-han').textContent = w[0];
     document.getElementById('fc-back-py').textContent = w[1];
     document.getElementById('fc-back-en').textContent = w[3];
+    renderCharBreakdown(document.getElementById('fc-back-chars'), w[0]);
     document.getElementById('fc-back-ex-han').textContent = w[4];
     document.getElementById('fc-back-ex-py').textContent = w[5];
     document.getElementById('fc-back-ex-en').textContent = w[6];
     document.getElementById('flash-progress').textContent = `${cardIdx + 1} / ${cards.length}`;
     document.getElementById('flash-prev').disabled = cardIdx === 0;
     document.getElementById('flash-next').disabled = cardIdx === cards.length - 1;
+}
+
+function renderCharBreakdown(root, word) {
+    if (!root) return;
+    const chars = (window.charBreakdown ? window.charBreakdown(word) : []);
+    if (chars.length < 2) { root.classList.remove('show'); root.innerHTML = ''; return; }
+    root.classList.add('show');
+    root.innerHTML = '<div class="cb-label">Characters</div>' + chars.map(c => `
+        <div class="cb-row">
+            <span class="cb-ch">${escapeHTML(c.ch)}</span>
+            <span class="cb-py">${escapeHTML(c.py)}</span>
+            <span class="cb-en">${escapeHTML(c.en)}</span>
+        </div>`).join('');
 }
 
 function renderTocLessons() {
@@ -1940,6 +2005,14 @@ function setupToggles() {
         document.body.classList.toggle('hide-english', willHide);
         en.classList.toggle('active', !willHide);
     });
+}
+
+function toggleDialogue(which) {
+    const dl = document.getElementById('dialogue');
+    const btn = document.getElementById(which === 'py' ? 'dl-py-btn' : 'dl-en-btn');
+    const cls = which === 'py' ? 'show-py' : 'show-en';
+    const on = dl.classList.toggle(cls);
+    btn.classList.toggle('active', on);
 }
 
 function setupFlashcard() {
