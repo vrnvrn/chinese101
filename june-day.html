@@ -205,12 +205,10 @@
     .fc-back .fc-ex-py { font-size: 0.85rem; color: #64748b; margin-bottom: 0.15rem; }
     .fc-back .fc-ex-en { font-size: 0.85rem; color: #64748b; }
 
-    body.hide-pinyin .fc-back .fc-pinyin,
-    body.hide-pinyin .fc-back .fc-ex-py,
+    /* Pinyin/English toggles only affect the word-list table — the flashcard
+       back always shows the full reveal, since that is the answer side. */
     body.hide-pinyin .col-py,
     body.hide-pinyin .ex-py { display: none; }
-    body.hide-english .fc-back .fc-en,
-    body.hide-english .fc-back .fc-ex-en,
     body.hide-english .col-en,
     body.hide-english .ex-en { display: none; }
 
@@ -469,14 +467,7 @@ function renderVocab() {
                 <div class="day-label">June · Day ${day}${info.kind === 'review' ? ' · Review' : ''}</div>
                 <h1>${rangeLabel}</h1>
             </div>
-            <span class="count">${words.length} words</span>
-        </div>
-
-        <div class="toggles">
-            <span class="gt-label">Show</span>
-            <button class="toggle-btn active" id="toggle-pinyin"><span class="dot"></span>Pinyin</button>
-            <button class="toggle-btn active" id="toggle-english"><span class="dot"></span>English</button>
-            <span class="progress" id="progress">1 / ${words.length}</span>
+            <span class="count"><span id="progress">1 / ${words.length}</span> · ${words.length} words</span>
         </div>
 
         <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
@@ -515,6 +506,12 @@ function renderVocab() {
         <div class="section-divider">
             <h2>Word list</h2>
             <div class="rule"></div>
+        </div>
+
+        <div class="toggles">
+            <span class="gt-label">Show</span>
+            <button class="toggle-btn" id="toggle-pinyin"><span class="dot"></span>Pinyin</button>
+            <button class="toggle-btn" id="toggle-english"><span class="dot"></span>English</button>
         </div>
 
         <table class="word-table">
@@ -606,6 +603,9 @@ function renderVocab() {
 
     render();
 }
+
+// Word list defaults to hanzi-only — pinyin and english must be toggled on.
+document.body.classList.add('hide-pinyin', 'hide-english');
 
 if (!day) renderMissing();
 else if (!info) renderMissing();
