@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>June Accelerated Course · Chinese 101</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f5f5f5;
+        color: #2d3748;
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .han { font-family: 'Noto Serif SC', 'PingFang SC', 'Songti SC', serif; }
+
+    .topbar {
+        background: rgba(26,26,26,0.96);
+        backdrop-filter: blur(8px);
+        color: white;
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.85rem;
+    }
+    .topbar a {
+        color: rgba(255,255,255,0.75);
+        text-decoration: none;
+        padding: 0.3rem 0.65rem;
+        border-radius: 6px;
+        transition: background 0.15s, color 0.15s;
+    }
+    .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+    .topbar .title { font-weight: 600; color: white; margin-left: 0.25rem; }
+    .topbar .badge {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: #10b981;
+        color: #052e1f;
+        padding: 0.18rem 0.5rem;
+        border-radius: 4px;
+        margin-left: 0.25rem;
+    }
+    .topbar .spacer { flex: 1; }
+
+    .hero {
+        background: linear-gradient(135deg, #052e1f 0%, #0a4f37 100%);
+        color: white;
+        padding: 1.75rem 1.5rem 1.5rem;
+        display: flex;
+        justify-content: center;
+    }
+    .hero-inner { max-width: 980px; width: 100%; }
+    .hero .label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.55);
+        margin-bottom: 0.35rem;
+    }
+    .hero h1 {
+        font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 0.4rem;
+    }
+    .hero .sub {
+        font-size: 0.92rem;
+        color: rgba(255,255,255,0.7);
+        max-width: 620px;
+    }
+
+    main {
+        flex: 1;
+        padding: 1.75rem 1.25rem 2.5rem;
+        display: flex;
+        justify-content: center;
+    }
+    .wrap { max-width: 980px; width: 100%; }
+
+    .legend {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 0.9rem;
+        font-size: 0.75rem;
+        color: #555;
+        flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+    .legend-swatch {
+        width: 14px; height: 14px; border-radius: 3px;
+        border: 1.5px solid #d1d5db; background: white;
+    }
+    .legend-swatch.vocab { background: #d1fae5; border-color: #6ee7b7; }
+    .legend-swatch.review { background: #e0e7ff; border-color: #a5b4fc; }
+    .legend-swatch.event { background: #fef3c7; border-color: #fcd34d; }
+
+    .calendar {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .cal-grid {
+        display: grid;
+        grid-template-columns: 64px repeat(8, 1fr);
+    }
+    .cal-head {
+        background: #1a1a1a;
+        color: white;
+        padding: 0.6rem 0.5rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-align: center;
+    }
+    .cal-head.row-label { background: #0f0f0f; }
+    .cal-row-label {
+        background: #fafafa;
+        padding: 0.5rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #555;
+        letter-spacing: 0.04em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+    }
+    .cal-cell {
+        position: relative;
+        min-height: 84px;
+        padding: 0.5rem 0.55rem 0.55rem;
+        border-top: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+        background: white;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        transition: background 0.12s, transform 0.1s;
+    }
+    .cal-cell:last-child { border-right: none; }
+    .cal-cell.empty { background: #fafafa; }
+    .cal-cell.vocab { background: #ecfdf5; }
+    .cal-cell.review { background: #eef2ff; }
+    .cal-cell.event { background: #fffbeb; }
+    a.cal-cell:hover {
+        background: #1a1a1a;
+        color: white;
+        z-index: 1;
+    }
+    a.cal-cell:hover .cal-range,
+    a.cal-cell:hover .cal-event { color: rgba(255,255,255,0.9); }
+    a.cal-cell:hover .cal-date { color: white; }
+    .cal-date {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        line-height: 1;
+    }
+    .cal-range {
+        font-size: 0.78rem;
+        color: #047857;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+    .cal-cell.review .cal-range { color: #4338ca; }
+    .cal-event {
+        font-size: 0.78rem;
+        color: #92400e;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        line-height: 1.25;
+    }
+    .cal-cell.event.exam .cal-event { color: #991b1b; }
+    .cal-cell.event.exam { background: #fef2f2; }
+
+    /* Mobile: collapse to single-column list */
+    @media (max-width: 720px) {
+        .cal-grid { grid-template-columns: 1fr; }
+        .cal-head { display: none; }
+        .cal-head.row-label { display: none; }
+        .cal-row-label {
+            grid-column: 1 / -1;
+            background: #1a1a1a;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.55rem 0.75rem;
+            justify-content: flex-start;
+            border-right: none;
+        }
+        .cal-cell {
+            min-height: 0;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.7rem 0.85rem;
+            border-right: none;
+        }
+        .cal-cell.empty { display: none; }
+        .cal-date {
+            font-size: 0.95rem;
+            min-width: 1.8rem;
+        }
+        .cal-date::before {
+            content: attr(data-dow) ' · ';
+            font-size: 0.65rem;
+            color: #888;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+        a.cal-cell:hover .cal-date::before { color: rgba(255,255,255,0.6); }
+    }
+
+    .intro {
+        font-size: 0.88rem;
+        color: #555;
+        margin-bottom: 1rem;
+    }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <a href="/">← Chinese 101</a>
+    <span class="title">June Accelerated Course</span>
+    <span class="badge">New</span>
+    <div class="spacer"></div>
+    <a href="/practice">All 300 Flashcards</a>
+</div>
+
+<div class="hero">
+    <div class="hero-inner">
+        <div class="label">Network School</div>
+        <h1>June Accelerated Course</h1>
+        <p class="sub">Four weeks. 300 HSK 1 words. Tap any day to drill that day's vocabulary as flashcards with example sentences.</p>
+    </div>
+</div>
+
+<main>
+    <div class="wrap">
+        <p class="intro">Green = new vocabulary. Indigo = review block. Yellow = course event. Tap a day to open its flashcard set.</p>
+        <div class="legend">
+            <div class="legend-item"><span class="legend-swatch vocab"></span>New vocab</div>
+            <div class="legend-item"><span class="legend-swatch review"></span>Review</div>
+            <div class="legend-item"><span class="legend-swatch event"></span>Course event</div>
+        </div>
+
+        <div class="calendar">
+            <div class="cal-grid" id="cal-grid"></div>
+        </div>
+    </div>
+</main>
+
+<script src="/refs/june-schedule.js"></script>
+<script>
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const grid = document.getElementById('cal-grid');
+const parts = [];
+
+// Header row
+parts.push('<div class="cal-head row-label">Week</div>');
+DOW.forEach(d => parts.push(`<div class="cal-head">${d}</div>`));
+
+// Week rows
+window.JUNE_SCHEDULE.weeks.forEach((week, wi) => {
+    parts.push(`<div class="cal-row-label">Week ${wi + 1}</div>`);
+    week.forEach((day, di) => {
+        const dow = DOW[di];
+        if (day === null) {
+            parts.push('<div class="cal-cell empty"></div>');
+            return;
+        }
+        const info = window.JUNE_SCHEDULE.days[day];
+        if (!info) {
+            parts.push(`<div class="cal-cell"><div class="cal-date" data-dow="${dow}">${day}</div></div>`);
+            return;
+        }
+        if (info.type === 'vocab') {
+            const cls = info.kind === 'review' ? 'review' : 'vocab';
+            parts.push(`<a class="cal-cell ${cls}" href="/june/day/${day}">
+                <div class="cal-date" data-dow="${dow}">${day}</div>
+                <div class="cal-range">生词 ${info.start}–${info.end}</div>
+            </a>`);
+        } else if (info.type === 'event') {
+            const isExam = /exam/i.test(info.title);
+            parts.push(`<div class="cal-cell event${isExam ? ' exam' : ''}">
+                <div class="cal-date" data-dow="${dow}">${day}</div>
+                <div class="cal-event">${info.title}</div>
+            </div>`);
+        }
+    });
+});
+
+grid.innerHTML = parts.join('');
+</script>
+
+</body>
+</html>

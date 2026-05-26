@@ -15,6 +15,8 @@
     { "source": "/practice", "destination": "/practice.html" },
     { "source": "/test", "destination": "/test.html" },
     { "source": "/travel", "destination": "/travel.html" },
-    { "source": "/grammar", "destination": "/grammar.html" }
+    { "source": "/grammar", "destination": "/grammar.html" },
+    { "source": "/june", "destination": "/june.html" },
+    { "source": "/june/day/:n(\\d+)", "destination": "/june-day.html?n=:n" }
   ]
 }

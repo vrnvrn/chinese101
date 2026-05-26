@@ -1,0 +1,37 @@
+// June Accelerated Course schedule.
+// Maps each June day to either a vocab range (1-indexed into HSK1_WORDS) or an event.
+window.JUNE_SCHEDULE = {
+    weeks: [
+        [null, 1, 2, 3, 4, 5, 6, 7],
+        [8, 9, 10, 11, 12, 13, 14, 15],
+        [16, 17, 18, 19, 20, 21, 22, 23],
+        [24, 25, 26, 27, 28, 29, 30, null],
+    ],
+    days: {
+        1:  { type: 'event', title: 'Check-In' },
+        2:  { type: 'event', title: 'Orientation' },
+        3:  { type: 'vocab', start: 1,   end: 25  },
+        4:  { type: 'vocab', start: 26,  end: 50  },
+        5:  { type: 'vocab', start: 51,  end: 75  },
+        6:  { type: 'vocab', start: 76,  end: 100 },
+        7:  { type: 'vocab', start: 1,   end: 100, kind: 'review' },
+        9:  { type: 'vocab', start: 101, end: 125 },
+        10: { type: 'vocab', start: 126, end: 150 },
+        11: { type: 'vocab', start: 151, end: 175 },
+        12: { type: 'vocab', start: 176, end: 200 },
+        13: { type: 'vocab', start: 101, end: 200, kind: 'review' },
+        14: { type: 'vocab', start: 1,   end: 100, kind: 'review' },
+        15: { type: 'vocab', start: 101, end: 200, kind: 'review' },
+        17: { type: 'vocab', start: 201, end: 225 },
+        18: { type: 'vocab', start: 226, end: 250 },
+        19: { type: 'vocab', start: 251, end: 275 },
+        20: { type: 'vocab', start: 276, end: 300 },
+        21: { type: 'vocab', start: 201, end: 300, kind: 'review' },
+        22: { type: 'vocab', start: 1,   end: 150, kind: 'review' },
+        23: { type: 'vocab', start: 151, end: 300, kind: 'review' },
+        25: { type: 'vocab', start: 1,   end: 300, kind: 'review' },
+        26: { type: 'vocab', start: 1,   end: 300, kind: 'review' },
+        27: { type: 'vocab', start: 1,   end: 300, kind: 'review' },
+        28: { type: 'event', title: 'JOHOR EXAM' },
+    },
+};
