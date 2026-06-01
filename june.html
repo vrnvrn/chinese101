@@ -76,6 +76,18 @@
         color: rgba(255,255,255,0.7);
         max-width: 620px;
     }
+    .hero .meet {
+        display: inline-block;
+        margin-top: 0.6rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: white;
+        background: rgba(255,255,255,0.13);
+        border: 1px solid rgba(255,255,255,0.18);
+        padding: 0.35rem 0.7rem;
+        border-radius: 6px;
+        letter-spacing: 0.02em;
+    }
 
     main {
         flex: 1;
@@ -101,7 +113,6 @@
     }
     .legend-swatch.vocab { background: #d1fae5; border-color: #6ee7b7; }
     .legend-swatch.review { background: #e0e7ff; border-color: #a5b4fc; }
-    .legend-swatch.event { background: #fef3c7; border-color: #fcd34d; }
     .legend-swatch.exam { background: #fee2e2; border-color: #fecaca; }
 
     .calendar {
@@ -112,7 +123,7 @@
     }
     .cal-grid {
         display: grid;
-        grid-template-columns: 64px repeat(8, 1fr);
+        grid-template-columns: repeat(7, 1fr);
     }
     .cal-head {
         background: #1a1a1a;
@@ -123,19 +134,10 @@
         letter-spacing: 0.06em;
         text-align: center;
     }
-    .cal-head.row-label { background: #0f0f0f; }
-    .cal-row-label {
-        background: #fafafa;
-        padding: 0.5rem;
-        font-size: 0.72rem;
-        font-weight: 700;
-        color: #555;
-        letter-spacing: 0.04em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-top: 1px solid #e5e7eb;
-        border-right: 1px solid #e5e7eb;
+    .cal-weekbreak {
+        grid-column: 1 / -1;
+        height: 1px;
+        background: #d1d5db;
     }
     .cal-cell {
         position: relative;
@@ -185,8 +187,6 @@
         letter-spacing: 0.04em;
         line-height: 1.25;
     }
-    .cal-cell.event.exam .cal-event { color: #991b1b; }
-    .cal-cell.event.exam { background: #fef2f2; }
     .cal-exam {
         font-size: 0.65rem;
         font-weight: 800;
@@ -210,16 +210,7 @@
     @media (max-width: 720px) {
         .cal-grid { grid-template-columns: 1fr; }
         .cal-head { display: none; }
-        .cal-head.row-label { display: none; }
-        .cal-row-label {
-            grid-column: 1 / -1;
-            background: #1a1a1a;
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.55rem 0.75rem;
-            justify-content: flex-start;
-            border-right: none;
-        }
+        .cal-weekbreak { display: none; }
         .cal-cell {
             min-height: 0;
             flex-direction: row;
@@ -268,16 +259,16 @@
         <div class="label">Network School</div>
         <h1>June Accelerated Course</h1>
         <p class="sub">Four weeks. 300 HSK 1 words. Tap any day to drill that day's vocabulary as flashcards with example sentences.</p>
+        <div class="meet">Tuesdays – Fridays · 5pm · NS Library</div>
     </div>
 </div>
 
 <main>
     <div class="wrap">
-        <p class="intro">Green = new vocabulary. Indigo = review block. Yellow = course event. Red badge marks a mock exam day. Tap a day to open its flashcard set.</p>
+        <p class="intro">Green = new vocabulary. Indigo = review block. Red badge marks a mock exam day. Tap a day to open its flashcard set.</p>
         <div class="legend">
             <div class="legend-item"><span class="legend-swatch vocab"></span>New vocab</div>
             <div class="legend-item"><span class="legend-swatch review"></span>Review</div>
-            <div class="legend-item"><span class="legend-swatch event"></span>Course event</div>
             <div class="legend-item"><span class="legend-swatch exam"></span>Mock exam</div>
         </div>
 
@@ -289,17 +280,16 @@
 
 <script src="/refs/june-schedule.js"></script>
 <script>
-const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DOW = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const grid = document.getElementById('cal-grid');
 const parts = [];
 
 // Header row
-parts.push('<div class="cal-head row-label">Week</div>');
 DOW.forEach(d => parts.push(`<div class="cal-head">${d}</div>`));
 
 // Week rows
 window.JUNE_SCHEDULE.weeks.forEach((week, wi) => {
-    parts.push(`<div class="cal-row-label">Week ${wi + 1}</div>`);
+    if (wi > 0) parts.push('<div class="cal-weekbreak"></div>');
     week.forEach((day, di) => {
         const dow = DOW[di];
         if (day === null) {
@@ -320,8 +310,7 @@ window.JUNE_SCHEDULE.weeks.forEach((week, wi) => {
                 ${examTag}
             </a>`);
         } else if (info.type === 'event') {
-            const isExam = /exam/i.test(info.title);
-            parts.push(`<div class="cal-cell event${isExam ? ' exam' : ''}">
+            parts.push(`<div class="cal-cell event">
                 <div class="cal-date" data-dow="${dow}">${day}</div>
                 <div class="cal-event">${info.title}</div>
             </div>`);
