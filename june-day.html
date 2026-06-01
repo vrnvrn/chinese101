@@ -351,6 +351,21 @@
         .word-table td.col-pos, .word-table th.col-pos { display: none; }
     }
 
+    .exam-badge {
+        display: inline-block;
+        font-size: 0.65rem;
+        font-weight: 800;
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fecaca;
+        padding: 0.18rem 0.45rem;
+        border-radius: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        vertical-align: middle;
+        margin-left: 0.35rem;
+    }
+
     .event-panel {
         background: white;
         border: 1.5px solid #e5e7eb;
@@ -461,11 +476,13 @@ function renderVocab() {
     const rangeLabel = `生词 ${info.start}–${info.end}`;
     title.textContent = `Day ${day} · ${rangeLabel}`;
 
+    const examBadge = info.exam
+        ? `<span class="exam-badge">${escapeHTML(info.exam)}</span>` : '';
     content.innerHTML = `
         <div class="header-row">
             <div>
                 <div class="day-label">June · Day ${day}${info.kind === 'review' ? ' · Review' : ''}</div>
-                <h1>${rangeLabel}</h1>
+                <h1>${rangeLabel} ${examBadge}</h1>
             </div>
             <span class="count"><span id="progress">1 / ${words.length}</span> · ${words.length} words</span>
         </div>
