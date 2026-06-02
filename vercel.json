@@ -19,6 +19,7 @@
     { "source": "/june", "destination": "/june.html" },
     { "source": "/june/lesson/1", "destination": "/june-lesson1.html" },
     { "source": "/june/matching", "destination": "/june-matching.html" },
+    { "source": "/june/completion", "destination": "/june-completion.html" },
     { "source": "/june/day/:n(\\d+)", "destination": "/june-day.html?n=:n" }
   ]
 }

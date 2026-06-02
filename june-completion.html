@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>June Completion · Fill the Blank · Chinese 101</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f5f5f5;
+        color: #2d3748;
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .han { font-family: 'Noto Serif SC', 'PingFang SC', 'Songti SC', serif; }
+
+    .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(5,46,31,0.96);
+        backdrop-filter: blur(8px);
+        color: white;
+        padding: 0.65rem 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.82rem;
+        flex-wrap: wrap;
+    }
+    .topbar a {
+        color: rgba(255,255,255,0.78);
+        text-decoration: none;
+        padding: 0.28rem 0.6rem;
+        border-radius: 6px;
+        transition: background 0.15s, color 0.15s;
+    }
+    .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+    .topbar .title { font-weight: 600; color: white; margin-left: 0.15rem; }
+    .topbar .badge {
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: #10b981;
+        color: #052e1f;
+        padding: 0.15rem 0.45rem;
+        border-radius: 4px;
+    }
+    .topbar .spacer { flex: 1; }
+    .topbar .toggle-label {
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+    }
+    .topbar .toggle {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.18);
+        color: rgba(255,255,255,0.6);
+        font: inherit;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.25rem 0.55rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .topbar .toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+    .topbar .toggle.active {
+        background: #10b981;
+        border-color: #10b981;
+        color: #052e1f;
+    }
+
+    main {
+        flex: 1;
+        padding: 1.5rem 1.25rem 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .wrap { max-width: 680px; width: 100%; }
+
+    .header-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.4rem;
+    }
+    .day-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #6b7280;
+    }
+    .header-row h1 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-top: 0.1rem;
+    }
+    .header-row .meta {
+        font-size: 0.82rem;
+        color: #555;
+        font-weight: 600;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 4px;
+        background: #e5e7eb;
+        border-radius: 2px;
+        overflow: hidden;
+        margin: 0.4rem 0 1.1rem;
+    }
+    .progress-fill {
+        height: 100%;
+        background: #0a4f37;
+        transition: width 0.25s;
+    }
+
+    .stage {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 2rem 1.5rem 1.6rem;
+        margin-bottom: 1rem;
+    }
+    .stage .pos {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #0a4f37;
+        background: #d1fae5;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 0.9rem;
+    }
+    .stage .sentence-zh {
+        font-family: 'Noto Serif SC', 'PingFang SC', serif;
+        font-size: clamp(1.5rem, 4.5vw, 2rem);
+        line-height: 1.5;
+        color: #1a1a1a;
+        margin-bottom: 0.6rem;
+    }
+    .stage .blank {
+        display: inline-block;
+        min-width: 3em;
+        border-bottom: 3px solid #0a4f37;
+        margin: 0 0.15em;
+        padding: 0 0.2em;
+        color: transparent;
+        transition: color 0.2s, background 0.2s, border-color 0.2s;
+    }
+    .stage .blank.filled {
+        color: #047857;
+        border-bottom-color: #10b981;
+        background: #ecfdf5;
+        border-radius: 4px 4px 0 0;
+    }
+    .stage .blank.filled-wrong {
+        color: #b91c1c;
+        border-bottom-color: #ef4444;
+        background: #fef2f2;
+        border-radius: 4px 4px 0 0;
+        text-decoration: line-through;
+        text-decoration-color: #ef4444;
+    }
+    .stage .sentence-py {
+        font-size: 0.95rem;
+        color: #64748b;
+        font-style: italic;
+        line-height: 1.4;
+        display: none;
+        margin-bottom: 0.3rem;
+    }
+    .stage .sentence-en {
+        font-size: 0.95rem;
+        color: #475569;
+        line-height: 1.4;
+        display: none;
+    }
+    body.show-pinyin .sentence-py { display: block; }
+    body.show-english .sentence-en { display: block; }
+
+    .options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+        margin-bottom: 0.9rem;
+    }
+    @media (max-width: 460px) {
+        .options { grid-template-columns: 1fr; }
+    }
+    .option {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 0.85rem 0.9rem;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.12s, background 0.12s, transform 0.05s;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        min-height: 64px;
+        font: inherit;
+        color: inherit;
+    }
+    .option:hover:not(:disabled) {
+        border-color: #0a4f37;
+        background: #f0fdf4;
+    }
+    .option:active:not(:disabled) { transform: scale(0.985); }
+    .option:disabled { cursor: default; }
+    .option.correct {
+        background: #d1fae5;
+        border-color: #10b981;
+    }
+    .option.wrong {
+        background: #fee2e2;
+        border-color: #ef4444;
+    }
+    .option.reveal {
+        background: #ecfdf5;
+        border-color: #10b981;
+        border-style: dashed;
+    }
+    .opt-zh {
+        font-family: 'Noto Serif SC', 'PingFang SC', serif;
+        font-size: 1.35rem;
+        color: #1a1a1a;
+        line-height: 1.15;
+    }
+    .opt-py {
+        font-size: 0.8rem;
+        color: #64748b;
+        font-style: italic;
+        display: none;
+    }
+    .opt-en {
+        font-size: 0.78rem;
+        color: #64748b;
+        display: none;
+    }
+    body.show-pinyin .opt-py { display: block; }
+    body.show-english .opt-en { display: block; }
+
+    .feedback {
+        min-height: 1.6rem;
+        margin-bottom: 0.7rem;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: transparent;
+        transition: color 0.2s;
+    }
+    .feedback.ok { color: #047857; }
+    .feedback.bad { color: #b91c1c; }
+    .feedback .han {
+        font-family: 'Noto Serif SC', 'PingFang SC', serif;
+        font-size: 1rem;
+    }
+
+    .controls {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    .ctrl-btn {
+        flex: 1 0 auto;
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #1a1a1a;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.65rem 0.9rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .ctrl-btn:hover:not(:disabled) {
+        border-color: #0a4f37;
+        background: #0a4f37;
+        color: white;
+    }
+    .ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ctrl-btn.primary {
+        background: #0a4f37;
+        color: white;
+        border-color: #0a4f37;
+    }
+    .ctrl-btn.primary:hover:not(:disabled) { background: #052e1f; }
+
+    .footer-note {
+        text-align: center;
+        font-size: 0.75rem;
+        color: #888;
+        margin-top: 1rem;
+    }
+    .footer-note kbd {
+        font-family: ui-monospace, monospace;
+        background: #e5e7eb;
+        border-radius: 4px;
+        padding: 1px 6px;
+        font-size: 0.7rem;
+    }
+
+    .done-card {
+        background: white;
+        border: 1.5px solid #10b981;
+        border-radius: 16px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+    }
+    .done-card h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #052e1f;
+        margin-bottom: 0.4rem;
+    }
+    .done-card .score {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #0a4f37;
+        margin: 0.6rem 0 0.3rem;
+    }
+    .done-card .score-sub {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-bottom: 1.25rem;
+    }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <a href="/june">← June Course</a>
+    <span class="title">June Completion</span>
+    <span class="badge">Fill the blank</span>
+    <div class="spacer"></div>
+    <span class="toggle-label">Show</span>
+    <button class="toggle" id="toggle-pinyin" type="button" onclick="toggleShow('pinyin')">Pinyin</button>
+    <button class="toggle" id="toggle-english" type="button" onclick="toggleShow('english')">English</button>
+</div>
+
+<main>
+    <div class="wrap">
+        <div class="header-row">
+            <div>
+                <div class="day-label">June · Sentence Completion</div>
+                <h1 id="title">Fill the blank</h1>
+            </div>
+            <span class="meta" id="meta">1 / 20 · Score 0</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+        <div id="quiz-area">
+            <div class="stage">
+                <div class="pos" id="pos">verb</div>
+                <div class="sentence-zh han" id="sentence-zh"></div>
+                <div class="sentence-py" id="sentence-py"></div>
+                <div class="sentence-en" id="sentence-en"></div>
+            </div>
+
+            <div class="options" id="options"></div>
+
+            <div class="feedback" id="feedback">&nbsp;</div>
+
+            <div class="controls">
+                <button class="ctrl-btn" id="skip-btn" onclick="skip()">Skip</button>
+                <button class="ctrl-btn primary" id="next-btn" onclick="next()" disabled>Next →</button>
+                <button class="ctrl-btn" id="shuffle-btn" onclick="reset()">New round</button>
+            </div>
+        </div>
+
+        <div class="done-card" id="done" style="display:none;">
+            <div class="day-label">Round complete</div>
+            <h2>Round complete.</h2>
+            <div class="score" id="done-score">0 / 0</div>
+            <div class="score-sub" id="done-sub">0% correct</div>
+            <button class="ctrl-btn primary" onclick="reset()" style="flex:0 0 auto;">New round</button>
+        </div>
+
+        <div class="footer-note">
+            <kbd>1</kbd>–<kbd>4</kbd> choose · <kbd>Enter</kbd> next · <kbd>S</kbd> skip
+        </div>
+    </div>
+</main>
+
+<script src="/refs/hsk1-words.js"></script>
+<script>
+const ROUND_SIZE = 20;
+const WORDS = window.HSK1_WORDS;
+
+// Build a usable pool: only words whose example sentence actually contains the hanzi.
+// (Almost all do, but this is defensive.)
+const POOL = [];
+for (let i = 0; i < WORDS.length; i++) {
+    const w = WORDS[i];
+    if (w[0] && w[4] && w[4].indexOf(w[0]) >= 0) POOL.push(i);
+}
+
+// POS index for distractors.
+const POS_INDEX = {};
+POOL.forEach(i => {
+    const p = WORDS[i][2];
+    (POS_INDEX[p] = POS_INDEX[p] || []).push(i);
+});
+
+let round = [];          // indices into WORDS for this round
+let idx = 0;
+let correct = 0;
+let currentChoices = []; // 4 indices into WORDS
+let currentAnswerSlot = 0;
+let locked = false;
+
+function shuffleInPlace(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function reset() {
+    const allIdx = POOL.slice();
+    shuffleInPlace(allIdx);
+    round = allIdx.slice(0, ROUND_SIZE);
+    idx = 0;
+    correct = 0;
+    locked = false;
+    document.getElementById('done').style.display = 'none';
+    document.getElementById('quiz-area').style.display = '';
+    render();
+}
+
+function buildChoices() {
+    const answerIdx = round[idx];
+    const pos = WORDS[answerIdx][2];
+    // Same-POS pool minus the answer.
+    let pool = (POS_INDEX[pos] || []).filter(i => i !== answerIdx);
+    // Filter out distractors whose hanzi is a substring or superstring of the answer's hanzi,
+    // e.g. don't offer 学校 as a distractor for 学.
+    const ans = WORDS[answerIdx][0];
+    pool = pool.filter(i => {
+        const z = WORDS[i][0];
+        return !ans.includes(z) && !z.includes(ans);
+    });
+    shuffleInPlace(pool);
+    let distractors = pool.slice(0, 3);
+    // Fallback to any word if we don't have 3 same-POS distractors.
+    if (distractors.length < 3) {
+        const fallback = POOL.filter(i => {
+            if (i === answerIdx) return false;
+            const z = WORDS[i][0];
+            return !ans.includes(z) && !z.includes(ans) && !distractors.includes(i);
+        });
+        shuffleInPlace(fallback);
+        distractors = distractors.concat(fallback.slice(0, 3 - distractors.length));
+    }
+    const slots = [answerIdx, ...distractors];
+    shuffleInPlace(slots);
+    currentChoices = slots;
+    currentAnswerSlot = slots.indexOf(answerIdx);
+}
+
+function blankZh(sentence, target) {
+    const i = sentence.indexOf(target);
+    if (i < 0) return { before: sentence, after: '' };
+    return { before: sentence.slice(0, i), after: sentence.slice(i + target.length) };
+}
+
+function blankPy(sentence, targetPy) {
+    if (!sentence || !targetPy) return { before: sentence || '', after: '' };
+    const lo = sentence.toLowerCase();
+    const tgt = targetPy.toLowerCase();
+    let i = lo.indexOf(tgt);
+    if (i < 0) return { before: sentence, after: '' };
+    return { before: sentence.slice(0, i), after: sentence.slice(i + targetPy.length) };
+}
+
+function render() {
+    if (idx >= round.length) { showDone(); return; }
+    buildChoices();
+    locked = false;
+
+    const w = WORDS[round[idx]];
+    const [hanzi, pinyin, pos, english, exZh, exPy, exEn] = w;
+
+    document.getElementById('pos').textContent = pos;
+
+    const zh = blankZh(exZh, hanzi);
+    document.getElementById('sentence-zh').innerHTML =
+        `${escapeHTML(zh.before)}<span class="blank" id="blank-zh"></span>${escapeHTML(zh.after)}`;
+
+    const py = blankPy(exPy, pinyin);
+    document.getElementById('sentence-py').innerHTML =
+        `${escapeHTML(py.before)}<span class="blank" id="blank-py"></span>${escapeHTML(py.after)}`;
+
+    document.getElementById('sentence-en').textContent = exEn;
+
+    document.getElementById('meta').textContent =
+        `${idx + 1} / ${round.length} · Score ${correct}`;
+    document.getElementById('progress-fill').style.width =
+        `${(idx / round.length) * 100}%`;
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('feedback').innerHTML = '&nbsp;';
+    document.getElementById('next-btn').disabled = true;
+    document.getElementById('skip-btn').disabled = false;
+
+    const optsEl = document.getElementById('options');
+    optsEl.innerHTML = currentChoices.map((nIdx, i) => {
+        const n = WORDS[nIdx];
+        return `<button class="option" data-slot="${i}" onclick="pick(${i})">
+            <span class="opt-zh han">${escapeHTML(n[0])}</span>
+            <span class="opt-py">${escapeHTML(n[1])}</span>
+            <span class="opt-en">${escapeHTML(n[3])}</span>
+        </button>`;
+    }).join('');
+}
+
+function fillBlanks(text, pinyinText, klass) {
+    const blankZhEl = document.getElementById('blank-zh');
+    const blankPyEl = document.getElementById('blank-py');
+    if (blankZhEl) {
+        blankZhEl.textContent = text;
+        blankZhEl.classList.add(klass);
+    }
+    if (blankPyEl) {
+        blankPyEl.textContent = pinyinText;
+        blankPyEl.classList.add(klass);
+    }
+}
+
+function pick(slot) {
+    if (locked) return;
+    locked = true;
+    const answer = WORDS[round[idx]];
+    const picked = WORDS[currentChoices[slot]];
+    const btns = document.querySelectorAll('.option');
+    btns.forEach((b, i) => {
+        b.disabled = true;
+        if (i === currentAnswerSlot) b.classList.add('correct');
+        if (i === slot && slot !== currentAnswerSlot) b.classList.add('wrong');
+    });
+    const fb = document.getElementById('feedback');
+    if (slot === currentAnswerSlot) {
+        correct += 1;
+        fillBlanks(answer[0], answer[1], 'filled');
+        fb.className = 'feedback ok';
+        fb.innerHTML = `✓ Correct. <span class="han">${escapeHTML(answer[0])}</span> ${escapeHTML(answer[1])} · ${escapeHTML(answer[3])}`;
+    } else {
+        fillBlanks(picked[0], picked[1], 'filled-wrong');
+        fb.className = 'feedback bad';
+        fb.innerHTML = `✗ Answer: <span class="han">${escapeHTML(answer[0])}</span> ${escapeHTML(answer[1])} · ${escapeHTML(answer[3])}`;
+    }
+    document.getElementById('meta').textContent =
+        `${idx + 1} / ${round.length} · Score ${correct}`;
+    document.getElementById('next-btn').disabled = false;
+    document.getElementById('skip-btn').disabled = true;
+}
+
+function skip() {
+    if (locked) return;
+    locked = true;
+    const answer = WORDS[round[idx]];
+    document.querySelectorAll('.option').forEach((b, i) => {
+        b.disabled = true;
+        if (i === currentAnswerSlot) b.classList.add('reveal');
+    });
+    fillBlanks(answer[0], answer[1], 'filled');
+    const fb = document.getElementById('feedback');
+    fb.className = 'feedback bad';
+    fb.innerHTML = `Skipped. <span class="han">${escapeHTML(answer[0])}</span> ${escapeHTML(answer[1])} · ${escapeHTML(answer[3])}`;
+    document.getElementById('next-btn').disabled = false;
+    document.getElementById('skip-btn').disabled = true;
+}
+
+function next() {
+    if (document.getElementById('next-btn').disabled) return;
+    idx += 1;
+    render();
+}
+
+function showDone() {
+    document.getElementById('quiz-area').style.display = 'none';
+    document.getElementById('done').style.display = '';
+    document.getElementById('done-score').textContent = `${correct} / ${round.length}`;
+    const pct = round.length ? Math.round((correct / round.length) * 100) : 0;
+    document.getElementById('done-sub').textContent = `${pct}% correct`;
+    document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('meta').textContent =
+        `${round.length} / ${round.length} · Score ${correct}`;
+}
+
+function toggleShow(which) {
+    const cls = 'show-' + which;
+    const showing = document.body.classList.toggle(cls);
+    document.getElementById('toggle-' + which).classList.toggle('active', showing);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key >= '1' && e.key <= '4') {
+        const slot = parseInt(e.key, 10) - 1;
+        if (slot < currentChoices.length) pick(slot);
+    } else if (e.key === 'Enter') {
+        if (!document.getElementById('next-btn').disabled) next();
+    } else if (e.key === 's' || e.key === 'S') {
+        if (!document.getElementById('skip-btn').disabled) skip();
+    }
+});
+
+reset();
+</script>
+
+</body>
+</html>
