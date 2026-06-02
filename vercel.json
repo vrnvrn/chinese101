@@ -17,6 +17,7 @@
     { "source": "/travel", "destination": "/travel.html" },
     { "source": "/grammar", "destination": "/grammar.html" },
     { "source": "/june", "destination": "/june.html" },
+    { "source": "/june/lesson/1", "destination": "/june-lesson1.html" },
     { "source": "/june/day/:n(\\d+)", "destination": "/june-day.html?n=:n" }
   ]
 }

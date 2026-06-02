@@ -478,6 +478,8 @@ function renderVocab() {
 
     const examBadge = info.exam
         ? `<span class="exam-badge">${escapeHTML(info.exam)}</span>` : '';
+    const lessonLink = day === 3
+        ? `<a class="ctrl-btn" href="/june/lesson/1" style="flex:0 0 auto;">Open June Lesson 1 →</a>` : '';
     content.innerHTML = `
         <div class="header-row">
             <div>
@@ -486,6 +488,7 @@ function renderVocab() {
             </div>
             <span class="count"><span id="progress">1 / ${words.length}</span> · ${words.length} words</span>
         </div>
+        ${lessonLink ? `<div style="margin-bottom:1rem;">${lessonLink}</div>` : ''}
 
         <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
 
