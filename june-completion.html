@@ -401,9 +401,11 @@
 </main>
 
 <script src="/refs/hsk1-words.js"></script>
+<script src="/refs/hsk1-clusters.js"></script>
 <script>
 const ROUND_SIZE = 20;
 const WORDS = window.HSK1_WORDS;
+const CLUSTERS = window.HSK1_CLUSTERS || {};
 
 // Build a usable pool: only words whose example sentence actually contains the hanzi.
 // (Almost all do, but this is defensive.)
@@ -453,28 +455,44 @@ function reset() {
 
 function buildChoices() {
     const answerIdx = round[idx];
-    const pos = WORDS[answerIdx][2];
-    // Same-POS pool minus the answer.
-    let pool = (POS_INDEX[pos] || []).filter(i => i !== answerIdx);
-    // Filter out distractors whose hanzi is a substring or superstring of the answer's hanzi,
-    // e.g. don't offer 学校 as a distractor for 学.
-    const ans = WORDS[answerIdx][0];
-    pool = pool.filter(i => {
+    const ansHanzi = WORDS[answerIdx][0];
+    const ansPos = WORDS[answerIdx][2];
+    const ansCluster = CLUSTERS[ansHanzi];
+
+    // A candidate is "clean" if its hanzi is not a sub/superstring of the answer
+    // (e.g. don't offer 学校 against 学), and (if strict) it's outside the answer's
+    // semantic cluster (e.g. don't offer 今天 against 星期天).
+    function clean(i, strict) {
+        if (i === answerIdx) return false;
         const z = WORDS[i][0];
-        return !ans.includes(z) && !z.includes(ans);
-    });
+        if (ansHanzi.includes(z) || z.includes(ansHanzi)) return false;
+        if (strict && ansCluster && CLUSTERS[z] === ansCluster) return false;
+        return true;
+    }
+
+    const samePos = (POS_INDEX[ansPos] || []);
+    // Pass 1: same POS + outside cluster.
+    let pool = samePos.filter(i => clean(i, true));
     shuffleInPlace(pool);
     let distractors = pool.slice(0, 3);
-    // Fallback to any word if we don't have 3 same-POS distractors.
+
+    // Pass 2 (fallback): same POS, allow same cluster, only if we couldn't
+    // find 3 distractors with the strict filter.
     if (distractors.length < 3) {
-        const fallback = POOL.filter(i => {
-            if (i === answerIdx) return false;
-            const z = WORDS[i][0];
-            return !ans.includes(z) && !z.includes(ans) && !distractors.includes(i);
-        });
-        shuffleInPlace(fallback);
-        distractors = distractors.concat(fallback.slice(0, 3 - distractors.length));
+        const taken = new Set(distractors);
+        const relaxed = samePos.filter(i => clean(i, false) && !taken.has(i));
+        shuffleInPlace(relaxed);
+        distractors = distractors.concat(relaxed.slice(0, 3 - distractors.length));
     }
+
+    // Pass 3 (fallback): any word, still respecting the substring rule.
+    if (distractors.length < 3) {
+        const taken = new Set(distractors);
+        const any = POOL.filter(i => clean(i, false) && !taken.has(i));
+        shuffleInPlace(any);
+        distractors = distractors.concat(any.slice(0, 3 - distractors.length));
+    }
+
     const slots = [answerIdx, ...distractors];
     shuffleInPlace(slots);
     currentChoices = slots;
