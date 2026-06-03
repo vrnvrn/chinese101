@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>June Accelerated Course · Chinese 101</title>
+<title>HSK 4 Accelerated June · Chinese 101</title>
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -76,18 +76,6 @@
         color: rgba(255,255,255,0.7);
         max-width: 620px;
     }
-    .hero .meet {
-        display: inline-block;
-        margin-top: 0.6rem;
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: white;
-        background: rgba(255,255,255,0.13);
-        border: 1px solid rgba(255,255,255,0.18);
-        padding: 0.35rem 0.7rem;
-        border-radius: 6px;
-        letter-spacing: 0.02em;
-    }
 
     main {
         flex: 1;
@@ -113,7 +101,7 @@
     }
     .legend-swatch.vocab { background: #d1fae5; border-color: #6ee7b7; }
     .legend-swatch.review { background: #e0e7ff; border-color: #a5b4fc; }
-    .legend-swatch.exam { background: #fee2e2; border-color: #fecaca; }
+    .legend-swatch.event { background: #fef3c7; border-color: #fcd34d; }
 
     .calendar {
         background: white;
@@ -123,7 +111,7 @@
     }
     .cal-grid {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: 64px repeat(8, 1fr);
     }
     .cal-head {
         background: #1a1a1a;
@@ -134,10 +122,19 @@
         letter-spacing: 0.06em;
         text-align: center;
     }
-    .cal-weekbreak {
-        grid-column: 1 / -1;
-        height: 1px;
-        background: #d1d5db;
+    .cal-head.row-label { background: #0f0f0f; }
+    .cal-row-label {
+        background: #fafafa;
+        padding: 0.5rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #555;
+        letter-spacing: 0.04em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
     }
     .cal-cell {
         position: relative;
@@ -187,30 +184,23 @@
         letter-spacing: 0.04em;
         line-height: 1.25;
     }
-    .cal-exam {
-        font-size: 0.65rem;
-        font-weight: 800;
-        color: #991b1b;
-        background: #fee2e2;
-        border: 1px solid #fecaca;
-        padding: 0.1rem 0.35rem;
-        border-radius: 4px;
-        align-self: flex-start;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        line-height: 1.2;
-    }
-    a.cal-cell:hover .cal-exam {
-        color: #fee2e2;
-        background: rgba(153,27,27,0.6);
-        border-color: rgba(254,202,202,0.4);
-    }
+    .cal-cell.event.exam .cal-event { color: #991b1b; }
+    .cal-cell.event.exam { background: #fef2f2; }
 
     /* Mobile: collapse to single-column list */
     @media (max-width: 720px) {
         .cal-grid { grid-template-columns: 1fr; }
         .cal-head { display: none; }
-        .cal-weekbreak { display: none; }
+        .cal-head.row-label { display: none; }
+        .cal-row-label {
+            grid-column: 1 / -1;
+            background: #1a1a1a;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.55rem 0.75rem;
+            justify-content: flex-start;
+            border-right: none;
+        }
         .cal-cell {
             min-height: 0;
             flex-direction: row;
@@ -248,34 +238,27 @@
 
 <div class="topbar">
     <a href="/">← Chinese 101</a>
-    <span class="title">June Accelerated Course</span>
-    <span class="badge">New</span>
+    <span class="title">HSK 4 Accelerated June</span>
+    <span class="badge">HSK 4</span>
     <div class="spacer"></div>
-    <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-right:0.1rem;">Lessons</span>
-    <a href="/june/lesson/1">1</a>
-    <a href="/june/lesson/2">2</a>
-    <a href="/june/matching">Matching</a>
-    <a href="/june/completion">Completion</a>
-    <a href="/june/hsk4">HSK 4 →</a>
-    <a href="/practice">All 300 Flashcards</a>
+    <a href="/june">HSK 1 Course</a>
 </div>
 
 <div class="hero">
     <div class="hero-inner">
         <div class="label">Network School</div>
-        <h1>June Accelerated Course</h1>
-        <p class="sub">Four weeks. 300 HSK 1 words. Tap any day to drill that day's vocabulary as flashcards with example sentences.</p>
-        <div class="meet">Tuesdays – Fridays · 5pm · NS Library</div>
+        <h1>HSK 4 Accelerated June</h1>
+        <p class="sub">Four weeks. 1000 HSK 4 (Band 4) words. Same calendar as the HSK 1 course — tap any day to drill that day's vocabulary as flashcards with example sentences.</p>
     </div>
 </div>
 
 <main>
     <div class="wrap">
-        <p class="intro">Green = new vocabulary. Indigo = review block. Red badge marks a mock exam day. Tap a day to open its flashcard set.</p>
+        <p class="intro">Green = new vocabulary. Indigo = review block. Yellow = course event. Tap a day to open its flashcard set.</p>
         <div class="legend">
             <div class="legend-item"><span class="legend-swatch vocab"></span>New vocab</div>
             <div class="legend-item"><span class="legend-swatch review"></span>Review</div>
-            <div class="legend-item"><span class="legend-swatch exam"></span>Mock exam</div>
+            <div class="legend-item"><span class="legend-swatch event"></span>Course event</div>
         </div>
 
         <div class="calendar">
@@ -284,39 +267,40 @@
     </div>
 </main>
 
-<script src="/refs/june-schedule.js"></script>
+<script src="/refs/june4-schedule.js"></script>
 <script>
-const DOW = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const SCHEDULE = window.JUNE4_SCHEDULE;
 const grid = document.getElementById('cal-grid');
 const parts = [];
 
 // Header row
+parts.push('<div class="cal-head row-label">Week</div>');
 DOW.forEach(d => parts.push(`<div class="cal-head">${d}</div>`));
 
 // Week rows
-window.JUNE_SCHEDULE.weeks.forEach((week, wi) => {
-    if (wi > 0) parts.push('<div class="cal-weekbreak"></div>');
+SCHEDULE.weeks.forEach((week, wi) => {
+    parts.push(`<div class="cal-row-label">Week ${wi + 1}</div>`);
     week.forEach((day, di) => {
         const dow = DOW[di];
         if (day === null) {
             parts.push('<div class="cal-cell empty"></div>');
             return;
         }
-        const info = window.JUNE_SCHEDULE.days[day];
+        const info = SCHEDULE.days[day];
         if (!info) {
             parts.push(`<div class="cal-cell"><div class="cal-date" data-dow="${dow}">${day}</div></div>`);
             return;
         }
         if (info.type === 'vocab') {
             const cls = info.kind === 'review' ? 'review' : 'vocab';
-            const examTag = info.exam ? `<div class="cal-exam">${info.exam}</div>` : '';
-            parts.push(`<a class="cal-cell ${cls}${info.exam ? ' has-exam' : ''}" href="/june/day/${day}">
+            parts.push(`<a class="cal-cell ${cls}" href="/june/hsk4/day/${day}">
                 <div class="cal-date" data-dow="${dow}">${day}</div>
                 <div class="cal-range">生词 ${info.start}–${info.end}</div>
-                ${examTag}
             </a>`);
         } else if (info.type === 'event') {
-            parts.push(`<div class="cal-cell event">
+            const isExam = /exam/i.test(info.title);
+            parts.push(`<div class="cal-cell event${isExam ? ' exam' : ''}">
                 <div class="cal-date" data-dow="${dow}">${day}</div>
                 <div class="cal-event">${info.title}</div>
             </div>`);

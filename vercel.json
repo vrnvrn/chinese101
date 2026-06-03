@@ -21,6 +21,8 @@
     { "source": "/june/lesson/2", "destination": "/june-lesson2.html" },
     { "source": "/june/matching", "destination": "/june-matching.html" },
     { "source": "/june/completion", "destination": "/june-completion.html" },
-    { "source": "/june/day/:n(\\d+)", "destination": "/june-day.html?n=:n" }
+    { "source": "/june/day/:n(\\d+)", "destination": "/june-day.html?n=:n" },
+    { "source": "/june/hsk4", "destination": "/june4.html" },
+    { "source": "/june/hsk4/day/:n(\\d+)", "destination": "/june4-day.html?n=:n" }
   ]
 }
