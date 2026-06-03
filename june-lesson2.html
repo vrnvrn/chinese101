@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>June Lesson 2 · Asking Questions &amp; Pointing Around · Chinese 101</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #2d3748; line-height: 1.6; }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #fff; z-index: 1000; transition: width 0.1s; width: 0%; }
+
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 2rem 3rem; }
+        .slide-content { max-width: 820px; width: 100%; }
+        .slide-dark { background: linear-gradient(135deg, #052e1f 0%, #0a4f37 100%); color: white; }
+        .slide-white { background: white; }
+        .slide-gray  { background: #f5f5f5; }
+        .slide-accent { background: linear-gradient(135deg, #052e1f 0%, #0f6e4f 100%); color: white; }
+
+        .slide-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.75rem; }
+        .slide-dark .slide-label, .slide-accent .slide-label { color: rgba(255,255,255,0.55); }
+        h1.slide-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; color: white; margin-bottom: 1rem; }
+        h2.slide-heading { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+        .slide-dark h2.slide-heading, .slide-accent h2.slide-heading { color: white; }
+        .slide-white h2.slide-heading, .slide-gray h2.slide-heading { color: #1a1a1a; }
+        .slide-body { font-size: 1.05rem; line-height: 1.7; color: #444; max-width: 640px; }
+        .slide-dark .slide-body, .slide-accent .slide-body { color: rgba(255,255,255,0.85); }
+
+        .hbox { background: #f8f8f8; border-left: 4px solid #0a4f37; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.25rem 0; max-width: 680px; }
+        .slide-dark .hbox, .slide-accent .hbox { background: rgba(255,255,255,0.1); border-left-color: rgba(255,255,255,0.7); }
+        .hbox p { font-size: 0.95rem; color: #333; }
+        .slide-dark .hbox p, .slide-accent .hbox p { color: rgba(255,255,255,0.9); }
+
+        .card-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem; }
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .card-title { font-weight: 700; font-size: 1rem; color: #1a1a1a; margin-bottom: 0.35rem; }
+        .card-desc  { font-size: 0.85rem; color: #555; line-height: 1.5; }
+        .card-dark { background: #1a1a1a; }
+        .card-dark .card-title { color: white; }
+        .card-dark .card-desc  { color: rgba(255,255,255,0.75); }
+
+        .btn { background: #0a4f37; color: white; border: none; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.8; }
+        .btn-outline { background: transparent; color: #0a4f37; border: 2px solid #0a4f37; }
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+
+        .part-number { font-size: 6rem; font-weight: 800; color: rgba(255,255,255,0.1); line-height: 1; margin-bottom: -1.5rem; }
+        .part-label-big { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: white; line-height: 1.2; }
+        .part-sub { font-size: 1rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; }
+
+        .slide-footer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 998; text-align: center; padding: 0.6rem 1.5rem; font-size: 0.78rem; background: rgba(5,46,31,0.9); backdrop-filter: blur(6px); color: rgba(255,255,255,0.45); }
+
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1001;
+            background: rgba(5,46,31,0.92);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.55rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+        }
+        .topbar a {
+            color: rgba(255,255,255,0.78);
+            text-decoration: none;
+            padding: 0.25rem 0.55rem;
+            border-radius: 6px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+        .topbar a.active { background: rgba(16,185,129,0.18); color: white; }
+        .topbar .title { font-weight: 600; color: white; margin-left: 0.2rem; }
+        .topbar .badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: #10b981;
+            color: #052e1f;
+            padding: 0.16rem 0.45rem;
+            border-radius: 4px;
+            margin-left: 0.1rem;
+        }
+        .topbar .spacer { flex: 1; }
+        .topbar .toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.55);
+            font: inherit;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.28rem 0.6rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .topbar .toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+        .topbar .toggle.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #052e1f;
+        }
+        .topbar .toggle-label, .topbar .group-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-right: 0.1rem;
+        }
+
+        /* Hanzi is always visible. Pinyin and English are opt-in. */
+        body.hide-pinyin .td-py,
+        body.hide-pinyin .pattern-py { display: none; }
+        body.hide-english .td-en,
+        body.hide-english .pattern-en { display: none; }
+
+        .cjk { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Noto Sans CJK SC', serif; }
+
+        /* Tone colors */
+        .t1 { color: #c0392b; }
+        .t2 { color: #27ae60; }
+        .t3 { color: #2980b9; }
+        .t4 { color: #8e44ad; }
+        .tn { color: #888; }
+
+        /* Goals list */
+        .goals-list { list-style: none; margin-top: 1.25rem; }
+        .goals-list li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid #eee; font-size: 1rem; color: #333; }
+        .goals-list li:last-child { border-bottom: none; }
+        .goal-num { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+
+        /* Demonstrative grid (3 col × 3 row visual layout) */
+        .pt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.25rem; }
+        .pt-cell { background: #f8f8f8; border-radius: 10px; padding: 0.9rem 0.6rem; text-align: center; }
+        .pt-cell-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.6rem; line-height: 1.2; }
+        .pt-cell-py { font-size: 0.9rem; font-weight: 600; margin: 0.15rem 0; color: #555; }
+        .pt-cell-en { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pt-cell.accent { background: #0a4f37; }
+        .pt-cell.accent .pt-cell-zh { color: white; }
+        .pt-cell.accent .pt-cell-py { color: rgba(255,255,255,0.75); }
+        .pt-cell.accent .pt-cell-en { color: rgba(255,255,255,0.6); }
+
+        /* Vocab table */
+        .vocab-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.95rem; }
+        .vocab-table th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #1a1a1a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+        .vocab-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .td-num { color: #aaa; font-size: 0.78rem; font-weight: 600; width: 2rem; }
+        .td-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; white-space: nowrap; }
+        .td-py { color: #666; font-style: italic; white-space: nowrap; }
+        .td-en { color: #333; }
+
+        /* Pattern blocks */
+        .pattern-block { background: #f8f8f8; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 0.75rem; }
+        .pattern-formula { font-size: 0.75rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+        .pattern-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.5rem; margin-bottom: 0.15rem; }
+        .pattern-py  { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 0.15rem; }
+        .pattern-en  { font-size: 0.9rem; color: #555; }
+        .pattern-zh strong { color: #0a4f37; }
+
+        /* Dialogue */
+        .dialogue-controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .d-line { display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.55rem 0; border-bottom: 1px solid #eee; }
+        .d-line:last-child { border-bottom: none; }
+        .d-speaker { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.25rem; }
+        .d-speaker.sp-b { background: #555; }
+        .d-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.2rem; line-height: 1.4; }
+        .d-py { font-size: 0.85rem; color: #888; font-style: italic; display: none; margin-top: 0.1rem; }
+        .d-en { font-size: 0.85rem; color: #bbb; display: none; }
+        .show-py .d-py { display: block; }
+        .show-en .d-en { display: block; }
+
+        /* Line-by-line dialogue */
+        .dl-display { background: #f8f8f8; border-radius: 16px; padding: 2rem; margin: 1.5rem 0 1rem; min-height: 170px; display: flex; flex-direction: column; justify-content: center; }
+        .dl-speaker-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .dl-counter-label { font-size: 0.75rem; color: #aaa; font-weight: 600; letter-spacing: 0.05em; }
+        .dl-zh-big { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.8rem; line-height: 1.35; color: #1a1a1a; margin-bottom: 0.4rem; }
+        .dl-py-line { font-size: 1rem; color: #888; font-style: italic; margin-bottom: 0.3rem; visibility: hidden; }
+        .dl-en-line { font-size: 1rem; color: #aaa; visibility: hidden; }
+        .dl-py-line.show, .dl-en-line.show { visibility: visible; }
+        .dl-controls { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+
+        /* Flash cards */
+        .flashcard-wrap { perspective: 800px; height: 230px; cursor: pointer; margin-bottom: 1rem; }
+        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.45s; }
+        .flashcard-wrap.flipped .flashcard { transform: rotateY(180deg); }
+        .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
+        .fc-front { background: #0a4f37; color: white; }
+        .fc-back  { background: #ecfdf5; color: #052e1f; transform: rotateY(180deg); }
+        .fc-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 3.2rem; line-height: 1.1; }
+        .fc-hint { font-size: 0.72rem; opacity: 0.45; margin-top: 0.75rem; }
+        .fc-py   { font-size: 1.35rem; font-style: italic; color: #336e58; margin-bottom: 0.2rem; }
+        .fc-en   { font-size: 1.1rem; font-weight: 600; color: #052e1f; }
+        .fc-controls { display: flex; gap: 0.75rem; align-items: center; justify-content: center; }
+        .fc-counter { font-size: 0.85rem; color: #888; min-width: 4rem; text-align: center; }
+
+        /* Final recap */
+        .recap-note { background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; border-radius: 10px; padding: 0.85rem 1.1rem; font-size: 0.92rem; margin-top: 1rem; }
+
+        @media (max-width: 640px) {
+            .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+            .pt-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="topbar">
+    <a href="/june">← June Course</a>
+    <span class="title">June Lesson 2</span>
+    <span class="badge">Questions</span>
+    <div class="spacer"></div>
+    <span class="group-label">Lessons</span>
+    <a href="/june/lesson/1">1</a>
+    <a href="/june/lesson/2" class="active">2</a>
+    <span class="toggle-label">Show</span>
+    <button class="toggle" id="toggle-pinyin" type="button" onclick="toggleShow('pinyin')">Pinyin</button>
+    <button class="toggle" id="toggle-english" type="button" onclick="toggleShow('english')">English</button>
+    <a href="/june/day/4">Day 4 →</a>
+</div>
+
+
+<!-- ========== SLIDE 1: TITLE ========== -->
+<section class="slide slide-dark" id="s1">
+    <div class="slide-content">
+        <div class="slide-label">Network School · June Accelerated Course</div>
+        <h1 class="slide-title">June Lesson 2:<br>Asking Questions &amp; Pointing Around</h1>
+        <p class="slide-body">Words 26–50 · Demonstratives expanded · The full question-word family · Your first numbers</p>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 2: GOALS ========== -->
+<section class="slide slide-white" id="s2">
+    <div class="slide-content">
+        <div class="slide-label">Lesson Goals</div>
+        <h2 class="slide-heading">By the end of this lesson…</h2>
+        <ul class="goals-list">
+            <li><span class="goal-num">1</span>Point at specific things, places, and groups (这个/那个, 这里/那里, 这些/那些, 这边/那边)</li>
+            <li><span class="goal-num">2</span>Tell -里 from -儿 and know they're the same word, just different register</li>
+            <li><span class="goal-num">3</span>Ask wh-questions in Chinese without using 吗</li>
+            <li><span class="goal-num">4</span>Know that question words sit in the answer's slot, not at the front</li>
+            <li><span class="goal-num">5</span>Choose between 几 and 多少 for "how many", and 怎么 vs 怎么样 for "how"</li>
+            <li><span class="goal-num">6</span>Read and say 0, 1, 2 — and meet 一's tone change in passing</li>
+        </ul>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 3: RECAP ========== -->
+<section class="slide slide-gray" id="s3">
+    <div class="slide-content">
+        <div class="slide-label">Quick Recap · Lesson 1</div>
+        <h2 class="slide-heading">What you already have.</h2>
+        <p class="slide-body">Lesson 2 builds on three Lesson 1 tools. Keep them handy.</p>
+
+        <div class="card-grid card-grid-3" style="margin-top:1.25rem;">
+            <div class="card">
+                <div class="card-icon cjk">吗</div>
+                <div class="card-title">Yes/no questions</div>
+                <div class="card-desc">Statement + 吗 → question.<br><em>你是美国人吗？</em></div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-icon cjk">这 那</div>
+                <div class="card-title">Pointers</div>
+                <div class="card-desc">这 = this · 那 = that · 这个 = this one.<br>Today we expand the whole family.</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚙️</div>
+                <div class="card-title">Core patterns</div>
+                <div class="card-desc">S + 是 + N · S + 很 + Adj · S + V + O · Statement + 吗?</div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p>Lesson 1 gave you the <em>yes/no</em> half of questions. Lesson 2 gives you the <em>wh-</em> half.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 01: POINTING ========== -->
+<section class="slide slide-accent" id="p1">
+    <div class="slide-content">
+        <div class="part-number">01</div>
+        <div class="part-label-big">Pointing at Things, Places &amp; Groups</div>
+        <div class="part-sub">这个 · 这里/这儿 · 这些 · 这边 — and their 那 / 哪 cousins</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 4: MEASURE WORD 个 ========== -->
+<section class="slide slide-white" id="s4">
+    <div class="slide-content">
+        <div class="slide-label">个 · The Measure Word</div>
+        <h2 class="slide-heading">这个 = 这 + 个.</h2>
+        <p class="slide-body">Chinese inserts a <strong>measure word</strong> between a pointer (or number) and a noun. 个 (gè) is the default, all-purpose one. You will use it constantly.</p>
+
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">Pointer + 个 + Noun</div>
+            <div class="pattern-zh cjk">这<strong>个</strong>人是我朋友。</div>
+            <div class="pattern-py">Zhège rén shì wǒ péngyou.</div>
+            <div class="pattern-en">This person is my friend.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Standalone "that one"</div>
+            <div class="pattern-zh cjk">我要那<strong>个</strong>。</div>
+            <div class="pattern-py">Wǒ yào nàge.</div>
+            <div class="pattern-en">I want that one.</div>
+        </div>
+
+        <div class="hbox">
+            <p>There are many measure words (本 for books, 杯 for cups…) but 个 is the safe default. When in doubt: <strong>个</strong>.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 5: 里 vs 儿 ========== -->
+<section class="slide slide-gray" id="s5">
+    <div class="slide-content">
+        <div class="slide-label">Place Suffixes</div>
+        <h2 class="slide-heading">-里 and -儿: same meaning, different mouth.</h2>
+        <p class="slide-body">Both suffixes turn a pointer into a place. They are basically interchangeable. The split is regional and register-based.</p>
+
+        <div class="pt-grid">
+            <div class="pt-cell">
+                <div class="pt-cell-zh cjk">这里</div>
+                <div class="pt-cell-py">zhèlǐ</div>
+                <div class="pt-cell-en">here</div>
+            </div>
+            <div class="pt-cell">
+                <div class="pt-cell-zh cjk">那里</div>
+                <div class="pt-cell-py">nàlǐ</div>
+                <div class="pt-cell-en">there</div>
+            </div>
+            <div class="pt-cell accent">
+                <div class="pt-cell-zh cjk">哪里</div>
+                <div class="pt-cell-py">nǎlǐ</div>
+                <div class="pt-cell-en">where?</div>
+            </div>
+            <div class="pt-cell">
+                <div class="pt-cell-zh cjk">这儿</div>
+                <div class="pt-cell-py">zhèr</div>
+                <div class="pt-cell-en">here</div>
+            </div>
+            <div class="pt-cell">
+                <div class="pt-cell-zh cjk">那儿</div>
+                <div class="pt-cell-py">nàr</div>
+                <div class="pt-cell-en">there</div>
+            </div>
+            <div class="pt-cell accent">
+                <div class="pt-cell-zh cjk">哪儿</div>
+                <div class="pt-cell-py">nǎr</div>
+                <div class="pt-cell-en">where?</div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p><strong>-里</strong> is more standard and slightly more written; you'll hear it everywhere, especially in the south. <strong>-儿</strong> is the colloquial, Beijing/northern flavor. Pick one and stay consistent within a sentence.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 6: SCOPE WORDS ========== -->
+<section class="slide slide-white" id="s6">
+    <div class="slide-content">
+        <div class="slide-label">Scope &amp; Plurality</div>
+        <h2 class="slide-heading">These, those, some.</h2>
+
+        <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
+            <div class="card">
+                <div class="card-icon cjk t3">这些</div>
+                <div class="card-title">zhèxiē · these</div>
+                <div class="card-desc">Definite group <em>near you</em>.<br><span class="cjk">这些都是新书。</span></div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-icon cjk t4">那些</div>
+                <div class="card-title">nàxiē · those</div>
+                <div class="card-desc">Definite group <em>over there</em>.<br><span class="cjk">那些是我的衣服。</span></div>
+            </div>
+            <div class="card">
+                <div class="card-icon cjk t3">有的</div>
+                <div class="card-title">yǒude · some (of them)</div>
+                <div class="card-desc">Picks a <em>subset</em> out of a known set.<br><span class="cjk">有的人喜欢茶。</span></div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-icon cjk t3">有些</div>
+                <div class="card-title">yǒuxiē · some / a few</div>
+                <div class="card-desc">Closer to "a few", more open.<br><span class="cjk">有些菜很好吃。</span></div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p>这些 / 那些 = <strong>specific</strong> "these / those" (you can point at them). 有的 / 有些 = <strong>unspecified</strong> "some" (you can't necessarily point). Don't sweat the 有的 / 有些 split early — they overlap a lot.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 7: DIRECTION ========== -->
+<section class="slide slide-gray" id="s7">
+    <div class="slide-content">
+        <div class="slide-label">Direction</div>
+        <h2 class="slide-heading">This way, that way.</h2>
+        <p class="slide-body">边 (biān) literally means "side". Stuck on a pointer, it becomes a direction.</p>
+
+        <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
+            <div class="card">
+                <div class="card-icon cjk t4">这边</div>
+                <div class="card-title">zhèbiān · this side / this way</div>
+                <div class="card-desc"><span class="cjk">请到这边来。</span><br><em>Please come this way.</em></div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-icon cjk t4">那边</div>
+                <div class="card-title">nàbiān · that side / over there</div>
+                <div class="card-desc"><span class="cjk">他在那边。</span><br><em>He's over that way.</em></div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p>The same trick works with 哪 to ask <strong class="cjk">哪边？</strong> "Which way?" (not in today's 25 but obvious once you see the pattern).</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 02: QUESTION WORDS ========== -->
+<section class="slide slide-accent" id="p2">
+    <div class="slide-content">
+        <div class="part-number">02</div>
+        <div class="part-label-big">The Question-Word Family</div>
+        <div class="part-sub">什么 · 谁 · 哪 · 几 · 多少 · 怎么 · 怎么样</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 8: THE BIG RULE ========== -->
+<section class="slide slide-white" id="s8">
+    <div class="slide-content">
+        <div class="slide-label">The One Rule</div>
+        <h2 class="slide-heading">Question words don't move.</h2>
+        <p class="slide-body">English drags question words to the front: "Who is he?" Chinese does the opposite. The question word sits <em>exactly where the answer would go</em>. Same word order as a statement.</p>
+
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">Statement</div>
+            <div class="pattern-zh cjk">他是 <strong>Leo</strong>。</div>
+            <div class="pattern-py">Tā shì Leo.</div>
+            <div class="pattern-en">He is Leo.</div>
+        </div>
+        <div class="pattern-block" style="background:#0a4f37;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.5);">Swap the name for 谁</div>
+            <div class="pattern-zh cjk" style="color:white;">他是 <strong style="color:#a7f3d0;">谁</strong>？</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.6);">Tā shì shéi?</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.8);">Who is he?</div>
+        </div>
+
+        <div class="pattern-block">
+            <div class="pattern-formula">Statement</div>
+            <div class="pattern-zh cjk">你去 <strong>学校</strong>。</div>
+            <div class="pattern-py">Nǐ qù xuéxiào.</div>
+            <div class="pattern-en">You're going to school.</div>
+        </div>
+        <div class="pattern-block" style="background:#0a4f37;">
+            <div class="pattern-formula" style="color:rgba(255,255,255,0.5);">Swap the place for 哪里</div>
+            <div class="pattern-zh cjk" style="color:white;">你去 <strong style="color:#a7f3d0;">哪里</strong>？</div>
+            <div class="pattern-py" style="color:rgba(255,255,255,0.6);">Nǐ qù nǎlǐ?</div>
+            <div class="pattern-en" style="color:rgba(255,255,255,0.8);">Where are you going?</div>
+        </div>
+
+        <div class="hbox">
+            <p><strong>No 吗 on wh-questions.</strong> The question word already does the marking. <em class="cjk">他是谁吗？</em> is wrong. Just <em class="cjk">他是谁？</em>.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 9: THE FAMILY ========== -->
+<section class="slide slide-gray" id="s9">
+    <div class="slide-content">
+        <div class="slide-label">The Question-Word Family</div>
+        <h2 class="slide-heading">Seven question words, one rule.</h2>
+
+        <div class="pt-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="pt-cell">
+                <div class="pt-cell-zh cjk">什么</div>
+                <div class="pt-cell-py">shénme</div>
+                <div class="pt-cell-en">what</div>
+            </div>
+            <div class="pt-cell">
+                <div class="pt-cell-zh cjk">谁</div>
+                <div class="pt-cell-py">shéi</div>
+                <div class="pt-cell-en">who</div>
+            </div>
+            <div class="pt-cell">
+                <div class="pt-cell-zh cjk">哪</div>
+                <div class="pt-cell-py">nǎ</div>
+                <div class="pt-cell-en">which (+ noun)</div>
+            </div>
+            <div class="pt-cell">
+                <div class="pt-cell-zh cjk">哪个</div>
+                <div class="pt-cell-py">nǎge</div>
+                <div class="pt-cell-en">which one</div>
+            </div>
+            <div class="pt-cell accent">
+                <div class="pt-cell-zh cjk">哪里 / 哪儿</div>
+                <div class="pt-cell-py">nǎlǐ / nǎr</div>
+                <div class="pt-cell-en">where</div>
+            </div>
+            <div class="pt-cell">
+                <div class="pt-cell-zh cjk">哪些</div>
+                <div class="pt-cell-py">nǎxiē</div>
+                <div class="pt-cell-en">which ones</div>
+            </div>
+        </div>
+
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">什么 · what</div>
+            <div class="pattern-zh cjk">你叫什么名字？</div>
+            <div class="pattern-py">Nǐ jiào shénme míngzi?</div>
+            <div class="pattern-en">What's your name?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">哪 + 国 + 人 · which-country-person</div>
+            <div class="pattern-zh cjk">你是哪国人？</div>
+            <div class="pattern-py">Nǐ shì nǎ guó rén?</div>
+            <div class="pattern-en">What nationality are you?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">哪个 · which one</div>
+            <div class="pattern-zh cjk">你要哪个？</div>
+            <div class="pattern-py">Nǐ yào nǎge?</div>
+            <div class="pattern-en">Which one do you want?</div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 10: 几 vs 多少 ========== -->
+<section class="slide slide-white" id="s10">
+    <div class="slide-content">
+        <div class="slide-label">How Many?</div>
+        <h2 class="slide-heading">几 vs 多少.</h2>
+        <p class="slide-body">Both mean "how many / much" — but they're not interchangeable.</p>
+
+        <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
+            <div class="card">
+                <div class="card-icon cjk t3">几</div>
+                <div class="card-title">jǐ · small countable</div>
+                <div class="card-desc">Used when you expect a small number (usually under 10). <strong>Always needs a measure word.</strong><br><span class="cjk">你家有几口人？</span><br><em>How many people in your family?</em></div>
+            </div>
+            <div class="card card-dark">
+                <div class="card-icon cjk t1">多少</div>
+                <div class="card-title">duōshao · open / large</div>
+                <div class="card-desc">Used for larger or unknown quantities, and for money. Measure word optional.<br><span class="cjk">这个多少钱？</span><br><em>How much is this?</em></div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p>Rule of thumb: if you'd be surprised by the answer being above 10, use <strong>几</strong>. Otherwise <strong>多少</strong>. Money is always 多少钱.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 11: 怎么 vs 怎么样 ========== -->
+<section class="slide slide-gray" id="s11">
+    <div class="slide-content">
+        <div class="slide-label">How?</div>
+        <h2 class="slide-heading">怎么 vs 怎么样.</h2>
+        <p class="slide-body">Two flavors of "how". Different grammar slots — easy to keep apart once you see them side by side.</p>
+
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">怎么 + Verb · "in what way…"</div>
+            <div class="pattern-zh cjk">这个字怎么读？</div>
+            <div class="pattern-py">Zhège zì zěnme dú?</div>
+            <div class="pattern-en">How do you read this character?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">怎么样 · standalone "how is it?"</div>
+            <div class="pattern-zh cjk">今天天气怎么样？</div>
+            <div class="pattern-py">Jīntiān tiānqì zěnmeyàng?</div>
+            <div class="pattern-en">How's the weather today?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">怎么样 · as a casual "what do you think?"</div>
+            <div class="pattern-zh cjk">这个怎么样？</div>
+            <div class="pattern-py">Zhège zěnmeyàng?</div>
+            <div class="pattern-en">How's this one? / What do you think?</div>
+        </div>
+
+        <div class="hbox">
+            <p><strong>怎么</strong> needs a verb. <strong>怎么样</strong> can stand alone as the whole question.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 03: NUMBERS ========== -->
+<section class="slide slide-accent" id="p3">
+    <div class="slide-content">
+        <div class="part-number">03</div>
+        <div class="part-label-big">First Numbers</div>
+        <div class="part-sub">零 · 一 · 二 — plus a small surprise about 一</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 12: 0 1 2 ========== -->
+<section class="slide slide-white" id="s12">
+    <div class="slide-content">
+        <div class="slide-label">0 · 1 · 2</div>
+        <h2 class="slide-heading">Three numbers to start.</h2>
+
+        <div class="card-grid card-grid-3" style="margin-top:1.25rem;">
+            <div class="card" style="text-align:center;">
+                <div class="card-icon cjk" style="font-size:3rem;">零</div>
+                <div class="card-title">líng · zero</div>
+                <div class="card-desc"><span class="cjk">零下三度。</span><br><em>Three below zero.</em></div>
+            </div>
+            <div class="card card-dark" style="text-align:center;">
+                <div class="card-icon cjk t1" style="font-size:3rem;">一</div>
+                <div class="card-title">yī · one</div>
+                <div class="card-desc"><span class="cjk">我有一个哥哥。</span><br><em>I have one older brother.</em></div>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div class="card-icon cjk t4" style="font-size:3rem;">二</div>
+                <div class="card-title">èr · two</div>
+                <div class="card-desc"><span class="cjk">二月很冷。</span><br><em>February is very cold.</em></div>
+            </div>
+        </div>
+
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p><strong>一 changes tone</strong> depending on what follows: <strong>yī</strong> alone or counting, <strong>yí</strong> before a 4th tone (一个 yí gè), <strong>yì</strong> before everything else (一天 yì tiān). This is your first taste of <em>tone sandhi</em>. Don't drill it yet — just notice when it happens.</p>
+        </div>
+        <div class="hbox">
+            <p><strong>二 vs 两</strong>: 二 is the number "two" (counting, dates, phone numbers). For "two of something" you'll use 两 (liǎng) — <em>两个人</em>, not <em>二个人</em>. We meet 两 in a later lesson.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 04: CONVERSATIONS ========== -->
+<section class="slide slide-accent" id="p4">
+    <div class="slide-content">
+        <div class="part-number">04</div>
+        <div class="part-label-big">Conversations</div>
+        <div class="part-sub">Pointing and asking, put to work</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 13: DIALOGUE 1 LINE-BY-LINE ========== -->
+<section class="slide slide-white" id="s13">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 1 · Practice</div>
+        <h2 class="slide-heading">Asking about people</h2>
+
+        <div class="dl-display">
+            <div class="dl-speaker-row">
+                <span class="d-speaker" id="dl1-speaker">A</span>
+                <span class="dl-counter-label" id="dl1-counter">Line 1 / 8</span>
+            </div>
+            <div class="dl-zh-big" id="dl1-zh">你好！请问，他是谁？</div>
+            <div class="dl-py-line" id="dl1-py">Nǐ hǎo! Qǐngwèn, tā shì shéi?</div>
+            <div class="dl-en-line" id="dl1-en">Hi! Excuse me, who is he?</div>
+        </div>
+        <div class="dl-controls">
+            <button class="btn btn-sm btn-outline" id="dl1-py-btn" onclick="dl1Toggle('py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="dl1-en-btn" onclick="dl1Toggle('en')">English</button>
+            <div style="flex:1;"></div>
+            <button class="btn btn-sm btn-outline" onclick="dl1Prev()">← Prev</button>
+            <button class="btn btn-sm" onclick="dl1Next()">Next →</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 14: DIALOGUE 1 FULL ========== -->
+<section class="slide slide-gray" id="s14">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 1 · Full</div>
+        <h2 class="slide-heading">Asking about people</h2>
+        <div style="display:flex;justify-content:flex-end;gap:0.4rem;margin-top:1.25rem;margin-bottom:0.75rem;">
+            <button class="btn btn-sm btn-outline" id="sc1-py-btn" onclick="scToggle('sc1','py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="sc1-en-btn" onclick="scToggle('sc1','en')">English</button>
+        </div>
+        <div class="dialogue-lines" id="sc1">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">你好！请问，他是谁？</div><div class="d-py">Nǐ hǎo! Qǐngwèn, tā shì shéi?</div><div class="d-en">Hi! Excuse me, who is he?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">他是我的朋友 Leo。</div><div class="d-py">Tā shì wǒ de péngyou Leo.</div><div class="d-en">He's my friend Leo.</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">他是哪国人？</div><div class="d-py">Tā shì nǎ guó rén?</div><div class="d-en">What nationality is he?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">他是美国人。你呢？</div><div class="d-py">Tā shì Měiguó rén. Nǐ ne?</div><div class="d-en">He's American. And you?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我是加拿大人。</div><div class="d-py">Wǒ shì Jiānádà rén.</div><div class="d-en">I'm Canadian.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">你叫什么名字？</div><div class="d-py">Nǐ jiào shénme míngzi?</div><div class="d-en">What's your name?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我叫 Maya。</div><div class="d-py">Wǒ jiào Maya.</div><div class="d-en">I'm Maya.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">很高兴认识你！</div><div class="d-py">Hěn gāoxìng rènshi nǐ!</div><div class="d-en">Nice to meet you!</div></div></div>
+        </div>
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p>Notice: <strong>谁 / 哪 / 什么</strong> all sit where the answer goes. No 吗 anywhere — these are wh-questions.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 15: DIALOGUE 2 LINE-BY-LINE ========== -->
+<section class="slide slide-white" id="s15">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 2 · Practice</div>
+        <h2 class="slide-heading">This one or that one?</h2>
+
+        <div class="dl-display">
+            <div class="dl-speaker-row">
+                <span class="d-speaker" id="dl2-speaker">A</span>
+                <span class="dl-counter-label" id="dl2-counter">Line 1 / 8</span>
+            </div>
+            <div class="dl-zh-big" id="dl2-zh">这是什么？</div>
+            <div class="dl-py-line" id="dl2-py">Zhè shì shénme?</div>
+            <div class="dl-en-line" id="dl2-en">What's this?</div>
+        </div>
+        <div class="dl-controls">
+            <button class="btn btn-sm btn-outline" id="dl2-py-btn" onclick="dl2Toggle('py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="dl2-en-btn" onclick="dl2Toggle('en')">English</button>
+            <div style="flex:1;"></div>
+            <button class="btn btn-sm btn-outline" onclick="dl2Prev()">← Prev</button>
+            <button class="btn btn-sm" onclick="dl2Next()">Next →</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 16: DIALOGUE 2 FULL ========== -->
+<section class="slide slide-gray" id="s16">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue 2 · Full</div>
+        <h2 class="slide-heading">This one or that one?</h2>
+        <div style="display:flex;justify-content:flex-end;gap:0.4rem;margin-top:1.25rem;margin-bottom:0.75rem;">
+            <button class="btn btn-sm btn-outline" id="sc2-py-btn" onclick="scToggle('sc2','py')">Pinyin</button>
+            <button class="btn btn-sm btn-outline" id="sc2-en-btn" onclick="scToggle('sc2','en')">English</button>
+        </div>
+        <div class="dialogue-lines" id="sc2">
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">这是什么？</div><div class="d-py">Zhè shì shénme?</div><div class="d-en">What's this?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">这是茶。</div><div class="d-py">Zhè shì chá.</div><div class="d-en">This is tea.</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">这个多少钱？</div><div class="d-py">Zhège duōshao qián?</div><div class="d-en">How much is this one?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">这个二十。那个怎么样？</div><div class="d-py">Zhège èrshí. Nàge zěnmeyàng?</div><div class="d-en">This one's twenty. How about that one?</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">那个也好。这些呢？</div><div class="d-py">Nàge yě hǎo. Zhèxiē ne?</div><div class="d-en">That one's good too. And these?</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">这些都是新的。</div><div class="d-py">Zhèxiē dōu shì xīn de.</div><div class="d-en">These are all new.</div></div></div>
+            <div class="d-line"><span class="d-speaker">A</span><div><div class="d-zh cjk">我要这个。</div><div class="d-py">Wǒ yào zhège.</div><div class="d-en">I'll take this one.</div></div></div>
+            <div class="d-line"><span class="d-speaker sp-b">B</span><div><div class="d-zh cjk">好的，谢谢！</div><div class="d-py">Hǎo de, xièxie!</div><div class="d-en">Sure, thank you!</div></div></div>
+        </div>
+        <div class="hbox" style="margin-top:1.5rem;">
+            <p>Six new pointers in eight lines: <strong>什么 · 这 · 这个 · 那个 · 这些 · 多少 · 怎么样</strong>. This is exactly the rhythm of pointing-and-asking in a shop.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PART 05: PRACTICE ========== -->
+<section class="slide slide-accent" id="p5">
+    <div class="slide-content">
+        <div class="part-number">05</div>
+        <div class="part-label-big">Practice &amp; Recall</div>
+        <div class="part-sub">Sentence bank · Flashcards · Final review</div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 17: SENTENCE BANK ========== -->
+<section class="slide slide-white" id="s17">
+    <div class="slide-content">
+        <div class="slide-label">Sentence Bank</div>
+        <h2 class="slide-heading">Use today's words right away.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>Chinese</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">这是什么？</td><td class="td-py">Zhè shì shénme?</td><td class="td-en">What's this?</td></tr>
+                <tr><td class="td-zh cjk">他是谁？</td><td class="td-py">Tā shì shéi?</td><td class="td-en">Who is he?</td></tr>
+                <tr><td class="td-zh cjk">你是哪国人？</td><td class="td-py">Nǐ shì nǎ guó rén?</td><td class="td-en">What nationality are you?</td></tr>
+                <tr><td class="td-zh cjk">你去哪里？</td><td class="td-py">Nǐ qù nǎlǐ?</td><td class="td-en">Where are you going?</td></tr>
+                <tr><td class="td-zh cjk">你住在哪儿？</td><td class="td-py">Nǐ zhù zài nǎr?</td><td class="td-en">Where do you live?</td></tr>
+                <tr><td class="td-zh cjk">你要哪个？</td><td class="td-py">Nǐ yào nǎge?</td><td class="td-en">Which one do you want?</td></tr>
+                <tr><td class="td-zh cjk">哪些是你的？</td><td class="td-py">Nǎxiē shì nǐ de?</td><td class="td-en">Which ones are yours?</td></tr>
+                <tr><td class="td-zh cjk">这个多少钱？</td><td class="td-py">Zhège duōshao qián?</td><td class="td-en">How much is this?</td></tr>
+                <tr><td class="td-zh cjk">你家有几口人？</td><td class="td-py">Nǐ jiā yǒu jǐ kǒu rén?</td><td class="td-en">How many people in your family?</td></tr>
+                <tr><td class="td-zh cjk">今天天气怎么样？</td><td class="td-py">Jīntiān tiānqì zěnmeyàng?</td><td class="td-en">How's the weather today?</td></tr>
+                <tr><td class="td-zh cjk">这个字怎么读？</td><td class="td-py">Zhège zì zěnme dú?</td><td class="td-en">How do you read this character?</td></tr>
+                <tr><td class="td-zh cjk">他在那边。</td><td class="td-py">Tā zài nàbiān.</td><td class="td-en">He's over that way.</td></tr>
+                <tr><td class="td-zh cjk">请到这边来。</td><td class="td-py">Qǐng dào zhèbiān lái.</td><td class="td-en">Please come this way.</td></tr>
+                <tr><td class="td-zh cjk">有的人喜欢茶。</td><td class="td-py">Yǒude rén xǐhuan chá.</td><td class="td-en">Some people like tea.</td></tr>
+                <tr><td class="td-zh cjk">我有一个哥哥。</td><td class="td-py">Wǒ yǒu yí gè gēge.</td><td class="td-en">I have one older brother.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 18: FLASHCARD DECK (ALL 25) ========== -->
+<section class="slide slide-gray" id="s18">
+    <div class="slide-content">
+        <div class="slide-label">Flashcards · All 25</div>
+        <h2 class="slide-heading">Drill the deck.</h2>
+        <p class="slide-body">Same 25 words as June Day 4. Say the pinyin and meaning before you flip.</p>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="v1-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="v1-zh">那个</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="v1-py">nàge</div>
+                        <div class="fc-en" id="v1-en">that one</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="v1Prev()">← Prev</button>
+                <span class="fc-counter" id="v1-counter">1 / 25</span>
+                <button class="btn btn-sm" onclick="v1Next()">Next →</button>
+                <button class="btn btn-sm btn-outline" onclick="v1Shuffle()">Shuffle</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 19: FINAL RECAP ========== -->
+<section class="slide slide-white" id="s19">
+    <div class="slide-content">
+        <div class="slide-label">Final Recap · Words 26–50</div>
+        <h2 class="slide-heading">Write what you can.</h2>
+        <p class="slide-body">All 25 in one block, hanzi only by default. Try to write the pinyin and meaning for each before flipping on the toggles above.</p>
+
+        <div class="recap-note">
+            <strong>How to use this:</strong> the Pinyin and English columns are hidden. Work down the list and write what you remember. Flip them back on from the topbar to self-check.
+        </div>
+
+        <table class="vocab-table" style="margin-top:1.5rem;">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">26</td><td class="td-zh cjk">那个</td><td class="td-py">nàge</td><td class="td-en">that one</td></tr>
+                <tr><td class="td-num">27</td><td class="td-zh cjk">这里</td><td class="td-py">zhèlǐ</td><td class="td-en">here</td></tr>
+                <tr><td class="td-num">28</td><td class="td-zh cjk">那里</td><td class="td-py">nàlǐ</td><td class="td-en">there</td></tr>
+                <tr><td class="td-num">29</td><td class="td-zh cjk">这儿</td><td class="td-py">zhèr</td><td class="td-en">here</td></tr>
+                <tr><td class="td-num">30</td><td class="td-zh cjk">那儿</td><td class="td-py">nàr</td><td class="td-en">there</td></tr>
+                <tr><td class="td-num">31</td><td class="td-zh cjk">这些</td><td class="td-py">zhèxiē</td><td class="td-en">these</td></tr>
+                <tr><td class="td-num">32</td><td class="td-zh cjk">那些</td><td class="td-py">nàxiē</td><td class="td-en">those</td></tr>
+                <tr><td class="td-num">33</td><td class="td-zh cjk">这边</td><td class="td-py">zhèbiān</td><td class="td-en">this side</td></tr>
+                <tr><td class="td-num">34</td><td class="td-zh cjk">那边</td><td class="td-py">nàbiān</td><td class="td-en">that side</td></tr>
+                <tr><td class="td-num">35</td><td class="td-zh cjk">有的</td><td class="td-py">yǒude</td><td class="td-en">some</td></tr>
+                <tr><td class="td-num">36</td><td class="td-zh cjk">有些</td><td class="td-py">yǒuxiē</td><td class="td-en">some</td></tr>
+                <tr><td class="td-num">37</td><td class="td-zh cjk">什么</td><td class="td-py">shénme</td><td class="td-en">what</td></tr>
+                <tr><td class="td-num">38</td><td class="td-zh cjk">谁</td><td class="td-py">shéi</td><td class="td-en">who</td></tr>
+                <tr><td class="td-num">39</td><td class="td-zh cjk">哪</td><td class="td-py">nǎ</td><td class="td-en">which</td></tr>
+                <tr><td class="td-num">40</td><td class="td-zh cjk">哪个</td><td class="td-py">nǎge</td><td class="td-en">which one</td></tr>
+                <tr><td class="td-num">41</td><td class="td-zh cjk">哪里</td><td class="td-py">nǎlǐ</td><td class="td-en">where</td></tr>
+                <tr><td class="td-num">42</td><td class="td-zh cjk">哪儿</td><td class="td-py">nǎr</td><td class="td-en">where</td></tr>
+                <tr><td class="td-num">43</td><td class="td-zh cjk">哪些</td><td class="td-py">nǎxiē</td><td class="td-en">which ones</td></tr>
+                <tr><td class="td-num">44</td><td class="td-zh cjk">几</td><td class="td-py">jǐ</td><td class="td-en">how many (small)</td></tr>
+                <tr><td class="td-num">45</td><td class="td-zh cjk">多少</td><td class="td-py">duōshao</td><td class="td-en">how many / much</td></tr>
+                <tr><td class="td-num">46</td><td class="td-zh cjk">怎么</td><td class="td-py">zěnme</td><td class="td-en">how</td></tr>
+                <tr><td class="td-num">47</td><td class="td-zh cjk">怎么样</td><td class="td-py">zěnmeyàng</td><td class="td-en">how about</td></tr>
+                <tr><td class="td-num">48</td><td class="td-zh cjk">零</td><td class="td-py">líng</td><td class="td-en">zero</td></tr>
+                <tr><td class="td-num">49</td><td class="td-zh cjk">一</td><td class="td-py">yī</td><td class="td-en">one</td></tr>
+                <tr><td class="td-num">50</td><td class="td-zh cjk">二</td><td class="td-py">èr</td><td class="td-en">two</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 20: CLOSING ========== -->
+<section class="slide slide-dark" id="s20">
+    <div class="slide-content">
+        <div class="slide-label">End of June Lesson 2</div>
+        <h1 class="slide-title cjk" style="font-size: clamp(2rem, 5vw, 3.5rem);">你要哪个？</h1>
+        <p class="slide-body" style="margin-top:0.4rem; font-style:italic; font-size:0.95rem; color:rgba(255,255,255,0.55);">Nǐ yào nǎge? &nbsp;·&nbsp; Which one do you want?</p>
+        <p class="slide-body" style="margin-top:1.25rem;">You now know the whole pointing family (这/那/哪 × 个/里/儿/些/边) and every HSK 1 question word. You can ask <em>what, who, which, where, how many, how much,</em> and <em>how</em> — without ever needing 吗.</p>
+        <div style="margin-top:2rem; display:flex; flex-wrap:wrap; gap:0.5rem;">
+            <span style="background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.8); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">这/那/哪 family</span>
+            <span style="background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.8); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">-里 vs -儿</span>
+            <span style="background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.8); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">Wh-questions</span>
+            <span style="background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.8); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">几 vs 多少</span>
+            <span style="background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.8); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">怎么 vs 怎么样</span>
+            <span style="background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.8); padding:0.4rem 0.9rem; border-radius:6px; font-size:0.82rem;">零 一 二</span>
+        </div>
+        <div class="hbox" style="margin-top:2rem;">
+            <p><strong><a href="/june/day/4" style="color:inherit;">June · Day 4 →</a></strong> Drill these 25 as flashcards with example sentences. Lesson 3 picks up numbers 3–10 and time.</p>
+        </div>
+    </div>
+</section>
+
+
+<footer class="slide-footer">
+    Network School · June Accelerated Course · Lesson 2
+</footer>
+
+
+<script>
+    // Default: hanzi only. Pinyin and English are opt-in via the topbar toggles.
+    document.body.classList.add('hide-pinyin', 'hide-english');
+
+    function toggleShow(which) {
+        const isHidden = document.body.classList.toggle('hide-' + which);
+        document.getElementById('toggle-' + which).classList.toggle('active', !isHidden);
+    }
+
+    // Progress bar
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        document.getElementById('progress-bar').style.width = (pct || 0) + '%';
+    });
+
+    // Arrow key navigation between slides
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    function nearestSlide() {
+        let best = 0, bestDist = Infinity;
+        slides.forEach((s, i) => {
+            const d = Math.abs(s.getBoundingClientRect().top);
+            if (d < bestDist) { bestDist = d; best = i; }
+        });
+        return best;
+    }
+    function goToSlide(i) {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        slides[i].scrollIntoView({ behavior: 'smooth' });
+    }
+    document.addEventListener('keydown', e => {
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goToSlide(nearestSlide() + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goToSlide(nearestSlide() - 1); }
+    });
+
+    // 25 words: HSK 1 #26–50, same set as June Day 4
+    const v1cards = [
+        { zh:'那个',     py:'nàge',       en:'that one' },
+        { zh:'这里',     py:'zhèlǐ',      en:'here' },
+        { zh:'那里',     py:'nàlǐ',       en:'there' },
+        { zh:'这儿',     py:'zhèr',       en:'here' },
+        { zh:'那儿',     py:'nàr',        en:'there' },
+        { zh:'这些',     py:'zhèxiē',     en:'these' },
+        { zh:'那些',     py:'nàxiē',      en:'those' },
+        { zh:'这边',     py:'zhèbiān',    en:'this side' },
+        { zh:'那边',     py:'nàbiān',     en:'that side' },
+        { zh:'有的',     py:'yǒude',      en:'some' },
+        { zh:'有些',     py:'yǒuxiē',     en:'some' },
+        { zh:'什么',     py:'shénme',     en:'what' },
+        { zh:'谁',       py:'shéi',       en:'who' },
+        { zh:'哪',       py:'nǎ',         en:'which' },
+        { zh:'哪个',     py:'nǎge',       en:'which one' },
+        { zh:'哪里',     py:'nǎlǐ',       en:'where' },
+        { zh:'哪儿',     py:'nǎr',        en:'where' },
+        { zh:'哪些',     py:'nǎxiē',      en:'which ones' },
+        { zh:'几',       py:'jǐ',         en:'how many (small)' },
+        { zh:'多少',     py:'duōshao',    en:'how many / much' },
+        { zh:'怎么',     py:'zěnme',      en:'how' },
+        { zh:'怎么样',   py:'zěnmeyàng',  en:'how about' },
+        { zh:'零',       py:'líng',       en:'zero' },
+        { zh:'一',       py:'yī',         en:'one' },
+        { zh:'二',       py:'èr',         en:'two' },
+    ];
+    let v1Order = v1cards.map((_, i) => i);
+    let v1Idx = 0;
+    function v1Show() {
+        document.getElementById('v1-wrap').classList.remove('flipped');
+        setTimeout(() => {
+            const c = v1cards[v1Order[v1Idx]];
+            document.getElementById('v1-zh').textContent = c.zh;
+            document.getElementById('v1-py').textContent = c.py;
+            document.getElementById('v1-en').textContent = c.en;
+            document.getElementById('v1-counter').textContent = (v1Idx + 1) + ' / ' + v1cards.length;
+        }, 240);
+    }
+    function v1Next() { v1Idx = (v1Idx + 1) % v1cards.length; v1Show(); }
+    function v1Prev() { v1Idx = (v1Idx - 1 + v1cards.length) % v1cards.length; v1Show(); }
+    function v1Shuffle() {
+        for (let i = v1Order.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [v1Order[i], v1Order[j]] = [v1Order[j], v1Order[i]];
+        }
+        v1Idx = 0; v1Show();
+    }
+
+    // Dialogue 1 line-by-line
+    const dl1lines = [
+        { sp: 'A', zh: '你好！请问，他是谁？',     py: 'Nǐ hǎo! Qǐngwèn, tā shì shéi?',     en: 'Hi! Excuse me, who is he?' },
+        { sp: 'B', zh: '他是我的朋友 Leo。',       py: 'Tā shì wǒ de péngyou Leo.',         en: "He's my friend Leo." },
+        { sp: 'A', zh: '他是哪国人？',             py: 'Tā shì nǎ guó rén?',                en: 'What nationality is he?' },
+        { sp: 'B', zh: '他是美国人。你呢？',        py: 'Tā shì Měiguó rén. Nǐ ne?',         en: "He's American. And you?" },
+        { sp: 'A', zh: '我是加拿大人。',           py: 'Wǒ shì Jiānádà rén.',               en: "I'm Canadian." },
+        { sp: 'B', zh: '你叫什么名字？',           py: 'Nǐ jiào shénme míngzi?',            en: "What's your name?" },
+        { sp: 'A', zh: '我叫 Maya。',              py: 'Wǒ jiào Maya.',                     en: "I'm Maya." },
+        { sp: 'B', zh: '很高兴认识你！',           py: 'Hěn gāoxìng rènshi nǐ!',            en: 'Nice to meet you!' },
+    ];
+    let dl1Idx = 0;
+    function dl1Render() {
+        const l = dl1lines[dl1Idx];
+        const spEl = document.getElementById('dl1-speaker');
+        spEl.textContent = l.sp;
+        spEl.className = 'd-speaker' + (l.sp === 'B' ? ' sp-b' : '');
+        document.getElementById('dl1-zh').textContent = l.zh;
+        document.getElementById('dl1-py').textContent = l.py;
+        document.getElementById('dl1-en').textContent = l.en;
+        document.getElementById('dl1-py').classList.remove('show');
+        document.getElementById('dl1-en').classList.remove('show');
+        document.getElementById('dl1-py-btn').classList.add('btn-outline');
+        document.getElementById('dl1-en-btn').classList.add('btn-outline');
+        document.getElementById('dl1-counter').textContent = 'Line ' + (dl1Idx + 1) + ' / ' + dl1lines.length;
+    }
+    function dl1Toggle(which) {
+        document.getElementById('dl1-' + which).classList.toggle('show');
+        document.getElementById('dl1-' + which + '-btn').classList.toggle('btn-outline');
+    }
+    function dl1Next() { dl1Idx = (dl1Idx + 1) % dl1lines.length; dl1Render(); }
+    function dl1Prev() { dl1Idx = (dl1Idx - 1 + dl1lines.length) % dl1lines.length; dl1Render(); }
+
+    // Dialogue 2 line-by-line
+    const dl2lines = [
+        { sp: 'A', zh: '这是什么？',              py: 'Zhè shì shénme?',                  en: "What's this?" },
+        { sp: 'B', zh: '这是茶。',                py: 'Zhè shì chá.',                     en: 'This is tea.' },
+        { sp: 'A', zh: '这个多少钱？',            py: 'Zhège duōshao qián?',              en: 'How much is this one?' },
+        { sp: 'B', zh: '这个二十。那个怎么样？',   py: 'Zhège èrshí. Nàge zěnmeyàng?',     en: "This one's twenty. How about that one?" },
+        { sp: 'A', zh: '那个也好。这些呢？',       py: 'Nàge yě hǎo. Zhèxiē ne?',          en: "That one's good too. And these?" },
+        { sp: 'B', zh: '这些都是新的。',          py: 'Zhèxiē dōu shì xīn de.',           en: 'These are all new.' },
+        { sp: 'A', zh: '我要这个。',              py: 'Wǒ yào zhège.',                    en: "I'll take this one." },
+        { sp: 'B', zh: '好的，谢谢！',            py: 'Hǎo de, xièxie!',                  en: 'Sure, thank you!' },
+    ];
+    let dl2Idx = 0;
+    function dl2Render() {
+        const l = dl2lines[dl2Idx];
+        const spEl = document.getElementById('dl2-speaker');
+        spEl.textContent = l.sp;
+        spEl.className = 'd-speaker' + (l.sp === 'B' ? ' sp-b' : '');
+        document.getElementById('dl2-zh').textContent = l.zh;
+        document.getElementById('dl2-py').textContent = l.py;
+        document.getElementById('dl2-en').textContent = l.en;
+        document.getElementById('dl2-py').classList.remove('show');
+        document.getElementById('dl2-en').classList.remove('show');
+        document.getElementById('dl2-py-btn').classList.add('btn-outline');
+        document.getElementById('dl2-en-btn').classList.add('btn-outline');
+        document.getElementById('dl2-counter').textContent = 'Line ' + (dl2Idx + 1) + ' / ' + dl2lines.length;
+    }
+    function dl2Toggle(which) {
+        document.getElementById('dl2-' + which).classList.toggle('show');
+        document.getElementById('dl2-' + which + '-btn').classList.toggle('btn-outline');
+    }
+    function dl2Next() { dl2Idx = (dl2Idx + 1) % dl2lines.length; dl2Render(); }
+    function dl2Prev() { dl2Idx = (dl2Idx - 1 + dl2lines.length) % dl2lines.length; dl2Render(); }
+
+    function scToggle(id, which) {
+        const active = document.getElementById(id).classList.toggle('show-' + which);
+        document.getElementById(id + '-' + which + '-btn').classList.toggle('btn-outline', !active);
+    }
+</script>
+
+</body>
+</html>
