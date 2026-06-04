@@ -7,7 +7,7 @@
  *   GOOGLE_OAUTH_ACCESS_TOKEN=ya29...
  *
  * Optional:
- *   GOOGLE_TTS_VOICE=cmn-CN-Chirp3-HD-Kore
+ *   GOOGLE_TTS_VOICE=cmn-CN-Wavenet-A
  *   GOOGLE_TTS_SPEAKING_RATE=0.82
  *
  * Usage:
@@ -26,8 +26,8 @@ const TMP_DIR = path.join(ROOT, 'audio', 'june', `.day3-google-tmp-${Date.now()}
 const SYNTH_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const SCOPE = 'https://www.googleapis.com/auth/cloud-platform';
-const DEFAULT_VOICE = process.env.GOOGLE_TTS_VOICE || 'cmn-CN-Chirp3-HD-Kore';
-const FALLBACK_VOICE = 'cmn-CN-Wavenet-A';
+const DEFAULT_VOICE = process.env.GOOGLE_TTS_VOICE || 'cmn-CN-Wavenet-A';
+const FALLBACK_VOICE = 'cmn-CN-Chirp3-HD-Kore';
 const DEFAULT_SPEAKING_RATE = 0.82;
 
 function getSpeakingRate() {
