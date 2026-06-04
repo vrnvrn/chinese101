@@ -8,6 +8,7 @@
  *
  * Optional:
  *   GOOGLE_TTS_VOICE=cmn-CN-Chirp3-HD-Kore
+ *   GOOGLE_TTS_SPEAKING_RATE=0.82
  *
  * Usage:
  *   node scripts/generate-google-tts-day3.js
@@ -27,6 +28,16 @@ const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const SCOPE = 'https://www.googleapis.com/auth/cloud-platform';
 const DEFAULT_VOICE = process.env.GOOGLE_TTS_VOICE || 'cmn-CN-Chirp3-HD-Kore';
 const FALLBACK_VOICE = 'cmn-CN-Wavenet-A';
+const DEFAULT_SPEAKING_RATE = 0.82;
+
+function getSpeakingRate() {
+    const value = process.env.GOOGLE_TTS_SPEAKING_RATE || String(DEFAULT_SPEAKING_RATE);
+    const rate = Number(value);
+    if (!Number.isFinite(rate) || rate < 0.25 || rate > 2.0) {
+        throw new Error('GOOGLE_TTS_SPEAKING_RATE must be a number from 0.25 to 2.0.');
+    }
+    return rate;
+}
 
 function base64url(input) {
     return Buffer.from(input)
@@ -102,7 +113,7 @@ async function loadDay3Words() {
     }));
 }
 
-async function synthesize({ accessToken, text, voiceName }) {
+async function synthesize({ accessToken, text, voiceName, speakingRate }) {
     const response = await fetch(SYNTH_URL, {
         method: 'POST',
         headers: {
@@ -117,6 +128,7 @@ async function synthesize({ accessToken, text, voiceName }) {
             },
             audioConfig: {
                 audioEncoding: 'MP3',
+                speakingRate,
             },
         }),
     });
@@ -148,6 +160,7 @@ async function synthesizeWithFallback(options) {
 
 async function main() {
     const words = await loadDay3Words();
+    const speakingRate = getSpeakingRate();
     const accessToken = await getAccessToken();
 
     await fs.mkdir(TMP_DIR, { recursive: true });
@@ -158,11 +171,12 @@ async function main() {
             const { voiceName, audio } = await synthesizeWithFallback({
                 accessToken,
                 text: word.hanzi,
+                speakingRate,
             });
             selectedVoice = voiceName;
             const out = path.join(TMP_DIR, `${word.number}.mp3`);
             await fs.writeFile(out, audio);
-            console.log(`${word.number}.mp3 ${word.hanzi} (${voiceName})`);
+            console.log(`${word.number}.mp3 ${word.hanzi} (${voiceName}, rate ${speakingRate})`);
         }
 
         await fs.mkdir(OUT_DIR, { recursive: true });
@@ -173,7 +187,7 @@ async function main() {
             );
         }
         await fs.rm(TMP_DIR, { recursive: true, force: true });
-        console.log(`Regenerated ${words.length} files in ${path.relative(ROOT, OUT_DIR)} with ${selectedVoice}.`);
+        console.log(`Regenerated ${words.length} files in ${path.relative(ROOT, OUT_DIR)} with ${selectedVoice} at rate ${speakingRate}.`);
     } catch (error) {
         await fs.rm(TMP_DIR, { recursive: true, force: true });
         throw error;
