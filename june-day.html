@@ -175,6 +175,30 @@
         letter-spacing: 0.08em;
         color: #94a3b8;
     }
+    .fc-audio-btn {
+        position: absolute;
+        top: 0.85rem;
+        left: 1rem;
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #1a1a1a;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .fc-audio-btn:hover {
+        border-color: #1a1a1a;
+        background: #1a1a1a;
+        color: white;
+    }
+    .fc-audio-btn.playing {
+        background: #1a1a1a;
+        border-color: #1a1a1a;
+        color: white;
+    }
     .fc-front .fc-hanzi {
         font-size: clamp(4rem, 11vw, 6rem);
         font-weight: 600;
@@ -238,19 +262,6 @@
         border-color: #1a1a1a;
     }
     .ctrl-btn.primary:hover:not(:disabled) { background: #2d2d2d; }
-    .audio-row {
-        display: flex;
-        margin-top: 0.75rem;
-    }
-    .audio-btn {
-        flex: 0 0 auto;
-        min-width: 8rem;
-    }
-    .audio-btn.playing {
-        background: #1a1a1a;
-        border-color: #1a1a1a;
-        color: white;
-    }
 
     .footer-note {
         text-align: center;
@@ -509,11 +520,13 @@ function renderVocab() {
         <div class="flash-stage">
             <div class="flashcard" id="flashcard">
                 <div class="fc-face fc-front">
+                    ${hasAudio ? `<button class="fc-audio-btn" type="button" aria-label="Play Mandarin audio">Audio</button>` : ''}
                     <span class="fc-pos" id="fc-front-pos"></span>
                     <div class="fc-hanzi han" id="fc-front-han"></div>
                     <div class="fc-hint">tap or press space to reveal</div>
                 </div>
                 <div class="fc-face fc-back">
+                    ${hasAudio ? `<button class="fc-audio-btn" type="button" aria-label="Play Mandarin audio">Audio</button>` : ''}
                     <span class="fc-pos" id="fc-back-pos"></span>
                     <div class="fc-pinyin" id="fc-back-py"></div>
                     <div class="fc-en" id="fc-back-en"></div>
@@ -523,11 +536,6 @@ function renderVocab() {
                 </div>
             </div>
         </div>
-
-        ${hasAudio ? `
-        <div class="audio-row">
-            <button class="ctrl-btn audio-btn" id="play-audio" type="button" aria-label="Play Mandarin audio">Play Audio</button>
-        </div>` : ''}
 
         <div class="controls">
             <button class="ctrl-btn" id="prev">← Prev</button>
@@ -597,12 +605,12 @@ function renderVocab() {
         activeAudio.pause();
         activeAudio.currentTime = 0;
         activeAudio = null;
-        if (hasAudio) $('play-audio').classList.remove('playing');
+        if (hasAudio) document.querySelectorAll('.fc-audio-btn').forEach(btn => btn.classList.remove('playing'));
     }
     function playCurrentAudio() {
         stopAudio();
         activeAudio = new Audio(currentAudioPath());
-        $('play-audio').classList.add('playing');
+        document.querySelectorAll('.fc-audio-btn').forEach(btn => btn.classList.add('playing'));
         activeAudio.addEventListener('ended', stopAudio, { once: true });
         activeAudio.addEventListener('error', stopAudio, { once: true });
         activeAudio.play().catch(stopAudio);
@@ -636,7 +644,14 @@ function renderVocab() {
         idx = 0; render();
     });
     $('reset').addEventListener('click', () => { order = words.map((_, i) => i); idx = 0; render(); });
-    if (hasAudio) $('play-audio').addEventListener('click', playCurrentAudio);
+    if (hasAudio) {
+        document.querySelectorAll('.fc-audio-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                playCurrentAudio();
+            });
+        });
+    }
     document.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         if (e.key === 'ArrowLeft' && idx > 0) { idx--; render(); }
