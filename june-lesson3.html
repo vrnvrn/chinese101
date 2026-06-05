@@ -150,6 +150,17 @@
         .pt-cell.accent .pt-cell-py { color: rgba(255,255,255,0.75); }
         .pt-cell.accent .pt-cell-en { color: rgba(255,255,255,0.6); }
 
+        /* Measure-word page */
+        .mw-hero { display: flex; align-items: center; gap: 1.25rem; margin-top: 1.25rem; }
+        .mw-char { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 4.5rem; line-height: 1; color: #0a4f37; flex-shrink: 0; }
+        .mw-py { font-size: 1.3rem; font-weight: 700; color: #1a1a1a; }
+        .mw-gloss { font-size: 0.95rem; color: #666; }
+        .mw-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin: 1.25rem 0 0.5rem; }
+        .chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .chip { background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 1rem; color: #065f46; }
+        .chip .cjk { font-size: 1.05rem; }
+        .chip .chip-py { color: #6b9e8b; font-size: 0.78rem; font-style: italic; margin-left: 0.35rem; }
+
         /* Vocab table */
         .vocab-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.95rem; }
         .vocab-table th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #1a1a1a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
@@ -191,7 +202,7 @@
         .dl-controls { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
 
         /* Flash cards */
-        .flashcard-wrap { perspective: 800px; height: 230px; cursor: pointer; margin-bottom: 1rem; }
+        .flashcard-wrap { perspective: 800px; height: 320px; cursor: pointer; margin-bottom: 1rem; }
         .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.45s; }
         .flashcard-wrap.flipped .flashcard { transform: rotateY(180deg); }
         .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
@@ -201,6 +212,10 @@
         .fc-hint { font-size: 0.72rem; opacity: 0.45; margin-top: 0.75rem; }
         .fc-py   { font-size: 1.35rem; font-style: italic; color: #336e58; margin-bottom: 0.2rem; }
         .fc-en   { font-size: 1.1rem; font-weight: 600; color: #052e1f; }
+        .fc-ex { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid rgba(5,46,31,0.18); width: 100%; max-width: 460px; }
+        .fc-ex-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; color: #052e1f; margin-bottom: 0.2rem; }
+        .fc-ex-py { font-size: 0.85rem; font-style: italic; color: #4b7a68; margin-bottom: 0.1rem; }
+        .fc-ex-en { font-size: 0.85rem; color: #4b7a68; }
         .fc-controls { display: flex; gap: 0.75rem; align-items: center; justify-content: center; }
         .fc-counter { font-size: 0.85rem; color: #888; min-width: 4rem; text-align: center; }
 
@@ -265,7 +280,7 @@
     <div class="slide-content">
         <div class="slide-label">Flashcards · All 25</div>
         <h2 class="slide-heading">Start here. Drill the deck.</h2>
-        <p class="slide-body">Words 51–75, same set as June Day 5. Run the cards first — say the pinyin and meaning before you flip — then the rest of the lesson explains how they fit together.</p>
+        <p class="slide-body">Words 51–75, same set as June Day 5. Run the cards first — say the pinyin and meaning before you flip. Each card's back also shows an example sentence in use. Then the rest of the lesson explains how they fit together.</p>
 
         <div style="margin-top:1.5rem;">
             <div class="flashcard-wrap" id="v1-wrap" onclick="this.classList.toggle('flipped')">
@@ -277,6 +292,11 @@
                     <div class="fc-back">
                         <div class="fc-py" id="v1-py">liǎng</div>
                         <div class="fc-en" id="v1-en">two (with measure word)</div>
+                        <div class="fc-ex">
+                            <div class="fc-ex-zh cjk" id="v1-ex-zh">我要两杯茶。</div>
+                            <div class="fc-ex-py" id="v1-ex-py">Wǒ yào liǎng bēi chá.</div>
+                            <div class="fc-ex-en" id="v1-ex-en">I want two cups of tea.</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -424,80 +444,344 @@
         </div>
 
         <div class="hbox">
-            <p><strong>个</strong> (gè) is the all-purpose measure word from Lesson 2. When you don't know the right one, 个 is almost always understood. The next slide gives you the specialists.</p>
+            <p><strong>个</strong> (gè) is the all-purpose measure word from Lesson 2. When you don't know the right one, 个 is almost always understood. The next pages take the measure words one at a time — what each one counts, and a few sentences.</p>
         </div>
     </div>
 </section>
 
 
-<!-- ========== SLIDE 8: THE TOOLKIT ========== -->
+<!-- ========== SLIDE 8: 个 ========== -->
 <section class="slide slide-gray" id="s8">
     <div class="slide-content">
-        <div class="slide-label">The Measure-Word Toolkit</div>
-        <h2 class="slide-heading">Six specialists worth knowing.</h2>
+        <div class="slide-label">Measure Word · 1 of 8</div>
+        <h2 class="slide-heading">个 — the all-purpose one.</h2>
+        <p class="slide-body">The default measure word. When you're not sure which one a noun takes, reach for 个 and you'll almost always be understood.</p>
 
-        <div class="card-grid card-grid-3" style="margin-top:1.25rem;">
-            <div class="card">
-                <div class="card-icon cjk t3">本</div>
-                <div class="card-title">běn · books</div>
-                <div class="card-desc"><span class="cjk">这本书很好看。</span><br><em>This book is great.</em></div>
-            </div>
-            <div class="card">
-                <div class="card-icon cjk t4">件</div>
-                <div class="card-title">jiàn · clothes &amp; matters</div>
-                <div class="card-desc"><span class="cjk">这件衣服很漂亮。</span><br><em>This clothing is pretty.</em></div>
-            </div>
-            <div class="card">
-                <div class="card-icon cjk t4">块</div>
-                <div class="card-title">kuài · yuan / pieces</div>
-                <div class="card-desc"><span class="cjk">一杯茶五块钱。</span><br><em>A cup of tea is 5 yuan.</em></div>
-            </div>
-            <div class="card">
-                <div class="card-icon cjk t3">口</div>
-                <div class="card-title">kǒu · family members</div>
-                <div class="card-desc"><span class="cjk">我家有四口人。</span><br><em>My family has four people.</em></div>
-            </div>
-            <div class="card">
-                <div class="card-icon cjk t1">只</div>
-                <div class="card-title">zhī · animals</div>
-                <div class="card-desc"><span class="cjk">我有一只猫。</span><br><em>I have one cat.</em></div>
-            </div>
-            <div class="card">
-                <div class="card-icon cjk t2">元</div>
-                <div class="card-title">yuán · yuan (formal)</div>
-                <div class="card-desc"><span class="cjk">这个面包十元。</span><br><em>This bread is 10 yuan.</em></div>
+        <div class="mw-hero">
+            <div class="mw-char cjk">个</div>
+            <div>
+                <div class="mw-py">gè</div>
+                <div class="mw-gloss">people, things, and most abstract nouns</div>
             </div>
         </div>
 
-        <div class="hbox" style="margin-top:1.5rem;">
-            <p><strong>块 vs 元</strong>: same money, different register. 块 is spoken/everyday ("bucks"); 元 is written/formal (receipts, signs). You'll <em>say</em> 块 and <em>read</em> 元.</p>
+        <div class="mw-label">Connects to</div>
+        <div class="chip-row">
+            <span class="chip"><span class="cjk">人</span><span class="chip-py">rén · person</span></span>
+            <span class="chip"><span class="cjk">朋友</span><span class="chip-py">péngyou · friend</span></span>
+            <span class="chip"><span class="cjk">孩子</span><span class="chip-py">háizi · child</span></span>
+            <span class="chip"><span class="cjk">问题</span><span class="chip-py">wèntí · question</span></span>
+        </div>
+
+        <div class="mw-label">In sentences</div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我有一<strong>个</strong>问题。</div>
+            <div class="pattern-py">Wǒ yǒu yí gè wèntí.</div>
+            <div class="pattern-en">I have a question.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">这<strong>个</strong>人是我朋友。</div>
+            <div class="pattern-py">Zhège rén shì wǒ péngyou.</div>
+            <div class="pattern-en">This person is my friend.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我要两<strong>个</strong>。</div>
+            <div class="pattern-py">Wǒ yào liǎng gè.</div>
+            <div class="pattern-en">I'll take two.</div>
+        </div>
+
+        <div class="hbox">
+            <p>In speech 个 usually drops to a neutral tone — you'll hear <em>yí ge</em>, not <em>yí gè</em>. Don't let that throw you.</p>
         </div>
     </div>
 </section>
 
 
-<!-- ========== SLIDE 9: 些 / 一些 ========== -->
+<!-- ========== SLIDE 9: 本 ========== -->
 <section class="slide slide-white" id="s9">
     <div class="slide-content">
-        <div class="slide-label">Vague Quantities</div>
-        <h2 class="slide-heading">些 = "some", no number needed.</h2>
-        <p class="slide-body">些 (xiē) is a measure word for an unspecified plural — "some / a few". You met it inside 这些 / 那些 in Lesson 2; on its own it pairs with 一 or a pointer.</p>
+        <div class="slide-label">Measure Word · 2 of 8</div>
+        <h2 class="slide-heading">本 — for books.</h2>
+        <p class="slide-body">Anything bound with pages you can flip through: books, magazines, dictionaries, notebooks.</p>
 
-        <div class="card-grid card-grid-2" style="margin-top:1.5rem;">
-            <div class="card">
-                <div class="card-icon cjk t1">些</div>
-                <div class="card-title">xiē · some, several</div>
-                <div class="card-desc">After a pointer.<br><span class="cjk">桌子上有些书。</span><br><em>There are some books on the table.</em></div>
-            </div>
-            <div class="card card-dark">
-                <div class="card-icon cjk t4">一些</div>
-                <div class="card-title">yìxiē · some (a quantity)</div>
-                <div class="card-desc">一 + 些 = "some" as an amount.<br><span class="cjk">我有一些朋友。</span><br><em>I have some friends.</em></div>
+        <div class="mw-hero">
+            <div class="mw-char cjk">本</div>
+            <div>
+                <div class="mw-py">běn</div>
+                <div class="mw-gloss">bound, printed things</div>
             </div>
         </div>
 
-        <div class="hbox" style="margin-top:1.5rem;">
-            <p>些 is itself a measure word, so you <strong>never</strong> add another: 一些书 ✓, never <em class="cjk">一些个书</em>. It pluralizes loosely — think "a handful", not an exact count.</p>
+        <div class="mw-label">Connects to</div>
+        <div class="chip-row">
+            <span class="chip"><span class="cjk">书</span><span class="chip-py">shū · book</span></span>
+            <span class="chip"><span class="cjk">杂志</span><span class="chip-py">zázhì · magazine</span></span>
+            <span class="chip"><span class="cjk">词典</span><span class="chip-py">cídiǎn · dictionary</span></span>
+        </div>
+
+        <div class="mw-label">In sentences</div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">这<strong>本</strong>书很好看。</div>
+            <div class="pattern-py">Zhè běn shū hěn hǎokàn.</div>
+            <div class="pattern-en">This book is great.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我有三<strong>本</strong>书。</div>
+            <div class="pattern-py">Wǒ yǒu sān běn shū.</div>
+            <div class="pattern-en">I have three books.</div>
+        </div>
+
+        <div class="hbox">
+            <p>Rule of thumb: if it has pages you can turn, it takes <strong>本</strong>.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 10: 件 ========== -->
+<section class="slide slide-gray" id="s10">
+    <div class="slide-content">
+        <div class="slide-label">Measure Word · 3 of 8</div>
+        <h2 class="slide-heading">件 — for clothes &amp; matters.</h2>
+        <p class="slide-body">Two jobs: items of upper-body clothing, and "matters / pieces of business" you have to deal with.</p>
+
+        <div class="mw-hero">
+            <div class="mw-char cjk">件</div>
+            <div>
+                <div class="mw-py">jiàn</div>
+                <div class="mw-gloss">clothing items · affairs</div>
+            </div>
+        </div>
+
+        <div class="mw-label">Connects to</div>
+        <div class="chip-row">
+            <span class="chip"><span class="cjk">衣服</span><span class="chip-py">yīfu · clothes</span></span>
+            <span class="chip"><span class="cjk">事</span><span class="chip-py">shì · matter</span></span>
+            <span class="chip"><span class="cjk">事情</span><span class="chip-py">shìqing · affair</span></span>
+        </div>
+
+        <div class="mw-label">In sentences</div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">这<strong>件</strong>衣服很漂亮。</div>
+            <div class="pattern-py">Zhè jiàn yīfu hěn piàoliang.</div>
+            <div class="pattern-en">This piece of clothing is pretty.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我有一<strong>件</strong>事。</div>
+            <div class="pattern-py">Wǒ yǒu yí jiàn shì.</div>
+            <div class="pattern-en">I have something to discuss.</div>
+        </div>
+
+        <div class="hbox">
+            <p>件 covers things you wear on top (shirts, coats) — but not trousers or shoes, which have their own measure words.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 11: 块 ========== -->
+<section class="slide slide-white" id="s11">
+    <div class="slide-content">
+        <div class="slide-label">Measure Word · 4 of 8</div>
+        <h2 class="slide-heading">块 — for money &amp; chunks.</h2>
+        <p class="slide-body">The everyday spoken word for money ("bucks"), and the counter for lumps or pieces of something.</p>
+
+        <div class="mw-hero">
+            <div class="mw-char cjk">块</div>
+            <div>
+                <div class="mw-py">kuài</div>
+                <div class="mw-gloss">yuan (spoken) · pieces, lumps</div>
+            </div>
+        </div>
+
+        <div class="mw-label">Connects to</div>
+        <div class="chip-row">
+            <span class="chip"><span class="cjk">钱</span><span class="chip-py">qián · money</span></span>
+            <span class="chip"><span class="cjk">蛋糕</span><span class="chip-py">dàngāo · cake</span></span>
+            <span class="chip"><span class="cjk">肉</span><span class="chip-py">ròu · meat</span></span>
+        </div>
+
+        <div class="mw-label">In sentences</div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">一杯茶五<strong>块</strong>钱。</div>
+            <div class="pattern-py">Yì bēi chá wǔ kuài qián.</div>
+            <div class="pattern-en">A cup of tea is 5 yuan.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">这个十<strong>块</strong>。</div>
+            <div class="pattern-py">Zhège shí kuài.</div>
+            <div class="pattern-en">This one is ten yuan.</div>
+        </div>
+
+        <div class="hbox">
+            <p>块 is what you actually <em>say</em> when paying. Its formal written twin is 元 — two pages from now.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 12: 口 ========== -->
+<section class="slide slide-gray" id="s12">
+    <div class="slide-content">
+        <div class="slide-label">Measure Word · 5 of 8</div>
+        <h2 class="slide-heading">口 — for family members.</h2>
+        <p class="slide-body">Literally "mouth". Used almost only to count how many people are in a household.</p>
+
+        <div class="mw-hero">
+            <div class="mw-char cjk">口</div>
+            <div>
+                <div class="mw-py">kǒu</div>
+                <div class="mw-gloss">people in a family</div>
+            </div>
+        </div>
+
+        <div class="mw-label">Connects to</div>
+        <div class="chip-row">
+            <span class="chip"><span class="cjk">人</span><span class="chip-py">rén · person (in a family)</span></span>
+            <span class="chip"><span class="cjk">家</span><span class="chip-py">jiā · home, family</span></span>
+        </div>
+
+        <div class="mw-label">In sentences</div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我家有四<strong>口</strong>人。</div>
+            <div class="pattern-py">Wǒ jiā yǒu sì kǒu rén.</div>
+            <div class="pattern-en">My family has four people.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">你家有几<strong>口</strong>人？</div>
+            <div class="pattern-py">Nǐ jiā yǒu jǐ kǒu rén?</div>
+            <div class="pattern-en">How many people are in your family?</div>
+        </div>
+
+        <div class="hbox">
+            <p>口 is special to family size. For people in general (friends, students, strangers), go back to <strong>个</strong>.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 13: 只 ========== -->
+<section class="slide slide-white" id="s13">
+    <div class="slide-content">
+        <div class="slide-label">Measure Word · 6 of 8</div>
+        <h2 class="slide-heading">只 — for animals.</h2>
+        <p class="slide-body">The go-to counter for most small animals — pets, birds, and the like.</p>
+
+        <div class="mw-hero">
+            <div class="mw-char cjk">只</div>
+            <div>
+                <div class="mw-py">zhī</div>
+                <div class="mw-gloss">animals</div>
+            </div>
+        </div>
+
+        <div class="mw-label">Connects to</div>
+        <div class="chip-row">
+            <span class="chip"><span class="cjk">猫</span><span class="chip-py">māo · cat</span></span>
+            <span class="chip"><span class="cjk">狗</span><span class="chip-py">gǒu · dog</span></span>
+            <span class="chip"><span class="cjk">鸟</span><span class="chip-py">niǎo · bird</span></span>
+        </div>
+
+        <div class="mw-label">In sentences</div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我有一<strong>只</strong>猫。</div>
+            <div class="pattern-py">Wǒ yǒu yì zhī māo.</div>
+            <div class="pattern-en">I have one cat.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我家有两<strong>只</strong>狗。</div>
+            <div class="pattern-py">Wǒ jiā yǒu liǎng zhī gǒu.</div>
+            <div class="pattern-en">My family has two dogs.</div>
+        </div>
+
+        <div class="hbox">
+            <p>Most small animals take <strong>只</strong>. A few big ones (horses, cattle) have their own — but 只 will get you understood early on.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 14: 元 ========== -->
+<section class="slide slide-gray" id="s14">
+    <div class="slide-content">
+        <div class="slide-label">Measure Word · 7 of 8</div>
+        <h2 class="slide-heading">元 — for money, formally.</h2>
+        <p class="slide-body">The same money as 块, but the written, formal form. You'll see it on price tags, receipts, and signs.</p>
+
+        <div class="mw-hero">
+            <div class="mw-char cjk">元</div>
+            <div>
+                <div class="mw-py">yuán</div>
+                <div class="mw-gloss">yuan (written / formal)</div>
+            </div>
+        </div>
+
+        <div class="mw-label">Connects to</div>
+        <div class="chip-row">
+            <span class="chip"><span class="cjk">钱</span><span class="chip-py">qián · money</span></span>
+            <span class="chip"><span class="cjk">价钱</span><span class="chip-py">jiàqian · price</span></span>
+        </div>
+
+        <div class="mw-label">In sentences</div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">这个面包十<strong>元</strong>。</div>
+            <div class="pattern-py">Zhège miànbāo shí yuán.</div>
+            <div class="pattern-en">This bread is 10 yuan.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">一共一百<strong>元</strong>。</div>
+            <div class="pattern-py">Yígòng yìbǎi yuán.</div>
+            <div class="pattern-en">A hundred yuan in total.</div>
+        </div>
+
+        <div class="hbox">
+            <p><strong>块 vs 元</strong>: same value, different register. You <em>say</em> 块 and <em>read</em> 元 — like "bucks" vs "dollars" on a receipt.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SLIDE 15: 些 ========== -->
+<section class="slide slide-white" id="s15">
+    <div class="slide-content">
+        <div class="slide-label">Measure Word · 8 of 8</div>
+        <h2 class="slide-heading">些 — for "some", no number.</h2>
+        <p class="slide-body">A measure word for a vague plural — "some / a few". You met it inside 这些 / 那些 in Lesson 2; on its own it rides behind 一 or a pointer.</p>
+
+        <div class="mw-hero">
+            <div class="mw-char cjk">些</div>
+            <div>
+                <div class="mw-py">xiē</div>
+                <div class="mw-gloss">an unspecified handful</div>
+            </div>
+        </div>
+
+        <div class="mw-label">Connects to</div>
+        <div class="chip-row">
+            <span class="chip"><span class="cjk">书</span><span class="chip-py">shū · books</span></span>
+            <span class="chip"><span class="cjk">朋友</span><span class="chip-py">péngyou · friends</span></span>
+            <span class="chip"><span class="cjk">东西</span><span class="chip-py">dōngxi · things</span></span>
+        </div>
+
+        <div class="mw-label">In sentences</div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">桌子上有<strong>些</strong>书。</div>
+            <div class="pattern-py">Zhuōzi shàng yǒu xiē shū.</div>
+            <div class="pattern-en">There are some books on the table.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我有一<strong>些</strong>朋友。</div>
+            <div class="pattern-py">Wǒ yǒu yìxiē péngyou.</div>
+            <div class="pattern-en">I have some friends.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">这<strong>些</strong>都是新的。</div>
+            <div class="pattern-py">Zhèxiē dōu shì xīn de.</div>
+            <div class="pattern-en">These are all new.</div>
+        </div>
+
+        <div class="hbox">
+            <p>些 is itself a measure word, so never stack another on top: 一些书 ✓, never <em class="cjk">一些个书</em>. Think "a handful", not an exact count.</p>
         </div>
     </div>
 </section>
@@ -513,8 +797,8 @@
 </section>
 
 
-<!-- ========== SLIDE 10: 一点儿 vs 有点儿 ========== -->
-<section class="slide slide-white" id="s10">
+<!-- ========== SLIDE 16: 一点儿 vs 有点儿 ========== -->
+<section class="slide slide-white" id="s16">
     <div class="slide-content">
         <div class="slide-label">The Classic Trap</div>
         <h2 class="slide-heading">一点儿 vs 有点儿.</h2>
@@ -561,8 +845,8 @@
 </section>
 
 
-<!-- ========== SLIDE 11: DIALOGUE 1 LINE-BY-LINE ========== -->
-<section class="slide slide-white" id="s11">
+<!-- ========== SLIDE 17: DIALOGUE 1 LINE-BY-LINE ========== -->
+<section class="slide slide-white" id="s17">
     <div class="slide-content">
         <div class="slide-label">Dialogue 1 · Practice</div>
         <h2 class="slide-heading">At the shop</h2>
@@ -587,8 +871,8 @@
 </section>
 
 
-<!-- ========== SLIDE 12: DIALOGUE 1 FULL ========== -->
-<section class="slide slide-gray" id="s12">
+<!-- ========== SLIDE 18: DIALOGUE 1 FULL ========== -->
+<section class="slide slide-gray" id="s18">
     <div class="slide-content">
         <div class="slide-label">Dialogue 1 · Full</div>
         <h2 class="slide-heading">At the shop</h2>
@@ -613,8 +897,8 @@
 </section>
 
 
-<!-- ========== SLIDE 13: DIALOGUE 2 LINE-BY-LINE ========== -->
-<section class="slide slide-white" id="s13">
+<!-- ========== SLIDE 19: DIALOGUE 2 LINE-BY-LINE ========== -->
+<section class="slide slide-white" id="s19">
     <div class="slide-content">
         <div class="slide-label">Dialogue 2 · Practice</div>
         <h2 class="slide-heading">How big is your family?</h2>
@@ -639,8 +923,8 @@
 </section>
 
 
-<!-- ========== SLIDE 14: DIALOGUE 2 FULL ========== -->
-<section class="slide slide-gray" id="s14">
+<!-- ========== SLIDE 20: DIALOGUE 2 FULL ========== -->
+<section class="slide slide-gray" id="s20">
     <div class="slide-content">
         <div class="slide-label">Dialogue 2 · Full</div>
         <h2 class="slide-heading">How big is your family?</h2>
@@ -675,8 +959,8 @@
 </section>
 
 
-<!-- ========== SLIDE 15: SENTENCE BANK ========== -->
-<section class="slide slide-white" id="s15">
+<!-- ========== SLIDE 21: SENTENCE BANK ========== -->
+<section class="slide slide-white" id="s21">
     <div class="slide-content">
         <div class="slide-label">Sentence Bank</div>
         <h2 class="slide-heading">Use today's words right away.</h2>
@@ -704,8 +988,8 @@
 </section>
 
 
-<!-- ========== SLIDE 16: FINAL RECAP ========== -->
-<section class="slide slide-white" id="s16">
+<!-- ========== SLIDE 22: FINAL RECAP ========== -->
+<section class="slide slide-white" id="s22">
     <div class="slide-content">
         <div class="slide-label">Final Recap · Words 51–75</div>
         <h2 class="slide-heading">Write what you can.</h2>
@@ -749,8 +1033,8 @@
 </section>
 
 
-<!-- ========== SLIDE 17: CLOSING ========== -->
-<section class="slide slide-dark" id="s17">
+<!-- ========== SLIDE 23: CLOSING ========== -->
+<section class="slide slide-dark" id="s23">
     <div class="slide-content">
         <div class="slide-label">End of June Lesson 3</div>
         <h1 class="slide-title cjk" style="font-size: clamp(2rem, 5vw, 3.5rem);">我要两个。</h1>
@@ -811,33 +1095,33 @@
         else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goToSlide(nearestSlide() - 1); }
     });
 
-    // 25 words: HSK 1 #51–75, same set as June Day 5
+    // 25 words: HSK 1 #51–75, same set as June Day 5 — each with an example sentence
     const v1cards = [
-        { zh:'两',       py:'liǎng',      en:'two (with measure word)' },
-        { zh:'三',       py:'sān',        en:'three' },
-        { zh:'四',       py:'sì',         en:'four' },
-        { zh:'五',       py:'wǔ',         en:'five' },
-        { zh:'六',       py:'liù',        en:'six' },
-        { zh:'七',       py:'qī',         en:'seven' },
-        { zh:'八',       py:'bā',         en:'eight' },
-        { zh:'九',       py:'jiǔ',        en:'nine' },
-        { zh:'十',       py:'shí',        en:'ten' },
-        { zh:'百',       py:'bǎi',        en:'hundred' },
-        { zh:'千',       py:'qiān',       en:'thousand' },
-        { zh:'半',       py:'bàn',        en:'half' },
-        { zh:'一半',     py:'yíbàn',      en:'one half' },
-        { zh:'第',       py:'dì',         en:'ordinal prefix' },
-        { zh:'个',       py:'gè',         en:'generic measure word' },
-        { zh:'本',       py:'běn',        en:'MW for books' },
-        { zh:'件',       py:'jiàn',       en:'MW for clothes / matters' },
-        { zh:'块',       py:'kuài',       en:'yuan / piece' },
-        { zh:'口',       py:'kǒu',        en:'MW for family members' },
-        { zh:'只',       py:'zhī',        en:'MW for animals' },
-        { zh:'元',       py:'yuán',       en:'yuan (formal)' },
-        { zh:'些',       py:'xiē',        en:'some, several' },
-        { zh:'一些',     py:'yìxiē',      en:'some' },
-        { zh:'一点儿',   py:'yìdiǎnr',    en:'a little' },
-        { zh:'有点儿',   py:'yǒudiǎnr',   en:'a little (negative)' },
+        { zh:'两',       py:'liǎng',      en:'two (with measure word)',   exZh:'我要两杯茶。',        exPy:'Wǒ yào liǎng bēi chá.',      exEn:'I want two cups of tea.' },
+        { zh:'三',       py:'sān',        en:'three',                     exZh:'我有三个朋友。',      exPy:'Wǒ yǒu sān gè péngyou.',     exEn:'I have three friends.' },
+        { zh:'四',       py:'sì',         en:'four',                      exZh:'他四岁。',           exPy:'Tā sì suì.',                 exEn:'He is four years old.' },
+        { zh:'五',       py:'wǔ',         en:'five',                      exZh:'现在五点。',          exPy:'Xiànzài wǔ diǎn.',           exEn:"It's five o'clock now." },
+        { zh:'六',       py:'liù',        en:'six',                       exZh:'六月很热。',          exPy:'Liù yuè hěn rè.',            exEn:'June is very hot.' },
+        { zh:'七',       py:'qī',         en:'seven',                     exZh:'一个星期有七天。',    exPy:'Yí gè xīngqī yǒu qī tiān.',  exEn:'A week has seven days.' },
+        { zh:'八',       py:'bā',         en:'eight',                     exZh:'我家有八口人。',      exPy:'Wǒ jiā yǒu bā kǒu rén.',     exEn:'My family has eight people.' },
+        { zh:'九',       py:'jiǔ',        en:'nine',                      exZh:'他九岁了。',          exPy:'Tā jiǔ suì le.',             exEn:'He is nine now.' },
+        { zh:'十',       py:'shí',        en:'ten',                       exZh:'我十点睡觉。',        exPy:'Wǒ shí diǎn shuìjiào.',      exEn:'I sleep at ten.' },
+        { zh:'百',       py:'bǎi',        en:'hundred',                   exZh:'这本书一百块。',      exPy:'Zhè běn shū yìbǎi kuài.',    exEn:'This book is 100 yuan.' },
+        { zh:'千',       py:'qiān',       en:'thousand',                  exZh:'这个手机三千块。',    exPy:'Zhège shǒujī sānqiān kuài.', exEn:'This phone is 3,000 yuan.' },
+        { zh:'半',       py:'bàn',        en:'half',                      exZh:'现在五点半。',        exPy:'Xiànzài wǔ diǎn bàn.',       exEn:"It's 5:30 now." },
+        { zh:'一半',     py:'yíbàn',      en:'one half',                  exZh:'我喝了一半。',        exPy:'Wǒ hē le yíbàn.',            exEn:'I drank half of it.' },
+        { zh:'第',       py:'dì',         en:'ordinal prefix',            exZh:'他是第一名。',        exPy:'Tā shì dì-yī míng.',         exEn:'He is first place.' },
+        { zh:'个',       py:'gè',         en:'generic measure word',      exZh:'我有一个问题。',      exPy:'Wǒ yǒu yí gè wèntí.',        exEn:'I have a question.' },
+        { zh:'本',       py:'běn',        en:'MW for books',              exZh:'这本书很好看。',      exPy:'Zhè běn shū hěn hǎokàn.',    exEn:'This book is great.' },
+        { zh:'件',       py:'jiàn',       en:'MW for clothes / matters',  exZh:'这件衣服很漂亮。',    exPy:'Zhè jiàn yīfu hěn piàoliang.', exEn:'This piece of clothing is pretty.' },
+        { zh:'块',       py:'kuài',       en:'yuan / piece',              exZh:'一杯茶五块钱。',      exPy:'Yì bēi chá wǔ kuài qián.',   exEn:'A cup of tea is 5 yuan.' },
+        { zh:'口',       py:'kǒu',        en:'MW for family members',     exZh:'我家有四口人。',      exPy:'Wǒ jiā yǒu sì kǒu rén.',     exEn:'My family has four people.' },
+        { zh:'只',       py:'zhī',        en:'MW for animals',            exZh:'我有一只猫。',        exPy:'Wǒ yǒu yì zhī māo.',         exEn:'I have one cat.' },
+        { zh:'元',       py:'yuán',       en:'yuan (formal)',             exZh:'这个面包十元。',      exPy:'Zhège miànbāo shí yuán.',    exEn:'This bread is 10 yuan.' },
+        { zh:'些',       py:'xiē',        en:'some, several',             exZh:'桌子上有些书。',      exPy:'Zhuōzi shàng yǒu xiē shū.',  exEn:'There are some books on the table.' },
+        { zh:'一些',     py:'yìxiē',      en:'some',                      exZh:'我有一些朋友。',      exPy:'Wǒ yǒu yìxiē péngyou.',      exEn:'I have some friends.' },
+        { zh:'一点儿',   py:'yìdiǎnr',    en:'a little',                  exZh:'我会一点儿汉语。',    exPy:'Wǒ huì yìdiǎnr Hànyǔ.',      exEn:'I know a little Chinese.' },
+        { zh:'有点儿',   py:'yǒudiǎnr',   en:'a little (negative)',       exZh:'今天有点儿冷。',      exPy:'Jīntiān yǒudiǎnr lěng.',     exEn:'Today is a little cold.' },
     ];
     let v1Order = v1cards.map((_, i) => i);
     let v1Idx = 0;
@@ -848,6 +1132,9 @@
             document.getElementById('v1-zh').textContent = c.zh;
             document.getElementById('v1-py').textContent = c.py;
             document.getElementById('v1-en').textContent = c.en;
+            document.getElementById('v1-ex-zh').textContent = c.exZh;
+            document.getElementById('v1-ex-py').textContent = c.exPy;
+            document.getElementById('v1-ex-en').textContent = c.exEn;
             document.getElementById('v1-counter').textContent = (v1Idx + 1) + ' / ' + v1cards.length;
         }, 240);
     }
