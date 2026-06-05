@@ -498,7 +498,7 @@ function renderMissing() {
 function renderVocab() {
     const words = window.HSK1_WORDS.slice(info.start - 1, info.end);
     const rangeLabel = `生词 ${info.start}–${info.end}`;
-    const hasAudio = day === 3 && info.start === 1 && info.end === 25;
+    const hasAudio = info.start >= 1 && info.end <= window.HSK1_WORDS.length;
     title.textContent = `Day ${day} · ${rangeLabel}`;
 
     const examBadge = info.exam
@@ -598,7 +598,7 @@ function renderVocab() {
     const $ = (id) => document.getElementById(id);
     const cur = () => words[order[idx]];
     function currentAudioPath() {
-        return `/audio/june/day3/${String(info.start + order[idx]).padStart(3, '0')}.mp3`;
+        return `/audio/june/hsk1/${String(info.start + order[idx]).padStart(3, '0')}.mp3`;
     }
     function stopAudio() {
         if (!activeAudio) return;
