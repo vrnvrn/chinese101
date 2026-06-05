@@ -49,6 +49,43 @@
     }
     .topbar .spacer { flex: 1; }
 
+    /* Lessons dropdown */
+    .dropdown { position: relative; }
+    .dd-toggle {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.18);
+        color: rgba(255,255,255,0.85);
+        font: inherit;
+        font-size: 0.85rem;
+        padding: 0.3rem 0.7rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+    }
+    .dd-toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+    .dd-menu {
+        position: absolute;
+        top: calc(100% + 0.4rem);
+        right: 0;
+        background: #1a1a1a;
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 8px;
+        padding: 0.3rem;
+        min-width: 9rem;
+        display: none;
+        flex-direction: column;
+        gap: 0.1rem;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        z-index: 10;
+    }
+    .dropdown.open .dd-menu { display: flex; }
+    .dd-menu a {
+        display: block;
+        padding: 0.45rem 0.7rem;
+        border-radius: 5px;
+        white-space: nowrap;
+    }
+
     .hero {
         background: linear-gradient(135deg, #052e1f 0%, #0a4f37 100%);
         color: white;
@@ -251,9 +288,14 @@
     <span class="title">June Accelerated Course</span>
     <span class="badge">New</span>
     <div class="spacer"></div>
-    <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-right:0.1rem;">Lessons</span>
-    <a href="/june/lesson/1">1</a>
-    <a href="/june/lesson/2">2</a>
+    <div class="dropdown" id="lessons-dropdown">
+        <button class="dd-toggle" type="button" onclick="toggleLessons(event)">Lessons ▾</button>
+        <div class="dd-menu">
+            <a href="/june/lesson/1">Lesson 1</a>
+            <a href="/june/lesson/2">Lesson 2</a>
+            <a href="/june/lesson/3">Lesson 3</a>
+        </div>
+    </div>
     <a href="/june/matching">Matching</a>
     <a href="/june/completion">Completion</a>
     <a href="/june/hsk4">HSK 4 →</a>
@@ -325,6 +367,14 @@ window.JUNE_SCHEDULE.weeks.forEach((week, wi) => {
 });
 
 grid.innerHTML = parts.join('');
+
+// Lessons dropdown
+const lessonsDropdown = document.getElementById('lessons-dropdown');
+function toggleLessons(e) {
+    e.stopPropagation();
+    lessonsDropdown.classList.toggle('open');
+}
+document.addEventListener('click', () => lessonsDropdown.classList.remove('open'));
 </script>
 
 </body>
