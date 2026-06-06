@@ -23,6 +23,10 @@
     { "source": "/june/matching", "destination": "/june-matching.html" },
     { "source": "/june/completion", "destination": "/june-completion.html" },
     { "source": "/june/day/:n(\\d+)", "destination": "/june-day.html?n=:n" },
+    { "source": "/june/hsk2", "destination": "/june2.html" },
+    { "source": "/june/hsk2/day/:n(\\d+)", "destination": "/june2-day.html?n=:n" },
+    { "source": "/june/hsk3", "destination": "/june3.html" },
+    { "source": "/june/hsk3/day/:n(\\d+)", "destination": "/june3-day.html?n=:n" },
     { "source": "/june/hsk4", "destination": "/june4.html" },
     { "source": "/june/hsk4/day/:n(\\d+)", "destination": "/june4-day.html?n=:n" }
   ]

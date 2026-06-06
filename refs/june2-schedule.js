@@ -1,0 +1,39 @@
+// June Accelerated Course — HSK 2 schedule.
+// Same calendar shape as the HSK 1 / HSK 4 courses. Only the word ranges differ —
+// here they span the 200 HSK 2 (Band 2) words in BAND2_WORDS.
+window.JUNE2_SCHEDULE = {
+    total: 200,
+    weeks: [
+        [null, 1, 2, 3, 4, 5, 6, 7],
+        [8, 9, 10, 11, 12, 13, 14, 15],
+        [16, 17, 18, 19, 20, 21, 22, 23],
+        [24, 25, 26, 27, 28, 29, 30, null],
+    ],
+    days: {
+        1:  { type: 'event', title: 'Check-In' },
+        2:  { type: 'event', title: 'Orientation' },
+        3:  { type: 'vocab', start: 1,   end: 17  },
+        4:  { type: 'vocab', start: 18,  end: 34  },
+        5:  { type: 'vocab', start: 35,  end: 51  },
+        6:  { type: 'vocab', start: 52,  end: 68  },
+        7:  { type: 'vocab', start: 1,   end: 68,  kind: 'review' },
+        9:  { type: 'vocab', start: 69,  end: 85  },
+        10: { type: 'vocab', start: 86,  end: 102 },
+        11: { type: 'vocab', start: 103, end: 119 },
+        12: { type: 'vocab', start: 120, end: 136 },
+        13: { type: 'vocab', start: 69,  end: 136, kind: 'review' },
+        14: { type: 'vocab', start: 1,   end: 68,  kind: 'review' },
+        15: { type: 'vocab', start: 69,  end: 136, kind: 'review' },
+        17: { type: 'vocab', start: 137, end: 152 },
+        18: { type: 'vocab', start: 153, end: 168 },
+        19: { type: 'vocab', start: 169, end: 184 },
+        20: { type: 'vocab', start: 185, end: 200 },
+        21: { type: 'vocab', start: 137, end: 200, kind: 'review' },
+        22: { type: 'vocab', start: 1,   end: 100, kind: 'review' },
+        23: { type: 'vocab', start: 101, end: 200, kind: 'review' },
+        25: { type: 'vocab', start: 1,   end: 200, kind: 'review' },
+        26: { type: 'vocab', start: 1,   end: 200, kind: 'review' },
+        27: { type: 'vocab', start: 1,   end: 200, kind: 'review' },
+        28: { type: 'event', title: 'JOHOR EXAM' },
+    },
+};

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>June Day · Chinese 101</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f5f5f5;
+        color: #2d3748;
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .han { font-family: 'Noto Serif SC', 'PingFang SC', 'Songti SC', serif; }
+
+    .topbar {
+        background: rgba(26,26,26,0.96);
+        backdrop-filter: blur(8px);
+        color: white;
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.85rem;
+    }
+    .topbar a {
+        color: rgba(255,255,255,0.75);
+        text-decoration: none;
+        padding: 0.3rem 0.65rem;
+        border-radius: 6px;
+        transition: background 0.15s, color 0.15s;
+    }
+    .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+    .topbar .title { font-weight: 600; color: white; margin-left: 0.25rem; }
+    .topbar .spacer { flex: 1; }
+    .topbar .nav-day {
+        font-size: 0.78rem;
+        color: rgba(255,255,255,0.55);
+        padding: 0.3rem 0.55rem;
+    }
+
+    main {
+        flex: 1;
+        padding: 1.5rem 1.25rem 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .wrap { max-width: 720px; width: 100%; }
+
+    .header-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .header-row .day-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #6b7280;
+    }
+    .header-row h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-top: 0.15rem;
+    }
+    .header-row .count {
+        font-size: 0.85rem;
+        color: #888;
+        font-weight: 600;
+    }
+
+    .toggles {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        margin-bottom: 1.25rem;
+        flex-wrap: wrap;
+    }
+    .gt-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #666;
+        margin-right: 0.15rem;
+    }
+    .toggle-btn {
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #444;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 0.42rem 0.85rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s;
+        letter-spacing: 0.03em;
+    }
+    .toggle-btn:hover { border-color: #1a1a1a; }
+    .toggle-btn.active {
+        background: #1a1a1a;
+        color: white;
+        border-color: #1a1a1a;
+    }
+    .toggle-btn .dot {
+        display: inline-block;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #cbd5e0;
+        margin-right: 0.45rem;
+        vertical-align: middle;
+    }
+    .toggle-btn.active .dot { background: #4ade80; }
+    .progress {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #555;
+        margin-left: 0.25rem;
+    }
+    .progress-bar {
+        width: 100%;
+        height: 4px;
+        background: #e5e7eb;
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+    .progress-fill {
+        height: 100%;
+        background: #1a1a1a;
+        transition: width 0.2s;
+    }
+
+    .flash-stage { perspective: 1200px; margin-bottom: 1rem; }
+    .flashcard {
+        position: relative;
+        width: 100%;
+        min-height: 340px;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        transition: transform 0.45s;
+    }
+    .flashcard.flipped { transform: rotateY(180deg); }
+    .fc-face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        border-radius: 16px;
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        padding: 2rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .fc-pos {
+        position: absolute;
+        top: 1rem;
+        right: 1.25rem;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #94a3b8;
+    }
+    .fc-audio-btn {
+        position: absolute;
+        top: 0.85rem;
+        left: 1rem;
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #1a1a1a;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .fc-audio-btn:hover {
+        border-color: #1a1a1a;
+        background: #1a1a1a;
+        color: white;
+    }
+    .fc-audio-btn.playing {
+        background: #1a1a1a;
+        border-color: #1a1a1a;
+        color: white;
+    }
+    .fc-front .fc-hanzi {
+        font-size: clamp(4rem, 11vw, 6rem);
+        font-weight: 600;
+        color: #1a1a1a;
+        line-height: 1;
+        margin-bottom: 1rem;
+    }
+    .fc-front .fc-hint {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-top: 1.5rem;
+    }
+    .fc-back { transform: rotateY(180deg); }
+    .fc-back .fc-pinyin {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+    }
+    .fc-back .fc-en {
+        font-size: 1.15rem;
+        color: #475569;
+        margin-bottom: 1.5rem;
+    }
+    .fc-back .fc-ex-han { font-size: 1.3rem; color: #1a1a1a; margin-bottom: 0.3rem; }
+    .fc-back .fc-ex-py { font-size: 0.85rem; color: #64748b; margin-bottom: 0.15rem; }
+    .fc-back .fc-ex-en { font-size: 0.85rem; color: #64748b; }
+
+    /* Pinyin/English toggles only affect the word-list table — the flashcard
+       back always shows the full reveal, since that is the answer side. */
+    body.hide-pinyin .col-py,
+    body.hide-pinyin .ex-py { display: none; }
+    body.hide-english .col-en,
+    body.hide-english .ex-en { display: none; }
+
+    .controls {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 0.75rem;
+    }
+    .ctrl-btn {
+        flex: 1 0 auto;
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #1a1a1a;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .ctrl-btn:hover:not(:disabled) { border-color: #1a1a1a; background: #1a1a1a; color: white; }
+    .ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ctrl-btn.primary {
+        background: #1a1a1a;
+        color: white;
+        border-color: #1a1a1a;
+    }
+    .ctrl-btn.primary:hover:not(:disabled) { background: #2d2d2d; }
+
+    .footer-note {
+        text-align: center;
+        font-size: 0.75rem;
+        color: #888;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+    .footer-note kbd {
+        font-family: ui-monospace, monospace;
+        background: #e5e7eb;
+        border-radius: 4px;
+        padding: 1px 6px;
+        font-size: 0.7rem;
+    }
+
+    .section-divider {
+        margin: 2rem 0 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+    .section-divider h2 {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #6b7280;
+    }
+    .section-divider .rule {
+        flex: 1;
+        height: 1px;
+        background: #e5e7eb;
+    }
+
+    .word-table {
+        width: 100%;
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        border-collapse: collapse;
+        overflow: hidden;
+    }
+    .word-table thead th {
+        background: #fafafa;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #6b7280;
+        text-align: left;
+        padding: 0.55rem 0.85rem;
+    }
+    .word-table tbody tr + tr td { border-top: 1px solid #f1f5f9; }
+    .word-table td {
+        padding: 0.65rem 0.85rem;
+        font-size: 0.88rem;
+        vertical-align: top;
+    }
+    .word-table td.col-idx {
+        color: #94a3b8;
+        font-size: 0.72rem;
+        font-weight: 600;
+        width: 2.4rem;
+    }
+    .word-table td.col-han {
+        font-family: 'Noto Serif SC', 'PingFang SC', serif;
+        font-size: 1.05rem;
+        color: #1a1a1a;
+        white-space: nowrap;
+        width: 5.5rem;
+    }
+    .word-table td.col-py {
+        color: #475569;
+        font-style: italic;
+        white-space: nowrap;
+        width: 6.5rem;
+    }
+    .word-table td.col-en {
+        color: #1a1a1a;
+        width: 8rem;
+    }
+    .word-table td.col-pos {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #94a3b8;
+        white-space: nowrap;
+        width: 3.4rem;
+    }
+    .word-table td.col-ex .ex-han {
+        font-family: 'Noto Serif SC', 'PingFang SC', serif;
+        font-size: 0.95rem;
+        color: #1a1a1a;
+        margin-bottom: 0.1rem;
+    }
+    .word-table td.col-ex .ex-py {
+        font-size: 0.78rem;
+        color: #64748b;
+        font-style: italic;
+        margin-bottom: 0.05rem;
+    }
+    .word-table td.col-ex .ex-en {
+        font-size: 0.78rem;
+        color: #64748b;
+    }
+    @media (max-width: 640px) {
+        .word-table td.col-idx, .word-table thead th:first-child { display: none; }
+        .word-table td.col-pos, .word-table th.col-pos { display: none; }
+    }
+
+    .event-panel {
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+    }
+    .event-panel h2 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+    }
+    .event-panel p {
+        font-size: 0.9rem;
+        color: #6b7280;
+    }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <a href="/june/hsk2">← HSK 2 June</a>
+    <span class="title" id="topbar-title">Day</span>
+    <div class="spacer"></div>
+    <a class="nav-day" id="nav-prev" href="#">← Prev day</a>
+    <a class="nav-day" id="nav-next" href="#">Next day →</a>
+</div>
+
+<main>
+    <div class="wrap" id="content"></div>
+</main>
+
+<script src="/refs/char-defs.js"></script>
+<script src="/refs/band2-words.js"></script>
+<script src="/refs/june2-schedule.js"></script>
+<script>
+function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function getDay() {
+    // Support both ?n=N and path-based /june/hsk2/day/N
+    const url = new URL(window.location.href);
+    const fromQuery = url.searchParams.get('n');
+    if (fromQuery) return parseInt(fromQuery, 10);
+    const m = url.pathname.match(/\/june\/hsk2\/day\/(\d+)/);
+    if (m) return parseInt(m[1], 10);
+    return null;
+}
+
+const day = getDay();
+const schedule = window.JUNE2_SCHEDULE;
+const info = day && schedule.days[day];
+const content = document.getElementById('content');
+const title = document.getElementById('topbar-title');
+const prev = document.getElementById('nav-prev');
+const next = document.getElementById('nav-next');
+
+// Build prev/next links among scheduled days (skip empty days)
+const scheduledDays = Object.keys(schedule.days).map(Number).sort((a, b) => a - b);
+function neighbor(d, dir) {
+    const arr = dir > 0 ? scheduledDays : [...scheduledDays].reverse();
+    return arr.find(x => dir > 0 ? x > d : x < d);
+}
+function wireNav() {
+    if (!day) { prev.style.display = 'none'; next.style.display = 'none'; return; }
+    const p = neighbor(day, -1);
+    const n = neighbor(day, 1);
+    if (p) prev.href = `/june/hsk2/day/${p}`; else prev.style.visibility = 'hidden';
+    if (n) next.href = `/june/hsk2/day/${n}`; else next.style.visibility = 'hidden';
+}
+
+function renderEvent() {
+    title.textContent = `Day ${day} · ${info.title}`;
+    content.innerHTML = `
+        <div class="header-row">
+            <div>
+                <div class="day-label">June · HSK 2 · Day ${day}</div>
+                <h1>${escapeHTML(info.title)}</h1>
+            </div>
+            <a class="ctrl-btn" href="/june/hsk2" style="flex:0 0 auto;">Back to calendar</a>
+        </div>
+        <div class="event-panel">
+            <h2>No vocabulary today</h2>
+            <p>This day is reserved for ${escapeHTML(info.title.toLowerCase())}.</p>
+        </div>`;
+}
+
+function renderMissing() {
+    title.textContent = 'Day not found';
+    content.innerHTML = `
+        <div class="header-row">
+            <div>
+                <div class="day-label">June</div>
+                <h1>Day not scheduled</h1>
+            </div>
+            <a class="ctrl-btn" href="/june/hsk2" style="flex:0 0 auto;">Back to calendar</a>
+        </div>
+        <div class="event-panel">
+            <h2>Nothing scheduled</h2>
+            <p>Pick a day from the calendar.</p>
+        </div>`;
+}
+
+function renderVocab() {
+    const words = window.BAND2_WORDS.slice(info.start - 1, info.end);
+    const rangeLabel = `生词 ${info.start}–${info.end}`;
+    const hasAudio = info.start >= 1 && info.end <= window.BAND2_WORDS.length;
+    title.textContent = `Day ${day} · ${rangeLabel}`;
+
+    content.innerHTML = `
+        <div class="header-row">
+            <div>
+                <div class="day-label">June · HSK 2 · Day ${day}${info.kind === 'review' ? ' · Review' : ''}</div>
+                <h1>${rangeLabel}</h1>
+            </div>
+            <span class="count"><span id="progress">1 / ${words.length}</span> · ${words.length} words</span>
+        </div>
+
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+        <div class="flash-stage">
+            <div class="flashcard" id="flashcard">
+                <div class="fc-face fc-front">
+                    ${hasAudio ? `<button class="fc-audio-btn" type="button" aria-label="Play Mandarin audio">Audio</button>` : ''}
+                    <span class="fc-pos" id="fc-front-pos"></span>
+                    <div class="fc-hanzi han" id="fc-front-han"></div>
+                    <div class="fc-hint">tap or press space to reveal</div>
+                </div>
+                <div class="fc-face fc-back">
+                    ${hasAudio ? `<button class="fc-audio-btn" type="button" aria-label="Play Mandarin audio">Audio</button>` : ''}
+                    <span class="fc-pos" id="fc-back-pos"></span>
+                    <div class="fc-pinyin" id="fc-back-py"></div>
+                    <div class="fc-en" id="fc-back-en"></div>
+                    <div class="fc-ex-han han" id="fc-back-ex-han"></div>
+                    <div class="fc-ex-py" id="fc-back-ex-py"></div>
+                    <div class="fc-ex-en" id="fc-back-ex-en"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="ctrl-btn" id="prev">← Prev</button>
+            <button class="ctrl-btn primary" id="next">Next →</button>
+        </div>
+        <div class="controls">
+            <button class="ctrl-btn" id="shuffle">Shuffle</button>
+            <button class="ctrl-btn" id="reset">Reset</button>
+        </div>
+
+        <div class="footer-note">
+            <kbd>Space</kbd> flip · <kbd>←</kbd> prev · <kbd>→</kbd> next
+        </div>
+
+        <div class="section-divider">
+            <h2>Word list</h2>
+            <div class="rule"></div>
+        </div>
+
+        <div class="toggles">
+            <span class="gt-label">Show</span>
+            <button class="toggle-btn" id="toggle-pinyin"><span class="dot"></span>Pinyin</button>
+            <button class="toggle-btn" id="toggle-english"><span class="dot"></span>English</button>
+        </div>
+
+        <table class="word-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Hanzi</th>
+                    <th class="col-py">Pinyin</th>
+                    <th class="col-en">English</th>
+                    <th class="col-pos">POS</th>
+                    <th class="col-ex">Example sentence</th>
+                </tr>
+            </thead>
+            <tbody id="word-tbody"></tbody>
+        </table>`;
+
+    // Populate table
+    const tbody = document.getElementById('word-tbody');
+    tbody.innerHTML = words.map((w, i) => `
+        <tr>
+            <td class="col-idx">${info.start + i}</td>
+            <td class="col-han">${escapeHTML(w[0])}</td>
+            <td class="col-py">${escapeHTML(w[1])}</td>
+            <td class="col-en">${escapeHTML(w[3])}</td>
+            <td class="col-pos">${escapeHTML(w[2])}</td>
+            <td class="col-ex">
+                <div class="ex-han">${escapeHTML(w[4])}</div>
+                <div class="ex-py">${escapeHTML(w[5])}</div>
+                <div class="ex-en">${escapeHTML(w[6])}</div>
+            </td>
+        </tr>`).join('');
+
+    // Flashcard machinery
+    let order = words.map((_, i) => i);
+    let idx = 0;
+    let activeAudio = null;
+    const $ = (id) => document.getElementById(id);
+    const cur = () => words[order[idx]];
+    function currentAudioPath() {
+        return `/audio/june/hsk2/${String(info.start + order[idx]).padStart(4, '0')}.mp3`;
+    }
+    function stopAudio() {
+        if (!activeAudio) return;
+        activeAudio.pause();
+        activeAudio.currentTime = 0;
+        activeAudio = null;
+        if (hasAudio) document.querySelectorAll('.fc-audio-btn').forEach(btn => btn.classList.remove('playing'));
+    }
+    function playCurrentAudio() {
+        stopAudio();
+        activeAudio = new Audio(currentAudioPath());
+        document.querySelectorAll('.fc-audio-btn').forEach(btn => btn.classList.add('playing'));
+        activeAudio.addEventListener('ended', stopAudio, { once: true });
+        activeAudio.addEventListener('error', stopAudio, { once: true });
+        activeAudio.play().catch(stopAudio);
+    }
+    function render() {
+        stopAudio();
+        const w = cur();
+        const card = $('flashcard');
+        card.classList.remove('flipped');
+        $('fc-front-pos').textContent = w[2];
+        $('fc-back-pos').textContent = w[2];
+        $('fc-front-han').textContent = w[0];
+        $('fc-back-py').textContent = w[1];
+        $('fc-back-en').textContent = w[3];
+        $('fc-back-ex-han').textContent = w[4];
+        $('fc-back-ex-py').textContent = w[5];
+        $('fc-back-ex-en').textContent = w[6];
+        $('progress').textContent = `${idx + 1} / ${words.length}`;
+        $('progress-fill').style.width = `${((idx + 1) / words.length) * 100}%`;
+        $('prev').disabled = idx === 0;
+        $('next').disabled = idx === words.length - 1;
+    }
+    $('flashcard').addEventListener('click', () => $('flashcard').classList.toggle('flipped'));
+    $('prev').addEventListener('click', () => { if (idx > 0) { idx--; render(); } });
+    $('next').addEventListener('click', () => { if (idx < words.length - 1) { idx++; render(); } });
+    $('shuffle').addEventListener('click', () => {
+        for (let i = order.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [order[i], order[j]] = [order[j], order[i]];
+        }
+        idx = 0; render();
+    });
+    $('reset').addEventListener('click', () => { order = words.map((_, i) => i); idx = 0; render(); });
+    if (hasAudio) {
+        document.querySelectorAll('.fc-audio-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                playCurrentAudio();
+            });
+        });
+    }
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowLeft' && idx > 0) { idx--; render(); }
+        else if (e.key === 'ArrowRight' && idx < words.length - 1) { idx++; render(); }
+        else if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            if (document.activeElement && document.activeElement.tagName === 'BUTTON' && document.activeElement.id !== 'flashcard') return;
+            e.preventDefault();
+            $('flashcard').classList.toggle('flipped');
+        }
+    });
+
+    // Toggles
+    const py = $('toggle-pinyin'), en = $('toggle-english');
+    py.addEventListener('click', () => {
+        const hide = !document.body.classList.contains('hide-pinyin');
+        document.body.classList.toggle('hide-pinyin', hide);
+        py.classList.toggle('active', !hide);
+    });
+    en.addEventListener('click', () => {
+        const hide = !document.body.classList.contains('hide-english');
+        document.body.classList.toggle('hide-english', hide);
+        en.classList.toggle('active', !hide);
+    });
+
+    render();
+}
+
+// Word list defaults to hanzi-only — pinyin and english must be toggled on.
+document.body.classList.add('hide-pinyin', 'hide-english');
+
+if (!day) renderMissing();
+else if (!info) renderMissing();
+else if (info.type === 'event') renderEvent();
+else if (info.type === 'vocab') renderVocab();
+
+wireNav();
+</script>
+
+</body>
+</html>

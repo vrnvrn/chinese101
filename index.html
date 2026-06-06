@@ -103,6 +103,21 @@
             flex-shrink: 0;
         }
         .featured-cta:hover { background: #2d2d2d; transform: translateY(-1px); }
+        .featured-cta-row {
+            display: flex;
+            gap: 0.4rem;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .featured-cta.sm {
+            padding: 0.45rem 0.7rem;
+            font-size: 0.75rem;
+        }
+        @media (max-width: 560px) {
+            .featured-banner.june-banner .featured-inner { flex-wrap: wrap; }
+            .featured-cta-row { width: 100%; justify-content: flex-start; }
+        }
 
         .lessons-section {
             flex: 1;
@@ -310,10 +325,15 @@
     <div class="featured-inner">
         <div class="featured-icon">📅</div>
         <div class="featured-text">
-            <div class="featured-title">June Accelerated Course</div>
-            <div class="featured-desc">4-week calendar covering all 300 HSK 1 words. Tap any day for that day's flashcards and word list.</div>
+            <div class="featured-title">Accelerated June: HSK 1, 2, 3, 4</div>
+            <div class="featured-desc">Four-week calendars for each level. Tap any day for that day's flashcards with example sentences and audio.</div>
         </div>
-        <a href="/june" class="featured-cta">Open →</a>
+        <div class="featured-cta-row">
+            <a href="/june" class="featured-cta sm">HSK 1</a>
+            <a href="/june/hsk2" class="featured-cta sm">HSK 2</a>
+            <a href="/june/hsk3" class="featured-cta sm">HSK 3</a>
+            <a href="/june/hsk4" class="featured-cta sm">HSK 4</a>
+        </div>
     </div>
 </div>
 
