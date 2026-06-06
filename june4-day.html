@@ -175,6 +175,30 @@
         letter-spacing: 0.08em;
         color: #94a3b8;
     }
+    .fc-audio-btn {
+        position: absolute;
+        top: 0.85rem;
+        left: 1rem;
+        background: white;
+        border: 1.5px solid #d1d5db;
+        color: #1a1a1a;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .fc-audio-btn:hover {
+        border-color: #1a1a1a;
+        background: #1a1a1a;
+        color: white;
+    }
+    .fc-audio-btn.playing {
+        background: #1a1a1a;
+        border-color: #1a1a1a;
+        color: white;
+    }
     .fc-front .fc-hanzi {
         font-size: clamp(4rem, 11vw, 6rem);
         font-weight: 600;
@@ -459,6 +483,7 @@ function renderMissing() {
 function renderVocab() {
     const words = window.BAND4_WORDS.slice(info.start - 1, info.end);
     const rangeLabel = `生词 ${info.start}–${info.end}`;
+    const hasAudio = info.start >= 1 && info.end <= window.BAND4_WORDS.length;
     title.textContent = `Day ${day} · ${rangeLabel}`;
 
     content.innerHTML = `
@@ -475,11 +500,13 @@ function renderVocab() {
         <div class="flash-stage">
             <div class="flashcard" id="flashcard">
                 <div class="fc-face fc-front">
+                    ${hasAudio ? `<button class="fc-audio-btn" type="button" aria-label="Play Mandarin audio">Audio</button>` : ''}
                     <span class="fc-pos" id="fc-front-pos"></span>
                     <div class="fc-hanzi han" id="fc-front-han"></div>
                     <div class="fc-hint">tap or press space to reveal</div>
                 </div>
                 <div class="fc-face fc-back">
+                    ${hasAudio ? `<button class="fc-audio-btn" type="button" aria-label="Play Mandarin audio">Audio</button>` : ''}
                     <span class="fc-pos" id="fc-back-pos"></span>
                     <div class="fc-pinyin" id="fc-back-py"></div>
                     <div class="fc-en" id="fc-back-en"></div>
@@ -547,9 +574,29 @@ function renderVocab() {
     // Flashcard machinery
     let order = words.map((_, i) => i);
     let idx = 0;
+    let activeAudio = null;
     const $ = (id) => document.getElementById(id);
     const cur = () => words[order[idx]];
+    function currentAudioPath() {
+        return `/audio/june/hsk4/${String(info.start + order[idx]).padStart(4, '0')}.mp3`;
+    }
+    function stopAudio() {
+        if (!activeAudio) return;
+        activeAudio.pause();
+        activeAudio.currentTime = 0;
+        activeAudio = null;
+        if (hasAudio) document.querySelectorAll('.fc-audio-btn').forEach(btn => btn.classList.remove('playing'));
+    }
+    function playCurrentAudio() {
+        stopAudio();
+        activeAudio = new Audio(currentAudioPath());
+        document.querySelectorAll('.fc-audio-btn').forEach(btn => btn.classList.add('playing'));
+        activeAudio.addEventListener('ended', stopAudio, { once: true });
+        activeAudio.addEventListener('error', stopAudio, { once: true });
+        activeAudio.play().catch(stopAudio);
+    }
     function render() {
+        stopAudio();
         const w = cur();
         const card = $('flashcard');
         card.classList.remove('flipped');
@@ -577,6 +624,14 @@ function renderVocab() {
         idx = 0; render();
     });
     $('reset').addEventListener('click', () => { order = words.map((_, i) => i); idx = 0; render(); });
+    if (hasAudio) {
+        document.querySelectorAll('.fc-audio-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                playCurrentAudio();
+            });
+        });
+    }
     document.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         if (e.key === 'ArrowLeft' && idx > 0) { idx--; render(); }
