@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>June 9 · Telling Time & Daily Routine · Chinese 101</title>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #2d3748; line-height: 1.6; }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #fff; z-index: 1000; transition: width 0.1s; width: 0%; }
+
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 2rem 3rem; }
+        .slide-content { max-width: 820px; width: 100%; }
+        .slide-dark { background: linear-gradient(135deg, #052e1f 0%, #0a4f37 100%); color: white; }
+        .slide-white { background: white; }
+        .slide-gray  { background: #f5f5f5; }
+        .slide-accent { background: linear-gradient(135deg, #052e1f 0%, #0f6e4f 100%); color: white; }
+
+        .slide-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.75rem; }
+        .slide-dark .slide-label, .slide-accent .slide-label { color: rgba(255,255,255,0.55); }
+        h1.slide-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; color: white; margin-bottom: 1rem; }
+        h2.slide-heading { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+        .slide-dark h2.slide-heading, .slide-accent h2.slide-heading { color: white; }
+        .slide-white h2.slide-heading, .slide-gray h2.slide-heading { color: #1a1a1a; }
+        .slide-body { font-size: 1.05rem; line-height: 1.7; color: #444; max-width: 640px; }
+        .slide-dark .slide-body, .slide-accent .slide-body { color: rgba(255,255,255,0.85); }
+
+        .hbox { background: #f8f8f8; border-left: 4px solid #0a4f37; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.25rem 0; max-width: 680px; }
+        .slide-dark .hbox, .slide-accent .hbox { background: rgba(255,255,255,0.1); border-left-color: rgba(255,255,255,0.7); }
+        .hbox p { font-size: 0.95rem; color: #333; }
+        .slide-dark .hbox p, .slide-accent .hbox p { color: rgba(255,255,255,0.9); }
+
+        .card-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem; }
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .card-title { font-weight: 700; font-size: 1rem; color: #1a1a1a; margin-bottom: 0.35rem; }
+        .card-desc  { font-size: 0.85rem; color: #555; line-height: 1.5; }
+        .card-dark { background: #1a1a1a; }
+        .card-dark .card-title { color: white; }
+        .card-dark .card-desc  { color: rgba(255,255,255,0.75); }
+
+        .btn { background: #0a4f37; color: white; border: none; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.8; }
+        .btn-outline { background: transparent; color: #0a4f37; border: 2px solid #0a4f37; }
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+
+        .part-number { font-size: 6rem; font-weight: 800; color: rgba(255,255,255,0.1); line-height: 1; margin-bottom: -1.5rem; }
+        .part-label-big { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: white; line-height: 1.2; }
+        .part-sub { font-size: 1rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; }
+
+        .slide-footer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 998; text-align: center; padding: 0.6rem 1.5rem; font-size: 0.78rem; background: rgba(5,46,31,0.9); backdrop-filter: blur(6px); color: rgba(255,255,255,0.45); }
+
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1001;
+            background: rgba(5,46,31,0.92);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.55rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+        }
+        .topbar a {
+            color: rgba(255,255,255,0.78);
+            text-decoration: none;
+            padding: 0.25rem 0.55rem;
+            border-radius: 6px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+        .topbar a.active { background: rgba(16,185,129,0.18); color: white; }
+        .topbar .title { font-weight: 600; color: white; margin-left: 0.2rem; }
+        .topbar .badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: #10b981;
+            color: #052e1f;
+            padding: 0.16rem 0.45rem;
+            border-radius: 4px;
+            margin-left: 0.1rem;
+        }
+        .topbar .spacer { flex: 1; }
+        .topbar .toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.55);
+            font: inherit;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.28rem 0.6rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .topbar .toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+        .topbar .toggle.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #052e1f;
+        }
+        .topbar .toggle-label, .topbar .group-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-right: 0.1rem;
+        }
+
+        /* Hanzi is always visible. Pinyin and English are opt-in. */
+        body.hide-pinyin .td-py,
+        body.hide-pinyin .pattern-py { display: none; }
+        body.hide-english .td-en,
+        body.hide-english .pattern-en { display: none; }
+
+        .cjk { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Noto Sans CJK SC', serif; }
+
+        /* Tone colors */
+        .t1 { color: #c0392b; }
+        .t2 { color: #27ae60; }
+        .t3 { color: #2980b9; }
+        .t4 { color: #8e44ad; }
+        .tn { color: #888; }
+
+        /* Goals list */
+        .goals-list { list-style: none; margin-top: 1.25rem; }
+        .goals-list li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid #eee; font-size: 1rem; color: #333; }
+        .goals-list li:last-child { border-bottom: none; }
+        .goal-num { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+
+        /* Demonstrative / number grid */
+        .pt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.25rem; }
+        .pt-cell { background: #f8f8f8; border-radius: 10px; padding: 0.9rem 0.6rem; text-align: center; }
+        .pt-cell-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.6rem; line-height: 1.2; }
+        .pt-cell-py { font-size: 0.9rem; font-weight: 600; margin: 0.15rem 0; color: #555; }
+        .pt-cell-en { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pt-cell.accent { background: #0a4f37; }
+        .pt-cell.accent .pt-cell-zh { color: white; }
+        .pt-cell.accent .pt-cell-py { color: rgba(255,255,255,0.75); }
+        .pt-cell.accent .pt-cell-en { color: rgba(255,255,255,0.6); }
+
+        /* Measure-word page */
+        .mw-hero { display: flex; align-items: center; gap: 1.25rem; margin-top: 1.25rem; }
+        .mw-char { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 4.5rem; line-height: 1; color: #0a4f37; flex-shrink: 0; }
+        .mw-py { font-size: 1.3rem; font-weight: 700; color: #1a1a1a; }
+        .mw-gloss { font-size: 0.95rem; color: #666; }
+        .mw-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin: 1.25rem 0 0.5rem; }
+        .chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .chip { background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 1rem; color: #065f46; }
+        .chip .cjk { font-size: 1.05rem; }
+        .chip .chip-py { color: #6b9e8b; font-size: 0.78rem; font-style: italic; margin-left: 0.35rem; }
+
+        /* Vocab table */
+        .vocab-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.95rem; }
+        .vocab-table th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #1a1a1a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+        .vocab-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .td-num { color: #aaa; font-size: 0.78rem; font-weight: 600; width: 2rem; }
+        .td-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; white-space: nowrap; }
+        .td-py { color: #666; font-style: italic; white-space: nowrap; }
+        .td-en { color: #333; }
+
+        /* Pattern blocks */
+        .pattern-block { background: #f8f8f8; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 0.75rem; }
+        .pattern-formula { font-size: 0.75rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+        .pattern-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.5rem; margin-bottom: 0.15rem; }
+        .pattern-py  { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 0.15rem; }
+        .pattern-en  { font-size: 0.9rem; color: #555; }
+        .pattern-zh strong { color: #0a4f37; }
+
+        /* Dialogue */
+        .dialogue-controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .d-line { display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.55rem 0; border-bottom: 1px solid #eee; }
+        .d-line:last-child { border-bottom: none; }
+        .d-speaker { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.25rem; }
+        .d-speaker.sp-b { background: #555; }
+        .d-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.2rem; line-height: 1.4; }
+        .d-py { font-size: 0.85rem; color: #888; font-style: italic; display: none; margin-top: 0.1rem; }
+        .d-en { font-size: 0.85rem; color: #bbb; display: none; }
+        .show-py .d-py { display: block; }
+        .show-en .d-en { display: block; }
+
+        /* Line-by-line dialogue */
+        .dl-display { background: #f8f8f8; border-radius: 16px; padding: 2rem; margin: 1.5rem 0 1rem; min-height: 170px; display: flex; flex-direction: column; justify-content: center; }
+        .dl-speaker-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .dl-counter-label { font-size: 0.75rem; color: #aaa; font-weight: 600; letter-spacing: 0.05em; }
+        .dl-zh-big { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.8rem; line-height: 1.35; color: #1a1a1a; margin-bottom: 0.4rem; }
+        .dl-py-line { font-size: 1rem; color: #888; font-style: italic; margin-bottom: 0.3rem; visibility: hidden; }
+        .dl-en-line { font-size: 1rem; color: #aaa; visibility: hidden; }
+        .dl-py-line.show, .dl-en-line.show { visibility: visible; }
+        .dl-controls { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+
+        /* Flash cards */
+        .flashcard-wrap { perspective: 800px; height: 320px; cursor: pointer; margin-bottom: 1rem; }
+        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.45s; }
+        .flashcard-wrap.flipped .flashcard { transform: rotateY(180deg); }
+        .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
+        .fc-front { background: #0a4f37; color: white; }
+        .fc-back  { background: #ecfdf5; color: #052e1f; transform: rotateY(180deg); }
+        .fc-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 3.2rem; line-height: 1.1; }
+        .fc-hint { font-size: 0.72rem; opacity: 0.45; margin-top: 0.75rem; }
+        .fc-py   { font-size: 1.35rem; font-style: italic; color: #336e58; margin-bottom: 0.2rem; }
+        .fc-en   { font-size: 1.1rem; font-weight: 600; color: #052e1f; }
+        .fc-ex { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid rgba(5,46,31,0.18); width: 100%; max-width: 460px; }
+        .fc-ex-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; color: #052e1f; margin-bottom: 0.2rem; }
+        .fc-ex-py { font-size: 0.85rem; font-style: italic; color: #4b7a68; margin-bottom: 0.1rem; }
+        .fc-ex-en { font-size: 0.85rem; color: #4b7a68; }
+        .fc-controls { display: flex; gap: 0.75rem; align-items: center; justify-content: center; }
+        .fc-counter { font-size: 0.85rem; color: #888; min-width: 4rem; text-align: center; }
+
+        /* Final recap */
+        .recap-note { background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; border-radius: 10px; padding: 0.85rem 1.1rem; font-size: 0.92rem; margin-top: 1rem; }
+
+        @media (max-width: 640px) {
+            .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+            .pt-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="topbar">
+    <a href="/june">← June Course</a>
+    <span class="title">June 9</span>
+    <span class="badge">Day 9</span>
+    <div class="spacer"></div>
+    <span class="group-label">Lessons</span>
+    <a href="/june/lesson/1">1</a>
+    <a href="/june/lesson/2">2</a>
+    <a href="/june/lesson/3">3</a>
+    <a href="/june/lesson/9" class="active">Jun 9</a>
+    <a href="/june/lesson/10">Jun 10</a>
+    <a href="/june/lesson/11">Jun 11</a>
+    <a href="/june/lesson/12">Jun 12</a>
+    <span class="toggle-label">Show</span>
+    <button class="toggle" id="toggle-pinyin" type="button" onclick="toggleShow('pinyin')">Pinyin</button>
+    <button class="toggle" id="toggle-english" type="button" onclick="toggleShow('english')">English</button>
+    <a href="/june/day/9">Day 9 →</a>
+</div>
+
+
+<!-- TITLE -->
+<section class="slide slide-dark">
+    <div class="slide-content">
+        <div class="slide-label">Network School · June Accelerated Course</div>
+        <h1 class="slide-title">June 9:<br>Telling Time &amp; Daily Routine</h1>
+        <p class="slide-body">Words 126–150 · Clock words and the verbs of an ordinary day</p>
+    </div>
+</section>
+
+
+<!-- GOALS -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Lesson Goals</div>
+        <h2 class="slide-heading">By the end of this lesson…</h2>
+        <ul class="goals-list">
+            <li><span class="goal-num">1</span>Read a clock time — 点 for the hour, 分 for the minutes</li>
+            <li><span class="goal-num">2</span>Tell 现在 (now) from 时候 (a moment) and 时间 (time in general)</li>
+            <li><span class="goal-num">3</span>Walk through a daily routine: 起床, 睡觉, 吃, 喝, 休息</li>
+            <li><span class="goal-num">4</span>Use the paired sense verbs: 看 / 看见 and 听 / 听见</li>
+            <li><span class="goal-num">5</span>Say what you 说, 读, and 写 — speak, read, and write</li>
+            <li><span class="goal-num">6</span>Mark something as 早 (early) or 晚 (late)</li>
+        </ul>
+    </div>
+</section>
+
+
+<!-- FLASHCARDS (FIRST) -->
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Flashcards · 25 words</div>
+        <h2 class="slide-heading">Start here. Drill the deck.</h2>
+        <p class="slide-body">Words 126–150, same set as June 9's drill. Say the pinyin and meaning before you flip, and press 🔊 to hear it.</p>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="v1-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="v1-zh">现在</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="v1-py">xiànzài</div>
+                        <div class="fc-en" id="v1-en">now</div>
+                        <div class="fc-ex">
+                            <div class="fc-ex-zh cjk" id="v1-ex-zh">现在几点？</div>
+                            <div class="fc-ex-py" id="v1-ex-py">Xiànzài jǐ diǎn?</div>
+                            <div class="fc-ex-en" id="v1-ex-en">What time is it now?</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="v1Prev()">← Prev</button>
+                <span class="fc-counter" id="v1-counter">1 / 25</span>
+                <button class="btn btn-sm" onclick="v1Next()">Next →</button>
+                <button class="btn btn-sm" id="v1-audio" type="button" onclick="event.stopPropagation();v1Play()">🔊 Play</button>
+                <button class="btn btn-sm btn-outline" onclick="v1Shuffle()">Shuffle</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Clock &amp;amp; time words</div>
+        <h2 class="slide-heading">Clock &amp;amp; time words.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">126</td><td class="td-zh cjk">现在</td><td class="td-py">xiànzài</td><td class="td-en">now</td></tr>
+                <tr><td class="td-num">127</td><td class="td-zh cjk">时候</td><td class="td-py">shíhou</td><td class="td-en">time, moment</td></tr>
+                <tr><td class="td-num">128</td><td class="td-zh cjk">时间</td><td class="td-py">shíjiān</td><td class="td-en">time</td></tr>
+                <tr><td class="td-num">129</td><td class="td-zh cjk">点</td><td class="td-py">diǎn</td><td class="td-en">o'clock</td></tr>
+                <tr><td class="td-num">130</td><td class="td-zh cjk">分</td><td class="td-py">fēn</td><td class="td-en">minute</td></tr>
+                <tr><td class="td-num">131</td><td class="td-zh cjk">分钟</td><td class="td-py">fēnzhōng</td><td class="td-en">minute(s)</td></tr>
+                <tr><td class="td-num">132</td><td class="td-zh cjk">小时</td><td class="td-py">xiǎoshí</td><td class="td-en">hour</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Early, late &amp;amp; getting up</div>
+        <h2 class="slide-heading">Early, late &amp;amp; getting up.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">133</td><td class="td-zh cjk">早</td><td class="td-py">zǎo</td><td class="td-en">early</td></tr>
+                <tr><td class="td-num">134</td><td class="td-zh cjk">晚</td><td class="td-py">wǎn</td><td class="td-en">late</td></tr>
+                <tr><td class="td-num">135</td><td class="td-zh cjk">起床</td><td class="td-py">qǐchuáng</td><td class="td-en">get up</td></tr>
+                <tr><td class="td-num">136</td><td class="td-zh cjk">睡</td><td class="td-py">shuì</td><td class="td-en">sleep</td></tr>
+                <tr><td class="td-num">137</td><td class="td-zh cjk">睡觉</td><td class="td-py">shuìjiào</td><td class="td-en">sleep</td></tr>
+                <tr><td class="td-num">138</td><td class="td-zh cjk">休息</td><td class="td-py">xiūxi</td><td class="td-en">rest</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Eat, drink &amp;amp; the senses</div>
+        <h2 class="slide-heading">Eat, drink &amp;amp; the senses.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">139</td><td class="td-zh cjk">吃</td><td class="td-py">chī</td><td class="td-en">eat</td></tr>
+                <tr><td class="td-num">140</td><td class="td-zh cjk">喝</td><td class="td-py">hē</td><td class="td-en">drink</td></tr>
+                <tr><td class="td-num">141</td><td class="td-zh cjk">看</td><td class="td-py">kàn</td><td class="td-en">look, watch, read</td></tr>
+                <tr><td class="td-num">142</td><td class="td-zh cjk">看见</td><td class="td-py">kànjiàn</td><td class="td-en">see</td></tr>
+                <tr><td class="td-num">143</td><td class="td-zh cjk">听</td><td class="td-py">tīng</td><td class="td-en">listen</td></tr>
+                <tr><td class="td-num">144</td><td class="td-zh cjk">听见</td><td class="td-py">tīngjiàn</td><td class="td-en">hear</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Speaking, reading, writing</div>
+        <h2 class="slide-heading">Speaking, reading, writing.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">145</td><td class="td-zh cjk">说</td><td class="td-py">shuō</td><td class="td-en">speak, say</td></tr>
+                <tr><td class="td-num">146</td><td class="td-zh cjk">说话</td><td class="td-py">shuōhuà</td><td class="td-en">speak, talk</td></tr>
+                <tr><td class="td-num">147</td><td class="td-zh cjk">读</td><td class="td-py">dú</td><td class="td-en">read aloud</td></tr>
+                <tr><td class="td-num">148</td><td class="td-zh cjk">读书</td><td class="td-py">dúshū</td><td class="td-en">study, read books</td></tr>
+                <tr><td class="td-num">149</td><td class="td-zh cjk">写</td><td class="td-py">xiě</td><td class="td-en">write</td></tr>
+                <tr><td class="td-num">150</td><td class="td-zh cjk">唱</td><td class="td-py">chàng</td><td class="td-en">sing</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- SENTENCE BANK -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Sentence Bank</div>
+        <h2 class="slide-heading">See the words at work.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>Chinese</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">现在几点？</td><td class="td-py">Xiànzài jǐ diǎn?</td><td class="td-en">What time is it now?</td></tr>
+                <tr><td class="td-zh cjk">你什么时候来？</td><td class="td-py">Nǐ shénme shíhou lái?</td><td class="td-en">When are you coming?</td></tr>
+                <tr><td class="td-zh cjk">现在三点。</td><td class="td-py">Xiànzài sān diǎn.</td><td class="td-en">It's three o'clock now.</td></tr>
+                <tr><td class="td-zh cjk">等我五分钟。</td><td class="td-py">Děng wǒ wǔ fēnzhōng.</td><td class="td-en">Wait five minutes for me.</td></tr>
+                <tr><td class="td-zh cjk">你早！</td><td class="td-py">Nǐ zǎo!</td><td class="td-en">Good morning.</td></tr>
+                <tr><td class="td-zh cjk">对不起，我来晚了。</td><td class="td-py">Duìbuqǐ, wǒ lái wǎn le.</td><td class="td-en">Sorry, I'm late.</td></tr>
+                <tr><td class="td-zh cjk">他在睡。</td><td class="td-py">Tā zài shuì.</td><td class="td-en">He is sleeping.</td></tr>
+                <tr><td class="td-zh cjk">你休息一下。</td><td class="td-py">Nǐ xiūxi yíxià.</td><td class="td-en">You rest a bit.</td></tr>
+                <tr><td class="td-zh cjk">我喝水。</td><td class="td-py">Wǒ hē shuǐ.</td><td class="td-en">I drink water.</td></tr>
+                <tr><td class="td-zh cjk">我看见他了。</td><td class="td-py">Wǒ kànjiàn tā le.</td><td class="td-en">I saw him.</td></tr>
+                <tr><td class="td-zh cjk">我听歌。</td><td class="td-py">Wǒ tīng gē.</td><td class="td-en">I listen to music.</td></tr>
+                <tr><td class="td-zh cjk">他说什么？</td><td class="td-py">Tā shuō shénme?</td><td class="td-en">What did he say?</td></tr>
+                <tr><td class="td-zh cjk">请读这个字。</td><td class="td-py">Qǐng dú zhège zì.</td><td class="td-en">Please read this character.</td></tr>
+                <tr><td class="td-zh cjk">我写汉字。</td><td class="td-py">Wǒ xiě Hànzì.</td><td class="td-en">I write Chinese characters.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- RECAP -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Final Recap · Words 126–150</div>
+        <h2 class="slide-heading">Write what you can.</h2>
+        <p class="slide-body">Hanzi only by default. Try to recall the pinyin and meaning for each, then flip the toggles in the topbar to self-check.</p>
+        <div class="recap-note">
+            <strong>How to use this:</strong> the Pinyin and English columns are hidden. Work down the list and say what you remember, then turn the columns back on from the topbar.
+        </div>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">126</td><td class="td-zh cjk">现在</td><td class="td-py">xiànzài</td><td class="td-en">now</td></tr>
+                <tr><td class="td-num">127</td><td class="td-zh cjk">时候</td><td class="td-py">shíhou</td><td class="td-en">time, moment</td></tr>
+                <tr><td class="td-num">128</td><td class="td-zh cjk">时间</td><td class="td-py">shíjiān</td><td class="td-en">time</td></tr>
+                <tr><td class="td-num">129</td><td class="td-zh cjk">点</td><td class="td-py">diǎn</td><td class="td-en">o'clock</td></tr>
+                <tr><td class="td-num">130</td><td class="td-zh cjk">分</td><td class="td-py">fēn</td><td class="td-en">minute</td></tr>
+                <tr><td class="td-num">131</td><td class="td-zh cjk">分钟</td><td class="td-py">fēnzhōng</td><td class="td-en">minute(s)</td></tr>
+                <tr><td class="td-num">132</td><td class="td-zh cjk">小时</td><td class="td-py">xiǎoshí</td><td class="td-en">hour</td></tr>
+                <tr><td class="td-num">133</td><td class="td-zh cjk">早</td><td class="td-py">zǎo</td><td class="td-en">early</td></tr>
+                <tr><td class="td-num">134</td><td class="td-zh cjk">晚</td><td class="td-py">wǎn</td><td class="td-en">late</td></tr>
+                <tr><td class="td-num">135</td><td class="td-zh cjk">起床</td><td class="td-py">qǐchuáng</td><td class="td-en">get up</td></tr>
+                <tr><td class="td-num">136</td><td class="td-zh cjk">睡</td><td class="td-py">shuì</td><td class="td-en">sleep</td></tr>
+                <tr><td class="td-num">137</td><td class="td-zh cjk">睡觉</td><td class="td-py">shuìjiào</td><td class="td-en">sleep</td></tr>
+                <tr><td class="td-num">138</td><td class="td-zh cjk">休息</td><td class="td-py">xiūxi</td><td class="td-en">rest</td></tr>
+                <tr><td class="td-num">139</td><td class="td-zh cjk">吃</td><td class="td-py">chī</td><td class="td-en">eat</td></tr>
+                <tr><td class="td-num">140</td><td class="td-zh cjk">喝</td><td class="td-py">hē</td><td class="td-en">drink</td></tr>
+                <tr><td class="td-num">141</td><td class="td-zh cjk">看</td><td class="td-py">kàn</td><td class="td-en">look, watch, read</td></tr>
+                <tr><td class="td-num">142</td><td class="td-zh cjk">看见</td><td class="td-py">kànjiàn</td><td class="td-en">see</td></tr>
+                <tr><td class="td-num">143</td><td class="td-zh cjk">听</td><td class="td-py">tīng</td><td class="td-en">listen</td></tr>
+                <tr><td class="td-num">144</td><td class="td-zh cjk">听见</td><td class="td-py">tīngjiàn</td><td class="td-en">hear</td></tr>
+                <tr><td class="td-num">145</td><td class="td-zh cjk">说</td><td class="td-py">shuō</td><td class="td-en">speak, say</td></tr>
+                <tr><td class="td-num">146</td><td class="td-zh cjk">说话</td><td class="td-py">shuōhuà</td><td class="td-en">speak, talk</td></tr>
+                <tr><td class="td-num">147</td><td class="td-zh cjk">读</td><td class="td-py">dú</td><td class="td-en">read aloud</td></tr>
+                <tr><td class="td-num">148</td><td class="td-zh cjk">读书</td><td class="td-py">dúshū</td><td class="td-en">study, read books</td></tr>
+                <tr><td class="td-num">149</td><td class="td-zh cjk">写</td><td class="td-py">xiě</td><td class="td-en">write</td></tr>
+                <tr><td class="td-num">150</td><td class="td-zh cjk">唱</td><td class="td-py">chàng</td><td class="td-en">sing</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- CLOSING -->
+<section class="slide slide-dark">
+    <div class="slide-content">
+        <div class="slide-label">End of June 9</div>
+        <h1 class="slide-title cjk" style="font-size: clamp(2rem, 5vw, 3.5rem);">现在几点？</h1>
+        <p class="slide-body" style="margin-top:0.4rem; font-style:italic; font-size:0.95rem; color:rgba(255,255,255,0.55);">Xiànzài jǐ diǎn? &nbsp;·&nbsp; What time is it now?</p>
+        <div class="hbox" style="margin-top:2rem;">
+            <p><strong><a href="/june/day/9" style="color:inherit;">June · Day 9 →</a></strong> Drill these as flashcards with audio and example sentences. June 10 picks up school, work, and getting around (words 151–175).</p>
+        </div>
+    </div>
+</section>
+
+
+<footer class="slide-footer">
+    Network School · June Accelerated Course · June 9
+</footer>
+
+
+<script>
+    document.body.classList.add('hide-pinyin', 'hide-english');
+    function toggleShow(which) {
+        const isHidden = document.body.classList.toggle('hide-' + which);
+        document.getElementById('toggle-' + which).classList.toggle('active', !isHidden);
+    }
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        document.getElementById('progress-bar').style.width = (pct || 0) + '%';
+    });
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    function nearestSlide() {
+        let best = 0, bestDist = Infinity;
+        slides.forEach((s, i) => { const d = Math.abs(s.getBoundingClientRect().top); if (d < bestDist) { bestDist = d; best = i; } });
+        return best;
+    }
+    function goToSlide(i) { i = Math.max(0, Math.min(slides.length - 1, i)); slides[i].scrollIntoView({ behavior: 'smooth' }); }
+    document.addEventListener('keydown', e => {
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goToSlide(nearestSlide() + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goToSlide(nearestSlide() - 1); }
+    });
+
+    // Flashcards (HSK 1 words 126–150) with audio.
+    const v1cards = [
+        { zh:"现在", py:"xiànzài", en:"now", exZh:"现在几点？", exPy:"Xiànzài jǐ diǎn?", exEn:"What time is it now?", idx:126 },
+        { zh:"时候", py:"shíhou", en:"time, moment", exZh:"你什么时候来？", exPy:"Nǐ shénme shíhou lái?", exEn:"When are you coming?", idx:127 },
+        { zh:"时间", py:"shíjiān", en:"time", exZh:"我没有时间。", exPy:"Wǒ méiyǒu shíjiān.", exEn:"I don't have time.", idx:128 },
+        { zh:"点", py:"diǎn", en:"o'clock", exZh:"现在三点。", exPy:"Xiànzài sān diǎn.", exEn:"It's three o'clock now.", idx:129 },
+        { zh:"分", py:"fēn", en:"minute", exZh:"三点十分。", exPy:"Sān diǎn shí fēn.", exEn:"Three ten.", idx:130 },
+        { zh:"分钟", py:"fēnzhōng", en:"minute(s)", exZh:"等我五分钟。", exPy:"Děng wǒ wǔ fēnzhōng.", exEn:"Wait five minutes for me.", idx:131 },
+        { zh:"小时", py:"xiǎoshí", en:"hour", exZh:"我学了两个小时。", exPy:"Wǒ xué le liǎng gè xiǎoshí.", exEn:"I studied for two hours.", idx:132 },
+        { zh:"早", py:"zǎo", en:"early", exZh:"你早！", exPy:"Nǐ zǎo!", exEn:"Good morning.", idx:133 },
+        { zh:"晚", py:"wǎn", en:"late", exZh:"对不起，我来晚了。", exPy:"Duìbuqǐ, wǒ lái wǎn le.", exEn:"Sorry, I'm late.", idx:134 },
+        { zh:"起床", py:"qǐchuáng", en:"get up", exZh:"我七点起床。", exPy:"Wǒ qī diǎn qǐchuáng.", exEn:"I get up at seven.", idx:135 },
+        { zh:"睡", py:"shuì", en:"sleep", exZh:"他在睡。", exPy:"Tā zài shuì.", exEn:"He is sleeping.", idx:136 },
+        { zh:"睡觉", py:"shuìjiào", en:"sleep", exZh:"我十点睡觉。", exPy:"Wǒ shí diǎn shuìjiào.", exEn:"I go to bed at ten.", idx:137 },
+        { zh:"休息", py:"xiūxi", en:"rest", exZh:"你休息一下。", exPy:"Nǐ xiūxi yíxià.", exEn:"You rest a bit.", idx:138 },
+        { zh:"吃", py:"chī", en:"eat", exZh:"我们吃饭吧。", exPy:"Wǒmen chī fàn ba.", exEn:"Let's eat.", idx:139 },
+        { zh:"喝", py:"hē", en:"drink", exZh:"我喝水。", exPy:"Wǒ hē shuǐ.", exEn:"I drink water.", idx:140 },
+        { zh:"看", py:"kàn", en:"look, watch, read", exZh:"我看书。", exPy:"Wǒ kàn shū.", exEn:"I read a book.", idx:141 },
+        { zh:"看见", py:"kànjiàn", en:"see", exZh:"我看见他了。", exPy:"Wǒ kànjiàn tā le.", exEn:"I saw him.", idx:142 },
+        { zh:"听", py:"tīng", en:"listen", exZh:"我听歌。", exPy:"Wǒ tīng gē.", exEn:"I listen to music.", idx:143 },
+        { zh:"听见", py:"tīngjiàn", en:"hear", exZh:"你听见了吗？", exPy:"Nǐ tīngjiàn le ma?", exEn:"Did you hear?", idx:144 },
+        { zh:"说", py:"shuō", en:"speak, say", exZh:"他说什么？", exPy:"Tā shuō shénme?", exEn:"What did he say?", idx:145 },
+        { zh:"说话", py:"shuōhuà", en:"speak, talk", exZh:"老师在说话。", exPy:"Lǎoshī zài shuōhuà.", exEn:"The teacher is talking.", idx:146 },
+        { zh:"读", py:"dú", en:"read aloud", exZh:"请读这个字。", exPy:"Qǐng dú zhège zì.", exEn:"Please read this character.", idx:147 },
+        { zh:"读书", py:"dúshū", en:"study, read books", exZh:"他在读书。", exPy:"Tā zài dúshū.", exEn:"He is studying.", idx:148 },
+        { zh:"写", py:"xiě", en:"write", exZh:"我写汉字。", exPy:"Wǒ xiě Hànzì.", exEn:"I write Chinese characters.", idx:149 },
+        { zh:"唱", py:"chàng", en:"sing", exZh:"我喜欢唱歌。", exPy:"Wǒ xǐhuan chàng gē.", exEn:"I like to sing.", idx:150 },
+    ];
+    let v1Order = v1cards.map((_, i) => i);
+    let v1Idx = 0;
+    let v1Audio = null;
+    function v1AudioPath() {
+        return '/audio/june/hsk1/' + String(v1cards[v1Order[v1Idx]].idx).padStart(3, '0') + '.mp3';
+    }
+    function v1StopAudio() {
+        if (!v1Audio) return;
+        v1Audio.pause(); v1Audio.currentTime = 0; v1Audio = null;
+        document.getElementById('v1-audio').classList.remove('btn-outline');
+    }
+    function v1Play() {
+        v1StopAudio();
+        v1Audio = new Audio(v1AudioPath());
+        v1Audio.addEventListener('ended', v1StopAudio, { once: true });
+        v1Audio.addEventListener('error', v1StopAudio, { once: true });
+        v1Audio.play().catch(v1StopAudio);
+    }
+    function v1Show() {
+        document.getElementById('v1-wrap').classList.remove('flipped');
+        v1StopAudio();
+        setTimeout(() => {
+            const c = v1cards[v1Order[v1Idx]];
+            document.getElementById('v1-zh').textContent = c.zh;
+            document.getElementById('v1-py').textContent = c.py;
+            document.getElementById('v1-en').textContent = c.en;
+            document.getElementById('v1-ex-zh').textContent = c.exZh;
+            document.getElementById('v1-ex-py').textContent = c.exPy;
+            document.getElementById('v1-ex-en').textContent = c.exEn;
+            document.getElementById('v1-counter').textContent = (v1Idx + 1) + ' / ' + v1cards.length;
+        }, 240);
+    }
+    function v1Next() { v1Idx = (v1Idx + 1) % v1cards.length; v1Show(); }
+    function v1Prev() { v1Idx = (v1Idx - 1 + v1cards.length) % v1cards.length; v1Show(); }
+    function v1Shuffle() {
+        for (let i = v1Order.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [v1Order[i], v1Order[j]] = [v1Order[j], v1Order[i]];
+        }
+        v1Idx = 0; v1Show();
+    }
+</script>
+
+</body>
+</html>

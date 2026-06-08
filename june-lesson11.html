@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>June 11 · Being, Wanting & Describing · Chinese 101</title>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #2d3748; line-height: 1.6; }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #fff; z-index: 1000; transition: width 0.1s; width: 0%; }
+
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 2rem 3rem; }
+        .slide-content { max-width: 820px; width: 100%; }
+        .slide-dark { background: linear-gradient(135deg, #052e1f 0%, #0a4f37 100%); color: white; }
+        .slide-white { background: white; }
+        .slide-gray  { background: #f5f5f5; }
+        .slide-accent { background: linear-gradient(135deg, #052e1f 0%, #0f6e4f 100%); color: white; }
+
+        .slide-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.75rem; }
+        .slide-dark .slide-label, .slide-accent .slide-label { color: rgba(255,255,255,0.55); }
+        h1.slide-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; color: white; margin-bottom: 1rem; }
+        h2.slide-heading { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+        .slide-dark h2.slide-heading, .slide-accent h2.slide-heading { color: white; }
+        .slide-white h2.slide-heading, .slide-gray h2.slide-heading { color: #1a1a1a; }
+        .slide-body { font-size: 1.05rem; line-height: 1.7; color: #444; max-width: 640px; }
+        .slide-dark .slide-body, .slide-accent .slide-body { color: rgba(255,255,255,0.85); }
+
+        .hbox { background: #f8f8f8; border-left: 4px solid #0a4f37; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.25rem 0; max-width: 680px; }
+        .slide-dark .hbox, .slide-accent .hbox { background: rgba(255,255,255,0.1); border-left-color: rgba(255,255,255,0.7); }
+        .hbox p { font-size: 0.95rem; color: #333; }
+        .slide-dark .hbox p, .slide-accent .hbox p { color: rgba(255,255,255,0.9); }
+
+        .card-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem; }
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .card-title { font-weight: 700; font-size: 1rem; color: #1a1a1a; margin-bottom: 0.35rem; }
+        .card-desc  { font-size: 0.85rem; color: #555; line-height: 1.5; }
+        .card-dark { background: #1a1a1a; }
+        .card-dark .card-title { color: white; }
+        .card-dark .card-desc  { color: rgba(255,255,255,0.75); }
+
+        .btn { background: #0a4f37; color: white; border: none; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.8; }
+        .btn-outline { background: transparent; color: #0a4f37; border: 2px solid #0a4f37; }
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+
+        .part-number { font-size: 6rem; font-weight: 800; color: rgba(255,255,255,0.1); line-height: 1; margin-bottom: -1.5rem; }
+        .part-label-big { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: white; line-height: 1.2; }
+        .part-sub { font-size: 1rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; }
+
+        .slide-footer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 998; text-align: center; padding: 0.6rem 1.5rem; font-size: 0.78rem; background: rgba(5,46,31,0.9); backdrop-filter: blur(6px); color: rgba(255,255,255,0.45); }
+
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1001;
+            background: rgba(5,46,31,0.92);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.55rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+        }
+        .topbar a {
+            color: rgba(255,255,255,0.78);
+            text-decoration: none;
+            padding: 0.25rem 0.55rem;
+            border-radius: 6px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+        .topbar a.active { background: rgba(16,185,129,0.18); color: white; }
+        .topbar .title { font-weight: 600; color: white; margin-left: 0.2rem; }
+        .topbar .badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: #10b981;
+            color: #052e1f;
+            padding: 0.16rem 0.45rem;
+            border-radius: 4px;
+            margin-left: 0.1rem;
+        }
+        .topbar .spacer { flex: 1; }
+        .topbar .toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.55);
+            font: inherit;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.28rem 0.6rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .topbar .toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+        .topbar .toggle.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #052e1f;
+        }
+        .topbar .toggle-label, .topbar .group-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-right: 0.1rem;
+        }
+
+        /* Hanzi is always visible. Pinyin and English are opt-in. */
+        body.hide-pinyin .td-py,
+        body.hide-pinyin .pattern-py { display: none; }
+        body.hide-english .td-en,
+        body.hide-english .pattern-en { display: none; }
+
+        .cjk { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Noto Sans CJK SC', serif; }
+
+        /* Tone colors */
+        .t1 { color: #c0392b; }
+        .t2 { color: #27ae60; }
+        .t3 { color: #2980b9; }
+        .t4 { color: #8e44ad; }
+        .tn { color: #888; }
+
+        /* Goals list */
+        .goals-list { list-style: none; margin-top: 1.25rem; }
+        .goals-list li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid #eee; font-size: 1rem; color: #333; }
+        .goals-list li:last-child { border-bottom: none; }
+        .goal-num { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+
+        /* Demonstrative / number grid */
+        .pt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.25rem; }
+        .pt-cell { background: #f8f8f8; border-radius: 10px; padding: 0.9rem 0.6rem; text-align: center; }
+        .pt-cell-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.6rem; line-height: 1.2; }
+        .pt-cell-py { font-size: 0.9rem; font-weight: 600; margin: 0.15rem 0; color: #555; }
+        .pt-cell-en { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pt-cell.accent { background: #0a4f37; }
+        .pt-cell.accent .pt-cell-zh { color: white; }
+        .pt-cell.accent .pt-cell-py { color: rgba(255,255,255,0.75); }
+        .pt-cell.accent .pt-cell-en { color: rgba(255,255,255,0.6); }
+
+        /* Measure-word page */
+        .mw-hero { display: flex; align-items: center; gap: 1.25rem; margin-top: 1.25rem; }
+        .mw-char { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 4.5rem; line-height: 1; color: #0a4f37; flex-shrink: 0; }
+        .mw-py { font-size: 1.3rem; font-weight: 700; color: #1a1a1a; }
+        .mw-gloss { font-size: 0.95rem; color: #666; }
+        .mw-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin: 1.25rem 0 0.5rem; }
+        .chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .chip { background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 1rem; color: #065f46; }
+        .chip .cjk { font-size: 1.05rem; }
+        .chip .chip-py { color: #6b9e8b; font-size: 0.78rem; font-style: italic; margin-left: 0.35rem; }
+
+        /* Vocab table */
+        .vocab-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.95rem; }
+        .vocab-table th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #1a1a1a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+        .vocab-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .td-num { color: #aaa; font-size: 0.78rem; font-weight: 600; width: 2rem; }
+        .td-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; white-space: nowrap; }
+        .td-py { color: #666; font-style: italic; white-space: nowrap; }
+        .td-en { color: #333; }
+
+        /* Pattern blocks */
+        .pattern-block { background: #f8f8f8; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 0.75rem; }
+        .pattern-formula { font-size: 0.75rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+        .pattern-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.5rem; margin-bottom: 0.15rem; }
+        .pattern-py  { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 0.15rem; }
+        .pattern-en  { font-size: 0.9rem; color: #555; }
+        .pattern-zh strong { color: #0a4f37; }
+
+        /* Dialogue */
+        .dialogue-controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .d-line { display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.55rem 0; border-bottom: 1px solid #eee; }
+        .d-line:last-child { border-bottom: none; }
+        .d-speaker { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.25rem; }
+        .d-speaker.sp-b { background: #555; }
+        .d-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.2rem; line-height: 1.4; }
+        .d-py { font-size: 0.85rem; color: #888; font-style: italic; display: none; margin-top: 0.1rem; }
+        .d-en { font-size: 0.85rem; color: #bbb; display: none; }
+        .show-py .d-py { display: block; }
+        .show-en .d-en { display: block; }
+
+        /* Line-by-line dialogue */
+        .dl-display { background: #f8f8f8; border-radius: 16px; padding: 2rem; margin: 1.5rem 0 1rem; min-height: 170px; display: flex; flex-direction: column; justify-content: center; }
+        .dl-speaker-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .dl-counter-label { font-size: 0.75rem; color: #aaa; font-weight: 600; letter-spacing: 0.05em; }
+        .dl-zh-big { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.8rem; line-height: 1.35; color: #1a1a1a; margin-bottom: 0.4rem; }
+        .dl-py-line { font-size: 1rem; color: #888; font-style: italic; margin-bottom: 0.3rem; visibility: hidden; }
+        .dl-en-line { font-size: 1rem; color: #aaa; visibility: hidden; }
+        .dl-py-line.show, .dl-en-line.show { visibility: visible; }
+        .dl-controls { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+
+        /* Flash cards */
+        .flashcard-wrap { perspective: 800px; height: 320px; cursor: pointer; margin-bottom: 1rem; }
+        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.45s; }
+        .flashcard-wrap.flipped .flashcard { transform: rotateY(180deg); }
+        .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
+        .fc-front { background: #0a4f37; color: white; }
+        .fc-back  { background: #ecfdf5; color: #052e1f; transform: rotateY(180deg); }
+        .fc-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 3.2rem; line-height: 1.1; }
+        .fc-hint { font-size: 0.72rem; opacity: 0.45; margin-top: 0.75rem; }
+        .fc-py   { font-size: 1.35rem; font-style: italic; color: #336e58; margin-bottom: 0.2rem; }
+        .fc-en   { font-size: 1.1rem; font-weight: 600; color: #052e1f; }
+        .fc-ex { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid rgba(5,46,31,0.18); width: 100%; max-width: 460px; }
+        .fc-ex-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; color: #052e1f; margin-bottom: 0.2rem; }
+        .fc-ex-py { font-size: 0.85rem; font-style: italic; color: #4b7a68; margin-bottom: 0.1rem; }
+        .fc-ex-en { font-size: 0.85rem; color: #4b7a68; }
+        .fc-controls { display: flex; gap: 0.75rem; align-items: center; justify-content: center; }
+        .fc-counter { font-size: 0.85rem; color: #888; min-width: 4rem; text-align: center; }
+
+        /* Final recap */
+        .recap-note { background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; border-radius: 10px; padding: 0.85rem 1.1rem; font-size: 0.92rem; margin-top: 1rem; }
+
+        @media (max-width: 640px) {
+            .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+            .pt-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="topbar">
+    <a href="/june">← June Course</a>
+    <span class="title">June 11</span>
+    <span class="badge">Day 11</span>
+    <div class="spacer"></div>
+    <span class="group-label">Lessons</span>
+    <a href="/june/lesson/1">1</a>
+    <a href="/june/lesson/2">2</a>
+    <a href="/june/lesson/3">3</a>
+    <a href="/june/lesson/9">Jun 9</a>
+    <a href="/june/lesson/10">Jun 10</a>
+    <a href="/june/lesson/11" class="active">Jun 11</a>
+    <a href="/june/lesson/12">Jun 12</a>
+    <span class="toggle-label">Show</span>
+    <button class="toggle" id="toggle-pinyin" type="button" onclick="toggleShow('pinyin')">Pinyin</button>
+    <button class="toggle" id="toggle-english" type="button" onclick="toggleShow('english')">English</button>
+    <a href="/june/day/11">Day 11 →</a>
+</div>
+
+
+<!-- TITLE -->
+<section class="slide slide-dark">
+    <div class="slide-content">
+        <div class="slide-label">Network School · June Accelerated Course</div>
+        <h1 class="slide-title">June 11:<br>Being, Wanting &amp; Describing</h1>
+        <p class="slide-body">Words 176–200 · The core verbs, the modals, and your first adjectives</p>
+    </div>
+</section>
+
+
+<!-- GOALS -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Lesson Goals</div>
+        <h2 class="slide-heading">By the end of this lesson…</h2>
+        <ul class="goals-list">
+            <li><span class="goal-num">1</span>Use the four backbone verbs: 是, 有, 没有, 在</li>
+            <li><span class="goal-num">2</span>Ask and tell: 叫, 问, 认识, 知道</li>
+            <li><span class="goal-num">3</span>Express feelings: 觉得, 爱, 喜欢, 想</li>
+            <li><span class="goal-num">4</span>Say what you want — and don’t: 要, 不要, 给</li>
+            <li><span class="goal-num">5</span>Tell the three "can" verbs apart: 会, 能, 可以</li>
+            <li><span class="goal-num">6</span>Describe things: 大, 小, 多, 少, 好, 新, 贵</li>
+        </ul>
+    </div>
+</section>
+
+
+<!-- FLASHCARDS (FIRST) -->
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Flashcards · 25 words</div>
+        <h2 class="slide-heading">Start here. Drill the deck.</h2>
+        <p class="slide-body">Words 176–200, same set as June 11's drill. Say the pinyin and meaning before you flip, and press 🔊 to hear it.</p>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="v1-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="v1-zh">是</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="v1-py">shì</div>
+                        <div class="fc-en" id="v1-en">to be</div>
+                        <div class="fc-ex">
+                            <div class="fc-ex-zh cjk" id="v1-ex-zh">我是老师。</div>
+                            <div class="fc-ex-py" id="v1-ex-py">Wǒ shì lǎoshī.</div>
+                            <div class="fc-ex-en" id="v1-ex-en">I am a teacher.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="v1Prev()">← Prev</button>
+                <span class="fc-counter" id="v1-counter">1 / 25</span>
+                <button class="btn btn-sm" onclick="v1Next()">Next →</button>
+                <button class="btn btn-sm" id="v1-audio" type="button" onclick="event.stopPropagation();v1Play()">🔊 Play</button>
+                <button class="btn btn-sm btn-outline" onclick="v1Shuffle()">Shuffle</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Being &amp;amp; having</div>
+        <h2 class="slide-heading">Being &amp;amp; having.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">176</td><td class="td-zh cjk">是</td><td class="td-py">shì</td><td class="td-en">to be</td></tr>
+                <tr><td class="td-num">177</td><td class="td-zh cjk">有</td><td class="td-py">yǒu</td><td class="td-en">to have</td></tr>
+                <tr><td class="td-num">178</td><td class="td-zh cjk">没有</td><td class="td-py">méiyǒu</td><td class="td-en">not have, did not</td></tr>
+                <tr><td class="td-num">179</td><td class="td-zh cjk">在</td><td class="td-py">zài</td><td class="td-en">be at, in</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Asking, knowing, feeling</div>
+        <h2 class="slide-heading">Asking, knowing, feeling.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">180</td><td class="td-zh cjk">叫</td><td class="td-py">jiào</td><td class="td-en">be called</td></tr>
+                <tr><td class="td-num">181</td><td class="td-zh cjk">问</td><td class="td-py">wèn</td><td class="td-en">ask</td></tr>
+                <tr><td class="td-num">182</td><td class="td-zh cjk">认识</td><td class="td-py">rènshi</td><td class="td-en">know, recognize</td></tr>
+                <tr><td class="td-num">183</td><td class="td-zh cjk">知道</td><td class="td-py">zhīdào</td><td class="td-en">know (a fact)</td></tr>
+                <tr><td class="td-num">184</td><td class="td-zh cjk">觉得</td><td class="td-py">juéde</td><td class="td-en">feel, think</td></tr>
+                <tr><td class="td-num">185</td><td class="td-zh cjk">爱</td><td class="td-py">ài</td><td class="td-en">love</td></tr>
+                <tr><td class="td-num">186</td><td class="td-zh cjk">喜欢</td><td class="td-py">xǐhuan</td><td class="td-en">like</td></tr>
+                <tr><td class="td-num">187</td><td class="td-zh cjk">想</td><td class="td-py">xiǎng</td><td class="td-en">want, think</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Wanting &amp;amp; ability</div>
+        <h2 class="slide-heading">Wanting &amp;amp; ability.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">188</td><td class="td-zh cjk">要</td><td class="td-py">yào</td><td class="td-en">want, will</td></tr>
+                <tr><td class="td-num">189</td><td class="td-zh cjk">不要</td><td class="td-py">búyào</td><td class="td-en">don't</td></tr>
+                <tr><td class="td-num">190</td><td class="td-zh cjk">给</td><td class="td-py">gěi</td><td class="td-en">give, to</td></tr>
+                <tr><td class="td-num">191</td><td class="td-zh cjk">会</td><td class="td-py">huì</td><td class="td-en">can, will (learned)</td></tr>
+                <tr><td class="td-num">192</td><td class="td-zh cjk">能</td><td class="td-py">néng</td><td class="td-en">be able to</td></tr>
+                <tr><td class="td-num">193</td><td class="td-zh cjk">可以</td><td class="td-py">kěyǐ</td><td class="td-en">may, can</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Describing</div>
+        <h2 class="slide-heading">Describing.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">194</td><td class="td-zh cjk">大</td><td class="td-py">dà</td><td class="td-en">big</td></tr>
+                <tr><td class="td-num">195</td><td class="td-zh cjk">小</td><td class="td-py">xiǎo</td><td class="td-en">small</td></tr>
+                <tr><td class="td-num">196</td><td class="td-zh cjk">多</td><td class="td-py">duō</td><td class="td-en">many, much</td></tr>
+                <tr><td class="td-num">197</td><td class="td-zh cjk">少</td><td class="td-py">shǎo</td><td class="td-en">few, little</td></tr>
+                <tr><td class="td-num">198</td><td class="td-zh cjk">好</td><td class="td-py">hǎo</td><td class="td-en">good</td></tr>
+                <tr><td class="td-num">199</td><td class="td-zh cjk">新</td><td class="td-py">xīn</td><td class="td-en">new</td></tr>
+                <tr><td class="td-num">200</td><td class="td-zh cjk">贵</td><td class="td-py">guì</td><td class="td-en">expensive</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- SENTENCE BANK -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Sentence Bank</div>
+        <h2 class="slide-heading">See the words at work.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>Chinese</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">我是老师。</td><td class="td-py">Wǒ shì lǎoshī.</td><td class="td-en">I am a teacher.</td></tr>
+                <tr><td class="td-zh cjk">我有两个姐姐。</td><td class="td-py">Wǒ yǒu liǎng gè jiějie.</td><td class="td-en">I have two older sisters.</td></tr>
+                <tr><td class="td-zh cjk">我在学校。</td><td class="td-py">Wǒ zài xuéxiào.</td><td class="td-en">I'm at school.</td></tr>
+                <tr><td class="td-zh cjk">我问老师。</td><td class="td-py">Wǒ wèn lǎoshī.</td><td class="td-en">I ask the teacher.</td></tr>
+                <tr><td class="td-zh cjk">我不知道。</td><td class="td-py">Wǒ bù zhīdào.</td><td class="td-en">I don't know.</td></tr>
+                <tr><td class="td-zh cjk">我觉得很好。</td><td class="td-py">Wǒ juéde hěn hǎo.</td><td class="td-en">I think it's great.</td></tr>
+                <tr><td class="td-zh cjk">我喜欢喝茶。</td><td class="td-py">Wǒ xǐhuan hē chá.</td><td class="td-en">I like drinking tea.</td></tr>
+                <tr><td class="td-zh cjk">我要一杯水。</td><td class="td-py">Wǒ yào yì bēi shuǐ.</td><td class="td-en">I want a glass of water.</td></tr>
+                <tr><td class="td-zh cjk">给我一本书。</td><td class="td-py">Gěi wǒ yì běn shū.</td><td class="td-en">Give me a book.</td></tr>
+                <tr><td class="td-zh cjk">你能来吗？</td><td class="td-py">Nǐ néng lái ma?</td><td class="td-en">Can you come?</td></tr>
+                <tr><td class="td-zh cjk">我可以坐这儿吗？</td><td class="td-py">Wǒ kěyǐ zuò zhèr ma?</td><td class="td-en">May I sit here?</td></tr>
+                <tr><td class="td-zh cjk">我家有一只小狗。</td><td class="td-py">Wǒ jiā yǒu yì zhī xiǎo gǒu.</td><td class="td-en">My family has a small dog.</td></tr>
+                <tr><td class="td-zh cjk">水果太少了。</td><td class="td-py">Shuǐguǒ tài shǎo le.</td><td class="td-en">There's too little fruit.</td></tr>
+                <tr><td class="td-zh cjk">这是我的新手机。</td><td class="td-py">Zhè shì wǒ de xīn shǒujī.</td><td class="td-en">This is my new phone.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- RECAP -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Final Recap · Words 176–200</div>
+        <h2 class="slide-heading">Write what you can.</h2>
+        <p class="slide-body">Hanzi only by default. Try to recall the pinyin and meaning for each, then flip the toggles in the topbar to self-check.</p>
+        <div class="recap-note">
+            <strong>How to use this:</strong> the Pinyin and English columns are hidden. Work down the list and say what you remember, then turn the columns back on from the topbar.
+        </div>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">176</td><td class="td-zh cjk">是</td><td class="td-py">shì</td><td class="td-en">to be</td></tr>
+                <tr><td class="td-num">177</td><td class="td-zh cjk">有</td><td class="td-py">yǒu</td><td class="td-en">to have</td></tr>
+                <tr><td class="td-num">178</td><td class="td-zh cjk">没有</td><td class="td-py">méiyǒu</td><td class="td-en">not have, did not</td></tr>
+                <tr><td class="td-num">179</td><td class="td-zh cjk">在</td><td class="td-py">zài</td><td class="td-en">be at, in</td></tr>
+                <tr><td class="td-num">180</td><td class="td-zh cjk">叫</td><td class="td-py">jiào</td><td class="td-en">be called</td></tr>
+                <tr><td class="td-num">181</td><td class="td-zh cjk">问</td><td class="td-py">wèn</td><td class="td-en">ask</td></tr>
+                <tr><td class="td-num">182</td><td class="td-zh cjk">认识</td><td class="td-py">rènshi</td><td class="td-en">know, recognize</td></tr>
+                <tr><td class="td-num">183</td><td class="td-zh cjk">知道</td><td class="td-py">zhīdào</td><td class="td-en">know (a fact)</td></tr>
+                <tr><td class="td-num">184</td><td class="td-zh cjk">觉得</td><td class="td-py">juéde</td><td class="td-en">feel, think</td></tr>
+                <tr><td class="td-num">185</td><td class="td-zh cjk">爱</td><td class="td-py">ài</td><td class="td-en">love</td></tr>
+                <tr><td class="td-num">186</td><td class="td-zh cjk">喜欢</td><td class="td-py">xǐhuan</td><td class="td-en">like</td></tr>
+                <tr><td class="td-num">187</td><td class="td-zh cjk">想</td><td class="td-py">xiǎng</td><td class="td-en">want, think</td></tr>
+                <tr><td class="td-num">188</td><td class="td-zh cjk">要</td><td class="td-py">yào</td><td class="td-en">want, will</td></tr>
+                <tr><td class="td-num">189</td><td class="td-zh cjk">不要</td><td class="td-py">búyào</td><td class="td-en">don't</td></tr>
+                <tr><td class="td-num">190</td><td class="td-zh cjk">给</td><td class="td-py">gěi</td><td class="td-en">give, to</td></tr>
+                <tr><td class="td-num">191</td><td class="td-zh cjk">会</td><td class="td-py">huì</td><td class="td-en">can, will (learned)</td></tr>
+                <tr><td class="td-num">192</td><td class="td-zh cjk">能</td><td class="td-py">néng</td><td class="td-en">be able to</td></tr>
+                <tr><td class="td-num">193</td><td class="td-zh cjk">可以</td><td class="td-py">kěyǐ</td><td class="td-en">may, can</td></tr>
+                <tr><td class="td-num">194</td><td class="td-zh cjk">大</td><td class="td-py">dà</td><td class="td-en">big</td></tr>
+                <tr><td class="td-num">195</td><td class="td-zh cjk">小</td><td class="td-py">xiǎo</td><td class="td-en">small</td></tr>
+                <tr><td class="td-num">196</td><td class="td-zh cjk">多</td><td class="td-py">duō</td><td class="td-en">many, much</td></tr>
+                <tr><td class="td-num">197</td><td class="td-zh cjk">少</td><td class="td-py">shǎo</td><td class="td-en">few, little</td></tr>
+                <tr><td class="td-num">198</td><td class="td-zh cjk">好</td><td class="td-py">hǎo</td><td class="td-en">good</td></tr>
+                <tr><td class="td-num">199</td><td class="td-zh cjk">新</td><td class="td-py">xīn</td><td class="td-en">new</td></tr>
+                <tr><td class="td-num">200</td><td class="td-zh cjk">贵</td><td class="td-py">guì</td><td class="td-en">expensive</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- CLOSING -->
+<section class="slide slide-dark">
+    <div class="slide-content">
+        <div class="slide-label">End of June 11</div>
+        <h1 class="slide-title cjk" style="font-size: clamp(2rem, 5vw, 3.5rem);">我会说一点儿。</h1>
+        <p class="slide-body" style="margin-top:0.4rem; font-style:italic; font-size:0.95rem; color:rgba(255,255,255,0.55);">Wǒ huì shuō yìdiǎnr. &nbsp;·&nbsp; I can speak a little.</p>
+        <div class="hbox" style="margin-top:2rem;">
+            <p><strong><a href="/june/day/11" style="color:inherit;">June · Day 11 →</a></strong> Drill these as flashcards with audio and example sentences. June 12 is a review of everything from this week (words 101–200).</p>
+        </div>
+    </div>
+</section>
+
+
+<footer class="slide-footer">
+    Network School · June Accelerated Course · June 11
+</footer>
+
+
+<script>
+    document.body.classList.add('hide-pinyin', 'hide-english');
+    function toggleShow(which) {
+        const isHidden = document.body.classList.toggle('hide-' + which);
+        document.getElementById('toggle-' + which).classList.toggle('active', !isHidden);
+    }
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        document.getElementById('progress-bar').style.width = (pct || 0) + '%';
+    });
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    function nearestSlide() {
+        let best = 0, bestDist = Infinity;
+        slides.forEach((s, i) => { const d = Math.abs(s.getBoundingClientRect().top); if (d < bestDist) { bestDist = d; best = i; } });
+        return best;
+    }
+    function goToSlide(i) { i = Math.max(0, Math.min(slides.length - 1, i)); slides[i].scrollIntoView({ behavior: 'smooth' }); }
+    document.addEventListener('keydown', e => {
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goToSlide(nearestSlide() + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goToSlide(nearestSlide() - 1); }
+    });
+
+    // Flashcards (HSK 1 words 176–200) with audio.
+    const v1cards = [
+        { zh:"是", py:"shì", en:"to be", exZh:"我是老师。", exPy:"Wǒ shì lǎoshī.", exEn:"I am a teacher.", idx:176 },
+        { zh:"有", py:"yǒu", en:"to have", exZh:"我有两个姐姐。", exPy:"Wǒ yǒu liǎng gè jiějie.", exEn:"I have two older sisters.", idx:177 },
+        { zh:"没有", py:"méiyǒu", en:"not have, did not", exZh:"他没有手机。", exPy:"Tā méiyǒu shǒujī.", exEn:"He doesn't have a phone.", idx:178 },
+        { zh:"在", py:"zài", en:"be at, in", exZh:"我在学校。", exPy:"Wǒ zài xuéxiào.", exEn:"I'm at school.", idx:179 },
+        { zh:"叫", py:"jiào", en:"be called", exZh:"我叫小明。", exPy:"Wǒ jiào Xiǎomíng.", exEn:"My name is Xiaoming.", idx:180 },
+        { zh:"问", py:"wèn", en:"ask", exZh:"我问老师。", exPy:"Wǒ wèn lǎoshī.", exEn:"I ask the teacher.", idx:181 },
+        { zh:"认识", py:"rènshi", en:"know, recognize", exZh:"很高兴认识你。", exPy:"Hěn gāoxìng rènshi nǐ.", exEn:"Nice to meet you.", idx:182 },
+        { zh:"知道", py:"zhīdào", en:"know (a fact)", exZh:"我不知道。", exPy:"Wǒ bù zhīdào.", exEn:"I don't know.", idx:183 },
+        { zh:"觉得", py:"juéde", en:"feel, think", exZh:"我觉得很好。", exPy:"Wǒ juéde hěn hǎo.", exEn:"I think it's great.", idx:184 },
+        { zh:"爱", py:"ài", en:"love", exZh:"我爱我的家人。", exPy:"Wǒ ài wǒ de jiārén.", exEn:"I love my family.", idx:185 },
+        { zh:"喜欢", py:"xǐhuan", en:"like", exZh:"我喜欢喝茶。", exPy:"Wǒ xǐhuan hē chá.", exEn:"I like drinking tea.", idx:186 },
+        { zh:"想", py:"xiǎng", en:"want, think", exZh:"我想去中国。", exPy:"Wǒ xiǎng qù Zhōngguó.", exEn:"I want to go to China.", idx:187 },
+        { zh:"要", py:"yào", en:"want, will", exZh:"我要一杯水。", exPy:"Wǒ yào yì bēi shuǐ.", exEn:"I want a glass of water.", idx:188 },
+        { zh:"不要", py:"búyào", en:"don't", exZh:"不要说话。", exPy:"Búyào shuōhuà.", exEn:"Don't talk.", idx:189 },
+        { zh:"给", py:"gěi", en:"give, to", exZh:"给我一本书。", exPy:"Gěi wǒ yì běn shū.", exEn:"Give me a book.", idx:190 },
+        { zh:"会", py:"huì", en:"can, will (learned)", exZh:"我会说汉语。", exPy:"Wǒ huì shuō Hànyǔ.", exEn:"I can speak Chinese.", idx:191 },
+        { zh:"能", py:"néng", en:"be able to", exZh:"你能来吗？", exPy:"Nǐ néng lái ma?", exEn:"Can you come?", idx:192 },
+        { zh:"可以", py:"kěyǐ", en:"may, can", exZh:"我可以坐这儿吗？", exPy:"Wǒ kěyǐ zuò zhèr ma?", exEn:"May I sit here?", idx:193 },
+        { zh:"大", py:"dà", en:"big", exZh:"这个学校很大。", exPy:"Zhège xuéxiào hěn dà.", exEn:"This school is big.", idx:194 },
+        { zh:"小", py:"xiǎo", en:"small", exZh:"我家有一只小狗。", exPy:"Wǒ jiā yǒu yì zhī xiǎo gǒu.", exEn:"My family has a small dog.", idx:195 },
+        { zh:"多", py:"duō", en:"many, much", exZh:"今天人很多。", exPy:"Jīntiān rén hěn duō.", exEn:"There are a lot of people today.", idx:196 },
+        { zh:"少", py:"shǎo", en:"few, little", exZh:"水果太少了。", exPy:"Shuǐguǒ tài shǎo le.", exEn:"There's too little fruit.", idx:197 },
+        { zh:"好", py:"hǎo", en:"good", exZh:"今天天气很好。", exPy:"Jīntiān tiānqì hěn hǎo.", exEn:"Today's weather is good.", idx:198 },
+        { zh:"新", py:"xīn", en:"new", exZh:"这是我的新手机。", exPy:"Zhè shì wǒ de xīn shǒujī.", exEn:"This is my new phone.", idx:199 },
+        { zh:"贵", py:"guì", en:"expensive", exZh:"这件衣服很贵。", exPy:"Zhè jiàn yīfu hěn guì.", exEn:"This piece of clothing is expensive.", idx:200 },
+    ];
+    let v1Order = v1cards.map((_, i) => i);
+    let v1Idx = 0;
+    let v1Audio = null;
+    function v1AudioPath() {
+        return '/audio/june/hsk1/' + String(v1cards[v1Order[v1Idx]].idx).padStart(3, '0') + '.mp3';
+    }
+    function v1StopAudio() {
+        if (!v1Audio) return;
+        v1Audio.pause(); v1Audio.currentTime = 0; v1Audio = null;
+        document.getElementById('v1-audio').classList.remove('btn-outline');
+    }
+    function v1Play() {
+        v1StopAudio();
+        v1Audio = new Audio(v1AudioPath());
+        v1Audio.addEventListener('ended', v1StopAudio, { once: true });
+        v1Audio.addEventListener('error', v1StopAudio, { once: true });
+        v1Audio.play().catch(v1StopAudio);
+    }
+    function v1Show() {
+        document.getElementById('v1-wrap').classList.remove('flipped');
+        v1StopAudio();
+        setTimeout(() => {
+            const c = v1cards[v1Order[v1Idx]];
+            document.getElementById('v1-zh').textContent = c.zh;
+            document.getElementById('v1-py').textContent = c.py;
+            document.getElementById('v1-en').textContent = c.en;
+            document.getElementById('v1-ex-zh').textContent = c.exZh;
+            document.getElementById('v1-ex-py').textContent = c.exPy;
+            document.getElementById('v1-ex-en').textContent = c.exEn;
+            document.getElementById('v1-counter').textContent = (v1Idx + 1) + ' / ' + v1cards.length;
+        }, 240);
+    }
+    function v1Next() { v1Idx = (v1Idx + 1) % v1cards.length; v1Show(); }
+    function v1Prev() { v1Idx = (v1Idx - 1 + v1cards.length) % v1cards.length; v1Show(); }
+    function v1Shuffle() {
+        for (let i = v1Order.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [v1Order[i], v1Order[j]] = [v1Order[j], v1Order[i]];
+        }
+        v1Idx = 0; v1Show();
+    }
+</script>
+
+</body>
+</html>

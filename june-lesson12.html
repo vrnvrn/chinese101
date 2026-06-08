@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>June 12 · Week 2 Review · Chinese 101</title>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #2d3748; line-height: 1.6; }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #fff; z-index: 1000; transition: width 0.1s; width: 0%; }
+
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 2rem 3rem; }
+        .slide-content { max-width: 820px; width: 100%; }
+        .slide-dark { background: linear-gradient(135deg, #052e1f 0%, #0a4f37 100%); color: white; }
+        .slide-white { background: white; }
+        .slide-gray  { background: #f5f5f5; }
+        .slide-accent { background: linear-gradient(135deg, #052e1f 0%, #0f6e4f 100%); color: white; }
+
+        .slide-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.75rem; }
+        .slide-dark .slide-label, .slide-accent .slide-label { color: rgba(255,255,255,0.55); }
+        h1.slide-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; color: white; margin-bottom: 1rem; }
+        h2.slide-heading { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+        .slide-dark h2.slide-heading, .slide-accent h2.slide-heading { color: white; }
+        .slide-white h2.slide-heading, .slide-gray h2.slide-heading { color: #1a1a1a; }
+        .slide-body { font-size: 1.05rem; line-height: 1.7; color: #444; max-width: 640px; }
+        .slide-dark .slide-body, .slide-accent .slide-body { color: rgba(255,255,255,0.85); }
+
+        .hbox { background: #f8f8f8; border-left: 4px solid #0a4f37; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.25rem 0; max-width: 680px; }
+        .slide-dark .hbox, .slide-accent .hbox { background: rgba(255,255,255,0.1); border-left-color: rgba(255,255,255,0.7); }
+        .hbox p { font-size: 0.95rem; color: #333; }
+        .slide-dark .hbox p, .slide-accent .hbox p { color: rgba(255,255,255,0.9); }
+
+        .card-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem; }
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .card-title { font-weight: 700; font-size: 1rem; color: #1a1a1a; margin-bottom: 0.35rem; }
+        .card-desc  { font-size: 0.85rem; color: #555; line-height: 1.5; }
+        .card-dark { background: #1a1a1a; }
+        .card-dark .card-title { color: white; }
+        .card-dark .card-desc  { color: rgba(255,255,255,0.75); }
+
+        .btn { background: #0a4f37; color: white; border: none; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.8; }
+        .btn-outline { background: transparent; color: #0a4f37; border: 2px solid #0a4f37; }
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+
+        .part-number { font-size: 6rem; font-weight: 800; color: rgba(255,255,255,0.1); line-height: 1; margin-bottom: -1.5rem; }
+        .part-label-big { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: white; line-height: 1.2; }
+        .part-sub { font-size: 1rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; }
+
+        .slide-footer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 998; text-align: center; padding: 0.6rem 1.5rem; font-size: 0.78rem; background: rgba(5,46,31,0.9); backdrop-filter: blur(6px); color: rgba(255,255,255,0.45); }
+
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1001;
+            background: rgba(5,46,31,0.92);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.55rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+        }
+        .topbar a {
+            color: rgba(255,255,255,0.78);
+            text-decoration: none;
+            padding: 0.25rem 0.55rem;
+            border-radius: 6px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+        .topbar a.active { background: rgba(16,185,129,0.18); color: white; }
+        .topbar .title { font-weight: 600; color: white; margin-left: 0.2rem; }
+        .topbar .badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: #10b981;
+            color: #052e1f;
+            padding: 0.16rem 0.45rem;
+            border-radius: 4px;
+            margin-left: 0.1rem;
+        }
+        .topbar .spacer { flex: 1; }
+        .topbar .toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.55);
+            font: inherit;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.28rem 0.6rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .topbar .toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+        .topbar .toggle.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #052e1f;
+        }
+        .topbar .toggle-label, .topbar .group-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-right: 0.1rem;
+        }
+
+        /* Hanzi is always visible. Pinyin and English are opt-in. */
+        body.hide-pinyin .td-py,
+        body.hide-pinyin .pattern-py { display: none; }
+        body.hide-english .td-en,
+        body.hide-english .pattern-en { display: none; }
+
+        .cjk { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Noto Sans CJK SC', serif; }
+
+        /* Tone colors */
+        .t1 { color: #c0392b; }
+        .t2 { color: #27ae60; }
+        .t3 { color: #2980b9; }
+        .t4 { color: #8e44ad; }
+        .tn { color: #888; }
+
+        /* Goals list */
+        .goals-list { list-style: none; margin-top: 1.25rem; }
+        .goals-list li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid #eee; font-size: 1rem; color: #333; }
+        .goals-list li:last-child { border-bottom: none; }
+        .goal-num { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+
+        /* Demonstrative / number grid */
+        .pt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.25rem; }
+        .pt-cell { background: #f8f8f8; border-radius: 10px; padding: 0.9rem 0.6rem; text-align: center; }
+        .pt-cell-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.6rem; line-height: 1.2; }
+        .pt-cell-py { font-size: 0.9rem; font-weight: 600; margin: 0.15rem 0; color: #555; }
+        .pt-cell-en { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pt-cell.accent { background: #0a4f37; }
+        .pt-cell.accent .pt-cell-zh { color: white; }
+        .pt-cell.accent .pt-cell-py { color: rgba(255,255,255,0.75); }
+        .pt-cell.accent .pt-cell-en { color: rgba(255,255,255,0.6); }
+
+        /* Measure-word page */
+        .mw-hero { display: flex; align-items: center; gap: 1.25rem; margin-top: 1.25rem; }
+        .mw-char { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 4.5rem; line-height: 1; color: #0a4f37; flex-shrink: 0; }
+        .mw-py { font-size: 1.3rem; font-weight: 700; color: #1a1a1a; }
+        .mw-gloss { font-size: 0.95rem; color: #666; }
+        .mw-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin: 1.25rem 0 0.5rem; }
+        .chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .chip { background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 1rem; color: #065f46; }
+        .chip .cjk { font-size: 1.05rem; }
+        .chip .chip-py { color: #6b9e8b; font-size: 0.78rem; font-style: italic; margin-left: 0.35rem; }
+
+        /* Vocab table */
+        .vocab-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.95rem; }
+        .vocab-table th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #1a1a1a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+        .vocab-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .td-num { color: #aaa; font-size: 0.78rem; font-weight: 600; width: 2rem; }
+        .td-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; white-space: nowrap; }
+        .td-py { color: #666; font-style: italic; white-space: nowrap; }
+        .td-en { color: #333; }
+
+        /* Pattern blocks */
+        .pattern-block { background: #f8f8f8; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 0.75rem; }
+        .pattern-formula { font-size: 0.75rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+        .pattern-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.5rem; margin-bottom: 0.15rem; }
+        .pattern-py  { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 0.15rem; }
+        .pattern-en  { font-size: 0.9rem; color: #555; }
+        .pattern-zh strong { color: #0a4f37; }
+
+        /* Dialogue */
+        .dialogue-controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .d-line { display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.55rem 0; border-bottom: 1px solid #eee; }
+        .d-line:last-child { border-bottom: none; }
+        .d-speaker { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.25rem; }
+        .d-speaker.sp-b { background: #555; }
+        .d-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.2rem; line-height: 1.4; }
+        .d-py { font-size: 0.85rem; color: #888; font-style: italic; display: none; margin-top: 0.1rem; }
+        .d-en { font-size: 0.85rem; color: #bbb; display: none; }
+        .show-py .d-py { display: block; }
+        .show-en .d-en { display: block; }
+
+        /* Line-by-line dialogue */
+        .dl-display { background: #f8f8f8; border-radius: 16px; padding: 2rem; margin: 1.5rem 0 1rem; min-height: 170px; display: flex; flex-direction: column; justify-content: center; }
+        .dl-speaker-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .dl-counter-label { font-size: 0.75rem; color: #aaa; font-weight: 600; letter-spacing: 0.05em; }
+        .dl-zh-big { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.8rem; line-height: 1.35; color: #1a1a1a; margin-bottom: 0.4rem; }
+        .dl-py-line { font-size: 1rem; color: #888; font-style: italic; margin-bottom: 0.3rem; visibility: hidden; }
+        .dl-en-line { font-size: 1rem; color: #aaa; visibility: hidden; }
+        .dl-py-line.show, .dl-en-line.show { visibility: visible; }
+        .dl-controls { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+
+        /* Flash cards */
+        .flashcard-wrap { perspective: 800px; height: 320px; cursor: pointer; margin-bottom: 1rem; }
+        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.45s; }
+        .flashcard-wrap.flipped .flashcard { transform: rotateY(180deg); }
+        .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
+        .fc-front { background: #0a4f37; color: white; }
+        .fc-back  { background: #ecfdf5; color: #052e1f; transform: rotateY(180deg); }
+        .fc-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 3.2rem; line-height: 1.1; }
+        .fc-hint { font-size: 0.72rem; opacity: 0.45; margin-top: 0.75rem; }
+        .fc-py   { font-size: 1.35rem; font-style: italic; color: #336e58; margin-bottom: 0.2rem; }
+        .fc-en   { font-size: 1.1rem; font-weight: 600; color: #052e1f; }
+        .fc-ex { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid rgba(5,46,31,0.18); width: 100%; max-width: 460px; }
+        .fc-ex-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; color: #052e1f; margin-bottom: 0.2rem; }
+        .fc-ex-py { font-size: 0.85rem; font-style: italic; color: #4b7a68; margin-bottom: 0.1rem; }
+        .fc-ex-en { font-size: 0.85rem; color: #4b7a68; }
+        .fc-controls { display: flex; gap: 0.75rem; align-items: center; justify-content: center; }
+        .fc-counter { font-size: 0.85rem; color: #888; min-width: 4rem; text-align: center; }
+
+        /* Final recap */
+        .recap-note { background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; border-radius: 10px; padding: 0.85rem 1.1rem; font-size: 0.92rem; margin-top: 1rem; }
+
+        @media (max-width: 640px) {
+            .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+            .pt-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="topbar">
+    <a href="/june">← June Course</a>
+    <span class="title">June 12</span>
+    <span class="badge">Review</span>
+    <div class="spacer"></div>
+    <span class="group-label">Lessons</span>
+    <a href="/june/lesson/1">1</a>
+    <a href="/june/lesson/2">2</a>
+    <a href="/june/lesson/3">3</a>
+    <a href="/june/lesson/9">Jun 9</a>
+    <a href="/june/lesson/10">Jun 10</a>
+    <a href="/june/lesson/11">Jun 11</a>
+    <a href="/june/lesson/12" class="active">Jun 12</a>
+    <span class="toggle-label">Show</span>
+    <button class="toggle" id="toggle-pinyin" type="button" onclick="toggleShow('pinyin')">Pinyin</button>
+    <button class="toggle" id="toggle-english" type="button" onclick="toggleShow('english')">English</button>
+    <a href="/june/day/12">Day 12 →</a>
+</div>
+
+
+<!-- TITLE -->
+<section class="slide slide-dark">
+    <div class="slide-content">
+        <div class="slide-label">Network School · June Accelerated Course</div>
+        <h1 class="slide-title">June 12:<br>Week 2 Review</h1>
+        <p class="slide-body">Words 101–200 · Everything from this week in one deck</p>
+    </div>
+</section>
+
+
+<!-- GOALS -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Lesson Goals</div>
+        <h2 class="slide-heading">By the end of this lesson…</h2>
+        <ul class="goals-list">
+            <li><span class="goal-num">1</span>Recall all 100 words from week 2 (101–200) on sight</li>
+            <li><span class="goal-num">2</span>Re-drill day 8: words 101–125</li>
+            <li><span class="goal-num">3</span>Re-drill time &amp; routine: words 126–150</li>
+            <li><span class="goal-num">4</span>Re-drill school, work &amp; movement: words 151–175</li>
+            <li><span class="goal-num">5</span>Re-drill being, wanting &amp; describing: words 176–200</li>
+            <li><span class="goal-num">6</span>Flip pinyin and English on only to self-check</li>
+        </ul>
+    </div>
+</section>
+
+
+<!-- FLASHCARDS (FIRST) -->
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Flashcards · 100 words</div>
+        <h2 class="slide-heading">Start here. Drill the deck.</h2>
+        <p class="slide-body">All 100 words from this week, same set as the day drills. Tap a card to flip; press 🔊 to hear the word.</p>
+
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="v1-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="v1-zh">中学生</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="v1-py">zhōngxuéshēng</div>
+                        <div class="fc-en" id="v1-en">middle schooler</div>
+                        <div class="fc-ex">
+                            <div class="fc-ex-zh cjk" id="v1-ex-zh">我哥哥是中学生。</div>
+                            <div class="fc-ex-py" id="v1-ex-py">Wǒ gēge shì zhōngxuéshēng.</div>
+                            <div class="fc-ex-en" id="v1-ex-en">My older brother is in middle school.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="v1Prev()">← Prev</button>
+                <span class="fc-counter" id="v1-counter">1 / 100</span>
+                <button class="btn btn-sm" onclick="v1Next()">Next →</button>
+                <button class="btn btn-sm" id="v1-audio" type="button" onclick="event.stopPropagation();v1Play()">🔊 Play</button>
+                <button class="btn btn-sm btn-outline" onclick="v1Shuffle()">Shuffle</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Day 8 · 101–125</div>
+        <h2 class="slide-heading">Day 8 · 101–125.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">101</td><td class="td-zh cjk">中学生</td><td class="td-py">zhōngxuéshēng</td><td class="td-en">middle schooler</td></tr>
+                <tr><td class="td-num">102</td><td class="td-zh cjk">小学生</td><td class="td-py">xiǎoxuéshēng</td><td class="td-en">primary schooler</td></tr>
+                <tr><td class="td-num">103</td><td class="td-zh cjk">同学</td><td class="td-py">tóngxué</td><td class="td-en">classmate</td></tr>
+                <tr><td class="td-num">104</td><td class="td-zh cjk">医生</td><td class="td-py">yīshēng</td><td class="td-en">doctor</td></tr>
+                <tr><td class="td-num">105</td><td class="td-zh cjk">名字</td><td class="td-py">míngzi</td><td class="td-en">name</td></tr>
+                <tr><td class="td-num">106</td><td class="td-zh cjk">年</td><td class="td-py">nián</td><td class="td-en">year</td></tr>
+                <tr><td class="td-num">107</td><td class="td-zh cjk">月</td><td class="td-py">yuè</td><td class="td-en">month</td></tr>
+                <tr><td class="td-num">108</td><td class="td-zh cjk">日</td><td class="td-py">rì</td><td class="td-en">day (of month)</td></tr>
+                <tr><td class="td-num">109</td><td class="td-zh cjk">号</td><td class="td-py">hào</td><td class="td-en">date, number</td></tr>
+                <tr><td class="td-num">110</td><td class="td-zh cjk">天</td><td class="td-py">tiān</td><td class="td-en">day, sky</td></tr>
+                <tr><td class="td-num">111</td><td class="td-zh cjk">星期</td><td class="td-py">xīngqī</td><td class="td-en">week</td></tr>
+                <tr><td class="td-num">112</td><td class="td-zh cjk">星期日</td><td class="td-py">xīngqīrì</td><td class="td-en">Sunday</td></tr>
+                <tr><td class="td-num">113</td><td class="td-zh cjk">星期天</td><td class="td-py">xīngqītiān</td><td class="td-en">Sunday</td></tr>
+                <tr><td class="td-num">114</td><td class="td-zh cjk">今天</td><td class="td-py">jīntiān</td><td class="td-en">today</td></tr>
+                <tr><td class="td-num">115</td><td class="td-zh cjk">明天</td><td class="td-py">míngtiān</td><td class="td-en">tomorrow</td></tr>
+                <tr><td class="td-num">116</td><td class="td-zh cjk">昨天</td><td class="td-py">zuótiān</td><td class="td-en">yesterday</td></tr>
+                <tr><td class="td-num">117</td><td class="td-zh cjk">今年</td><td class="td-py">jīnnián</td><td class="td-en">this year</td></tr>
+                <tr><td class="td-num">118</td><td class="td-zh cjk">明年</td><td class="td-py">míngnián</td><td class="td-en">next year</td></tr>
+                <tr><td class="td-num">119</td><td class="td-zh cjk">去年</td><td class="td-py">qùnián</td><td class="td-en">last year</td></tr>
+                <tr><td class="td-num">120</td><td class="td-zh cjk">白天</td><td class="td-py">báitiān</td><td class="td-en">daytime</td></tr>
+                <tr><td class="td-num">121</td><td class="td-zh cjk">早上</td><td class="td-py">zǎoshang</td><td class="td-en">early morning</td></tr>
+                <tr><td class="td-num">122</td><td class="td-zh cjk">上午</td><td class="td-py">shàngwǔ</td><td class="td-en">late morning</td></tr>
+                <tr><td class="td-num">123</td><td class="td-zh cjk">中午</td><td class="td-py">zhōngwǔ</td><td class="td-en">noon</td></tr>
+                <tr><td class="td-num">124</td><td class="td-zh cjk">下午</td><td class="td-py">xiàwǔ</td><td class="td-en">afternoon</td></tr>
+                <tr><td class="td-num">125</td><td class="td-zh cjk">晚上</td><td class="td-py">wǎnshang</td><td class="td-en">evening</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Time &amp;amp; routine · 126–150</div>
+        <h2 class="slide-heading">Time &amp;amp; routine · 126–150.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">126</td><td class="td-zh cjk">现在</td><td class="td-py">xiànzài</td><td class="td-en">now</td></tr>
+                <tr><td class="td-num">127</td><td class="td-zh cjk">时候</td><td class="td-py">shíhou</td><td class="td-en">time, moment</td></tr>
+                <tr><td class="td-num">128</td><td class="td-zh cjk">时间</td><td class="td-py">shíjiān</td><td class="td-en">time</td></tr>
+                <tr><td class="td-num">129</td><td class="td-zh cjk">点</td><td class="td-py">diǎn</td><td class="td-en">o'clock</td></tr>
+                <tr><td class="td-num">130</td><td class="td-zh cjk">分</td><td class="td-py">fēn</td><td class="td-en">minute</td></tr>
+                <tr><td class="td-num">131</td><td class="td-zh cjk">分钟</td><td class="td-py">fēnzhōng</td><td class="td-en">minute(s)</td></tr>
+                <tr><td class="td-num">132</td><td class="td-zh cjk">小时</td><td class="td-py">xiǎoshí</td><td class="td-en">hour</td></tr>
+                <tr><td class="td-num">133</td><td class="td-zh cjk">早</td><td class="td-py">zǎo</td><td class="td-en">early</td></tr>
+                <tr><td class="td-num">134</td><td class="td-zh cjk">晚</td><td class="td-py">wǎn</td><td class="td-en">late</td></tr>
+                <tr><td class="td-num">135</td><td class="td-zh cjk">起床</td><td class="td-py">qǐchuáng</td><td class="td-en">get up</td></tr>
+                <tr><td class="td-num">136</td><td class="td-zh cjk">睡</td><td class="td-py">shuì</td><td class="td-en">sleep</td></tr>
+                <tr><td class="td-num">137</td><td class="td-zh cjk">睡觉</td><td class="td-py">shuìjiào</td><td class="td-en">sleep</td></tr>
+                <tr><td class="td-num">138</td><td class="td-zh cjk">休息</td><td class="td-py">xiūxi</td><td class="td-en">rest</td></tr>
+                <tr><td class="td-num">139</td><td class="td-zh cjk">吃</td><td class="td-py">chī</td><td class="td-en">eat</td></tr>
+                <tr><td class="td-num">140</td><td class="td-zh cjk">喝</td><td class="td-py">hē</td><td class="td-en">drink</td></tr>
+                <tr><td class="td-num">141</td><td class="td-zh cjk">看</td><td class="td-py">kàn</td><td class="td-en">look, watch, read</td></tr>
+                <tr><td class="td-num">142</td><td class="td-zh cjk">看见</td><td class="td-py">kànjiàn</td><td class="td-en">see</td></tr>
+                <tr><td class="td-num">143</td><td class="td-zh cjk">听</td><td class="td-py">tīng</td><td class="td-en">listen</td></tr>
+                <tr><td class="td-num">144</td><td class="td-zh cjk">听见</td><td class="td-py">tīngjiàn</td><td class="td-en">hear</td></tr>
+                <tr><td class="td-num">145</td><td class="td-zh cjk">说</td><td class="td-py">shuō</td><td class="td-en">speak, say</td></tr>
+                <tr><td class="td-num">146</td><td class="td-zh cjk">说话</td><td class="td-py">shuōhuà</td><td class="td-en">speak, talk</td></tr>
+                <tr><td class="td-num">147</td><td class="td-zh cjk">读</td><td class="td-py">dú</td><td class="td-en">read aloud</td></tr>
+                <tr><td class="td-num">148</td><td class="td-zh cjk">读书</td><td class="td-py">dúshū</td><td class="td-en">study, read books</td></tr>
+                <tr><td class="td-num">149</td><td class="td-zh cjk">写</td><td class="td-py">xiě</td><td class="td-en">write</td></tr>
+                <tr><td class="td-num">150</td><td class="td-zh cjk">唱</td><td class="td-py">chàng</td><td class="td-en">sing</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · School, work &amp;amp; movement · 151–175</div>
+        <h2 class="slide-heading">School, work &amp;amp; movement · 151–175.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">151</td><td class="td-zh cjk">玩</td><td class="td-py">wán</td><td class="td-en">play</td></tr>
+                <tr><td class="td-num">152</td><td class="td-zh cjk">学</td><td class="td-py">xué</td><td class="td-en">study</td></tr>
+                <tr><td class="td-num">153</td><td class="td-zh cjk">学习</td><td class="td-py">xuéxí</td><td class="td-en">study, learn</td></tr>
+                <tr><td class="td-num">154</td><td class="td-zh cjk">上学</td><td class="td-py">shàngxué</td><td class="td-en">go to school</td></tr>
+                <tr><td class="td-num">155</td><td class="td-zh cjk">上课</td><td class="td-py">shàngkè</td><td class="td-en">attend class</td></tr>
+                <tr><td class="td-num">156</td><td class="td-zh cjk">下课</td><td class="td-py">xiàkè</td><td class="td-en">class ends</td></tr>
+                <tr><td class="td-num">157</td><td class="td-zh cjk">上班</td><td class="td-py">shàngbān</td><td class="td-en">go to work</td></tr>
+                <tr><td class="td-num">158</td><td class="td-zh cjk">下班</td><td class="td-py">xiàbān</td><td class="td-en">get off work</td></tr>
+                <tr><td class="td-num">159</td><td class="td-zh cjk">工作</td><td class="td-py">gōngzuò</td><td class="td-en">work</td></tr>
+                <tr><td class="td-num">160</td><td class="td-zh cjk">做</td><td class="td-py">zuò</td><td class="td-en">do, make</td></tr>
+                <tr><td class="td-num">161</td><td class="td-zh cjk">做饭</td><td class="td-py">zuòfàn</td><td class="td-en">cook</td></tr>
+                <tr><td class="td-num">162</td><td class="td-zh cjk">来</td><td class="td-py">lái</td><td class="td-en">come</td></tr>
+                <tr><td class="td-num">163</td><td class="td-zh cjk">去</td><td class="td-py">qù</td><td class="td-en">go</td></tr>
+                <tr><td class="td-num">164</td><td class="td-zh cjk">回</td><td class="td-py">huí</td><td class="td-en">return</td></tr>
+                <tr><td class="td-num">165</td><td class="td-zh cjk">到</td><td class="td-py">dào</td><td class="td-en">arrive, reach</td></tr>
+                <tr><td class="td-num">166</td><td class="td-zh cjk">住</td><td class="td-py">zhù</td><td class="td-en">live, stay</td></tr>
+                <tr><td class="td-num">167</td><td class="td-zh cjk">坐</td><td class="td-py">zuò</td><td class="td-en">sit</td></tr>
+                <tr><td class="td-num">168</td><td class="td-zh cjk">开</td><td class="td-py">kāi</td><td class="td-en">open, drive</td></tr>
+                <tr><td class="td-num">169</td><td class="td-zh cjk">开车</td><td class="td-py">kāichē</td><td class="td-en">drive a car</td></tr>
+                <tr><td class="td-num">170</td><td class="td-zh cjk">打电话</td><td class="td-py">dǎ diànhuà</td><td class="td-en">make a phone call</td></tr>
+                <tr><td class="td-num">171</td><td class="td-zh cjk">穿</td><td class="td-py">chuān</td><td class="td-en">wear, put on</td></tr>
+                <tr><td class="td-num">172</td><td class="td-zh cjk">买</td><td class="td-py">mǎi</td><td class="td-en">buy</td></tr>
+                <tr><td class="td-num">173</td><td class="td-zh cjk">卖</td><td class="td-py">mài</td><td class="td-en">sell</td></tr>
+                <tr><td class="td-num">174</td><td class="td-zh cjk">找</td><td class="td-py">zhǎo</td><td class="td-en">look for</td></tr>
+                <tr><td class="td-num">175</td><td class="td-zh cjk">见</td><td class="td-py">jiàn</td><td class="td-en">meet, see</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Being, wanting &amp;amp; describing · 176–200</div>
+        <h2 class="slide-heading">Being, wanting &amp;amp; describing · 176–200.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">176</td><td class="td-zh cjk">是</td><td class="td-py">shì</td><td class="td-en">to be</td></tr>
+                <tr><td class="td-num">177</td><td class="td-zh cjk">有</td><td class="td-py">yǒu</td><td class="td-en">to have</td></tr>
+                <tr><td class="td-num">178</td><td class="td-zh cjk">没有</td><td class="td-py">méiyǒu</td><td class="td-en">not have, did not</td></tr>
+                <tr><td class="td-num">179</td><td class="td-zh cjk">在</td><td class="td-py">zài</td><td class="td-en">be at, in</td></tr>
+                <tr><td class="td-num">180</td><td class="td-zh cjk">叫</td><td class="td-py">jiào</td><td class="td-en">be called</td></tr>
+                <tr><td class="td-num">181</td><td class="td-zh cjk">问</td><td class="td-py">wèn</td><td class="td-en">ask</td></tr>
+                <tr><td class="td-num">182</td><td class="td-zh cjk">认识</td><td class="td-py">rènshi</td><td class="td-en">know, recognize</td></tr>
+                <tr><td class="td-num">183</td><td class="td-zh cjk">知道</td><td class="td-py">zhīdào</td><td class="td-en">know (a fact)</td></tr>
+                <tr><td class="td-num">184</td><td class="td-zh cjk">觉得</td><td class="td-py">juéde</td><td class="td-en">feel, think</td></tr>
+                <tr><td class="td-num">185</td><td class="td-zh cjk">爱</td><td class="td-py">ài</td><td class="td-en">love</td></tr>
+                <tr><td class="td-num">186</td><td class="td-zh cjk">喜欢</td><td class="td-py">xǐhuan</td><td class="td-en">like</td></tr>
+                <tr><td class="td-num">187</td><td class="td-zh cjk">想</td><td class="td-py">xiǎng</td><td class="td-en">want, think</td></tr>
+                <tr><td class="td-num">188</td><td class="td-zh cjk">要</td><td class="td-py">yào</td><td class="td-en">want, will</td></tr>
+                <tr><td class="td-num">189</td><td class="td-zh cjk">不要</td><td class="td-py">búyào</td><td class="td-en">don't</td></tr>
+                <tr><td class="td-num">190</td><td class="td-zh cjk">给</td><td class="td-py">gěi</td><td class="td-en">give, to</td></tr>
+                <tr><td class="td-num">191</td><td class="td-zh cjk">会</td><td class="td-py">huì</td><td class="td-en">can, will (learned)</td></tr>
+                <tr><td class="td-num">192</td><td class="td-zh cjk">能</td><td class="td-py">néng</td><td class="td-en">be able to</td></tr>
+                <tr><td class="td-num">193</td><td class="td-zh cjk">可以</td><td class="td-py">kěyǐ</td><td class="td-en">may, can</td></tr>
+                <tr><td class="td-num">194</td><td class="td-zh cjk">大</td><td class="td-py">dà</td><td class="td-en">big</td></tr>
+                <tr><td class="td-num">195</td><td class="td-zh cjk">小</td><td class="td-py">xiǎo</td><td class="td-en">small</td></tr>
+                <tr><td class="td-num">196</td><td class="td-zh cjk">多</td><td class="td-py">duō</td><td class="td-en">many, much</td></tr>
+                <tr><td class="td-num">197</td><td class="td-zh cjk">少</td><td class="td-py">shǎo</td><td class="td-en">few, little</td></tr>
+                <tr><td class="td-num">198</td><td class="td-zh cjk">好</td><td class="td-py">hǎo</td><td class="td-en">good</td></tr>
+                <tr><td class="td-num">199</td><td class="td-zh cjk">新</td><td class="td-py">xīn</td><td class="td-en">new</td></tr>
+                <tr><td class="td-num">200</td><td class="td-zh cjk">贵</td><td class="td-py">guì</td><td class="td-en">expensive</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- SENTENCE BANK -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Sentence Bank</div>
+        <h2 class="slide-heading">See the words at work.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>Chinese</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">我哥哥是中学生。</td><td class="td-py">Wǒ gēge shì zhōngxuéshēng.</td><td class="td-en">My older brother is in middle school.</td></tr>
+                <tr><td class="td-zh cjk">今天是五月一日。</td><td class="td-py">Jīntiān shì wǔ yuè yī rì.</td><td class="td-en">Today is May 1st.</td></tr>
+                <tr><td class="td-zh cjk">明天我去学校。</td><td class="td-py">Míngtiān wǒ qù xuéxiào.</td><td class="td-en">Tomorrow I'm going to school.</td></tr>
+                <tr><td class="td-zh cjk">上午我有课。</td><td class="td-py">Shàngwǔ wǒ yǒu kè.</td><td class="td-en">I have class in the morning.</td></tr>
+                <tr><td class="td-zh cjk">现在三点。</td><td class="td-py">Xiànzài sān diǎn.</td><td class="td-en">It's three o'clock now.</td></tr>
+                <tr><td class="td-zh cjk">他在睡。</td><td class="td-py">Tā zài shuì.</td><td class="td-en">He is sleeping.</td></tr>
+                <tr><td class="td-zh cjk">我听歌。</td><td class="td-py">Wǒ tīng gē.</td><td class="td-en">I listen to music.</td></tr>
+                <tr><td class="td-zh cjk">孩子们在玩。</td><td class="td-py">Háizi men zài wán.</td><td class="td-en">The kids are playing.</td></tr>
+                <tr><td class="td-zh cjk">妈妈五点下班。</td><td class="td-py">Māma wǔ diǎn xiàbān.</td><td class="td-en">Mom gets off work at five.</td></tr>
+                <tr><td class="td-zh cjk">我到学校了。</td><td class="td-py">Wǒ dào xuéxiào le.</td><td class="td-en">I've arrived at school.</td></tr>
+                <tr><td class="td-zh cjk">我买了一本书。</td><td class="td-py">Wǒ mǎi le yì běn shū.</td><td class="td-en">I bought a book.</td></tr>
+                <tr><td class="td-zh cjk">我在学校。</td><td class="td-py">Wǒ zài xuéxiào.</td><td class="td-en">I'm at school.</td></tr>
+                <tr><td class="td-zh cjk">我喜欢喝茶。</td><td class="td-py">Wǒ xǐhuan hē chá.</td><td class="td-en">I like drinking tea.</td></tr>
+                <tr><td class="td-zh cjk">我可以坐这儿吗？</td><td class="td-py">Wǒ kěyǐ zuò zhèr ma?</td><td class="td-en">May I sit here?</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- RECAP -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Final Recap · Words 101–200</div>
+        <h2 class="slide-heading">Write what you can.</h2>
+        <p class="slide-body">Hanzi only by default. Try to recall the pinyin and meaning for each, then flip the toggles in the topbar to self-check.</p>
+        <div class="recap-note">
+            <strong>How to use this:</strong> the Pinyin and English columns are hidden. Work down the list and say what you remember, then turn the columns back on from the topbar.
+        </div>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">101</td><td class="td-zh cjk">中学生</td><td class="td-py">zhōngxuéshēng</td><td class="td-en">middle schooler</td></tr>
+                <tr><td class="td-num">102</td><td class="td-zh cjk">小学生</td><td class="td-py">xiǎoxuéshēng</td><td class="td-en">primary schooler</td></tr>
+                <tr><td class="td-num">103</td><td class="td-zh cjk">同学</td><td class="td-py">tóngxué</td><td class="td-en">classmate</td></tr>
+                <tr><td class="td-num">104</td><td class="td-zh cjk">医生</td><td class="td-py">yīshēng</td><td class="td-en">doctor</td></tr>
+                <tr><td class="td-num">105</td><td class="td-zh cjk">名字</td><td class="td-py">míngzi</td><td class="td-en">name</td></tr>
+                <tr><td class="td-num">106</td><td class="td-zh cjk">年</td><td class="td-py">nián</td><td class="td-en">year</td></tr>
+                <tr><td class="td-num">107</td><td class="td-zh cjk">月</td><td class="td-py">yuè</td><td class="td-en">month</td></tr>
+                <tr><td class="td-num">108</td><td class="td-zh cjk">日</td><td class="td-py">rì</td><td class="td-en">day (of month)</td></tr>
+                <tr><td class="td-num">109</td><td class="td-zh cjk">号</td><td class="td-py">hào</td><td class="td-en">date, number</td></tr>
+                <tr><td class="td-num">110</td><td class="td-zh cjk">天</td><td class="td-py">tiān</td><td class="td-en">day, sky</td></tr>
+                <tr><td class="td-num">111</td><td class="td-zh cjk">星期</td><td class="td-py">xīngqī</td><td class="td-en">week</td></tr>
+                <tr><td class="td-num">112</td><td class="td-zh cjk">星期日</td><td class="td-py">xīngqīrì</td><td class="td-en">Sunday</td></tr>
+                <tr><td class="td-num">113</td><td class="td-zh cjk">星期天</td><td class="td-py">xīngqītiān</td><td class="td-en">Sunday</td></tr>
+                <tr><td class="td-num">114</td><td class="td-zh cjk">今天</td><td class="td-py">jīntiān</td><td class="td-en">today</td></tr>
+                <tr><td class="td-num">115</td><td class="td-zh cjk">明天</td><td class="td-py">míngtiān</td><td class="td-en">tomorrow</td></tr>
+                <tr><td class="td-num">116</td><td class="td-zh cjk">昨天</td><td class="td-py">zuótiān</td><td class="td-en">yesterday</td></tr>
+                <tr><td class="td-num">117</td><td class="td-zh cjk">今年</td><td class="td-py">jīnnián</td><td class="td-en">this year</td></tr>
+                <tr><td class="td-num">118</td><td class="td-zh cjk">明年</td><td class="td-py">míngnián</td><td class="td-en">next year</td></tr>
+                <tr><td class="td-num">119</td><td class="td-zh cjk">去年</td><td class="td-py">qùnián</td><td class="td-en">last year</td></tr>
+                <tr><td class="td-num">120</td><td class="td-zh cjk">白天</td><td class="td-py">báitiān</td><td class="td-en">daytime</td></tr>
+                <tr><td class="td-num">121</td><td class="td-zh cjk">早上</td><td class="td-py">zǎoshang</td><td class="td-en">early morning</td></tr>
+                <tr><td class="td-num">122</td><td class="td-zh cjk">上午</td><td class="td-py">shàngwǔ</td><td class="td-en">late morning</td></tr>
+                <tr><td class="td-num">123</td><td class="td-zh cjk">中午</td><td class="td-py">zhōngwǔ</td><td class="td-en">noon</td></tr>
+                <tr><td class="td-num">124</td><td class="td-zh cjk">下午</td><td class="td-py">xiàwǔ</td><td class="td-en">afternoon</td></tr>
+                <tr><td class="td-num">125</td><td class="td-zh cjk">晚上</td><td class="td-py">wǎnshang</td><td class="td-en">evening</td></tr>
+                <tr><td class="td-num">126</td><td class="td-zh cjk">现在</td><td class="td-py">xiànzài</td><td class="td-en">now</td></tr>
+                <tr><td class="td-num">127</td><td class="td-zh cjk">时候</td><td class="td-py">shíhou</td><td class="td-en">time, moment</td></tr>
+                <tr><td class="td-num">128</td><td class="td-zh cjk">时间</td><td class="td-py">shíjiān</td><td class="td-en">time</td></tr>
+                <tr><td class="td-num">129</td><td class="td-zh cjk">点</td><td class="td-py">diǎn</td><td class="td-en">o'clock</td></tr>
+                <tr><td class="td-num">130</td><td class="td-zh cjk">分</td><td class="td-py">fēn</td><td class="td-en">minute</td></tr>
+                <tr><td class="td-num">131</td><td class="td-zh cjk">分钟</td><td class="td-py">fēnzhōng</td><td class="td-en">minute(s)</td></tr>
+                <tr><td class="td-num">132</td><td class="td-zh cjk">小时</td><td class="td-py">xiǎoshí</td><td class="td-en">hour</td></tr>
+                <tr><td class="td-num">133</td><td class="td-zh cjk">早</td><td class="td-py">zǎo</td><td class="td-en">early</td></tr>
+                <tr><td class="td-num">134</td><td class="td-zh cjk">晚</td><td class="td-py">wǎn</td><td class="td-en">late</td></tr>
+                <tr><td class="td-num">135</td><td class="td-zh cjk">起床</td><td class="td-py">qǐchuáng</td><td class="td-en">get up</td></tr>
+                <tr><td class="td-num">136</td><td class="td-zh cjk">睡</td><td class="td-py">shuì</td><td class="td-en">sleep</td></tr>
+                <tr><td class="td-num">137</td><td class="td-zh cjk">睡觉</td><td class="td-py">shuìjiào</td><td class="td-en">sleep</td></tr>
+                <tr><td class="td-num">138</td><td class="td-zh cjk">休息</td><td class="td-py">xiūxi</td><td class="td-en">rest</td></tr>
+                <tr><td class="td-num">139</td><td class="td-zh cjk">吃</td><td class="td-py">chī</td><td class="td-en">eat</td></tr>
+                <tr><td class="td-num">140</td><td class="td-zh cjk">喝</td><td class="td-py">hē</td><td class="td-en">drink</td></tr>
+                <tr><td class="td-num">141</td><td class="td-zh cjk">看</td><td class="td-py">kàn</td><td class="td-en">look, watch, read</td></tr>
+                <tr><td class="td-num">142</td><td class="td-zh cjk">看见</td><td class="td-py">kànjiàn</td><td class="td-en">see</td></tr>
+                <tr><td class="td-num">143</td><td class="td-zh cjk">听</td><td class="td-py">tīng</td><td class="td-en">listen</td></tr>
+                <tr><td class="td-num">144</td><td class="td-zh cjk">听见</td><td class="td-py">tīngjiàn</td><td class="td-en">hear</td></tr>
+                <tr><td class="td-num">145</td><td class="td-zh cjk">说</td><td class="td-py">shuō</td><td class="td-en">speak, say</td></tr>
+                <tr><td class="td-num">146</td><td class="td-zh cjk">说话</td><td class="td-py">shuōhuà</td><td class="td-en">speak, talk</td></tr>
+                <tr><td class="td-num">147</td><td class="td-zh cjk">读</td><td class="td-py">dú</td><td class="td-en">read aloud</td></tr>
+                <tr><td class="td-num">148</td><td class="td-zh cjk">读书</td><td class="td-py">dúshū</td><td class="td-en">study, read books</td></tr>
+                <tr><td class="td-num">149</td><td class="td-zh cjk">写</td><td class="td-py">xiě</td><td class="td-en">write</td></tr>
+                <tr><td class="td-num">150</td><td class="td-zh cjk">唱</td><td class="td-py">chàng</td><td class="td-en">sing</td></tr>
+                <tr><td class="td-num">151</td><td class="td-zh cjk">玩</td><td class="td-py">wán</td><td class="td-en">play</td></tr>
+                <tr><td class="td-num">152</td><td class="td-zh cjk">学</td><td class="td-py">xué</td><td class="td-en">study</td></tr>
+                <tr><td class="td-num">153</td><td class="td-zh cjk">学习</td><td class="td-py">xuéxí</td><td class="td-en">study, learn</td></tr>
+                <tr><td class="td-num">154</td><td class="td-zh cjk">上学</td><td class="td-py">shàngxué</td><td class="td-en">go to school</td></tr>
+                <tr><td class="td-num">155</td><td class="td-zh cjk">上课</td><td class="td-py">shàngkè</td><td class="td-en">attend class</td></tr>
+                <tr><td class="td-num">156</td><td class="td-zh cjk">下课</td><td class="td-py">xiàkè</td><td class="td-en">class ends</td></tr>
+                <tr><td class="td-num">157</td><td class="td-zh cjk">上班</td><td class="td-py">shàngbān</td><td class="td-en">go to work</td></tr>
+                <tr><td class="td-num">158</td><td class="td-zh cjk">下班</td><td class="td-py">xiàbān</td><td class="td-en">get off work</td></tr>
+                <tr><td class="td-num">159</td><td class="td-zh cjk">工作</td><td class="td-py">gōngzuò</td><td class="td-en">work</td></tr>
+                <tr><td class="td-num">160</td><td class="td-zh cjk">做</td><td class="td-py">zuò</td><td class="td-en">do, make</td></tr>
+                <tr><td class="td-num">161</td><td class="td-zh cjk">做饭</td><td class="td-py">zuòfàn</td><td class="td-en">cook</td></tr>
+                <tr><td class="td-num">162</td><td class="td-zh cjk">来</td><td class="td-py">lái</td><td class="td-en">come</td></tr>
+                <tr><td class="td-num">163</td><td class="td-zh cjk">去</td><td class="td-py">qù</td><td class="td-en">go</td></tr>
+                <tr><td class="td-num">164</td><td class="td-zh cjk">回</td><td class="td-py">huí</td><td class="td-en">return</td></tr>
+                <tr><td class="td-num">165</td><td class="td-zh cjk">到</td><td class="td-py">dào</td><td class="td-en">arrive, reach</td></tr>
+                <tr><td class="td-num">166</td><td class="td-zh cjk">住</td><td class="td-py">zhù</td><td class="td-en">live, stay</td></tr>
+                <tr><td class="td-num">167</td><td class="td-zh cjk">坐</td><td class="td-py">zuò</td><td class="td-en">sit</td></tr>
+                <tr><td class="td-num">168</td><td class="td-zh cjk">开</td><td class="td-py">kāi</td><td class="td-en">open, drive</td></tr>
+                <tr><td class="td-num">169</td><td class="td-zh cjk">开车</td><td class="td-py">kāichē</td><td class="td-en">drive a car</td></tr>
+                <tr><td class="td-num">170</td><td class="td-zh cjk">打电话</td><td class="td-py">dǎ diànhuà</td><td class="td-en">make a phone call</td></tr>
+                <tr><td class="td-num">171</td><td class="td-zh cjk">穿</td><td class="td-py">chuān</td><td class="td-en">wear, put on</td></tr>
+                <tr><td class="td-num">172</td><td class="td-zh cjk">买</td><td class="td-py">mǎi</td><td class="td-en">buy</td></tr>
+                <tr><td class="td-num">173</td><td class="td-zh cjk">卖</td><td class="td-py">mài</td><td class="td-en">sell</td></tr>
+                <tr><td class="td-num">174</td><td class="td-zh cjk">找</td><td class="td-py">zhǎo</td><td class="td-en">look for</td></tr>
+                <tr><td class="td-num">175</td><td class="td-zh cjk">见</td><td class="td-py">jiàn</td><td class="td-en">meet, see</td></tr>
+                <tr><td class="td-num">176</td><td class="td-zh cjk">是</td><td class="td-py">shì</td><td class="td-en">to be</td></tr>
+                <tr><td class="td-num">177</td><td class="td-zh cjk">有</td><td class="td-py">yǒu</td><td class="td-en">to have</td></tr>
+                <tr><td class="td-num">178</td><td class="td-zh cjk">没有</td><td class="td-py">méiyǒu</td><td class="td-en">not have, did not</td></tr>
+                <tr><td class="td-num">179</td><td class="td-zh cjk">在</td><td class="td-py">zài</td><td class="td-en">be at, in</td></tr>
+                <tr><td class="td-num">180</td><td class="td-zh cjk">叫</td><td class="td-py">jiào</td><td class="td-en">be called</td></tr>
+                <tr><td class="td-num">181</td><td class="td-zh cjk">问</td><td class="td-py">wèn</td><td class="td-en">ask</td></tr>
+                <tr><td class="td-num">182</td><td class="td-zh cjk">认识</td><td class="td-py">rènshi</td><td class="td-en">know, recognize</td></tr>
+                <tr><td class="td-num">183</td><td class="td-zh cjk">知道</td><td class="td-py">zhīdào</td><td class="td-en">know (a fact)</td></tr>
+                <tr><td class="td-num">184</td><td class="td-zh cjk">觉得</td><td class="td-py">juéde</td><td class="td-en">feel, think</td></tr>
+                <tr><td class="td-num">185</td><td class="td-zh cjk">爱</td><td class="td-py">ài</td><td class="td-en">love</td></tr>
+                <tr><td class="td-num">186</td><td class="td-zh cjk">喜欢</td><td class="td-py">xǐhuan</td><td class="td-en">like</td></tr>
+                <tr><td class="td-num">187</td><td class="td-zh cjk">想</td><td class="td-py">xiǎng</td><td class="td-en">want, think</td></tr>
+                <tr><td class="td-num">188</td><td class="td-zh cjk">要</td><td class="td-py">yào</td><td class="td-en">want, will</td></tr>
+                <tr><td class="td-num">189</td><td class="td-zh cjk">不要</td><td class="td-py">búyào</td><td class="td-en">don't</td></tr>
+                <tr><td class="td-num">190</td><td class="td-zh cjk">给</td><td class="td-py">gěi</td><td class="td-en">give, to</td></tr>
+                <tr><td class="td-num">191</td><td class="td-zh cjk">会</td><td class="td-py">huì</td><td class="td-en">can, will (learned)</td></tr>
+                <tr><td class="td-num">192</td><td class="td-zh cjk">能</td><td class="td-py">néng</td><td class="td-en">be able to</td></tr>
+                <tr><td class="td-num">193</td><td class="td-zh cjk">可以</td><td class="td-py">kěyǐ</td><td class="td-en">may, can</td></tr>
+                <tr><td class="td-num">194</td><td class="td-zh cjk">大</td><td class="td-py">dà</td><td class="td-en">big</td></tr>
+                <tr><td class="td-num">195</td><td class="td-zh cjk">小</td><td class="td-py">xiǎo</td><td class="td-en">small</td></tr>
+                <tr><td class="td-num">196</td><td class="td-zh cjk">多</td><td class="td-py">duō</td><td class="td-en">many, much</td></tr>
+                <tr><td class="td-num">197</td><td class="td-zh cjk">少</td><td class="td-py">shǎo</td><td class="td-en">few, little</td></tr>
+                <tr><td class="td-num">198</td><td class="td-zh cjk">好</td><td class="td-py">hǎo</td><td class="td-en">good</td></tr>
+                <tr><td class="td-num">199</td><td class="td-zh cjk">新</td><td class="td-py">xīn</td><td class="td-en">new</td></tr>
+                <tr><td class="td-num">200</td><td class="td-zh cjk">贵</td><td class="td-py">guì</td><td class="td-en">expensive</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- CLOSING -->
+<section class="slide slide-dark">
+    <div class="slide-content">
+        <div class="slide-label">End of June 12</div>
+        <h1 class="slide-title cjk" style="font-size: clamp(2rem, 5vw, 3.5rem);">我们复习吧。</h1>
+        <p class="slide-body" style="margin-top:0.4rem; font-style:italic; font-size:0.95rem; color:rgba(255,255,255,0.55);">Wǒmen fùxí ba. &nbsp;·&nbsp; Let's review.</p>
+        <div class="hbox" style="margin-top:2rem;">
+            <p><strong><a href="/june/day/12" style="color:inherit;">June · Day 12 →</a></strong> Drill these as flashcards with audio and example sentences. Day 14 is Mock Exam 2 — it covers words 101–200.</p>
+        </div>
+    </div>
+</section>
+
+
+<footer class="slide-footer">
+    Network School · June Accelerated Course · June 12
+</footer>
+
+
+<script>
+    document.body.classList.add('hide-pinyin', 'hide-english');
+    function toggleShow(which) {
+        const isHidden = document.body.classList.toggle('hide-' + which);
+        document.getElementById('toggle-' + which).classList.toggle('active', !isHidden);
+    }
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        document.getElementById('progress-bar').style.width = (pct || 0) + '%';
+    });
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    function nearestSlide() {
+        let best = 0, bestDist = Infinity;
+        slides.forEach((s, i) => { const d = Math.abs(s.getBoundingClientRect().top); if (d < bestDist) { bestDist = d; best = i; } });
+        return best;
+    }
+    function goToSlide(i) { i = Math.max(0, Math.min(slides.length - 1, i)); slides[i].scrollIntoView({ behavior: 'smooth' }); }
+    document.addEventListener('keydown', e => {
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goToSlide(nearestSlide() + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goToSlide(nearestSlide() - 1); }
+    });
+
+    // Flashcards (HSK 1 words 101–200) with audio.
+    const v1cards = [
+        { zh:"中学生", py:"zhōngxuéshēng", en:"middle schooler", exZh:"我哥哥是中学生。", exPy:"Wǒ gēge shì zhōngxuéshēng.", exEn:"My older brother is in middle school.", idx:101 },
+        { zh:"小学生", py:"xiǎoxuéshēng", en:"primary schooler", exZh:"妹妹是小学生。", exPy:"Mèimei shì xiǎoxuéshēng.", exEn:"My younger sister is in primary school.", idx:102 },
+        { zh:"同学", py:"tóngxué", en:"classmate", exZh:"他是我同学。", exPy:"Tā shì wǒ tóngxué.", exEn:"He is my classmate.", idx:103 },
+        { zh:"医生", py:"yīshēng", en:"doctor", exZh:"医生在医院。", exPy:"Yīshēng zài yīyuàn.", exEn:"The doctor is at the hospital.", idx:104 },
+        { zh:"名字", py:"míngzi", en:"name", exZh:"我的名字是小明。", exPy:"Wǒ de míngzi shì Xiǎomíng.", exEn:"My name is Xiaoming.", idx:105 },
+        { zh:"年", py:"nián", en:"year", exZh:"今年是二〇二六年。", exPy:"Jīnnián shì èr líng èr liù nián.", exEn:"This year is 2026.", idx:106 },
+        { zh:"月", py:"yuè", en:"month", exZh:"三月很漂亮。", exPy:"Sān yuè hěn piàoliang.", exEn:"March is very pretty.", idx:107 },
+        { zh:"日", py:"rì", en:"day (of month)", exZh:"今天是五月一日。", exPy:"Jīntiān shì wǔ yuè yī rì.", exEn:"Today is May 1st.", idx:108 },
+        { zh:"号", py:"hào", en:"date, number", exZh:"今天是几号？", exPy:"Jīntiān shì jǐ hào?", exEn:"What's the date today?", idx:109 },
+        { zh:"天", py:"tiān", en:"day, sky", exZh:"我学了三天汉语。", exPy:"Wǒ xué le sān tiān Hànyǔ.", exEn:"I studied Chinese for three days.", idx:110 },
+        { zh:"星期", py:"xīngqī", en:"week", exZh:"下个星期我去中国。", exPy:"Xià gè xīngqī wǒ qù Zhōngguó.", exEn:"Next week I'm going to China.", idx:111 },
+        { zh:"星期日", py:"xīngqīrì", en:"Sunday", exZh:"星期日我不上班。", exPy:"Xīngqīrì wǒ bú shàngbān.", exEn:"I don't work on Sunday.", idx:112 },
+        { zh:"星期天", py:"xīngqītiān", en:"Sunday", exZh:"星期天我们一起玩。", exPy:"Xīngqītiān wǒmen yìqǐ wán.", exEn:"Let's play together Sunday.", idx:113 },
+        { zh:"今天", py:"jīntiān", en:"today", exZh:"今天天气很好。", exPy:"Jīntiān tiānqì hěn hǎo.", exEn:"Today's weather is great.", idx:114 },
+        { zh:"明天", py:"míngtiān", en:"tomorrow", exZh:"明天我去学校。", exPy:"Míngtiān wǒ qù xuéxiào.", exEn:"Tomorrow I'm going to school.", idx:115 },
+        { zh:"昨天", py:"zuótiān", en:"yesterday", exZh:"昨天我没上班。", exPy:"Zuótiān wǒ méi shàngbān.", exEn:"Yesterday I didn't work.", idx:116 },
+        { zh:"今年", py:"jīnnián", en:"this year", exZh:"今年我二十岁。", exPy:"Jīnnián wǒ èrshí suì.", exEn:"I am 20 this year.", idx:117 },
+        { zh:"明年", py:"míngnián", en:"next year", exZh:"明年我去大学。", exPy:"Míngnián wǒ qù dàxué.", exEn:"Next year I'll go to university.", idx:118 },
+        { zh:"去年", py:"qùnián", en:"last year", exZh:"去年我去了中国。", exPy:"Qùnián wǒ qù le Zhōngguó.", exEn:"Last year I went to China.", idx:119 },
+        { zh:"白天", py:"báitiān", en:"daytime", exZh:"白天我上班。", exPy:"Báitiān wǒ shàngbān.", exEn:"I work during the day.", idx:120 },
+        { zh:"早上", py:"zǎoshang", en:"early morning", exZh:"早上我喝牛奶。", exPy:"Zǎoshang wǒ hē niúnǎi.", exEn:"I drink milk in the morning.", idx:121 },
+        { zh:"上午", py:"shàngwǔ", en:"late morning", exZh:"上午我有课。", exPy:"Shàngwǔ wǒ yǒu kè.", exEn:"I have class in the morning.", idx:122 },
+        { zh:"中午", py:"zhōngwǔ", en:"noon", exZh:"中午我吃米饭。", exPy:"Zhōngwǔ wǒ chī mǐfàn.", exEn:"I eat rice at noon.", idx:123 },
+        { zh:"下午", py:"xiàwǔ", en:"afternoon", exZh:"下午我休息。", exPy:"Xiàwǔ wǒ xiūxi.", exEn:"I rest in the afternoon.", idx:124 },
+        { zh:"晚上", py:"wǎnshang", en:"evening", exZh:"晚上我看电视。", exPy:"Wǎnshang wǒ kàn diànshì.", exEn:"In the evening I watch TV.", idx:125 },
+        { zh:"现在", py:"xiànzài", en:"now", exZh:"现在几点？", exPy:"Xiànzài jǐ diǎn?", exEn:"What time is it now?", idx:126 },
+        { zh:"时候", py:"shíhou", en:"time, moment", exZh:"你什么时候来？", exPy:"Nǐ shénme shíhou lái?", exEn:"When are you coming?", idx:127 },
+        { zh:"时间", py:"shíjiān", en:"time", exZh:"我没有时间。", exPy:"Wǒ méiyǒu shíjiān.", exEn:"I don't have time.", idx:128 },
+        { zh:"点", py:"diǎn", en:"o'clock", exZh:"现在三点。", exPy:"Xiànzài sān diǎn.", exEn:"It's three o'clock now.", idx:129 },
+        { zh:"分", py:"fēn", en:"minute", exZh:"三点十分。", exPy:"Sān diǎn shí fēn.", exEn:"Three ten.", idx:130 },
+        { zh:"分钟", py:"fēnzhōng", en:"minute(s)", exZh:"等我五分钟。", exPy:"Děng wǒ wǔ fēnzhōng.", exEn:"Wait five minutes for me.", idx:131 },
+        { zh:"小时", py:"xiǎoshí", en:"hour", exZh:"我学了两个小时。", exPy:"Wǒ xué le liǎng gè xiǎoshí.", exEn:"I studied for two hours.", idx:132 },
+        { zh:"早", py:"zǎo", en:"early", exZh:"你早！", exPy:"Nǐ zǎo!", exEn:"Good morning.", idx:133 },
+        { zh:"晚", py:"wǎn", en:"late", exZh:"对不起，我来晚了。", exPy:"Duìbuqǐ, wǒ lái wǎn le.", exEn:"Sorry, I'm late.", idx:134 },
+        { zh:"起床", py:"qǐchuáng", en:"get up", exZh:"我七点起床。", exPy:"Wǒ qī diǎn qǐchuáng.", exEn:"I get up at seven.", idx:135 },
+        { zh:"睡", py:"shuì", en:"sleep", exZh:"他在睡。", exPy:"Tā zài shuì.", exEn:"He is sleeping.", idx:136 },
+        { zh:"睡觉", py:"shuìjiào", en:"sleep", exZh:"我十点睡觉。", exPy:"Wǒ shí diǎn shuìjiào.", exEn:"I go to bed at ten.", idx:137 },
+        { zh:"休息", py:"xiūxi", en:"rest", exZh:"你休息一下。", exPy:"Nǐ xiūxi yíxià.", exEn:"You rest a bit.", idx:138 },
+        { zh:"吃", py:"chī", en:"eat", exZh:"我们吃饭吧。", exPy:"Wǒmen chī fàn ba.", exEn:"Let's eat.", idx:139 },
+        { zh:"喝", py:"hē", en:"drink", exZh:"我喝水。", exPy:"Wǒ hē shuǐ.", exEn:"I drink water.", idx:140 },
+        { zh:"看", py:"kàn", en:"look, watch, read", exZh:"我看书。", exPy:"Wǒ kàn shū.", exEn:"I read a book.", idx:141 },
+        { zh:"看见", py:"kànjiàn", en:"see", exZh:"我看见他了。", exPy:"Wǒ kànjiàn tā le.", exEn:"I saw him.", idx:142 },
+        { zh:"听", py:"tīng", en:"listen", exZh:"我听歌。", exPy:"Wǒ tīng gē.", exEn:"I listen to music.", idx:143 },
+        { zh:"听见", py:"tīngjiàn", en:"hear", exZh:"你听见了吗？", exPy:"Nǐ tīngjiàn le ma?", exEn:"Did you hear?", idx:144 },
+        { zh:"说", py:"shuō", en:"speak, say", exZh:"他说什么？", exPy:"Tā shuō shénme?", exEn:"What did he say?", idx:145 },
+        { zh:"说话", py:"shuōhuà", en:"speak, talk", exZh:"老师在说话。", exPy:"Lǎoshī zài shuōhuà.", exEn:"The teacher is talking.", idx:146 },
+        { zh:"读", py:"dú", en:"read aloud", exZh:"请读这个字。", exPy:"Qǐng dú zhège zì.", exEn:"Please read this character.", idx:147 },
+        { zh:"读书", py:"dúshū", en:"study, read books", exZh:"他在读书。", exPy:"Tā zài dúshū.", exEn:"He is studying.", idx:148 },
+        { zh:"写", py:"xiě", en:"write", exZh:"我写汉字。", exPy:"Wǒ xiě Hànzì.", exEn:"I write Chinese characters.", idx:149 },
+        { zh:"唱", py:"chàng", en:"sing", exZh:"我喜欢唱歌。", exPy:"Wǒ xǐhuan chàng gē.", exEn:"I like to sing.", idx:150 },
+        { zh:"玩", py:"wán", en:"play", exZh:"孩子们在玩。", exPy:"Háizi men zài wán.", exEn:"The kids are playing.", idx:151 },
+        { zh:"学", py:"xué", en:"study", exZh:"我学汉语。", exPy:"Wǒ xué Hànyǔ.", exEn:"I study Chinese.", idx:152 },
+        { zh:"学习", py:"xuéxí", en:"study, learn", exZh:"我喜欢学习。", exPy:"Wǒ xǐhuan xuéxí.", exEn:"I like to study.", idx:153 },
+        { zh:"上学", py:"shàngxué", en:"go to school", exZh:"弟弟九点上学。", exPy:"Dìdi jiǔ diǎn shàngxué.", exEn:"Younger brother goes to school at nine.", idx:154 },
+        { zh:"上课", py:"shàngkè", en:"attend class", exZh:"我们正在上课。", exPy:"Wǒmen zhèngzài shàngkè.", exEn:"We are in class.", idx:155 },
+        { zh:"下课", py:"xiàkè", en:"class ends", exZh:"三点下课。", exPy:"Sān diǎn xiàkè.", exEn:"Class ends at three.", idx:156 },
+        { zh:"上班", py:"shàngbān", en:"go to work", exZh:"爸爸去上班。", exPy:"Bàba qù shàngbān.", exEn:"Dad goes to work.", idx:157 },
+        { zh:"下班", py:"xiàbān", en:"get off work", exZh:"妈妈五点下班。", exPy:"Māma wǔ diǎn xiàbān.", exEn:"Mom gets off work at five.", idx:158 },
+        { zh:"工作", py:"gōngzuò", en:"work", exZh:"他的工作很忙。", exPy:"Tā de gōngzuò hěn máng.", exEn:"His job is very busy.", idx:159 },
+        { zh:"做", py:"zuò", en:"do, make", exZh:"你在做什么？", exPy:"Nǐ zài zuò shénme?", exEn:"What are you doing?", idx:160 },
+        { zh:"做饭", py:"zuòfàn", en:"cook", exZh:"妈妈在做饭。", exPy:"Māma zài zuòfàn.", exEn:"Mom is cooking.", idx:161 },
+        { zh:"来", py:"lái", en:"come", exZh:"你来不来？", exPy:"Nǐ lái bù lái?", exEn:"Are you coming?", idx:162 },
+        { zh:"去", py:"qù", en:"go", exZh:"我去学校。", exPy:"Wǒ qù xuéxiào.", exEn:"I'm going to school.", idx:163 },
+        { zh:"回", py:"huí", en:"return", exZh:"我回家。", exPy:"Wǒ huí jiā.", exEn:"I'm going home.", idx:164 },
+        { zh:"到", py:"dào", en:"arrive, reach", exZh:"我到学校了。", exPy:"Wǒ dào xuéxiào le.", exEn:"I've arrived at school.", idx:165 },
+        { zh:"住", py:"zhù", en:"live, stay", exZh:"我住在北京。", exPy:"Wǒ zhù zài Běijīng.", exEn:"I live in Beijing.", idx:166 },
+        { zh:"坐", py:"zuò", en:"sit", exZh:"请坐这儿。", exPy:"Qǐng zuò zhèr.", exEn:"Please sit here.", idx:167 },
+        { zh:"开", py:"kāi", en:"open, drive", exZh:"请开门。", exPy:"Qǐng kāi mén.", exEn:"Please open the door.", idx:168 },
+        { zh:"开车", py:"kāichē", en:"drive a car", exZh:"爸爸会开车。", exPy:"Bàba huì kāichē.", exEn:"Dad can drive.", idx:169 },
+        { zh:"打电话", py:"dǎ diànhuà", en:"make a phone call", exZh:"我给妈妈打电话。", exPy:"Wǒ gěi māma dǎ diànhuà.", exEn:"I'm calling Mom.", idx:170 },
+        { zh:"穿", py:"chuān", en:"wear, put on", exZh:"今天穿什么？", exPy:"Jīntiān chuān shénme?", exEn:"What to wear today?", idx:171 },
+        { zh:"买", py:"mǎi", en:"buy", exZh:"我买了一本书。", exPy:"Wǒ mǎi le yì běn shū.", exEn:"I bought a book.", idx:172 },
+        { zh:"卖", py:"mài", en:"sell", exZh:"商店卖衣服。", exPy:"Shāngdiàn mài yīfu.", exEn:"The shop sells clothes.", idx:173 },
+        { zh:"找", py:"zhǎo", en:"look for", exZh:"我找我的手机。", exPy:"Wǒ zhǎo wǒ de shǒujī.", exEn:"I'm looking for my phone.", idx:174 },
+        { zh:"见", py:"jiàn", en:"meet, see", exZh:"明天见！", exPy:"Míngtiān jiàn!", exEn:"See you tomorrow.", idx:175 },
+        { zh:"是", py:"shì", en:"to be", exZh:"我是老师。", exPy:"Wǒ shì lǎoshī.", exEn:"I am a teacher.", idx:176 },
+        { zh:"有", py:"yǒu", en:"to have", exZh:"我有两个姐姐。", exPy:"Wǒ yǒu liǎng gè jiějie.", exEn:"I have two older sisters.", idx:177 },
+        { zh:"没有", py:"méiyǒu", en:"not have, did not", exZh:"他没有手机。", exPy:"Tā méiyǒu shǒujī.", exEn:"He doesn't have a phone.", idx:178 },
+        { zh:"在", py:"zài", en:"be at, in", exZh:"我在学校。", exPy:"Wǒ zài xuéxiào.", exEn:"I'm at school.", idx:179 },
+        { zh:"叫", py:"jiào", en:"be called", exZh:"我叫小明。", exPy:"Wǒ jiào Xiǎomíng.", exEn:"My name is Xiaoming.", idx:180 },
+        { zh:"问", py:"wèn", en:"ask", exZh:"我问老师。", exPy:"Wǒ wèn lǎoshī.", exEn:"I ask the teacher.", idx:181 },
+        { zh:"认识", py:"rènshi", en:"know, recognize", exZh:"很高兴认识你。", exPy:"Hěn gāoxìng rènshi nǐ.", exEn:"Nice to meet you.", idx:182 },
+        { zh:"知道", py:"zhīdào", en:"know (a fact)", exZh:"我不知道。", exPy:"Wǒ bù zhīdào.", exEn:"I don't know.", idx:183 },
+        { zh:"觉得", py:"juéde", en:"feel, think", exZh:"我觉得很好。", exPy:"Wǒ juéde hěn hǎo.", exEn:"I think it's great.", idx:184 },
+        { zh:"爱", py:"ài", en:"love", exZh:"我爱我的家人。", exPy:"Wǒ ài wǒ de jiārén.", exEn:"I love my family.", idx:185 },
+        { zh:"喜欢", py:"xǐhuan", en:"like", exZh:"我喜欢喝茶。", exPy:"Wǒ xǐhuan hē chá.", exEn:"I like drinking tea.", idx:186 },
+        { zh:"想", py:"xiǎng", en:"want, think", exZh:"我想去中国。", exPy:"Wǒ xiǎng qù Zhōngguó.", exEn:"I want to go to China.", idx:187 },
+        { zh:"要", py:"yào", en:"want, will", exZh:"我要一杯水。", exPy:"Wǒ yào yì bēi shuǐ.", exEn:"I want a glass of water.", idx:188 },
+        { zh:"不要", py:"búyào", en:"don't", exZh:"不要说话。", exPy:"Búyào shuōhuà.", exEn:"Don't talk.", idx:189 },
+        { zh:"给", py:"gěi", en:"give, to", exZh:"给我一本书。", exPy:"Gěi wǒ yì běn shū.", exEn:"Give me a book.", idx:190 },
+        { zh:"会", py:"huì", en:"can, will (learned)", exZh:"我会说汉语。", exPy:"Wǒ huì shuō Hànyǔ.", exEn:"I can speak Chinese.", idx:191 },
+        { zh:"能", py:"néng", en:"be able to", exZh:"你能来吗？", exPy:"Nǐ néng lái ma?", exEn:"Can you come?", idx:192 },
+        { zh:"可以", py:"kěyǐ", en:"may, can", exZh:"我可以坐这儿吗？", exPy:"Wǒ kěyǐ zuò zhèr ma?", exEn:"May I sit here?", idx:193 },
+        { zh:"大", py:"dà", en:"big", exZh:"这个学校很大。", exPy:"Zhège xuéxiào hěn dà.", exEn:"This school is big.", idx:194 },
+        { zh:"小", py:"xiǎo", en:"small", exZh:"我家有一只小狗。", exPy:"Wǒ jiā yǒu yì zhī xiǎo gǒu.", exEn:"My family has a small dog.", idx:195 },
+        { zh:"多", py:"duō", en:"many, much", exZh:"今天人很多。", exPy:"Jīntiān rén hěn duō.", exEn:"There are a lot of people today.", idx:196 },
+        { zh:"少", py:"shǎo", en:"few, little", exZh:"水果太少了。", exPy:"Shuǐguǒ tài shǎo le.", exEn:"There's too little fruit.", idx:197 },
+        { zh:"好", py:"hǎo", en:"good", exZh:"今天天气很好。", exPy:"Jīntiān tiānqì hěn hǎo.", exEn:"Today's weather is good.", idx:198 },
+        { zh:"新", py:"xīn", en:"new", exZh:"这是我的新手机。", exPy:"Zhè shì wǒ de xīn shǒujī.", exEn:"This is my new phone.", idx:199 },
+        { zh:"贵", py:"guì", en:"expensive", exZh:"这件衣服很贵。", exPy:"Zhè jiàn yīfu hěn guì.", exEn:"This piece of clothing is expensive.", idx:200 },
+    ];
+    let v1Order = v1cards.map((_, i) => i);
+    let v1Idx = 0;
+    let v1Audio = null;
+    function v1AudioPath() {
+        return '/audio/june/hsk1/' + String(v1cards[v1Order[v1Idx]].idx).padStart(3, '0') + '.mp3';
+    }
+    function v1StopAudio() {
+        if (!v1Audio) return;
+        v1Audio.pause(); v1Audio.currentTime = 0; v1Audio = null;
+        document.getElementById('v1-audio').classList.remove('btn-outline');
+    }
+    function v1Play() {
+        v1StopAudio();
+        v1Audio = new Audio(v1AudioPath());
+        v1Audio.addEventListener('ended', v1StopAudio, { once: true });
+        v1Audio.addEventListener('error', v1StopAudio, { once: true });
+        v1Audio.play().catch(v1StopAudio);
+    }
+    function v1Show() {
+        document.getElementById('v1-wrap').classList.remove('flipped');
+        v1StopAudio();
+        setTimeout(() => {
+            const c = v1cards[v1Order[v1Idx]];
+            document.getElementById('v1-zh').textContent = c.zh;
+            document.getElementById('v1-py').textContent = c.py;
+            document.getElementById('v1-en').textContent = c.en;
+            document.getElementById('v1-ex-zh').textContent = c.exZh;
+            document.getElementById('v1-ex-py').textContent = c.exPy;
+            document.getElementById('v1-ex-en').textContent = c.exEn;
+            document.getElementById('v1-counter').textContent = (v1Idx + 1) + ' / ' + v1cards.length;
+        }, 240);
+    }
+    function v1Next() { v1Idx = (v1Idx + 1) % v1cards.length; v1Show(); }
+    function v1Prev() { v1Idx = (v1Idx - 1 + v1cards.length) % v1cards.length; v1Show(); }
+    function v1Shuffle() {
+        for (let i = v1Order.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [v1Order[i], v1Order[j]] = [v1Order[j], v1Order[i]];
+        }
+        v1Idx = 0; v1Show();
+    }
+</script>
+
+</body>
+</html>

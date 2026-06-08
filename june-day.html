@@ -503,8 +503,9 @@ function renderVocab() {
 
     const examBadge = info.exam
         ? `<span class="exam-badge">${escapeHTML(info.exam)}</span>` : '';
-    const lessonLink = day === 3
-        ? `<a class="ctrl-btn" href="/june/lesson/1" style="flex:0 0 auto;">Open June Lesson 1 →</a>` : '';
+    const lessonForDay = { 3: 1, 4: 2, 5: 3, 9: 9, 10: 10, 11: 11, 12: 12 };
+    const lessonLink = lessonForDay[day]
+        ? `<a class="ctrl-btn" href="/june/lesson/${lessonForDay[day]}" style="flex:0 0 auto;">Open the lesson for this day →</a>` : '';
     content.innerHTML = `
         <div class="header-row">
             <div>
