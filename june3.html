@@ -49,6 +49,43 @@
     }
     .topbar .spacer { flex: 1; }
 
+    /* Lessons dropdown */
+    .dropdown { position: relative; }
+    .dd-toggle {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.18);
+        color: rgba(255,255,255,0.85);
+        font: inherit;
+        font-size: 0.85rem;
+        padding: 0.3rem 0.7rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+    }
+    .dd-toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+    .dd-menu {
+        position: absolute;
+        top: calc(100% + 0.4rem);
+        right: 0;
+        background: #1a1a1a;
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 8px;
+        padding: 0.3rem;
+        min-width: 9rem;
+        display: none;
+        flex-direction: column;
+        gap: 0.1rem;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        z-index: 10;
+    }
+    .dropdown.open .dd-menu { display: flex; }
+    .dd-menu a {
+        display: block;
+        padding: 0.45rem 0.7rem;
+        border-radius: 5px;
+        white-space: nowrap;
+    }
+
     .hero {
         background: linear-gradient(135deg, #052e1f 0%, #0a4f37 100%);
         color: white;
@@ -76,6 +113,18 @@
         color: rgba(255,255,255,0.7);
         max-width: 620px;
     }
+    .hero .meet {
+        display: inline-block;
+        margin-top: 0.6rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: white;
+        background: rgba(255,255,255,0.13);
+        border: 1px solid rgba(255,255,255,0.18);
+        padding: 0.35rem 0.7rem;
+        border-radius: 6px;
+        letter-spacing: 0.02em;
+    }
 
     main {
         flex: 1;
@@ -101,7 +150,7 @@
     }
     .legend-swatch.vocab { background: #d1fae5; border-color: #6ee7b7; }
     .legend-swatch.review { background: #e0e7ff; border-color: #a5b4fc; }
-    .legend-swatch.event { background: #fef3c7; border-color: #fcd34d; }
+    .legend-swatch.exam { background: #fee2e2; border-color: #fecaca; }
 
     .calendar {
         background: white;
@@ -111,7 +160,7 @@
     }
     .cal-grid {
         display: grid;
-        grid-template-columns: 64px repeat(8, 1fr);
+        grid-template-columns: repeat(7, 1fr);
     }
     .cal-head {
         background: #1a1a1a;
@@ -122,19 +171,10 @@
         letter-spacing: 0.06em;
         text-align: center;
     }
-    .cal-head.row-label { background: #0f0f0f; }
-    .cal-row-label {
-        background: #fafafa;
-        padding: 0.5rem;
-        font-size: 0.72rem;
-        font-weight: 700;
-        color: #555;
-        letter-spacing: 0.04em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-top: 1px solid #e5e7eb;
-        border-right: 1px solid #e5e7eb;
+    .cal-weekbreak {
+        grid-column: 1 / -1;
+        height: 1px;
+        background: #d1d5db;
     }
     .cal-cell {
         position: relative;
@@ -184,23 +224,30 @@
         letter-spacing: 0.04em;
         line-height: 1.25;
     }
-    .cal-cell.event.exam .cal-event { color: #991b1b; }
-    .cal-cell.event.exam { background: #fef2f2; }
+    .cal-exam {
+        font-size: 0.65rem;
+        font-weight: 800;
+        color: #991b1b;
+        background: #fee2e2;
+        border: 1px solid #fecaca;
+        padding: 0.1rem 0.35rem;
+        border-radius: 4px;
+        align-self: flex-start;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        line-height: 1.2;
+    }
+    a.cal-cell:hover .cal-exam {
+        color: #fee2e2;
+        background: rgba(153,27,27,0.6);
+        border-color: rgba(254,202,202,0.4);
+    }
 
     /* Mobile: collapse to single-column list */
     @media (max-width: 720px) {
         .cal-grid { grid-template-columns: 1fr; }
         .cal-head { display: none; }
-        .cal-head.row-label { display: none; }
-        .cal-row-label {
-            grid-column: 1 / -1;
-            background: #1a1a1a;
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.55rem 0.75rem;
-            justify-content: flex-start;
-            border-right: none;
-        }
+        .cal-weekbreak { display: none; }
         .cal-cell {
             min-height: 0;
             flex-direction: row;
@@ -251,17 +298,18 @@
     <div class="hero-inner">
         <div class="label">Network School</div>
         <h1>HSK 3 Accelerated June</h1>
-        <p class="sub">Four weeks. 500 HSK 3 (Band 3) words. Same calendar as the HSK 1 course — tap any day to drill that day's vocabulary as flashcards with example sentences.</p>
+        <p class="sub">Four weeks. 500 HSK 3 (Band 3) words. Tap any day to drill that day's vocabulary as flashcards with example sentences.</p>
+        <div class="meet">Tuesdays – Fridays · 5pm · NS Library</div>
     </div>
 </div>
 
 <main>
     <div class="wrap">
-        <p class="intro">Green = new vocabulary. Indigo = review block. Yellow = course event. Tap a day to open its flashcard set.</p>
+        <p class="intro">Green = new vocabulary. Indigo = review block. Red badge marks a mock exam day. Tap a day to open its flashcard set.</p>
         <div class="legend">
             <div class="legend-item"><span class="legend-swatch vocab"></span>New vocab</div>
             <div class="legend-item"><span class="legend-swatch review"></span>Review</div>
-            <div class="legend-item"><span class="legend-swatch event"></span>Course event</div>
+            <div class="legend-item"><span class="legend-swatch exam"></span>Mock exam</div>
         </div>
 
         <div class="calendar">
@@ -272,38 +320,37 @@
 
 <script src="/refs/june3-schedule.js"></script>
 <script>
-const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-const SCHEDULE = window.JUNE3_SCHEDULE;
+const DOW = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const grid = document.getElementById('cal-grid');
 const parts = [];
 
 // Header row
-parts.push('<div class="cal-head row-label">Week</div>');
 DOW.forEach(d => parts.push(`<div class="cal-head">${d}</div>`));
 
 // Week rows
-SCHEDULE.weeks.forEach((week, wi) => {
-    parts.push(`<div class="cal-row-label">Week ${wi + 1}</div>`);
+window.JUNE3_SCHEDULE.weeks.forEach((week, wi) => {
+    if (wi > 0) parts.push('<div class="cal-weekbreak"></div>');
     week.forEach((day, di) => {
         const dow = DOW[di];
         if (day === null) {
             parts.push('<div class="cal-cell empty"></div>');
             return;
         }
-        const info = SCHEDULE.days[day];
+        const info = window.JUNE3_SCHEDULE.days[day];
         if (!info) {
             parts.push(`<div class="cal-cell"><div class="cal-date" data-dow="${dow}">${day}</div></div>`);
             return;
         }
         if (info.type === 'vocab') {
             const cls = info.kind === 'review' ? 'review' : 'vocab';
-            parts.push(`<a class="cal-cell ${cls}" href="/june/hsk3/day/${day}">
+            const examTag = info.exam ? `<div class="cal-exam">${info.exam}</div>` : '';
+            parts.push(`<a class="cal-cell ${cls}${info.exam ? ' has-exam' : ''}" href="/june/hsk3/day/${day}">
                 <div class="cal-date" data-dow="${dow}">${day}</div>
                 <div class="cal-range">生词 ${info.start}–${info.end}</div>
+                ${examTag}
             </a>`);
         } else if (info.type === 'event') {
-            const isExam = /exam/i.test(info.title);
-            parts.push(`<div class="cal-cell event${isExam ? ' exam' : ''}">
+            parts.push(`<div class="cal-cell event">
                 <div class="cal-date" data-dow="${dow}">${day}</div>
                 <div class="cal-event">${info.title}</div>
             </div>`);
@@ -312,6 +359,7 @@ SCHEDULE.weeks.forEach((week, wi) => {
 });
 
 grid.innerHTML = parts.join('');
+
 </script>
 
 </body>
