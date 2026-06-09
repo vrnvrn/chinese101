@@ -1,6 +1,6 @@
 // June Accelerated Course schedule.
 // Maps each June day to either a vocab range (1-indexed into HSK1_WORDS) or an event.
-// June 1, 2026 is a Monday — calendar grid is Mon → Sun.
+// June 1, 2026 is a Monday. Calendar grid is Mon to Sun.
 window.JUNE_SCHEDULE = {
     weeks: [
         [1, 2, 3, 4, 5, 6, 7],
