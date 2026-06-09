@@ -229,7 +229,7 @@
     .fc-back .fc-ex-py { font-size: 0.85rem; color: #64748b; margin-bottom: 0.15rem; }
     .fc-back .fc-ex-en { font-size: 0.85rem; color: #64748b; }
 
-    /* Pinyin/English toggles only affect the word-list table — the flashcard
+    /* Pinyin/English toggles only affect the word-list table, the flashcard
        back always shows the full reveal, since that is the answer side. */
     body.hide-pinyin .col-py,
     body.hide-pinyin .ex-py { display: none; }
@@ -680,7 +680,7 @@ function renderVocab() {
     render();
 }
 
-// Word list defaults to hanzi-only — pinyin and english must be toggled on.
+// Word list defaults to hanzi-only, pinyin and english must be toggled on.
 document.body.classList.add('hide-pinyin', 'hide-english');
 
 if (!day) renderMissing();
