@@ -1,4 +1,4 @@
-// HSK 3 (Band 3) vocabulary — 500 words from the official 词汇大纲 (HSK 考试大纲).
+// HSK 3 (Band 3) vocabulary, 500 words from the official 词汇大纲 (HSK 考试大纲).
 // Hanzi, pinyin, and part-of-speech are taken directly from the syllabus PDF (序号 501–1000).
 // English glosses and example sentences are study aids authored for this course.
 // Each entry: [hanzi, pinyin, pos, english, example_hanzi, example_pinyin, example_english]

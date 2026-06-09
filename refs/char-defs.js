@@ -1,6 +1,6 @@
 // Per-character definitions for HSK 1 vocabulary.
 // Used by flashcards to show a breakdown of each character when a word has 2+ chars.
-// { py, en } — Mandarin pinyin and a short English gloss.
+// { py, en }, Mandarin pinyin and a short English gloss.
 (function () {
   const C = {
     // Pronouns
@@ -390,7 +390,7 @@
     for (const ch of word) {
       if (!/[㐀-鿿]/.test(ch)) continue;
       const d = C[ch];
-      out.push({ ch, py: d ? d.py : "", en: d ? d.en : "—" });
+      out.push({ ch, py: d ? d.py : "", en: d ? d.en : "?" });
     }
     return out;
   };

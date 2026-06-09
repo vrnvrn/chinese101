@@ -1,4 +1,4 @@
-// HSK 1 vocabulary — 300 words from the official 词汇大纲.
+// HSK 1 vocabulary, 300 words from the official 词汇大纲.
 // Each entry: [hanzi, pinyin, pos, english, example_hanzi, example_pinyin, example_english]
 window.HSK1_WORDS = [
   ["你好","nǐ hǎo","phrase","hello","你好，老师。","Nǐ hǎo, lǎoshī.","Hello, teacher."],

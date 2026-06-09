@@ -1,4 +1,4 @@
-// HSK 2 (Band 2) vocabulary — 200 words from the official 词汇大纲 (HSK 考试大纲).
+// HSK 2 (Band 2) vocabulary, 200 words from the official 词汇大纲 (HSK 考试大纲).
 // Hanzi, pinyin, and part-of-speech are taken directly from the syllabus PDF (序号 301–500).
 // English glosses and example sentences are study aids authored for this course.
 // Each entry: [hanzi, pinyin, pos, english, example_hanzi, example_pinyin, example_english]

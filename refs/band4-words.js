@@ -1,4 +1,4 @@
-// HSK 4 (Band 4) vocabulary — 1000 words from the official 词汇大纲 (HSK 考试大纲, 2025).
+// HSK 4 (Band 4) vocabulary, 1000 words from the official 词汇大纲 (HSK 考试大纲, 2025).
 // Hanzi, pinyin, and part-of-speech are taken directly from the syllabus PDF.
 // English glosses and example sentences are study aids authored for this course.
 // Each entry: [hanzi, pinyin, pos, english, example_hanzi, example_pinyin, example_english]
