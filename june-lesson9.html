@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>June 9 · Telling Time & Daily Routine · Chinese 101</title>
+    <title>June 9 · Telling Time and Daily Routine · Chinese 101</title>
 <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -227,6 +227,35 @@
             .pt-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
+    <style>
+        /* Time-of-day grid pinyin / gloss follow the topbar toggles */
+        body.hide-pinyin .pt-cell-py { display: none; }
+        body.hide-english .pt-cell-en { display: none; }
+
+        /* Interactive time builder */
+        .tb-wrap { max-width: 480px; margin-top: 1.5rem; }
+        .tb-inputs { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.25rem; }
+        .tb-inputs select, .tb-inputs input { padding: 0.6rem 0.7rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1.1rem; font-weight: 700; color: #1a1a1a; outline: none; background: white; }
+        .tb-inputs input { width: 4.5rem; text-align: center; }
+        .tb-colon { font-size: 1.3rem; font-weight: 700; color: #888; }
+        .tb-output { background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 16px; padding: 1.75rem; text-align: center; min-height: 120px; }
+        .tb-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 2.6rem; line-height: 1.25; color: #052e1f; }
+        .tb-py { font-size: 1.05rem; font-style: italic; color: #4b7a68; margin-top: 0.4rem; }
+        .tb-en { font-size: 1rem; color: #4b7a68; margin-top: 0.2rem; }
+        .tb-alt { font-size: 0.9rem; color: #6b9e8b; margin-top: 0.85rem; padding-top: 0.7rem; border-top: 1px solid rgba(5,46,31,0.12); }
+        .tb-alt .cjk { font-size: 1.05rem; }
+        body.hide-pinyin .tb-py { display: none; }
+        body.hide-english .tb-en { display: none; }
+
+        /* Word bank */
+        .wb-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem; }
+        .wb { background: #f8f8f8; border: 1px solid #e5e7eb; border-radius: 10px; padding: 0.5rem 0.8rem; text-align: center; min-width: 4.5rem; }
+        .wb-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; display: block; color: #1a1a1a; }
+        .wb-py { display: block; font-size: 0.72rem; font-style: italic; color: #777; }
+        .wb-en { display: block; font-size: 0.68rem; color: #999; }
+        body.hide-pinyin .wb-py { display: none; }
+        body.hide-english .wb-en { display: none; }
+    </style>
 </head>
 <body>
 
@@ -256,7 +285,7 @@
 <section class="slide slide-dark">
     <div class="slide-content">
         <div class="slide-label">Network School · June Accelerated Course</div>
-        <h1 class="slide-title">June 9:<br>Telling Time &amp; Daily Routine</h1>
+        <h1 class="slide-title">June 9:<br>Telling Time and Daily Routine</h1>
         <p class="slide-body">Words 126–150 · Clock words and the verbs of an ordinary day</p>
     </div>
 </section>
@@ -316,10 +345,263 @@
 </section>
 
 
+<!-- ============ HOW TO TELL TIME ============ -->
+<section class="slide slide-accent">
+    <div class="slide-content">
+        <div class="part-number cjk" style="font-size:4rem;">时间</div>
+        <div class="part-label-big">How to Tell Time</div>
+        <div class="part-sub">点 for the hour, 分 for the minutes, and the part of the day comes first</div>
+    </div>
+</section>
+
+
+<!-- The hour -->
 <section class="slide slide-white">
     <div class="slide-content">
-        <div class="slide-label">Vocabulary · Clock &amp; time words</div>
-        <h2 class="slide-heading">Clock &amp; time words.</h2>
+        <div class="slide-label">The Hour</div>
+        <h2 class="slide-heading">Number plus 点.</h2>
+        <p class="slide-body">To say a whole hour, put the number before 点 (diǎn), the word for "o'clock".</p>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">Number + 点</div>
+            <div class="pattern-zh cjk">七<strong>点</strong></div>
+            <div class="pattern-py">qī diǎn</div>
+            <div class="pattern-en">7:00</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">十二<strong>点</strong></div>
+            <div class="pattern-py">shí'èr diǎn</div>
+            <div class="pattern-en">12:00</div>
+        </div>
+        <div class="hbox">
+            <p>Two o'clock is the one to watch: say <strong class="cjk">两点</strong> (liǎng diǎn), not 二点. 两 is the "two" you use before measure words, and 点 is one of them.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- The minutes -->
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">The Minutes</div>
+        <h2 class="slide-heading">Number plus 分.</h2>
+        <p class="slide-body">Minutes follow the hour, with 分 (fēn) for "minute". For minutes under ten, add 零 (líng, zero) first.</p>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">Hour + minutes + 分</div>
+            <div class="pattern-zh cjk">七点<strong>十五分</strong></div>
+            <div class="pattern-py">qī diǎn shíwǔ fēn</div>
+            <div class="pattern-en">7:15</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">Under ten, add 零</div>
+            <div class="pattern-zh cjk">七点<strong>零五分</strong></div>
+            <div class="pattern-py">qī diǎn líng wǔ fēn</div>
+            <div class="pattern-en">7:05</div>
+        </div>
+        <div class="hbox">
+            <p>Minutes use the ordinary 二 (èr), never 两: <strong class="cjk">八点二十分</strong> for 8:20, not 八点两十分.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- Half and quarter -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Shortcuts</div>
+        <h2 class="slide-heading">Half and quarter.</h2>
+        <p class="slide-body">Three shortcuts you will hear constantly. Each one replaces the 分 count.</p>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">half past is 半</div>
+            <div class="pattern-zh cjk">两点<strong>半</strong></div>
+            <div class="pattern-py">liǎng diǎn bàn</div>
+            <div class="pattern-en">2:30</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">quarter past is 一刻</div>
+            <div class="pattern-zh cjk">两点<strong>一刻</strong></div>
+            <div class="pattern-py">liǎng diǎn yí kè</div>
+            <div class="pattern-en">2:15</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">three quarters is 三刻</div>
+            <div class="pattern-zh cjk">两点<strong>三刻</strong></div>
+            <div class="pattern-py">liǎng diǎn sān kè</div>
+            <div class="pattern-en">2:45</div>
+        </div>
+        <div class="hbox">
+            <p><strong class="cjk">半</strong> (bàn) is always safe. 一刻 and 三刻 are common in speech, but you can always fall back on 十五分 and 四十五分.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- Time of day -->
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Morning, Noon, Night</div>
+        <h2 class="slide-heading">The part of the day comes first.</h2>
+        <p class="slide-body">Chinese names the part of the day before the clock time. The order is part of the day, then hour, then minutes.</p>
+        <div class="pt-grid" style="grid-template-columns: repeat(5, 1fr);">
+            <div class="pt-cell"><div class="pt-cell-zh cjk">早上</div><div class="pt-cell-py">zǎoshang</div><div class="pt-cell-en">5 to 8</div></div>
+            <div class="pt-cell"><div class="pt-cell-zh cjk">上午</div><div class="pt-cell-py">shàngwǔ</div><div class="pt-cell-en">9 to 11</div></div>
+            <div class="pt-cell accent"><div class="pt-cell-zh cjk">中午</div><div class="pt-cell-py">zhōngwǔ</div><div class="pt-cell-en">noon</div></div>
+            <div class="pt-cell"><div class="pt-cell-zh cjk">下午</div><div class="pt-cell-py">xiàwǔ</div><div class="pt-cell-en">1 to 5</div></div>
+            <div class="pt-cell"><div class="pt-cell-zh cjk">晚上</div><div class="pt-cell-py">wǎnshang</div><div class="pt-cell-en">evening</div></div>
+        </div>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">Part of the day + time</div>
+            <div class="pattern-zh cjk"><strong>下午</strong>两点</div>
+            <div class="pattern-py">xiàwǔ liǎng diǎn</div>
+            <div class="pattern-en">2:00 in the afternoon</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk"><strong>晚上</strong>八点</div>
+            <div class="pattern-py">wǎnshang bā diǎn</div>
+            <div class="pattern-en">8:00 in the evening</div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Interactive builder -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Try It</div>
+        <h2 class="slide-heading">Build a time.</h2>
+        <p class="slide-body">Pick AM or PM, type an hour and minutes, and read the Chinese. Use the Pinyin and English buttons in the top bar to check yourself.</p>
+        <div class="tb-wrap">
+            <div class="tb-inputs">
+                <select id="tb-ampm">
+                    <option value="am">AM</option>
+                    <option value="pm" selected>PM</option>
+                </select>
+                <input id="tb-hour" type="number" min="1" max="12" value="2" aria-label="hour">
+                <span class="tb-colon">:</span>
+                <input id="tb-min" type="number" min="0" max="59" value="0" aria-label="minute">
+                <button class="btn btn-sm" type="button" onclick="tbRender()">Show</button>
+            </div>
+            <div class="tb-output">
+                <div class="tb-zh cjk" id="tb-zh">下午两点</div>
+                <div class="tb-py" id="tb-py">xiàwǔ liǎng diǎn</div>
+                <div class="tb-en" id="tb-en">2:00 p.m.</div>
+                <div class="tb-alt" id="tb-alt"></div>
+            </div>
+        </div>
+        <div class="hbox">
+            <p>Try 2:30, 6:15, and 9:45 to see the 半, 一刻, and 三刻 shortcuts appear.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- Basic practice: read these times -->
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Practice</div>
+        <h2 class="slide-heading">Read these times aloud.</h2>
+        <p class="slide-body">Say each clock time in Chinese, then turn on Pinyin and English from the top bar to check.</p>
+        <table class="vocab-table">
+            <thead><tr><th>Time</th><th>Chinese</th><th>Pinyin</th><th>Meaning</th></tr></thead>
+            <tbody>
+                <tr><td>7:00 a.m.</td><td class="td-zh cjk">早上七点</td><td class="td-py">zǎoshang qī diǎn</td><td class="td-en">7 in the morning</td></tr>
+                <tr><td>9:15 a.m.</td><td class="td-zh cjk">上午九点十五分</td><td class="td-py">shàngwǔ jiǔ diǎn shíwǔ fēn</td><td class="td-en">9:15 in the morning</td></tr>
+                <tr><td>12:30 p.m.</td><td class="td-zh cjk">中午十二点半</td><td class="td-py">zhōngwǔ shí'èr diǎn bàn</td><td class="td-en">half past twelve, noon</td></tr>
+                <tr><td>2:45 p.m.</td><td class="td-zh cjk">下午两点四十五分</td><td class="td-py">xiàwǔ liǎng diǎn sìshíwǔ fēn</td><td class="td-en">2:45 in the afternoon</td></tr>
+                <tr><td>5:00 p.m.</td><td class="td-zh cjk">下午五点</td><td class="td-py">xiàwǔ wǔ diǎn</td><td class="td-en">5 in the afternoon</td></tr>
+                <tr><td>8:20 p.m.</td><td class="td-zh cjk">晚上八点二十分</td><td class="td-py">wǎnshang bā diǎn èrshí fēn</td><td class="td-en">8:20 in the evening</td></tr>
+                <tr><td>10:30 p.m.</td><td class="td-zh cjk">晚上十点半</td><td class="td-py">wǎnshang shí diǎn bàn</td><td class="td-en">half past ten at night</td></tr>
+                <tr><td>6:05 a.m.</td><td class="td-zh cjk">早上六点零五分</td><td class="td-py">zǎoshang liù diǎn líng wǔ fēn</td><td class="td-en">6:05 in the morning</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- Schedule example -->
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">A Day on the Clock</div>
+        <h2 class="slide-heading">My daily schedule.</h2>
+        <p class="slide-body">One sentence for each part of the day. The order is subject, part of the day, time, then what you do.</p>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-zh cjk">我早上八点起床。</div>
+            <div class="pattern-py">Wǒ zǎoshang bā diǎn qǐchuáng.</div>
+            <div class="pattern-en">I get up at 8 in the morning.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我上午九点上班。</div>
+            <div class="pattern-py">Wǒ shàngwǔ jiǔ diǎn shàngbān.</div>
+            <div class="pattern-en">I go to work at 9 in the morning.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我中午十二点吃饭。</div>
+            <div class="pattern-py">Wǒ zhōngwǔ shí'èr diǎn chī fàn.</div>
+            <div class="pattern-en">I eat at 12 noon.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我下午五点上中文课。</div>
+            <div class="pattern-py">Wǒ xiàwǔ wǔ diǎn shàng Zhōngwén kè.</div>
+            <div class="pattern-en">I have Chinese class at 5 in the afternoon.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我晚上十点睡觉。</div>
+            <div class="pattern-py">Wǒ wǎnshang shí diǎn shuìjiào.</div>
+            <div class="pattern-en">I go to sleep at 10 at night.</div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Your turn: word bank, no sentences -->
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Your Turn</div>
+        <h2 class="slide-heading">Build your own schedule.</h2>
+        <p class="slide-body">Say four or five things you do, each with a part of the day and a time. There are no sentences here on purpose: make your own from the word bank. Turn on Pinyin and English to check the words.</p>
+
+        <div class="mw-label">Parts of the day</div>
+        <div class="wb-grid">
+            <span class="wb"><span class="wb-zh cjk">早上</span><span class="wb-py">zǎoshang</span><span class="wb-en">morning</span></span>
+            <span class="wb"><span class="wb-zh cjk">上午</span><span class="wb-py">shàngwǔ</span><span class="wb-en">late morning</span></span>
+            <span class="wb"><span class="wb-zh cjk">中午</span><span class="wb-py">zhōngwǔ</span><span class="wb-en">noon</span></span>
+            <span class="wb"><span class="wb-zh cjk">下午</span><span class="wb-py">xiàwǔ</span><span class="wb-en">afternoon</span></span>
+            <span class="wb"><span class="wb-zh cjk">晚上</span><span class="wb-py">wǎnshang</span><span class="wb-en">evening</span></span>
+        </div>
+
+        <div class="mw-label">Clock</div>
+        <div class="wb-grid">
+            <span class="wb"><span class="wb-zh cjk">点</span><span class="wb-py">diǎn</span><span class="wb-en">o'clock</span></span>
+            <span class="wb"><span class="wb-zh cjk">分</span><span class="wb-py">fēn</span><span class="wb-en">minute</span></span>
+            <span class="wb"><span class="wb-zh cjk">半</span><span class="wb-py">bàn</span><span class="wb-en">half</span></span>
+            <span class="wb"><span class="wb-zh cjk">两</span><span class="wb-py">liǎng</span><span class="wb-en">two (o'clock)</span></span>
+            <span class="wb"><span class="wb-zh cjk">现在</span><span class="wb-py">xiànzài</span><span class="wb-en">now</span></span>
+        </div>
+
+        <div class="mw-label">Things you do</div>
+        <div class="wb-grid">
+            <span class="wb"><span class="wb-zh cjk">我</span><span class="wb-py">wǒ</span><span class="wb-en">I</span></span>
+            <span class="wb"><span class="wb-zh cjk">起床</span><span class="wb-py">qǐchuáng</span><span class="wb-en">get up</span></span>
+            <span class="wb"><span class="wb-zh cjk">上班</span><span class="wb-py">shàngbān</span><span class="wb-en">go to work</span></span>
+            <span class="wb"><span class="wb-zh cjk">下班</span><span class="wb-py">xiàbān</span><span class="wb-en">finish work</span></span>
+            <span class="wb"><span class="wb-zh cjk">上课</span><span class="wb-py">shàngkè</span><span class="wb-en">attend class</span></span>
+            <span class="wb"><span class="wb-zh cjk">下课</span><span class="wb-py">xiàkè</span><span class="wb-en">class ends</span></span>
+            <span class="wb"><span class="wb-zh cjk">工作</span><span class="wb-py">gōngzuò</span><span class="wb-en">work</span></span>
+            <span class="wb"><span class="wb-zh cjk">吃</span><span class="wb-py">chī</span><span class="wb-en">eat</span></span>
+            <span class="wb"><span class="wb-zh cjk">喝</span><span class="wb-py">hē</span><span class="wb-en">drink</span></span>
+            <span class="wb"><span class="wb-zh cjk">看</span><span class="wb-py">kàn</span><span class="wb-en">watch, read</span></span>
+            <span class="wb"><span class="wb-zh cjk">学习</span><span class="wb-py">xuéxí</span><span class="wb-en">study</span></span>
+            <span class="wb"><span class="wb-zh cjk">休息</span><span class="wb-py">xiūxi</span><span class="wb-en">rest</span></span>
+            <span class="wb"><span class="wb-zh cjk">睡觉</span><span class="wb-py">shuìjiào</span><span class="wb-en">sleep</span></span>
+            <span class="wb"><span class="wb-zh cjk">打电话</span><span class="wb-py">dǎ diànhuà</span><span class="wb-en">make a call</span></span>
+        </div>
+    </div>
+</section>
+
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary · Clock and time words</div>
+        <h2 class="slide-heading">Clock and time words.</h2>
         <table class="vocab-table">
             <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
             <tbody>
@@ -337,8 +619,8 @@
 
 <section class="slide slide-gray">
     <div class="slide-content">
-        <div class="slide-label">Vocabulary · Early, late &amp; getting up</div>
-        <h2 class="slide-heading">Early, late &amp; getting up.</h2>
+        <div class="slide-label">Vocabulary · Early, late and getting up</div>
+        <h2 class="slide-heading">Early, late and getting up.</h2>
         <table class="vocab-table">
             <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
             <tbody>
@@ -355,8 +637,8 @@
 
 <section class="slide slide-white">
     <div class="slide-content">
-        <div class="slide-label">Vocabulary · Eat, drink &amp; the senses</div>
-        <h2 class="slide-heading">Eat, drink &amp; the senses.</h2>
+        <div class="slide-label">Vocabulary · Eat, drink and the senses</div>
+        <h2 class="slide-heading">Eat, drink and the senses.</h2>
         <table class="vocab-table">
             <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
             <tbody>
@@ -571,6 +853,56 @@
         }
         v1Idx = 0; v1Show();
     }
+
+    // ---- Interactive time builder ----
+    (function(){
+        const PERIODS = [
+            { max: 4,  zh: '凌晨', py: 'língchén' },
+            { max: 8,  zh: '早上', py: 'zǎoshang' },
+            { max: 11, zh: '上午', py: 'shàngwǔ' },
+            { max: 12, zh: '中午', py: 'zhōngwǔ' },
+            { max: 17, zh: '下午', py: 'xiàwǔ' },
+            { max: 23, zh: '晚上', py: 'wǎnshang' },
+        ];
+        const HZ = {1:'一',2:'两',3:'三',4:'四',5:'五',6:'六',7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二'};
+        const HP = {1:'yī',2:'liǎng',3:'sān',4:'sì',5:'wǔ',6:'liù',7:'qī',8:'bā',9:'jiǔ',10:'shí',11:'shíyī',12:"shí'èr"};
+        const D  = ['零','一','二','三','四','五','六','七','八','九'];
+        const DP = ['líng','yī','èr','sān','sì','wǔ','liù','qī','bā','jiǔ'];
+        function periodFor(h){ for (const p of PERIODS) { if (h <= p.max) return p; } return PERIODS[PERIODS.length-1]; }
+        function minZh(m){ if (m < 10) return '零'+D[m]; if (m < 20) return '十'+(m%10?D[m%10]:''); return D[Math.floor(m/10)]+'十'+(m%10?D[m%10]:''); }
+        function minPy(m){ if (m < 10) return 'líng '+DP[m]; if (m < 20) return 'shí'+(m%10?DP[m%10]:''); return DP[Math.floor(m/10)]+'shí'+(m%10?DP[m%10]:''); }
+        window.tbRender = function(){
+            const zhEl = document.getElementById('tb-zh'), pyEl = document.getElementById('tb-py'),
+                  enEl = document.getElementById('tb-en'), altEl = document.getElementById('tb-alt');
+            if (!zhEl) return;
+            const h = parseInt(document.getElementById('tb-hour').value, 10);
+            const m = parseInt(document.getElementById('tb-min').value, 10);
+            const ap = document.getElementById('tb-ampm').value;
+            if (isNaN(h) || h < 1 || h > 12 || isNaN(m) || m < 0 || m > 59) {
+                zhEl.textContent = ''; pyEl.textContent = '';
+                enEl.textContent = 'Enter an hour from 1 to 12 and minutes from 0 to 59'; altEl.innerHTML = '';
+                return;
+            }
+            let h24 = h % 12; if (ap === 'pm') h24 += 12;
+            const p = periodFor(h24);
+            let zh = p.zh + HZ[h] + '点';
+            let py = p.py + ' ' + HP[h] + ' diǎn';
+            if (m > 0) { zh += minZh(m) + '分'; py += ' ' + minPy(m) + ' fēn'; }
+            zhEl.textContent = zh;
+            pyEl.textContent = py;
+            enEl.textContent = h + ':' + String(m).padStart(2,'0') + ' ' + (ap === 'am' ? 'a.m.' : 'p.m.');
+            let altZh = '', altPy = '';
+            if (m === 15) { altZh = p.zh+HZ[h]+'点一刻'; altPy = p.py+' '+HP[h]+' diǎn yí kè'; }
+            else if (m === 30) { altZh = p.zh+HZ[h]+'点半'; altPy = p.py+' '+HP[h]+' diǎn bàn'; }
+            else if (m === 45) { altZh = p.zh+HZ[h]+'点三刻'; altPy = p.py+' '+HP[h]+' diǎn sān kè'; }
+            altEl.innerHTML = altZh ? ('also: <span class="cjk">'+altZh+'</span> <span class="tb-py">'+altPy+'</span>') : '';
+        };
+        ['tb-hour','tb-min','tb-ampm'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) { el.addEventListener('input', window.tbRender); el.addEventListener('change', window.tbRender); }
+        });
+        window.tbRender();
+    })();
 </script>
 
 </body>
