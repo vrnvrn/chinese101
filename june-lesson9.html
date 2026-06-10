@@ -257,6 +257,34 @@
         body.hide-pinyin .wb-py { display: none; }
         body.hide-english .wb-en { display: none; }
     </style>
+<style>
+        /* Lessons dropdown (scales as more lessons are added) */
+        .topbar .dropdown { position: relative; }
+        .topbar .dd-toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.85);
+            font: inherit; font-size: 0.8rem;
+            padding: 0.25rem 0.6rem; border-radius: 6px; cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+        .topbar .dd-toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+        .topbar .dd-menu {
+            position: absolute; top: calc(100% + 0.4rem); left: 0;
+            background: #0a3a28; border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 8px; padding: 0.3rem; min-width: 9.5rem;
+            display: none; flex-direction: column; gap: 0.1rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4); z-index: 20;
+            max-height: 70vh; overflow-y: auto;
+        }
+        .topbar .dropdown.open .dd-menu { display: flex; }
+        .topbar .dd-menu a {
+            display: block; padding: 0.4rem 0.7rem; border-radius: 5px;
+            white-space: nowrap; color: rgba(255,255,255,0.8);
+        }
+        .topbar .dd-menu a:hover { background: rgba(255,255,255,0.12); color: white; }
+        .topbar .dd-menu a.active { background: rgba(16,185,129,0.22); color: white; }
+    </style>
 </head>
 <body>
 
@@ -267,15 +295,18 @@
     <span class="title">June 9</span>
     <span class="badge">Day 9</span>
     <div class="spacer"></div>
-    <span class="group-label">Lessons</span>
-    <a href="/june/lesson/1">1</a>
-    <a href="/june/lesson/2">2</a>
-    <a href="/june/lesson/3">3</a>
-    <a href="/june/lesson/9" class="active">Jun 9</a>
-    <a href="/june/lesson/10">Jun 10</a>
-    <a href="/june/lesson/11">Jun 11</a>
-    <a href="/june/lesson/12">Jun 12</a>
-    <span class="toggle-label">Show</span>
+    <div class="dropdown" id="lessons-dropdown">
+        <button class="dd-toggle" type="button" onclick="toggleLessons(event)">Lessons ▾</button>
+        <div class="dd-menu">
+            <a href="/june/lesson/1">Lesson 1</a>
+            <a href="/june/lesson/2">Lesson 2</a>
+            <a href="/june/lesson/3">Lesson 3</a>
+            <a href="/june/lesson/9" class="active">June 9</a>
+            <a href="/june/lesson/10">June 10</a>
+            <a href="/june/lesson/11">June 11</a>
+            <a href="/june/lesson/12">June 12</a>
+        </div>
+    </div><span class="toggle-label">Show</span>
     <button class="toggle" id="toggle-pinyin" type="button" onclick="toggleShow('pinyin')">Pinyin</button>
     <button class="toggle" id="toggle-english" type="button" onclick="toggleShow('english')">English</button>
     <a href="/june/day/9">Day 9 →</a>
@@ -915,6 +946,14 @@
             if (el) { el.addEventListener('input', tbReset); el.addEventListener('change', tbReset); }
         });
         tbReset();
+    })();
+
+    // Lessons dropdown
+    (function(){
+        const dd = document.getElementById('lessons-dropdown');
+        if (!dd) return;
+        window.toggleLessons = function(e){ e.stopPropagation(); dd.classList.toggle('open'); };
+        document.addEventListener('click', () => dd.classList.remove('open'));
     })();
 </script>
 
