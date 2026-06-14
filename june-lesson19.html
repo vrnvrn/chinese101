@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>June 19, Week 3 Review, Chinese 101</title>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #2d3748; line-height: 1.6; }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #fff; z-index: 1000; transition: width 0.1s; width: 0%; }
+
+        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 2rem 3rem; }
+        .slide-content { max-width: 820px; width: 100%; }
+        .slide-dark { background: linear-gradient(135deg, #052e1f 0%, #0a4f37 100%); color: white; }
+        .slide-white { background: white; }
+        .slide-gray  { background: #f5f5f5; }
+        .slide-accent { background: linear-gradient(135deg, #052e1f 0%, #0f6e4f 100%); color: white; }
+
+        .slide-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.75rem; }
+        .slide-dark .slide-label, .slide-accent .slide-label { color: rgba(255,255,255,0.55); }
+        h1.slide-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; color: white; margin-bottom: 1rem; }
+        h2.slide-heading { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+        .slide-dark h2.slide-heading, .slide-accent h2.slide-heading { color: white; }
+        .slide-white h2.slide-heading, .slide-gray h2.slide-heading { color: #1a1a1a; }
+        .slide-body { font-size: 1.05rem; line-height: 1.7; color: #444; max-width: 640px; }
+        .slide-dark .slide-body, .slide-accent .slide-body { color: rgba(255,255,255,0.85); }
+
+        .hbox { background: #f8f8f8; border-left: 4px solid #0a4f37; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1.25rem 0; max-width: 680px; }
+        .slide-dark .hbox, .slide-accent .hbox { background: rgba(255,255,255,0.1); border-left-color: rgba(255,255,255,0.7); }
+        .hbox p { font-size: 0.95rem; color: #333; }
+        .slide-dark .hbox p, .slide-accent .hbox p { color: rgba(255,255,255,0.9); }
+
+        .card-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem; }
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .card-title { font-weight: 700; font-size: 1rem; color: #1a1a1a; margin-bottom: 0.35rem; }
+        .card-desc  { font-size: 0.85rem; color: #555; line-height: 1.5; }
+        .card-dark { background: #1a1a1a; }
+        .card-dark .card-title { color: white; }
+        .card-dark .card-desc  { color: rgba(255,255,255,0.75); }
+
+        .btn { background: #0a4f37; color: white; border: none; padding: 0.65rem 1.4rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.8; }
+        .btn-outline { background: transparent; color: #0a4f37; border: 2px solid #0a4f37; }
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+
+        .part-number { font-size: 6rem; font-weight: 800; color: rgba(255,255,255,0.1); line-height: 1; margin-bottom: -1.5rem; }
+        .part-label-big { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: white; line-height: 1.2; }
+        .part-sub { font-size: 1rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; }
+
+        .slide-footer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 998; text-align: center; padding: 0.6rem 1.5rem; font-size: 0.78rem; background: rgba(5,46,31,0.9); backdrop-filter: blur(6px); color: rgba(255,255,255,0.45); }
+
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1001;
+            background: rgba(5,46,31,0.92);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.55rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+        }
+        .topbar a {
+            color: rgba(255,255,255,0.78);
+            text-decoration: none;
+            padding: 0.25rem 0.55rem;
+            border-radius: 6px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .topbar a:hover { background: rgba(255,255,255,0.12); color: white; }
+        .topbar a.active { background: rgba(16,185,129,0.18); color: white; }
+        .topbar .title { font-weight: 600; color: white; margin-left: 0.2rem; }
+        .topbar .badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: #10b981;
+            color: #052e1f;
+            padding: 0.16rem 0.45rem;
+            border-radius: 4px;
+            margin-left: 0.1rem;
+        }
+        .topbar .spacer { flex: 1; }
+        .topbar .toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.55);
+            font: inherit;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.28rem 0.6rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .topbar .toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+        .topbar .toggle.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: #052e1f;
+        }
+        .topbar .toggle-label, .topbar .group-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-right: 0.1rem;
+        }
+
+        /* Hanzi is always visible. Pinyin and English are opt-in. */
+        body.hide-pinyin .td-py,
+        body.hide-pinyin .pattern-py { display: none; }
+        body.hide-english .td-en,
+        body.hide-english .pattern-en { display: none; }
+
+        .cjk { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Noto Sans CJK SC', serif; }
+
+        /* Tone colors */
+        .t1 { color: #c0392b; }
+        .t2 { color: #27ae60; }
+        .t3 { color: #2980b9; }
+        .t4 { color: #8e44ad; }
+        .tn { color: #888; }
+
+        /* Goals list */
+        .goals-list { list-style: none; margin-top: 1.25rem; }
+        .goals-list li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid #eee; font-size: 1rem; color: #333; }
+        .goals-list li:last-child { border-bottom: none; }
+        .goal-num { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+
+        /* Demonstrative / number grid */
+        .pt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.25rem; }
+        .pt-cell { background: #f8f8f8; border-radius: 10px; padding: 0.9rem 0.6rem; text-align: center; }
+        .pt-cell-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.6rem; line-height: 1.2; }
+        .pt-cell-py { font-size: 0.9rem; font-weight: 600; margin: 0.15rem 0; color: #555; }
+        .pt-cell-en { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pt-cell.accent { background: #0a4f37; }
+        .pt-cell.accent .pt-cell-zh { color: white; }
+        .pt-cell.accent .pt-cell-py { color: rgba(255,255,255,0.75); }
+        .pt-cell.accent .pt-cell-en { color: rgba(255,255,255,0.6); }
+
+        /* Measure-word page */
+        .mw-hero { display: flex; align-items: center; gap: 1.25rem; margin-top: 1.25rem; }
+        .mw-char { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 4.5rem; line-height: 1; color: #0a4f37; flex-shrink: 0; }
+        .mw-py { font-size: 1.3rem; font-weight: 700; color: #1a1a1a; }
+        .mw-gloss { font-size: 0.95rem; color: #666; }
+        .mw-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin: 1.25rem 0 0.5rem; }
+        .chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .chip { background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 1rem; color: #065f46; }
+        .chip .cjk { font-size: 1.05rem; }
+        .chip .chip-py { color: #6b9e8b; font-size: 0.78rem; font-style: italic; margin-left: 0.35rem; }
+
+        /* Vocab table */
+        .vocab-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.95rem; }
+        .vocab-table th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #1a1a1a; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+        .vocab-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .td-num { color: #aaa; font-size: 0.78rem; font-weight: 600; width: 2rem; }
+        .td-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; white-space: nowrap; }
+        .td-py { color: #666; font-style: italic; white-space: nowrap; }
+        .td-en { color: #333; }
+
+        /* Pattern blocks */
+        .pattern-block { background: #f8f8f8; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 0.75rem; }
+        .pattern-formula { font-size: 0.75rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+        .pattern-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.5rem; margin-bottom: 0.15rem; }
+        .pattern-py  { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 0.15rem; }
+        .pattern-en  { font-size: 0.9rem; color: #555; }
+        .pattern-zh strong { color: #0a4f37; }
+
+        /* Dialogue */
+        .dialogue-controls { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .d-line { display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.55rem 0; border-bottom: 1px solid #eee; }
+        .d-line:last-child { border-bottom: none; }
+        .d-speaker { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #0a4f37; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 0.25rem; }
+        .d-speaker.sp-b { background: #555; }
+        .d-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.2rem; line-height: 1.4; }
+        .d-py { font-size: 0.85rem; color: #888; font-style: italic; display: none; margin-top: 0.1rem; }
+        .d-en { font-size: 0.85rem; color: #bbb; display: none; }
+        .show-py .d-py { display: block; }
+        .show-en .d-en { display: block; }
+
+        /* Line-by-line dialogue */
+        .dl-display { background: #f8f8f8; border-radius: 16px; padding: 2rem; margin: 1.5rem 0 1rem; min-height: 170px; display: flex; flex-direction: column; justify-content: center; }
+        .dl-speaker-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .dl-counter-label { font-size: 0.75rem; color: #aaa; font-weight: 600; letter-spacing: 0.05em; }
+        .dl-zh-big { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.8rem; line-height: 1.35; color: #1a1a1a; margin-bottom: 0.4rem; }
+        .dl-py-line { font-size: 1rem; color: #888; font-style: italic; margin-bottom: 0.3rem; visibility: hidden; }
+        .dl-en-line { font-size: 1rem; color: #aaa; visibility: hidden; }
+        .dl-py-line.show, .dl-en-line.show { visibility: visible; }
+        .dl-controls { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+
+        /* Flash cards */
+        .flashcard-wrap { perspective: 800px; height: 320px; cursor: pointer; margin-bottom: 1rem; }
+        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.45s; }
+        .flashcard-wrap.flipped .flashcard { transform: rotateY(180deg); }
+        .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; }
+        .fc-front { background: #0a4f37; color: white; }
+        .fc-back  { background: #ecfdf5; color: #052e1f; transform: rotateY(180deg); }
+        .fc-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 3.2rem; line-height: 1.1; }
+        .fc-hint { font-size: 0.72rem; opacity: 0.45; margin-top: 0.75rem; }
+        .fc-py   { font-size: 1.35rem; font-style: italic; color: #336e58; margin-bottom: 0.2rem; }
+        .fc-en   { font-size: 1.1rem; font-weight: 600; color: #052e1f; }
+        .fc-ex { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid rgba(5,46,31,0.18); width: 100%; max-width: 460px; }
+        .fc-ex-zh { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif; font-size: 1.3rem; color: #052e1f; margin-bottom: 0.2rem; }
+        .fc-ex-py { font-size: 0.85rem; font-style: italic; color: #4b7a68; margin-bottom: 0.1rem; }
+        .fc-ex-en { font-size: 0.85rem; color: #4b7a68; }
+        .fc-controls { display: flex; gap: 0.75rem; align-items: center; justify-content: center; }
+        .fc-counter { font-size: 0.85rem; color: #888; min-width: 4rem; text-align: center; }
+
+        /* Final recap */
+        .recap-note { background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; border-radius: 10px; padding: 0.85rem 1.1rem; font-size: 0.92rem; margin-top: 1rem; }
+
+        @media (max-width: 640px) {
+            .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+            .pt-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+    <style>
+        .topbar .dropdown { position: relative; }
+        .topbar .dd-toggle { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); font: inherit; font-size: 0.8rem; padding: 0.25rem 0.6rem; border-radius: 6px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+        .topbar .dd-toggle:hover { background: rgba(255,255,255,0.15); color: white; }
+        .topbar .dd-menu { position: absolute; top: calc(100% + 0.4rem); left: 0; background: #0a3a28; border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; padding: 0.3rem; min-width: 9.5rem; display: none; flex-direction: column; gap: 0.1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.4); z-index: 20; max-height: 70vh; overflow-y: auto; }
+        .topbar .dropdown.open .dd-menu { display: flex; }
+        .topbar .dd-menu a { display: block; padding: 0.4rem 0.7rem; border-radius: 5px; white-space: nowrap; color: rgba(255,255,255,0.8); }
+        .topbar .dd-menu a:hover { background: rgba(255,255,255,0.12); color: white; }
+        .topbar .dd-menu a.active { background: rgba(16,185,129,0.22); color: white; }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="topbar">
+    <a href="/june">← June Course</a>
+    <span class="title">June 19</span>
+    <span class="badge">Review</span>
+    <div class="spacer"></div>
+    <div class="dropdown" id="lessons-dropdown">
+        <button class="dd-toggle" type="button" onclick="toggleLessons(event)">Lessons ▾</button>
+        <div class="dd-menu">
+            <a href="/june/lesson/1">Lesson 1</a>
+            <a href="/june/lesson/2">Lesson 2</a>
+            <a href="/june/lesson/3">Lesson 3</a>
+            <a href="/june/lesson/9">June 9</a>
+            <a href="/june/lesson/10">June 10</a>
+            <a href="/june/lesson/11">June 11</a>
+            <a href="/june/lesson/12">June 12</a>
+            <a href="/june/lesson/16">June 16</a>
+            <a href="/june/lesson/17">June 17</a>
+            <a href="/june/lesson/18">June 18</a>
+            <a href="/june/lesson/19" class="active">June 19</a>
+        </div>
+    </div>
+    <span class="toggle-label">Show</span>
+    <button class="toggle" id="toggle-pinyin" type="button" onclick="toggleShow('pinyin')">Pinyin</button>
+    <button class="toggle" id="toggle-english" type="button" onclick="toggleShow('english')">English</button>
+    <a href="/june/day/19">Day 19 →</a>
+</div>
+
+
+<section class="slide slide-dark">
+    <div class="slide-content">
+        <div class="slide-label">Network School, June Accelerated Course</div>
+        <h1 class="slide-title">June 19:<br>Week 3 Review</h1>
+        <p class="slide-body">Words 201 to 300 woven into real sentences and short dialogues, the last third of HSK 1</p>
+    </div>
+</section>
+
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Lesson Goals</div>
+        <h2 class="slide-heading">By the end of this lesson…</h2>
+        <ul class="goals-list">
+            <li><span class="goal-num">1</span>Recall all 100 words from this week (201 to 300) on sight</li>
+            <li><span class="goal-num">2</span>Describe things with the new adjectives and 很, 太, 真, 非常</li>
+            <li><span class="goal-num">3</span>Talk about places, meals, and the weather together</li>
+            <li><span class="goal-num">4</span>Get around town and use your phone and devices</li>
+            <li><span class="goal-num">5</span>Hold a short dialogue at a restaurant and a shop</li>
+            <li><span class="goal-num">6</span>Flip pinyin and English on only to self-check</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Flashcards, 100 words</div>
+        <h2 class="slide-heading">Start here. Drill the deck.</h2>
+        <p class="slide-body">All 100 words from this week, same set as the day drills. Tap a card to flip, and press the audio button to hear the word.</p>
+        <div style="margin-top:1.5rem;">
+            <div class="flashcard-wrap" id="v1-wrap" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard">
+                    <div class="fc-front">
+                        <div class="fc-zh cjk" id="v1-zh">便宜</div>
+                        <div class="fc-hint">tap to reveal</div>
+                    </div>
+                    <div class="fc-back">
+                        <div class="fc-py" id="v1-py">piányi</div>
+                        <div class="fc-en" id="v1-en">cheap</div>
+                        <div class="fc-ex">
+                            <div class="fc-ex-zh cjk" id="v1-ex-zh">水果很便宜。</div>
+                            <div class="fc-ex-py" id="v1-ex-py">Shuǐguǒ hěn piányi.</div>
+                            <div class="fc-ex-en" id="v1-ex-en">The fruit is cheap.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fc-controls">
+                <button class="btn btn-sm btn-outline" onclick="v1Prev()">← Prev</button>
+                <span class="fc-counter" id="v1-counter">1 / 100</span>
+                <button class="btn btn-sm" onclick="v1Next()">Next →</button>
+                <button class="btn btn-sm" id="v1-audio" type="button" onclick="event.stopPropagation();v1Play()">🔊 Play</button>
+                <button class="btn btn-sm btn-outline" onclick="v1Shuffle()">Shuffle</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Describing Things</div>
+        <h2 class="slide-heading">很, 太, 真, 非常.</h2>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-zh cjk">这个很<strong>便宜</strong>，那个<strong>太</strong>贵。</div>
+            <div class="pattern-py">Zhège hěn piányi, nàge tài guì.</div>
+            <div class="pattern-en">This one is cheap, that one is too expensive.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">今天很<strong>热</strong>，昨天很<strong>冷</strong>。</div>
+            <div class="pattern-py">Jīntiān hěn rè, zuótiān hěn lěng.</div>
+            <div class="pattern-en">Today is hot, yesterday was cold.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">中国菜<strong>真</strong>好吃！</div>
+            <div class="pattern-py">Zhōngguó cài zhēn hǎochī!</div>
+            <div class="pattern-en">Chinese food is really tasty!</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我<strong>非常</strong>高兴，也很忙。</div>
+            <div class="pattern-py">Wǒ fēicháng gāoxìng, yě hěn máng.</div>
+            <div class="pattern-en">I am extremely happy, and also very busy.</div>
+        </div>
+        <div class="hbox"><p>很 is a neutral link, 太 means too much, 真 means really, and 非常 means extremely.</p></div>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Places and Meals</div>
+        <h2 class="slide-heading">Out for a meal.</h2>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-zh cjk">我去<strong>饭店</strong>吃晚饭。</div>
+            <div class="pattern-py">Wǒ qù fàndiàn chī wǎnfàn.</div>
+            <div class="pattern-en">I go to the restaurant for dinner.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">超市里的水果很便宜。</div>
+            <div class="pattern-py">Chāoshì lǐ de shuǐguǒ hěn piányi.</div>
+            <div class="pattern-en">The fruit in the supermarket is cheap.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">早上我在家吃早饭，喝牛奶。</div>
+            <div class="pattern-py">Zǎoshang wǒ zài jiā chī zǎofàn, hē niúnǎi.</div>
+            <div class="pattern-en">In the morning I eat breakfast and drink milk at home.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">学校里有一个书店。</div>
+            <div class="pattern-py">Xuéxiào lǐ yǒu yí gè shūdiàn.</div>
+            <div class="pattern-en">There is a bookstore in the school.</div>
+        </div>
+    </div>
+</section>
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Weather and Getting Around</div>
+        <h2 class="slide-heading">A rainy day.</h2>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-zh cjk">今天下雨，我坐出租车去公司。</div>
+            <div class="pattern-py">Jīntiān xià yǔ, wǒ zuò chūzūchē qù gōngsī.</div>
+            <div class="pattern-en">It is raining today, so I take a taxi to the company.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">下雪了，很冷，我在家看电影。</div>
+            <div class="pattern-py">Xià xuě le, hěn lěng, wǒ zài jiā kàn diànyǐng.</div>
+            <div class="pattern-en">It is snowing and cold, so I watch a movie at home.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">天气很好的时候，我和朋友去玩。</div>
+            <div class="pattern-py">Tiānqì hěn hǎo de shíhou, wǒ hé péngyou qù wán.</div>
+            <div class="pattern-en">When the weather is nice, my friend and I go out.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我坐火车去看家人。</div>
+            <div class="pattern-py">Wǒ zuò huǒchē qù kàn jiārén.</div>
+            <div class="pattern-en">I take the train to visit my family.</div>
+        </div>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Tech and Study</div>
+        <h2 class="slide-heading">Phones, screens, and Chinese.</h2>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-zh cjk">我有手机和电脑。</div>
+            <div class="pattern-py">Wǒ yǒu shǒujī hé diànnǎo.</div>
+            <div class="pattern-en">I have a mobile phone and a computer.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">晚上我看电视，听歌。</div>
+            <div class="pattern-py">Wǎnshang wǒ kàn diànshì, tīng gē.</div>
+            <div class="pattern-en">In the evening I watch TV and listen to songs.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">我学中文，写汉字，觉得很好。</div>
+            <div class="pattern-py">Wǒ xué Zhōngwén, xiě Hànzì, juéde hěn hǎo.</div>
+            <div class="pattern-en">I study Chinese and write characters, and I think it is great.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-zh cjk">这本书很好看，也很便宜。</div>
+            <div class="pattern-py">Zhè běn shū hěn hǎokàn, yě hěn piányi.</div>
+            <div class="pattern-en">This book is good and also cheap.</div>
+        </div>
+    </div>
+</section>
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue, At a Restaurant</div>
+        <h2 class="slide-heading">Ordering a meal.</h2>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">A</div>
+            <div class="pattern-zh cjk">你好！我要米饭和饺子。</div>
+            <div class="pattern-py">Nǐ hǎo! Wǒ yào mǐfàn hé jiǎozi.</div>
+            <div class="pattern-en">Hello! I would like rice and dumplings.</div>
+        </div>
+        <div class="pattern-block" style="background:#eef2ff;">
+            <div class="pattern-formula" style="color:#6366f1;">B</div>
+            <div class="pattern-zh cjk">好。你喝什么？</div>
+            <div class="pattern-py">Hǎo. Nǐ hē shénme?</div>
+            <div class="pattern-en">Sure. What would you like to drink?</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">A</div>
+            <div class="pattern-zh cjk">我要茶，谢谢。</div>
+            <div class="pattern-py">Wǒ yào chá, xièxie.</div>
+            <div class="pattern-en">I would like tea, thank you.</div>
+        </div>
+        <div class="pattern-block" style="background:#eef2ff;">
+            <div class="pattern-formula" style="color:#6366f1;">B</div>
+            <div class="pattern-zh cjk">好的！</div>
+            <div class="pattern-py">Hǎo de!</div>
+            <div class="pattern-en">All right!</div>
+        </div>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue, Talking About the Weather</div>
+        <h2 class="slide-heading">What shall we do?</h2>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">A</div>
+            <div class="pattern-zh cjk">今天天气怎么样？</div>
+            <div class="pattern-py">Jīntiān tiānqì zěnmeyàng?</div>
+            <div class="pattern-en">How is the weather today?</div>
+        </div>
+        <div class="pattern-block" style="background:#eef2ff;">
+            <div class="pattern-formula" style="color:#6366f1;">B</div>
+            <div class="pattern-zh cjk">今天下雨，很冷。</div>
+            <div class="pattern-py">Jīntiān xià yǔ, hěn lěng.</div>
+            <div class="pattern-en">It is raining today, and cold.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">A</div>
+            <div class="pattern-zh cjk">那我们在家看电影吧。</div>
+            <div class="pattern-py">Nà wǒmen zài jiā kàn diànyǐng ba.</div>
+            <div class="pattern-en">Then let us watch a movie at home.</div>
+        </div>
+        <div class="pattern-block" style="background:#eef2ff;">
+            <div class="pattern-formula" style="color:#6366f1;">B</div>
+            <div class="pattern-zh cjk">好！我很喜欢看电影。</div>
+            <div class="pattern-py">Hǎo! Wǒ hěn xǐhuan kàn diànyǐng.</div>
+            <div class="pattern-en">Great! I really like watching movies.</div>
+        </div>
+    </div>
+</section>
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Dialogue, At the Shop</div>
+        <h2 class="slide-heading">How much is it?</h2>
+        <div class="pattern-block" style="margin-top:1.5rem;">
+            <div class="pattern-formula">A</div>
+            <div class="pattern-zh cjk">你好，这个手机多少钱？</div>
+            <div class="pattern-py">Nǐ hǎo, zhège shǒujī duōshao qián?</div>
+            <div class="pattern-en">Hello, how much is this phone?</div>
+        </div>
+        <div class="pattern-block" style="background:#eef2ff;">
+            <div class="pattern-formula" style="color:#6366f1;">B</div>
+            <div class="pattern-zh cjk">这个手机太贵了。那个便宜一点儿。</div>
+            <div class="pattern-py">Zhège shǒujī tài guì le. Nàge piányi yìdiǎnr.</div>
+            <div class="pattern-en">This phone is too expensive. That one is a bit cheaper.</div>
+        </div>
+        <div class="pattern-block">
+            <div class="pattern-formula">A</div>
+            <div class="pattern-zh cjk">我要那个，谢谢！</div>
+            <div class="pattern-py">Wǒ yào nàge, xièxie!</div>
+            <div class="pattern-en">I will take that one, thank you!</div>
+        </div>
+    </div>
+</section>
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary, Day 15, 201 to 225</div>
+        <h2 class="slide-heading">Day 15, 201 to 225.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">201</td><td class="td-zh cjk">便宜</td><td class="td-py">piányi</td><td class="td-en">cheap</td></tr>
+                <tr><td class="td-num">202</td><td class="td-zh cjk">冷</td><td class="td-py">lěng</td><td class="td-en">cold</td></tr>
+                <tr><td class="td-num">203</td><td class="td-zh cjk">热</td><td class="td-py">rè</td><td class="td-en">hot</td></tr>
+                <tr><td class="td-num">204</td><td class="td-zh cjk">忙</td><td class="td-py">máng</td><td class="td-en">busy</td></tr>
+                <tr><td class="td-num">205</td><td class="td-zh cjk">高兴</td><td class="td-py">gāoxìng</td><td class="td-en">happy</td></tr>
+                <tr><td class="td-num">206</td><td class="td-zh cjk">漂亮</td><td class="td-py">piàoliang</td><td class="td-en">pretty</td></tr>
+                <tr><td class="td-num">207</td><td class="td-zh cjk">好吃</td><td class="td-py">hǎochī</td><td class="td-en">tasty</td></tr>
+                <tr><td class="td-num">208</td><td class="td-zh cjk">好看</td><td class="td-py">hǎokàn</td><td class="td-en">good-looking</td></tr>
+                <tr><td class="td-num">209</td><td class="td-zh cjk">好听</td><td class="td-py">hǎotīng</td><td class="td-en">pleasant to hear</td></tr>
+                <tr><td class="td-num">210</td><td class="td-zh cjk">好玩儿</td><td class="td-py">hǎowánr</td><td class="td-en">fun</td></tr>
+                <tr><td class="td-num">211</td><td class="td-zh cjk">对</td><td class="td-py">duì</td><td class="td-en">correct, toward</td></tr>
+                <tr><td class="td-num">212</td><td class="td-zh cjk">不</td><td class="td-py">bù</td><td class="td-en">not</td></tr>
+                <tr><td class="td-num">213</td><td class="td-zh cjk">都</td><td class="td-py">dōu</td><td class="td-en">all, both</td></tr>
+                <tr><td class="td-num">214</td><td class="td-zh cjk">也</td><td class="td-py">yě</td><td class="td-en">also, too</td></tr>
+                <tr><td class="td-num">215</td><td class="td-zh cjk">很</td><td class="td-py">hěn</td><td class="td-en">very (also linker)</td></tr>
+                <tr><td class="td-num">216</td><td class="td-zh cjk">太</td><td class="td-py">tài</td><td class="td-en">too (excessive)</td></tr>
+                <tr><td class="td-num">217</td><td class="td-zh cjk">真</td><td class="td-py">zhēn</td><td class="td-en">really</td></tr>
+                <tr><td class="td-num">218</td><td class="td-zh cjk">非常</td><td class="td-py">fēicháng</td><td class="td-en">extremely</td></tr>
+                <tr><td class="td-num">219</td><td class="td-zh cjk">还</td><td class="td-py">hái</td><td class="td-en">still, also</td></tr>
+                <tr><td class="td-num">220</td><td class="td-zh cjk">再</td><td class="td-py">zài</td><td class="td-en">again</td></tr>
+                <tr><td class="td-num">221</td><td class="td-zh cjk">正在</td><td class="td-py">zhèngzài</td><td class="td-en">currently doing</td></tr>
+                <tr><td class="td-num">222</td><td class="td-zh cjk">的</td><td class="td-py">de</td><td class="td-en">possessive / modifier</td></tr>
+                <tr><td class="td-num">223</td><td class="td-zh cjk">了</td><td class="td-py">le</td><td class="td-en">completion / change</td></tr>
+                <tr><td class="td-num">224</td><td class="td-zh cjk">吗</td><td class="td-py">ma</td><td class="td-en">yes/no question</td></tr>
+                <tr><td class="td-num">225</td><td class="td-zh cjk">呢</td><td class="td-py">ne</td><td class="td-en">follow-up question</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary, Day 16, 226 to 250</div>
+        <h2 class="slide-heading">Day 16, 226 to 250.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">226</td><td class="td-zh cjk">吧</td><td class="td-py">ba</td><td class="td-en">suggestion / softener</td></tr>
+                <tr><td class="td-num">227</td><td class="td-zh cjk">们</td><td class="td-py">men</td><td class="td-en">plural for people</td></tr>
+                <tr><td class="td-num">228</td><td class="td-zh cjk">和</td><td class="td-py">hé</td><td class="td-en">and, with</td></tr>
+                <tr><td class="td-num">229</td><td class="td-zh cjk">学校</td><td class="td-py">xuéxiào</td><td class="td-en">school</td></tr>
+                <tr><td class="td-num">230</td><td class="td-zh cjk">大学</td><td class="td-py">dàxué</td><td class="td-en">university</td></tr>
+                <tr><td class="td-num">231</td><td class="td-zh cjk">中学</td><td class="td-py">zhōngxué</td><td class="td-en">middle school</td></tr>
+                <tr><td class="td-num">232</td><td class="td-zh cjk">小学</td><td class="td-py">xiǎoxué</td><td class="td-en">primary school</td></tr>
+                <tr><td class="td-num">233</td><td class="td-zh cjk">医院</td><td class="td-py">yīyuàn</td><td class="td-en">hospital</td></tr>
+                <tr><td class="td-num">234</td><td class="td-zh cjk">商店</td><td class="td-py">shāngdiàn</td><td class="td-en">shop</td></tr>
+                <tr><td class="td-num">235</td><td class="td-zh cjk">超市</td><td class="td-py">chāoshì</td><td class="td-en">supermarket</td></tr>
+                <tr><td class="td-num">236</td><td class="td-zh cjk">书店</td><td class="td-py">shūdiàn</td><td class="td-en">bookstore</td></tr>
+                <tr><td class="td-num">237</td><td class="td-zh cjk">饭店</td><td class="td-py">fàndiàn</td><td class="td-en">restaurant</td></tr>
+                <tr><td class="td-num">238</td><td class="td-zh cjk">电影院</td><td class="td-py">diànyǐngyuàn</td><td class="td-en">cinema</td></tr>
+                <tr><td class="td-num">239</td><td class="td-zh cjk">公司</td><td class="td-py">gōngsī</td><td class="td-en">company</td></tr>
+                <tr><td class="td-num">240</td><td class="td-zh cjk">房间</td><td class="td-py">fángjiān</td><td class="td-en">room</td></tr>
+                <tr><td class="td-num">241</td><td class="td-zh cjk">店</td><td class="td-py">diàn</td><td class="td-en">shop</td></tr>
+                <tr><td class="td-num">242</td><td class="td-zh cjk">国</td><td class="td-py">guó</td><td class="td-en">country</td></tr>
+                <tr><td class="td-num">243</td><td class="td-zh cjk">中国</td><td class="td-py">Zhōngguó</td><td class="td-en">China</td></tr>
+                <tr><td class="td-num">244</td><td class="td-zh cjk">上</td><td class="td-py">shàng</td><td class="td-en">up, above</td></tr>
+                <tr><td class="td-num">245</td><td class="td-zh cjk">下</td><td class="td-py">xià</td><td class="td-en">down, below</td></tr>
+                <tr><td class="td-num">246</td><td class="td-zh cjk">里</td><td class="td-py">lǐ</td><td class="td-en">inside</td></tr>
+                <tr><td class="td-num">247</td><td class="td-zh cjk">外</td><td class="td-py">wài</td><td class="td-en">outside</td></tr>
+                <tr><td class="td-num">248</td><td class="td-zh cjk">前</td><td class="td-py">qián</td><td class="td-en">front, before</td></tr>
+                <tr><td class="td-num">249</td><td class="td-zh cjk">后</td><td class="td-py">hòu</td><td class="td-en">back, after</td></tr>
+                <tr><td class="td-num">250</td><td class="td-zh cjk">边</td><td class="td-py">biān</td><td class="td-en">side</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary, Day 17, 251 to 275</div>
+        <h2 class="slide-heading">Day 17, 251 to 275.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">251</td><td class="td-zh cjk">外边</td><td class="td-py">wàibian</td><td class="td-en">outside</td></tr>
+                <tr><td class="td-num">252</td><td class="td-zh cjk">饭</td><td class="td-py">fàn</td><td class="td-en">meal, rice</td></tr>
+                <tr><td class="td-num">253</td><td class="td-zh cjk">菜</td><td class="td-py">cài</td><td class="td-en">dish, vegetable</td></tr>
+                <tr><td class="td-num">254</td><td class="td-zh cjk">米饭</td><td class="td-py">mǐfàn</td><td class="td-en">cooked rice</td></tr>
+                <tr><td class="td-num">255</td><td class="td-zh cjk">面包</td><td class="td-py">miànbāo</td><td class="td-en">bread</td></tr>
+                <tr><td class="td-num">256</td><td class="td-zh cjk">面条儿</td><td class="td-py">miàntiáor</td><td class="td-en">noodles</td></tr>
+                <tr><td class="td-num">257</td><td class="td-zh cjk">包子</td><td class="td-py">bāozi</td><td class="td-en">baozi (steamed bun)</td></tr>
+                <tr><td class="td-num">258</td><td class="td-zh cjk">饺子</td><td class="td-py">jiǎozi</td><td class="td-en">dumplings</td></tr>
+                <tr><td class="td-num">259</td><td class="td-zh cjk">鸡蛋</td><td class="td-py">jīdàn</td><td class="td-en">egg</td></tr>
+                <tr><td class="td-num">260</td><td class="td-zh cjk">水果</td><td class="td-py">shuǐguǒ</td><td class="td-en">fruit</td></tr>
+                <tr><td class="td-num">261</td><td class="td-zh cjk">苹果</td><td class="td-py">píngguǒ</td><td class="td-en">apple</td></tr>
+                <tr><td class="td-num">262</td><td class="td-zh cjk">茶</td><td class="td-py">chá</td><td class="td-en">tea</td></tr>
+                <tr><td class="td-num">263</td><td class="td-zh cjk">水</td><td class="td-py">shuǐ</td><td class="td-en">water</td></tr>
+                <tr><td class="td-num">264</td><td class="td-zh cjk">牛奶</td><td class="td-py">niúnǎi</td><td class="td-en">milk</td></tr>
+                <tr><td class="td-num">265</td><td class="td-zh cjk">早饭</td><td class="td-py">zǎofàn</td><td class="td-en">breakfast</td></tr>
+                <tr><td class="td-num">266</td><td class="td-zh cjk">午饭</td><td class="td-py">wǔfàn</td><td class="td-en">lunch</td></tr>
+                <tr><td class="td-num">267</td><td class="td-zh cjk">晚饭</td><td class="td-py">wǎnfàn</td><td class="td-en">dinner</td></tr>
+                <tr><td class="td-num">268</td><td class="td-zh cjk">东西</td><td class="td-py">dōngxi</td><td class="td-en">thing(s)</td></tr>
+                <tr><td class="td-num">269</td><td class="td-zh cjk">病</td><td class="td-py">bìng</td><td class="td-en">illness, sick</td></tr>
+                <tr><td class="td-num">270</td><td class="td-zh cjk">生病</td><td class="td-py">shēngbìng</td><td class="td-en">get sick</td></tr>
+                <tr><td class="td-num">271</td><td class="td-zh cjk">看病</td><td class="td-py">kànbìng</td><td class="td-en">see a doctor</td></tr>
+                <tr><td class="td-num">272</td><td class="td-zh cjk">事</td><td class="td-py">shì</td><td class="td-en">matter, thing</td></tr>
+                <tr><td class="td-num">273</td><td class="td-zh cjk">问题</td><td class="td-py">wèntí</td><td class="td-en">question, problem</td></tr>
+                <tr><td class="td-num">274</td><td class="td-zh cjk">天气</td><td class="td-py">tiānqì</td><td class="td-en">weather</td></tr>
+                <tr><td class="td-num">275</td><td class="td-zh cjk">雨</td><td class="td-py">yǔ</td><td class="td-en">rain</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="slide slide-gray">
+    <div class="slide-content">
+        <div class="slide-label">Vocabulary, Day 18, 276 to 300</div>
+        <h2 class="slide-heading">Day 18, 276 to 300.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">276</td><td class="td-zh cjk">下雨</td><td class="td-py">xiàyǔ</td><td class="td-en">to rain</td></tr>
+                <tr><td class="td-num">277</td><td class="td-zh cjk">雪</td><td class="td-py">xuě</td><td class="td-en">snow</td></tr>
+                <tr><td class="td-num">278</td><td class="td-zh cjk">车</td><td class="td-py">chē</td><td class="td-en">car, vehicle</td></tr>
+                <tr><td class="td-num">279</td><td class="td-zh cjk">出租车</td><td class="td-py">chūzūchē</td><td class="td-en">taxi</td></tr>
+                <tr><td class="td-num">280</td><td class="td-zh cjk">飞机</td><td class="td-py">fēijī</td><td class="td-en">airplane</td></tr>
+                <tr><td class="td-num">281</td><td class="td-zh cjk">火车</td><td class="td-py">huǒchē</td><td class="td-en">train</td></tr>
+                <tr><td class="td-num">282</td><td class="td-zh cjk">钱</td><td class="td-py">qián</td><td class="td-en">money</td></tr>
+                <tr><td class="td-num">283</td><td class="td-zh cjk">电话</td><td class="td-py">diànhuà</td><td class="td-en">phone, call</td></tr>
+                <tr><td class="td-num">284</td><td class="td-zh cjk">电脑</td><td class="td-py">diànnǎo</td><td class="td-en">computer</td></tr>
+                <tr><td class="td-num">285</td><td class="td-zh cjk">电视</td><td class="td-py">diànshì</td><td class="td-en">television</td></tr>
+                <tr><td class="td-num">286</td><td class="td-zh cjk">电影</td><td class="td-py">diànyǐng</td><td class="td-en">movie</td></tr>
+                <tr><td class="td-num">287</td><td class="td-zh cjk">手机</td><td class="td-py">shǒujī</td><td class="td-en">mobile phone</td></tr>
+                <tr><td class="td-num">288</td><td class="td-zh cjk">书</td><td class="td-py">shū</td><td class="td-en">book</td></tr>
+                <tr><td class="td-num">289</td><td class="td-zh cjk">字</td><td class="td-py">zì</td><td class="td-en">character</td></tr>
+                <tr><td class="td-num">290</td><td class="td-zh cjk">课</td><td class="td-py">kè</td><td class="td-en">class, lesson</td></tr>
+                <tr><td class="td-num">291</td><td class="td-zh cjk">衣服</td><td class="td-py">yīfu</td><td class="td-en">clothes</td></tr>
+                <tr><td class="td-num">292</td><td class="td-zh cjk">杯子</td><td class="td-py">bēizi</td><td class="td-en">cup</td></tr>
+                <tr><td class="td-num">293</td><td class="td-zh cjk">椅子</td><td class="td-py">yǐzi</td><td class="td-en">chair</td></tr>
+                <tr><td class="td-num">294</td><td class="td-zh cjk">桌子</td><td class="td-py">zhuōzi</td><td class="td-en">table</td></tr>
+                <tr><td class="td-num">295</td><td class="td-zh cjk">歌</td><td class="td-py">gē</td><td class="td-en">song</td></tr>
+                <tr><td class="td-num">296</td><td class="td-zh cjk">汉语</td><td class="td-py">Hànyǔ</td><td class="td-en">Chinese (spoken)</td></tr>
+                <tr><td class="td-num">297</td><td class="td-zh cjk">汉字</td><td class="td-py">Hànzì</td><td class="td-en">Chinese character</td></tr>
+                <tr><td class="td-num">298</td><td class="td-zh cjk">中文</td><td class="td-py">Zhōngwén</td><td class="td-en">Chinese (language)</td></tr>
+                <tr><td class="td-num">299</td><td class="td-zh cjk">狗</td><td class="td-py">gǒu</td><td class="td-en">dog</td></tr>
+                <tr><td class="td-num">300</td><td class="td-zh cjk">猫</td><td class="td-py">māo</td><td class="td-en">cat</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Sentence Bank</div>
+        <h2 class="slide-heading">See the words at work.</h2>
+        <table class="vocab-table">
+            <thead><tr><th>Chinese</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-zh cjk">水果很便宜。</td><td class="td-py">Shuǐguǒ hěn piányi.</td><td class="td-en">The fruit is cheap.</td></tr>
+                <tr><td class="td-zh cjk">这本书很好看。</td><td class="td-py">Zhè běn shū hěn hǎokàn.</td><td class="td-en">This book is great.</td></tr>
+                <tr><td class="td-zh cjk">今天很热。</td><td class="td-py">Jīntiān hěn rè.</td><td class="td-en">Today is hot.</td></tr>
+                <tr><td class="td-zh cjk">这是我的书。</td><td class="td-py">Zhè shì wǒ de shū.</td><td class="td-en">This is my book.</td></tr>
+                <tr><td class="td-zh cjk">我的学校很大。</td><td class="td-py">Wǒ de xuéxiào hěn dà.</td><td class="td-en">My school is big.</td></tr>
+                <tr><td class="td-zh cjk">书店在学校旁边。</td><td class="td-py">Shūdiàn zài xuéxiào pángbiān.</td><td class="td-en">The bookstore is next to the school.</td></tr>
+                <tr><td class="td-zh cjk">我想去中国。</td><td class="td-py">Wǒ xiǎng qù Zhōngguó.</td><td class="td-en">I want to go to China.</td></tr>
+                <tr><td class="td-zh cjk">外边在下雨。</td><td class="td-py">Wàibian zài xiàyǔ.</td><td class="td-en">It's raining outside.</td></tr>
+                <tr><td class="td-zh cjk">妈妈做饺子。</td><td class="td-py">Māma zuò jiǎozi.</td><td class="td-en">Mom makes dumplings.</td></tr>
+                <tr><td class="td-zh cjk">我没吃早饭。</td><td class="td-py">Wǒ méi chī zǎofàn.</td><td class="td-en">I didn't eat breakfast.</td></tr>
+                <tr><td class="td-zh cjk">你有事吗？</td><td class="td-py">Nǐ yǒu shì ma?</td><td class="td-en">Do you have something to do?</td></tr>
+                <tr><td class="td-zh cjk">坐出租车去机场。</td><td class="td-py">Zuò chūzūchē qù jīchǎng.</td><td class="td-en">Take a taxi to the airport.</td></tr>
+                <tr><td class="td-zh cjk">我喜欢看电影。</td><td class="td-py">Wǒ xǐhuan kàn diànyǐng.</td><td class="td-en">I like watching movies.</td></tr>
+                <tr><td class="td-zh cjk">椅子很新。</td><td class="td-py">Yǐzi hěn xīn.</td><td class="td-en">The chair is new.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<section class="slide slide-white">
+    <div class="slide-content">
+        <div class="slide-label">Final Recap, Words 201 to 300</div>
+        <h2 class="slide-heading">Write what you can.</h2>
+        <p class="slide-body">Hanzi only by default. Recall the pinyin and meaning for each, then flip the toggles in the top bar to self-check.</p>
+        <div class="recap-note"><strong>How to use this:</strong> the Pinyin and English columns are hidden. Work down the list and say what you remember, then turn the columns back on from the top bar.</div>
+        <table class="vocab-table">
+            <thead><tr><th>#</th><th>Character</th><th>Pinyin</th><th>English</th></tr></thead>
+            <tbody>
+                <tr><td class="td-num">201</td><td class="td-zh cjk">便宜</td><td class="td-py">piányi</td><td class="td-en">cheap</td></tr>
+                <tr><td class="td-num">202</td><td class="td-zh cjk">冷</td><td class="td-py">lěng</td><td class="td-en">cold</td></tr>
+                <tr><td class="td-num">203</td><td class="td-zh cjk">热</td><td class="td-py">rè</td><td class="td-en">hot</td></tr>
+                <tr><td class="td-num">204</td><td class="td-zh cjk">忙</td><td class="td-py">máng</td><td class="td-en">busy</td></tr>
+                <tr><td class="td-num">205</td><td class="td-zh cjk">高兴</td><td class="td-py">gāoxìng</td><td class="td-en">happy</td></tr>
+                <tr><td class="td-num">206</td><td class="td-zh cjk">漂亮</td><td class="td-py">piàoliang</td><td class="td-en">pretty</td></tr>
+                <tr><td class="td-num">207</td><td class="td-zh cjk">好吃</td><td class="td-py">hǎochī</td><td class="td-en">tasty</td></tr>
+                <tr><td class="td-num">208</td><td class="td-zh cjk">好看</td><td class="td-py">hǎokàn</td><td class="td-en">good-looking</td></tr>
+                <tr><td class="td-num">209</td><td class="td-zh cjk">好听</td><td class="td-py">hǎotīng</td><td class="td-en">pleasant to hear</td></tr>
+                <tr><td class="td-num">210</td><td class="td-zh cjk">好玩儿</td><td class="td-py">hǎowánr</td><td class="td-en">fun</td></tr>
+                <tr><td class="td-num">211</td><td class="td-zh cjk">对</td><td class="td-py">duì</td><td class="td-en">correct, toward</td></tr>
+                <tr><td class="td-num">212</td><td class="td-zh cjk">不</td><td class="td-py">bù</td><td class="td-en">not</td></tr>
+                <tr><td class="td-num">213</td><td class="td-zh cjk">都</td><td class="td-py">dōu</td><td class="td-en">all, both</td></tr>
+                <tr><td class="td-num">214</td><td class="td-zh cjk">也</td><td class="td-py">yě</td><td class="td-en">also, too</td></tr>
+                <tr><td class="td-num">215</td><td class="td-zh cjk">很</td><td class="td-py">hěn</td><td class="td-en">very (also linker)</td></tr>
+                <tr><td class="td-num">216</td><td class="td-zh cjk">太</td><td class="td-py">tài</td><td class="td-en">too (excessive)</td></tr>
+                <tr><td class="td-num">217</td><td class="td-zh cjk">真</td><td class="td-py">zhēn</td><td class="td-en">really</td></tr>
+                <tr><td class="td-num">218</td><td class="td-zh cjk">非常</td><td class="td-py">fēicháng</td><td class="td-en">extremely</td></tr>
+                <tr><td class="td-num">219</td><td class="td-zh cjk">还</td><td class="td-py">hái</td><td class="td-en">still, also</td></tr>
+                <tr><td class="td-num">220</td><td class="td-zh cjk">再</td><td class="td-py">zài</td><td class="td-en">again</td></tr>
+                <tr><td class="td-num">221</td><td class="td-zh cjk">正在</td><td class="td-py">zhèngzài</td><td class="td-en">currently doing</td></tr>
+                <tr><td class="td-num">222</td><td class="td-zh cjk">的</td><td class="td-py">de</td><td class="td-en">possessive / modifier</td></tr>
+                <tr><td class="td-num">223</td><td class="td-zh cjk">了</td><td class="td-py">le</td><td class="td-en">completion / change</td></tr>
+                <tr><td class="td-num">224</td><td class="td-zh cjk">吗</td><td class="td-py">ma</td><td class="td-en">yes/no question</td></tr>
+                <tr><td class="td-num">225</td><td class="td-zh cjk">呢</td><td class="td-py">ne</td><td class="td-en">follow-up question</td></tr>
+                <tr><td class="td-num">226</td><td class="td-zh cjk">吧</td><td class="td-py">ba</td><td class="td-en">suggestion / softener</td></tr>
+                <tr><td class="td-num">227</td><td class="td-zh cjk">们</td><td class="td-py">men</td><td class="td-en">plural for people</td></tr>
+                <tr><td class="td-num">228</td><td class="td-zh cjk">和</td><td class="td-py">hé</td><td class="td-en">and, with</td></tr>
+                <tr><td class="td-num">229</td><td class="td-zh cjk">学校</td><td class="td-py">xuéxiào</td><td class="td-en">school</td></tr>
+                <tr><td class="td-num">230</td><td class="td-zh cjk">大学</td><td class="td-py">dàxué</td><td class="td-en">university</td></tr>
+                <tr><td class="td-num">231</td><td class="td-zh cjk">中学</td><td class="td-py">zhōngxué</td><td class="td-en">middle school</td></tr>
+                <tr><td class="td-num">232</td><td class="td-zh cjk">小学</td><td class="td-py">xiǎoxué</td><td class="td-en">primary school</td></tr>
+                <tr><td class="td-num">233</td><td class="td-zh cjk">医院</td><td class="td-py">yīyuàn</td><td class="td-en">hospital</td></tr>
+                <tr><td class="td-num">234</td><td class="td-zh cjk">商店</td><td class="td-py">shāngdiàn</td><td class="td-en">shop</td></tr>
+                <tr><td class="td-num">235</td><td class="td-zh cjk">超市</td><td class="td-py">chāoshì</td><td class="td-en">supermarket</td></tr>
+                <tr><td class="td-num">236</td><td class="td-zh cjk">书店</td><td class="td-py">shūdiàn</td><td class="td-en">bookstore</td></tr>
+                <tr><td class="td-num">237</td><td class="td-zh cjk">饭店</td><td class="td-py">fàndiàn</td><td class="td-en">restaurant</td></tr>
+                <tr><td class="td-num">238</td><td class="td-zh cjk">电影院</td><td class="td-py">diànyǐngyuàn</td><td class="td-en">cinema</td></tr>
+                <tr><td class="td-num">239</td><td class="td-zh cjk">公司</td><td class="td-py">gōngsī</td><td class="td-en">company</td></tr>
+                <tr><td class="td-num">240</td><td class="td-zh cjk">房间</td><td class="td-py">fángjiān</td><td class="td-en">room</td></tr>
+                <tr><td class="td-num">241</td><td class="td-zh cjk">店</td><td class="td-py">diàn</td><td class="td-en">shop</td></tr>
+                <tr><td class="td-num">242</td><td class="td-zh cjk">国</td><td class="td-py">guó</td><td class="td-en">country</td></tr>
+                <tr><td class="td-num">243</td><td class="td-zh cjk">中国</td><td class="td-py">Zhōngguó</td><td class="td-en">China</td></tr>
+                <tr><td class="td-num">244</td><td class="td-zh cjk">上</td><td class="td-py">shàng</td><td class="td-en">up, above</td></tr>
+                <tr><td class="td-num">245</td><td class="td-zh cjk">下</td><td class="td-py">xià</td><td class="td-en">down, below</td></tr>
+                <tr><td class="td-num">246</td><td class="td-zh cjk">里</td><td class="td-py">lǐ</td><td class="td-en">inside</td></tr>
+                <tr><td class="td-num">247</td><td class="td-zh cjk">外</td><td class="td-py">wài</td><td class="td-en">outside</td></tr>
+                <tr><td class="td-num">248</td><td class="td-zh cjk">前</td><td class="td-py">qián</td><td class="td-en">front, before</td></tr>
+                <tr><td class="td-num">249</td><td class="td-zh cjk">后</td><td class="td-py">hòu</td><td class="td-en">back, after</td></tr>
+                <tr><td class="td-num">250</td><td class="td-zh cjk">边</td><td class="td-py">biān</td><td class="td-en">side</td></tr>
+                <tr><td class="td-num">251</td><td class="td-zh cjk">外边</td><td class="td-py">wàibian</td><td class="td-en">outside</td></tr>
+                <tr><td class="td-num">252</td><td class="td-zh cjk">饭</td><td class="td-py">fàn</td><td class="td-en">meal, rice</td></tr>
+                <tr><td class="td-num">253</td><td class="td-zh cjk">菜</td><td class="td-py">cài</td><td class="td-en">dish, vegetable</td></tr>
+                <tr><td class="td-num">254</td><td class="td-zh cjk">米饭</td><td class="td-py">mǐfàn</td><td class="td-en">cooked rice</td></tr>
+                <tr><td class="td-num">255</td><td class="td-zh cjk">面包</td><td class="td-py">miànbāo</td><td class="td-en">bread</td></tr>
+                <tr><td class="td-num">256</td><td class="td-zh cjk">面条儿</td><td class="td-py">miàntiáor</td><td class="td-en">noodles</td></tr>
+                <tr><td class="td-num">257</td><td class="td-zh cjk">包子</td><td class="td-py">bāozi</td><td class="td-en">baozi (steamed bun)</td></tr>
+                <tr><td class="td-num">258</td><td class="td-zh cjk">饺子</td><td class="td-py">jiǎozi</td><td class="td-en">dumplings</td></tr>
+                <tr><td class="td-num">259</td><td class="td-zh cjk">鸡蛋</td><td class="td-py">jīdàn</td><td class="td-en">egg</td></tr>
+                <tr><td class="td-num">260</td><td class="td-zh cjk">水果</td><td class="td-py">shuǐguǒ</td><td class="td-en">fruit</td></tr>
+                <tr><td class="td-num">261</td><td class="td-zh cjk">苹果</td><td class="td-py">píngguǒ</td><td class="td-en">apple</td></tr>
+                <tr><td class="td-num">262</td><td class="td-zh cjk">茶</td><td class="td-py">chá</td><td class="td-en">tea</td></tr>
+                <tr><td class="td-num">263</td><td class="td-zh cjk">水</td><td class="td-py">shuǐ</td><td class="td-en">water</td></tr>
+                <tr><td class="td-num">264</td><td class="td-zh cjk">牛奶</td><td class="td-py">niúnǎi</td><td class="td-en">milk</td></tr>
+                <tr><td class="td-num">265</td><td class="td-zh cjk">早饭</td><td class="td-py">zǎofàn</td><td class="td-en">breakfast</td></tr>
+                <tr><td class="td-num">266</td><td class="td-zh cjk">午饭</td><td class="td-py">wǔfàn</td><td class="td-en">lunch</td></tr>
+                <tr><td class="td-num">267</td><td class="td-zh cjk">晚饭</td><td class="td-py">wǎnfàn</td><td class="td-en">dinner</td></tr>
+                <tr><td class="td-num">268</td><td class="td-zh cjk">东西</td><td class="td-py">dōngxi</td><td class="td-en">thing(s)</td></tr>
+                <tr><td class="td-num">269</td><td class="td-zh cjk">病</td><td class="td-py">bìng</td><td class="td-en">illness, sick</td></tr>
+                <tr><td class="td-num">270</td><td class="td-zh cjk">生病</td><td class="td-py">shēngbìng</td><td class="td-en">get sick</td></tr>
+                <tr><td class="td-num">271</td><td class="td-zh cjk">看病</td><td class="td-py">kànbìng</td><td class="td-en">see a doctor</td></tr>
+                <tr><td class="td-num">272</td><td class="td-zh cjk">事</td><td class="td-py">shì</td><td class="td-en">matter, thing</td></tr>
+                <tr><td class="td-num">273</td><td class="td-zh cjk">问题</td><td class="td-py">wèntí</td><td class="td-en">question, problem</td></tr>
+                <tr><td class="td-num">274</td><td class="td-zh cjk">天气</td><td class="td-py">tiānqì</td><td class="td-en">weather</td></tr>
+                <tr><td class="td-num">275</td><td class="td-zh cjk">雨</td><td class="td-py">yǔ</td><td class="td-en">rain</td></tr>
+                <tr><td class="td-num">276</td><td class="td-zh cjk">下雨</td><td class="td-py">xiàyǔ</td><td class="td-en">to rain</td></tr>
+                <tr><td class="td-num">277</td><td class="td-zh cjk">雪</td><td class="td-py">xuě</td><td class="td-en">snow</td></tr>
+                <tr><td class="td-num">278</td><td class="td-zh cjk">车</td><td class="td-py">chē</td><td class="td-en">car, vehicle</td></tr>
+                <tr><td class="td-num">279</td><td class="td-zh cjk">出租车</td><td class="td-py">chūzūchē</td><td class="td-en">taxi</td></tr>
+                <tr><td class="td-num">280</td><td class="td-zh cjk">飞机</td><td class="td-py">fēijī</td><td class="td-en">airplane</td></tr>
+                <tr><td class="td-num">281</td><td class="td-zh cjk">火车</td><td class="td-py">huǒchē</td><td class="td-en">train</td></tr>
+                <tr><td class="td-num">282</td><td class="td-zh cjk">钱</td><td class="td-py">qián</td><td class="td-en">money</td></tr>
+                <tr><td class="td-num">283</td><td class="td-zh cjk">电话</td><td class="td-py">diànhuà</td><td class="td-en">phone, call</td></tr>
+                <tr><td class="td-num">284</td><td class="td-zh cjk">电脑</td><td class="td-py">diànnǎo</td><td class="td-en">computer</td></tr>
+                <tr><td class="td-num">285</td><td class="td-zh cjk">电视</td><td class="td-py">diànshì</td><td class="td-en">television</td></tr>
+                <tr><td class="td-num">286</td><td class="td-zh cjk">电影</td><td class="td-py">diànyǐng</td><td class="td-en">movie</td></tr>
+                <tr><td class="td-num">287</td><td class="td-zh cjk">手机</td><td class="td-py">shǒujī</td><td class="td-en">mobile phone</td></tr>
+                <tr><td class="td-num">288</td><td class="td-zh cjk">书</td><td class="td-py">shū</td><td class="td-en">book</td></tr>
+                <tr><td class="td-num">289</td><td class="td-zh cjk">字</td><td class="td-py">zì</td><td class="td-en">character</td></tr>
+                <tr><td class="td-num">290</td><td class="td-zh cjk">课</td><td class="td-py">kè</td><td class="td-en">class, lesson</td></tr>
+                <tr><td class="td-num">291</td><td class="td-zh cjk">衣服</td><td class="td-py">yīfu</td><td class="td-en">clothes</td></tr>
+                <tr><td class="td-num">292</td><td class="td-zh cjk">杯子</td><td class="td-py">bēizi</td><td class="td-en">cup</td></tr>
+                <tr><td class="td-num">293</td><td class="td-zh cjk">椅子</td><td class="td-py">yǐzi</td><td class="td-en">chair</td></tr>
+                <tr><td class="td-num">294</td><td class="td-zh cjk">桌子</td><td class="td-py">zhuōzi</td><td class="td-en">table</td></tr>
+                <tr><td class="td-num">295</td><td class="td-zh cjk">歌</td><td class="td-py">gē</td><td class="td-en">song</td></tr>
+                <tr><td class="td-num">296</td><td class="td-zh cjk">汉语</td><td class="td-py">Hànyǔ</td><td class="td-en">Chinese (spoken)</td></tr>
+                <tr><td class="td-num">297</td><td class="td-zh cjk">汉字</td><td class="td-py">Hànzì</td><td class="td-en">Chinese character</td></tr>
+                <tr><td class="td-num">298</td><td class="td-zh cjk">中文</td><td class="td-py">Zhōngwén</td><td class="td-en">Chinese (language)</td></tr>
+                <tr><td class="td-num">299</td><td class="td-zh cjk">狗</td><td class="td-py">gǒu</td><td class="td-en">dog</td></tr>
+                <tr><td class="td-num">300</td><td class="td-zh cjk">猫</td><td class="td-py">māo</td><td class="td-en">cat</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<section class="slide slide-dark">
+    <div class="slide-content">
+        <div class="slide-label">End of June 19</div>
+        <h1 class="slide-title cjk" style="font-size: clamp(2rem, 5vw, 3.5rem);">两个星期，两百个词！</h1>
+        <p class="slide-body" style="margin-top:0.4rem; font-style:italic; font-size:0.95rem; color:rgba(255,255,255,0.55);">Liǎng gè xīngqī, liǎng bǎi gè cí! &nbsp;·&nbsp; Two weeks, two hundred words!</p>
+        <div class="hbox" style="margin-top:2rem;">
+            <p><strong><a href="/june/day/19" style="color:inherit;">June, Day 19 →</a></strong> Drill these as flashcards with audio and example sentences. You now know two thirds of HSK 1. Next week brings the final review and the mock exams.</p>
+        </div>
+    </div>
+</section>
+
+
+<footer class="slide-footer">Network School, June Accelerated Course, June 19</footer>
+
+<script>
+    document.body.classList.add('hide-pinyin', 'hide-english');
+    function toggleShow(which){ const h=document.body.classList.toggle('hide-'+which); document.getElementById('toggle-'+which).classList.toggle('active', !h); }
+    window.addEventListener('scroll', () => { const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100; document.getElementById('progress-bar').style.width=(pct||0)+'%'; });
+    const slides=Array.from(document.querySelectorAll('.slide'));
+    function nearestSlide(){let best=0,bd=Infinity;slides.forEach((s,i)=>{const d=Math.abs(s.getBoundingClientRect().top);if(d<bd){bd=d;best=i;}});return best;}
+    function goToSlide(i){i=Math.max(0,Math.min(slides.length-1,i));slides[i].scrollIntoView({behavior:'smooth'});}
+    document.addEventListener('keydown', e=>{ if(e.target.tagName==='BUTTON'||e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return; if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();goToSlide(nearestSlide()+1);} else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();goToSlide(nearestSlide()-1);} });
+    (function(){ const dd=document.getElementById('lessons-dropdown'); if(!dd)return; window.toggleLessons=function(e){e.stopPropagation();dd.classList.toggle('open');}; document.addEventListener('click',()=>dd.classList.remove('open')); })();
+
+    const v1cards = [
+        { zh:"便宜", py:"piányi", en:"cheap", exZh:"水果很便宜。", exPy:"Shuǐguǒ hěn piányi.", exEn:"The fruit is cheap.", idx:201 },
+        { zh:"冷", py:"lěng", en:"cold", exZh:"今天很冷。", exPy:"Jīntiān hěn lěng.", exEn:"Today is cold.", idx:202 },
+        { zh:"热", py:"rè", en:"hot", exZh:"水很热。", exPy:"Shuǐ hěn rè.", exEn:"The water is hot.", idx:203 },
+        { zh:"忙", py:"máng", en:"busy", exZh:"爸爸很忙。", exPy:"Bàba hěn máng.", exEn:"Dad is very busy.", idx:204 },
+        { zh:"高兴", py:"gāoxìng", en:"happy", exZh:"我很高兴。", exPy:"Wǒ hěn gāoxìng.", exEn:"I'm very happy.", idx:205 },
+        { zh:"漂亮", py:"piàoliang", en:"pretty", exZh:"她很漂亮。", exPy:"Tā hěn piàoliang.", exEn:"She is very pretty.", idx:206 },
+        { zh:"好吃", py:"hǎochī", en:"tasty", exZh:"这个菜很好吃。", exPy:"Zhège cài hěn hǎochī.", exEn:"This dish is tasty.", idx:207 },
+        { zh:"好看", py:"hǎokàn", en:"good-looking", exZh:"这本书很好看。", exPy:"Zhè běn shū hěn hǎokàn.", exEn:"This book is great.", idx:208 },
+        { zh:"好听", py:"hǎotīng", en:"pleasant to hear", exZh:"这首歌很好听。", exPy:"Zhè shǒu gē hěn hǎotīng.", exEn:"This song is lovely.", idx:209 },
+        { zh:"好玩儿", py:"hǎowánr", en:"fun", exZh:"这个很好玩儿。", exPy:"Zhège hěn hǎowánr.", exEn:"This is fun.", idx:210 },
+        { zh:"对", py:"duì", en:"correct, toward", exZh:"你说得对。", exPy:"Nǐ shuō de duì.", exEn:"You're right.", idx:211 },
+        { zh:"不", py:"bù", en:"not", exZh:"我不去。", exPy:"Wǒ bú qù.", exEn:"I'm not going.", idx:212 },
+        { zh:"都", py:"dōu", en:"all, both", exZh:"我们都是学生。", exPy:"Wǒmen dōu shì xuéshēng.", exEn:"We are all students.", idx:213 },
+        { zh:"也", py:"yě", en:"also, too", exZh:"我也喜欢茶。", exPy:"Wǒ yě xǐhuan chá.", exEn:"I like tea too.", idx:214 },
+        { zh:"很", py:"hěn", en:"very (also linker)", exZh:"今天很热。", exPy:"Jīntiān hěn rè.", exEn:"Today is hot.", idx:215 },
+        { zh:"太", py:"tài", en:"too (excessive)", exZh:"太贵了。", exPy:"Tài guì le.", exEn:"Too expensive.", idx:216 },
+        { zh:"真", py:"zhēn", en:"really", exZh:"这个真好吃。", exPy:"Zhège zhēn hǎochī.", exEn:"This is really tasty.", idx:217 },
+        { zh:"非常", py:"fēicháng", en:"extremely", exZh:"他非常忙。", exPy:"Tā fēicháng máng.", exEn:"He is extremely busy.", idx:218 },
+        { zh:"还", py:"hái", en:"still, also", exZh:"我还想吃。", exPy:"Wǒ hái xiǎng chī.", exEn:"I still want to eat.", idx:219 },
+        { zh:"再", py:"zài", en:"again", exZh:"再说一下。", exPy:"Zài shuō yíxià.", exEn:"Say it again.", idx:220 },
+        { zh:"正在", py:"zhèngzài", en:"currently doing", exZh:"他正在睡觉。", exPy:"Tā zhèngzài shuìjiào.", exEn:"He is currently sleeping.", idx:221 },
+        { zh:"的", py:"de", en:"possessive / modifier", exZh:"这是我的书。", exPy:"Zhè shì wǒ de shū.", exEn:"This is my book.", idx:222 },
+        { zh:"了", py:"le", en:"completion / change", exZh:"我吃了。", exPy:"Wǒ chī le.", exEn:"I've eaten.", idx:223 },
+        { zh:"吗", py:"ma", en:"yes/no question", exZh:"你是学生吗？", exPy:"Nǐ shì xuéshēng ma?", exEn:"Are you a student?", idx:224 },
+        { zh:"呢", py:"ne", en:"follow-up question", exZh:"我很好，你呢？", exPy:"Wǒ hěn hǎo, nǐ ne?", exEn:"I'm fine, and you?", idx:225 },
+        { zh:"吧", py:"ba", en:"suggestion / softener", exZh:"我们走吧。", exPy:"Wǒmen zǒu ba.", exEn:"Let's go.", idx:226 },
+        { zh:"们", py:"men", en:"plural for people", exZh:"老师们好。", exPy:"Lǎoshī men hǎo.", exEn:"Hello, teachers.", idx:227 },
+        { zh:"和", py:"hé", en:"and, with", exZh:"我和爸爸去学校。", exPy:"Wǒ hé bàba qù xuéxiào.", exEn:"Dad and I go to school.", idx:228 },
+        { zh:"学校", py:"xuéxiào", en:"school", exZh:"我的学校很大。", exPy:"Wǒ de xuéxiào hěn dà.", exEn:"My school is big.", idx:229 },
+        { zh:"大学", py:"dàxué", en:"university", exZh:"他在北京大学。", exPy:"Tā zài Běijīng Dàxué.", exEn:"He's at Peking University.", idx:230 },
+        { zh:"中学", py:"zhōngxué", en:"middle school", exZh:"哥哥上中学。", exPy:"Gēge shàng zhōngxué.", exEn:"Older brother is in middle school.", idx:231 },
+        { zh:"小学", py:"xiǎoxué", en:"primary school", exZh:"小学在那边。", exPy:"Xiǎoxué zài nàbiān.", exEn:"The primary school is over there.", idx:232 },
+        { zh:"医院", py:"yīyuàn", en:"hospital", exZh:"医院在前边。", exPy:"Yīyuàn zài qiánbian.", exEn:"The hospital is up ahead.", idx:233 },
+        { zh:"商店", py:"shāngdiàn", en:"shop", exZh:"商店九点开门。", exPy:"Shāngdiàn jiǔ diǎn kāi mén.", exEn:"The shop opens at nine.", idx:234 },
+        { zh:"超市", py:"chāoshì", en:"supermarket", exZh:"超市里有水果。", exPy:"Chāoshì lǐ yǒu shuǐguǒ.", exEn:"There's fruit in the supermarket.", idx:235 },
+        { zh:"书店", py:"shūdiàn", en:"bookstore", exZh:"书店在学校旁边。", exPy:"Shūdiàn zài xuéxiào pángbiān.", exEn:"The bookstore is next to the school.", idx:236 },
+        { zh:"饭店", py:"fàndiàn", en:"restaurant", exZh:"这个饭店很贵。", exPy:"Zhège fàndiàn hěn guì.", exEn:"This restaurant is expensive.", idx:237 },
+        { zh:"电影院", py:"diànyǐngyuàn", en:"cinema", exZh:"电影院在那里。", exPy:"Diànyǐngyuàn zài nàlǐ.", exEn:"The cinema is over there.", idx:238 },
+        { zh:"公司", py:"gōngsī", en:"company", exZh:"爸爸在公司工作。", exPy:"Bàba zài gōngsī gōngzuò.", exEn:"Dad works at the company.", idx:239 },
+        { zh:"房间", py:"fángjiān", en:"room", exZh:"我的房间很小。", exPy:"Wǒ de fángjiān hěn xiǎo.", exEn:"My room is small.", idx:240 },
+        { zh:"店", py:"diàn", en:"shop", exZh:"那家店很大。", exPy:"Nà jiā diàn hěn dà.", exEn:"That shop is big.", idx:241 },
+        { zh:"国", py:"guó", en:"country", exZh:"你是哪国人？", exPy:"Nǐ shì nǎ guó rén?", exEn:"Which country are you from?", idx:242 },
+        { zh:"中国", py:"Zhōngguó", en:"China", exZh:"我想去中国。", exPy:"Wǒ xiǎng qù Zhōngguó.", exEn:"I want to go to China.", idx:243 },
+        { zh:"上", py:"shàng", en:"up, above", exZh:"书在桌子上。", exPy:"Shū zài zhuōzi shàng.", exEn:"The book is on the table.", idx:244 },
+        { zh:"下", py:"xià", en:"down, below", exZh:"椅子下有猫。", exPy:"Yǐzi xià yǒu māo.", exEn:"There's a cat under the chair.", idx:245 },
+        { zh:"里", py:"lǐ", en:"inside", exZh:"房间里没人。", exPy:"Fángjiān lǐ méi rén.", exEn:"There's no one in the room.", idx:246 },
+        { zh:"外", py:"wài", en:"outside", exZh:"外边很冷。", exPy:"Wàibian hěn lěng.", exEn:"It's cold outside.", idx:247 },
+        { zh:"前", py:"qián", en:"front, before", exZh:"家前面有车。", exPy:"Jiā qiánmiàn yǒu chē.", exEn:"There's a car in front of the house.", idx:248 },
+        { zh:"后", py:"hòu", en:"back, after", exZh:"下课后我去吃饭。", exPy:"Xiàkè hòu wǒ qù chī fàn.", exEn:"After class I'll go eat.", idx:249 },
+        { zh:"边", py:"biān", en:"side", exZh:"在我旁边。", exPy:"Zài wǒ pángbiān.", exEn:"Next to me.", idx:250 },
+        { zh:"外边", py:"wàibian", en:"outside", exZh:"外边在下雨。", exPy:"Wàibian zài xiàyǔ.", exEn:"It's raining outside.", idx:251 },
+        { zh:"饭", py:"fàn", en:"meal, rice", exZh:"吃饭了吗？", exPy:"Chī fàn le ma?", exEn:"Have you eaten?", idx:252 },
+        { zh:"菜", py:"cài", en:"dish, vegetable", exZh:"这个菜很好吃。", exPy:"Zhège cài hěn hǎochī.", exEn:"This dish is tasty.", idx:253 },
+        { zh:"米饭", py:"mǐfàn", en:"cooked rice", exZh:"我要一碗米饭。", exPy:"Wǒ yào yì wǎn mǐfàn.", exEn:"I want a bowl of rice.", idx:254 },
+        { zh:"面包", py:"miànbāo", en:"bread", exZh:"早上我吃面包。", exPy:"Zǎoshang wǒ chī miànbāo.", exEn:"I eat bread in the morning.", idx:255 },
+        { zh:"面条儿", py:"miàntiáor", en:"noodles", exZh:"我喜欢吃面条儿。", exPy:"Wǒ xǐhuan chī miàntiáor.", exEn:"I like to eat noodles.", idx:256 },
+        { zh:"包子", py:"bāozi", en:"baozi (steamed bun)", exZh:"我吃了三个包子。", exPy:"Wǒ chī le sān gè bāozi.", exEn:"I ate three baozi.", idx:257 },
+        { zh:"饺子", py:"jiǎozi", en:"dumplings", exZh:"妈妈做饺子。", exPy:"Māma zuò jiǎozi.", exEn:"Mom makes dumplings.", idx:258 },
+        { zh:"鸡蛋", py:"jīdàn", en:"egg", exZh:"我要两个鸡蛋。", exPy:"Wǒ yào liǎng gè jīdàn.", exEn:"I want two eggs.", idx:259 },
+        { zh:"水果", py:"shuǐguǒ", en:"fruit", exZh:"我喜欢吃水果。", exPy:"Wǒ xǐhuan chī shuǐguǒ.", exEn:"I like to eat fruit.", idx:260 },
+        { zh:"苹果", py:"píngguǒ", en:"apple", exZh:"这个苹果真好吃。", exPy:"Zhège píngguǒ zhēn hǎochī.", exEn:"This apple is really tasty.", idx:261 },
+        { zh:"茶", py:"chá", en:"tea", exZh:"我喝茶。", exPy:"Wǒ hē chá.", exEn:"I drink tea.", idx:262 },
+        { zh:"水", py:"shuǐ", en:"water", exZh:"请给我水。", exPy:"Qǐng gěi wǒ shuǐ.", exEn:"Please give me water.", idx:263 },
+        { zh:"牛奶", py:"niúnǎi", en:"milk", exZh:"早上喝牛奶。", exPy:"Zǎoshang hē niúnǎi.", exEn:"Drink milk in the morning.", idx:264 },
+        { zh:"早饭", py:"zǎofàn", en:"breakfast", exZh:"我没吃早饭。", exPy:"Wǒ méi chī zǎofàn.", exEn:"I didn't eat breakfast.", idx:265 },
+        { zh:"午饭", py:"wǔfàn", en:"lunch", exZh:"午饭吃米饭。", exPy:"Wǔfàn chī mǐfàn.", exEn:"Eat rice for lunch.", idx:266 },
+        { zh:"晚饭", py:"wǎnfàn", en:"dinner", exZh:"晚饭后我去玩。", exPy:"Wǎnfàn hòu wǒ qù wán.", exEn:"After dinner I'll go play.", idx:267 },
+        { zh:"东西", py:"dōngxi", en:"thing(s)", exZh:"我买了很多东西。", exPy:"Wǒ mǎi le hěn duō dōngxi.", exEn:"I bought a lot of things.", idx:268 },
+        { zh:"病", py:"bìng", en:"illness, sick", exZh:"他有病。", exPy:"Tā yǒu bìng.", exEn:"He is sick.", idx:269 },
+        { zh:"生病", py:"shēngbìng", en:"get sick", exZh:"妹妹生病了。", exPy:"Mèimei shēngbìng le.", exEn:"Younger sister got sick.", idx:270 },
+        { zh:"看病", py:"kànbìng", en:"see a doctor", exZh:"我去医院看病。", exPy:"Wǒ qù yīyuàn kànbìng.", exEn:"I'm going to the hospital to see a doctor.", idx:271 },
+        { zh:"事", py:"shì", en:"matter, thing", exZh:"你有事吗？", exPy:"Nǐ yǒu shì ma?", exEn:"Do you have something to do?", idx:272 },
+        { zh:"问题", py:"wèntí", en:"question, problem", exZh:"我有一个问题。", exPy:"Wǒ yǒu yí gè wèntí.", exEn:"I have a question.", idx:273 },
+        { zh:"天气", py:"tiānqì", en:"weather", exZh:"今天天气怎么样？", exPy:"Jīntiān tiānqì zěnmeyàng?", exEn:"How's the weather today?", idx:274 },
+        { zh:"雨", py:"yǔ", en:"rain", exZh:"雨很大。", exPy:"Yǔ hěn dà.", exEn:"The rain is heavy.", idx:275 },
+        { zh:"下雨", py:"xiàyǔ", en:"to rain", exZh:"明天下雨。", exPy:"Míngtiān xiàyǔ.", exEn:"It will rain tomorrow.", idx:276 },
+        { zh:"雪", py:"xuě", en:"snow", exZh:"北京有雪。", exPy:"Běijīng yǒu xuě.", exEn:"Beijing has snow.", idx:277 },
+        { zh:"车", py:"chē", en:"car, vehicle", exZh:"车在外边。", exPy:"Chē zài wàibian.", exEn:"The car is outside.", idx:278 },
+        { zh:"出租车", py:"chūzūchē", en:"taxi", exZh:"坐出租车去机场。", exPy:"Zuò chūzūchē qù jīchǎng.", exEn:"Take a taxi to the airport.", idx:279 },
+        { zh:"飞机", py:"fēijī", en:"airplane", exZh:"我坐飞机回家。", exPy:"Wǒ zuò fēijī huí jiā.", exEn:"I take a plane home.", idx:280 },
+        { zh:"火车", py:"huǒchē", en:"train", exZh:"火车很快。", exPy:"Huǒchē hěn kuài.", exEn:"The train is fast.", idx:281 },
+        { zh:"钱", py:"qián", en:"money", exZh:"我没有钱。", exPy:"Wǒ méiyǒu qián.", exEn:"I don't have money.", idx:282 },
+        { zh:"电话", py:"diànhuà", en:"phone, call", exZh:"你的电话是多少？", exPy:"Nǐ de diànhuà shì duōshao?", exEn:"What's your phone number?", idx:283 },
+        { zh:"电脑", py:"diànnǎo", en:"computer", exZh:"我的电脑是新的。", exPy:"Wǒ de diànnǎo shì xīn de.", exEn:"My computer is new.", idx:284 },
+        { zh:"电视", py:"diànshì", en:"television", exZh:"晚上我看电视。", exPy:"Wǎnshang wǒ kàn diànshì.", exEn:"I watch TV in the evening.", idx:285 },
+        { zh:"电影", py:"diànyǐng", en:"movie", exZh:"我喜欢看电影。", exPy:"Wǒ xǐhuan kàn diànyǐng.", exEn:"I like watching movies.", idx:286 },
+        { zh:"手机", py:"shǒujī", en:"mobile phone", exZh:"我的手机在桌子上。", exPy:"Wǒ de shǒujī zài zhuōzi shàng.", exEn:"My phone is on the table.", idx:287 },
+        { zh:"书", py:"shū", en:"book", exZh:"这本书很好。", exPy:"Zhè běn shū hěn hǎo.", exEn:"This book is good.", idx:288 },
+        { zh:"字", py:"zì", en:"character", exZh:"这个字怎么读？", exPy:"Zhège zì zěnme dú?", exEn:"How is this character read?", idx:289 },
+        { zh:"课", py:"kè", en:"class, lesson", exZh:"今天有三节课。", exPy:"Jīntiān yǒu sān jié kè.", exEn:"Today has three classes.", idx:290 },
+        { zh:"衣服", py:"yīfu", en:"clothes", exZh:"我买了新衣服。", exPy:"Wǒ mǎi le xīn yīfu.", exEn:"I bought new clothes.", idx:291 },
+        { zh:"杯子", py:"bēizi", en:"cup", exZh:"杯子里有茶。", exPy:"Bēizi lǐ yǒu chá.", exEn:"There's tea in the cup.", idx:292 },
+        { zh:"椅子", py:"yǐzi", en:"chair", exZh:"椅子很新。", exPy:"Yǐzi hěn xīn.", exEn:"The chair is new.", idx:293 },
+        { zh:"桌子", py:"zhuōzi", en:"table", exZh:"桌子上有书。", exPy:"Zhuōzi shàng yǒu shū.", exEn:"There are books on the table.", idx:294 },
+        { zh:"歌", py:"gē", en:"song", exZh:"这首歌真好听。", exPy:"Zhè shǒu gē zhēn hǎotīng.", exEn:"This song sounds great.", idx:295 },
+        { zh:"汉语", py:"Hànyǔ", en:"Chinese (spoken)", exZh:"我学汉语。", exPy:"Wǒ xué Hànyǔ.", exEn:"I study Chinese.", idx:296 },
+        { zh:"汉字", py:"Hànzì", en:"Chinese character", exZh:"汉字很漂亮。", exPy:"Hànzì hěn piàoliang.", exEn:"Chinese characters are beautiful.", idx:297 },
+        { zh:"中文", py:"Zhōngwén", en:"Chinese (language)", exZh:"他说中文。", exPy:"Tā shuō Zhōngwén.", exEn:"He speaks Chinese.", idx:298 },
+        { zh:"狗", py:"gǒu", en:"dog", exZh:"我有一只小狗。", exPy:"Wǒ yǒu yì zhī xiǎo gǒu.", exEn:"I have a small dog.", idx:299 },
+        { zh:"猫", py:"māo", en:"cat", exZh:"猫在椅子上。", exPy:"Māo zài yǐzi shàng.", exEn:"The cat is on the chair.", idx:300 },
+    ];
+    let v1Order=v1cards.map((_,i)=>i), v1Idx=0, v1Audio=null;
+    function v1AudioPath(){ return '/audio/june/hsk1/'+String(v1cards[v1Order[v1Idx]].idx).padStart(3,'0')+'.mp3'; }
+    function v1StopAudio(){ if(!v1Audio)return; v1Audio.pause(); v1Audio.currentTime=0; v1Audio=null; document.getElementById('v1-audio').classList.remove('btn-outline'); }
+    function v1Play(){ v1StopAudio(); v1Audio=new Audio(v1AudioPath()); v1Audio.addEventListener('ended',v1StopAudio,{once:true}); v1Audio.addEventListener('error',v1StopAudio,{once:true}); v1Audio.play().catch(v1StopAudio); }
+    function v1Show(){ document.getElementById('v1-wrap').classList.remove('flipped'); v1StopAudio(); setTimeout(()=>{ const c=v1cards[v1Order[v1Idx]]; document.getElementById('v1-zh').textContent=c.zh; document.getElementById('v1-py').textContent=c.py; document.getElementById('v1-en').textContent=c.en; document.getElementById('v1-ex-zh').textContent=c.exZh; document.getElementById('v1-ex-py').textContent=c.exPy; document.getElementById('v1-ex-en').textContent=c.exEn; document.getElementById('v1-counter').textContent=(v1Idx+1)+' / '+v1cards.length; },240); }
+    function v1Next(){ v1Idx=(v1Idx+1)%v1cards.length; v1Show(); }
+    function v1Prev(){ v1Idx=(v1Idx-1+v1cards.length)%v1cards.length; v1Show(); }
+    function v1Shuffle(){ for(let i=v1Order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[v1Order[i],v1Order[j]]=[v1Order[j],v1Order[i]];} v1Idx=0; v1Show(); }
+</script>
+
+</body>
+</html>
