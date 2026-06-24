@@ -31,6 +31,7 @@
     { "source": "/june/lesson/18", "destination": "/june-lesson18.html" },
     { "source": "/june/lesson/19", "destination": "/june-lesson19.html" },
     { "source": "/june/lesson/23", "destination": "/june-lesson23.html" },
+    { "source": "/june/lesson/24", "destination": "/june-lesson24.html" },
     { "source": "/june/matching", "destination": "/june-matching.html" },
     { "source": "/june/completion", "destination": "/june-completion.html" },
     { "source": "/june/day/:n(\\d+)", "destination": "/june-day.html?n=:n" },
